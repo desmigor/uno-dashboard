@@ -12,9 +12,9 @@ import rightQuote from "../../../assets/images/authentication/right-quote.png";
 function Login() {
   return (
     <div className="bg-blue p-8 rounded-md shadow-lg">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left Column */}
-        <div className="bgimage rounded-xl p-8 flex flex-col">
+        <div className="bgimage rounded-xl p-8 flex flex-col pr-3.5 place-content-cente">
           {/* add space above here to center  */}
           <div className="h-40">
             </div>
@@ -22,8 +22,8 @@ function Login() {
             <div class="w-[123px] h-[108.46px] left-0 top-[7.27px] absolute"></div>
             <img src={leftQuote} />
           </div>
-          <div className="text-center">
-            <div class="w-[589px] text-white text-4xl font-bold font-['Rubik'] mt-[50px]">
+          <div className="">
+            <div class="w-[589px] text-white text-4xl font-bold font-['Rubik'] mt-[50px] mb-[20px] ">
               Welcome to UNO Support System
               <br />
               to help our customers.
@@ -34,43 +34,43 @@ function Login() {
               packages.
             </div>
           </div>
-          <div class="w-[123px] h-[123px] relative origin-top-left rotate-360 ml-[450px]">
+          <div class="w-[123px] h-[123px] relative origin-top-left rotate-360 ml-[450px] mt-10">
             <div class="w-[123px] h-[108.46px] left-0 top-[7.27px] absolute"></div>
             <img src={rightQuote} alt="" className="" />
           </div>
 
           {/* Social Media Icons */}
-          <div className="flex space-x-8 mt-4 mt-40">
+          <div className="flex space-x-8 mt-4 mt-20 place-content-center">
             {/* Replace the following with your actual social media icons */}
             <div class="w-10 h-10 relative bg-opacity-20 rounded-[100px]">
-              <img class="top-[10px] absolute" src={instagram} />
+              <img class="top-[10px] absolute hover:bg-slate-400 rounded-[100px]" src={instagram} />
             </div>
             <div class="w-10 h-10 relative bg-opacity-20 rounded-[100px]">
-              <img class="top-[10px] absolute" src={youtube} />
+              <img class="top-[10px] absolute hover:bg-slate-400 rounded-[100px]" src={youtube} />
             </div>
             <div class="w-10 h-10 relative bg-opacity-20 rounded-[100px]">
-              <img class="top-[10px] absolute" src={telegram} />
+              <img class="top-[10px] absolute hover:bg-slate-400 rounded-[100px]" src={telegram} />
             </div>
             <div class="w-10 h-10 relative bg-opacity-20 rounded-[100px]">
-              <img class="top-[10px] absolute" src={discord} />
+              <img class="top-[10px] absolute hover:bg-slate-400 rounded-[100px]" src={discord} />
             </div>
             <div class="w-10 h-10 relative bg-opacity-20 rounded-[100px]">
-              <img class="top-[10px] absolute" src={reddit} />
+              <img class="top-[10px] absolute hover:bg-slate-400 rounded-[100px]" src={reddit} />
             </div>
           </div>
         </div>
 
         {/* Right Column */}
-        <div className="bg-white rounded-md p-8 items-center text-center">
+        <div className="bg-white rounded-md p-8 items-center text-center ">
           <img src={Logo} alt="Logo" className="h-16 mx-auto mt-10 mb-20" />
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">Sign in</h2>
-            <p className="text-gray-700 mb-4">
+            <p className="text-gray-700 mb-4 text-[#6F8190]">
               Log in to your account with credentials from Admin
             </p>
           </div>
           {/* Input Fields */}
-          <form>
+          <form className="grid place-content-center ">
             <div class="w-[372px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
               <div class="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">
                 Email
@@ -84,7 +84,7 @@ function Login() {
               />
             </div>
 
-            <div class="w-[372px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+            <div class="w-[372px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex my-5">
               <div class="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">
                 Password
               </div>
@@ -97,6 +97,7 @@ function Login() {
                 placeholder="Your password"
               />
             </div>
+            <div class="text-red-800 text-xs font-normal font-['Rubik'] leading-noned ml-60">Forgot Password?</div>
             {/* Sign In Button */}
             <button
               type="submit"
@@ -108,12 +109,11 @@ function Login() {
             </button>
           </form>
           {/* Footer */}
-          <div className="mt-8 text-gray-600 text-center">
-            <p>©2023 All Rights Reserved.</p>
-            <p>
-              <a href="#">Terms Of Service</a> | <a href="#">Privacy Policy</a>
-            </p>
-          </div>
+          <div class="w-[373px] h-4 justify-start items-center gap-6 inline-flex mt-[180px]">
+    <div class="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">©2023 All Rights Reserved.</div>
+    <div class="text-red-800 text-xs font-normal font-['Rubik'] leading-none">Terms Of Service</div>
+    <div class="text-red-800 text-xs font-normal font-['Rubik'] leading-none">Privacy Policy</div>
+</div>
         </div>
       </div>
     </div>
