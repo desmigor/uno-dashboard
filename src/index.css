@@ -5,8 +5,3 @@
 body {
   margin: 0;
 }
-.bgimage{
-  background-image: url('./assets/images/authentication/login_left.png');
-  background-size: cover;
-  /* filter: brightness(40%); */
-}
