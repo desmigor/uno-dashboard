@@ -9,7 +9,8 @@ function Public() {
     <>
         <Routes>
             <Route index element={<Login />} />
-            <Route path={CHANGE_PASSWORD} element={<ChangePassword />} />
+            <Route 
+            path={CHANGE_PASSWORD} element={<ChangePassword />} />
         </Routes>
     </>
   )
