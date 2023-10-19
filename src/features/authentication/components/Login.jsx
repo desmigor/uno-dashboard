@@ -15,7 +15,7 @@ function Login() {
           <img src={Logo} alt="Logo" className="h-16 mx-auto mt-10 mb-20" />
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">Sign in</h2>
-            <p className="text-gray-700 mb-4 text-[#6F8190]">
+            <p className="mb-4 text-[#6F8190]">
               Log in to your account with credentials from Admin
             </p>
           </div>
