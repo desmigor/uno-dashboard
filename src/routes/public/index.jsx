@@ -8,8 +8,11 @@ function Public() {
   return (
     <>
         <Routes>
-            <Route index element={<Login />} />
-            <Route path={CHANGE_PASSWORD} element={<ChangePassword />} />
+            {/* <Route index element={<Login />} /> */}
+            <Route 
+            // path={CHANGE_PASSWORD} 
+            index
+            element={<ChangePassword />} />
         </Routes>
     </>
   )
