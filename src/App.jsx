@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Public from './routes/public';
-import Login from './features/authentication/components/Login';
 import Private from './routes/private';
 
 function App() {
@@ -9,8 +8,8 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path='/' element={<Public />} />
-          {/* <Route path='/' element={<Private />} /> */}
+          {/* <Route path='/' element={<Public />} /> */}
+          <Route path='/' element={<Private />} />
         </Routes>
       </Router>
     </div>

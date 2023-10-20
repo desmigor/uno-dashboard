@@ -1,16 +1,15 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import Login from '../../features/authentication/components/Login'
-import ChangePassword from '../../features/authentication/components/ChangePassword'
 import { CHANGE_PASSWORD } from '../../assets/constants'
+import Login from '../../dashboards/supportFeatures/authentication/components/Login'
+import ChangePassword from '../../dashboards/supportFeatures/authentication/components/ChangePassword'
 
 function Public() {
   return (
     <>
         <Routes>
             <Route index element={<Login />} />
-            <Route 
-            path={CHANGE_PASSWORD} element={<ChangePassword />} />
+            <Route path={CHANGE_PASSWORD} element={<ChangePassword />} />
         </Routes>
     </>
   )

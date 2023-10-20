@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Logo from "../../../assets/images/authentication/Logo.png";
+import Logo from "../../../../assets/images/authentication/Logo.png";
 import AuthenticationLeftSection from "./AuthenticationLeftSection";
-import tick from "../../../assets/images/authentication/tick-circle.png";
+import tick from "../../../../assets/images/authentication/tick-circle.png";
 
 function ChangePassword() {
   const [showPassword, setShowPassword] = useState(false);
@@ -44,7 +44,7 @@ function ChangePassword() {
         {/* Right Column */}
         <div className="bg-white rounded-md p-8 items-center text-center ">
           <img src={Logo} alt="Logo" className="h-16 mx-auto mt-10 mb-20" />
-          <div className="text-zinc-800 text-4xl font-bold font-['Rubik'] mb-4">
+          <div className="text-zinc-800 text-4xl font-bold font-rubik mb-4">
             Change Password
           </div>
           <p className="mb-4 text-[#6F8190]">
@@ -53,7 +53,7 @@ function ChangePassword() {
           {/* Input Fields */}
           <form onSubmit={handleSubmit} className="grid place-content-center ">
             <div className="w-[372px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex my-5">
-              <div className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">
+              <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
                 Password
               </div>
               <div className="relative">
@@ -112,7 +112,7 @@ function ChangePassword() {
             </div>
 
             <div className="w-[372px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
-              <div className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">
+              <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
                 New Password
               </div>
               <div className="relative">
@@ -169,7 +169,7 @@ function ChangePassword() {
                 </button>
               </div>
             </div>
-            <div className="text-red-800 text-xs font-normal font-['Rubik'] leading-noned ml-60">
+            <div className="text-red-800 text-xs font-normal font-rubik leading-noned ml-60">
               Forgot Password?
             </div>
             {/* Sign In Button */}
@@ -177,20 +177,20 @@ function ChangePassword() {
               type="submit"
               className="w-[372px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex my-10"
             >
-              <div className="text-center text-white text-base font-normal font-['Rubik'] leading-tight">
+              <div className="text-center text-white text-base font-normal font-rubik leading-tight">
                 Sign In
               </div>
             </button>
           </form>
           {/* Footer */}
           <div className="w-[373px] h-4 justify-start items-center gap-6 inline-flex mt-[180px]">
-            <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">
+            <div className="text-gray-400 text-xs font-normal font-rubik leading-none">
               ©2023 All Rights Reserved.
             </div>
-            <div className="text-red-800 text-xs font-normal font-['Rubik'] leading-none">
+            <div className="text-red-800 text-xs font-normal font-rubik leading-none">
               Terms Of Service
             </div>
-            <div className="text-red-800 text-xs font-normal font-['Rubik'] leading-none">
+            <div className="text-red-800 text-xs font-normal font-rubik leading-none">
               Privacy Policy
             </div>
           </div>
@@ -223,7 +223,7 @@ function ChangePassword() {
               <span class="sr-only">Close modal</span>
             </button>
             <div class=" text-center">
-              <div class="text-zinc-800 text-2xl font-bold font-['Rubik'] text-center">
+              <div class="text-zinc-800 text-2xl font-bold font-rubik text-center">
                 Password Changed
               </div>
 
@@ -233,13 +233,13 @@ function ChangePassword() {
                 </div>
               </div>
               <div class="w-[348px] h-[66px] text-center">
-                <span className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                <span className="text-zinc-800 text-base font-normal font-rubik leading-tight">
                   Your password has been{" "}
                 </span>
-                <span class="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
+                <span class="text-zinc-800 text-base font-semibold font-rubik leading-tight">
                   successfully
                 </span>
-                <span className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                <span className="text-zinc-800 text-base font-normal font-rubik leading-tight">
                   {" "}
                   changed. Use your new password and log in to your workspace.
                 </span>
@@ -249,7 +249,7 @@ function ChangePassword() {
                 className="w-[348px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex mt-6"
                 onClick={() => setIsSuccessModalVisible(false)}
               >
-                <div class="text-center text-white text-base font-normal font-['Rubik'] leading-tight">
+                <div class="text-center text-white text-base font-normal font-rubik leading-tight">
                   Go to Sign In
                 </div>
               </button>

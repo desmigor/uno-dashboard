@@ -1,12 +1,12 @@
 import React from 'react'
 
-import instagram from "../../../assets/images/authentication/Instagram.png";
-import telegram from "../../../assets/images/authentication/Telegram.png";
-import reddit from "../../../assets/images/authentication/Reddit.png";
-import discord from "../../../assets/images/authentication/Discord.png";
-import youtube from "../../../assets/images/authentication/YouTube.png";
-import leftQuote from "../../../assets/images/authentication/left-quote.png";
-import rightQuote from "../../../assets/images/authentication/right-quote.png";
+import instagram from "../../../../assets/images/authentication/Instagram.png";
+import telegram from "../../../../assets/images/authentication/Telegram.png";
+import reddit from "../../../../assets/images/authentication/Reddit.png";
+import discord from "../../../../assets/images/authentication/Discord.png";
+import youtube from "../../../../assets/images/authentication/YouTube.png";
+import leftQuote from "../../../../assets/images/authentication/left-quote.png";
+import rightQuote from "../../../../assets/images/authentication/right-quote.png";
 
 function AuthenticationLeftSection() {
     return (
@@ -19,12 +19,12 @@ function AuthenticationLeftSection() {
             <img src={leftQuote} />
           </div>
           <div className="">
-            <div class="w-[589px] text-white text-4xl font-bold font-['Rubik'] mt-[50px] mb-[20px] ">
+            <div class="w-[90%] text-white text-4xl font-bold font-rubik mt-[50px] mb-[20px] ">
               Welcome to UNO Support System
               <br />
               to help our customers.
             </div>
-            <div class="w-[589px] text-white text-base font-normal font-['Rubik'] leading-tight">
+            <div class="w-[589px] text-white text-base font-normal font-rubik leading-tight">
               Effortlessly manage deliveries and couriers with our secure
               support system and help clients resolve issues with their
               packages.
