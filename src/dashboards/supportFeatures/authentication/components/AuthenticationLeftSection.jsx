@@ -32,7 +32,7 @@ function AuthenticationLeftSection({title, subtitle, image}) {
               {subtitle}
             </div>
           </div>
-          <div class="w-[123px] h-[123px] relative origin-top-left rotate-360 ml-[450px] mt-[50px]">
+          <div class="w-[123px] h-[123px] relative origin-top-left rotate-360 ml-[80%] mt-[50px]">
             <div class="w-[123px] h-[108.46px] left-0 top-[7.27px] absolute"></div>
             <img src={rightQuote} alt="" className="" />
           </div>
