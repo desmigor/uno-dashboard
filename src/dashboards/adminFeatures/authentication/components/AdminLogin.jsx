@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "../../../../assets/images/authentication/Logo.png";
 
-import AuthenticationLeftSection from "./AuthenticationLeftSection";
+import AuthenticationLeftSection from "../../../supportFeatures/authentication/components/AuthenticationLeftSection";
 
 function Login() {
   return (
