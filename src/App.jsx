@@ -8,8 +8,8 @@ function App() {
     <div>
       <Router>
         <Routes>
-          {/* <Route path='/' element={<Public />} /> */}
-          <Route path='/' element={<Private />} />
+          <Route path='/' element={<Public />} />
+          {/* <Route path='/' element={<Private />} /> */}
         </Routes>
       </Router>
     </div>
