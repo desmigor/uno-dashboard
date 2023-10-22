@@ -21,14 +21,8 @@ function AuthenticationLeftSection({title, subtitle, image}) {
           <div className="">
             <div class="w-[90%] text-white text-4xl font-bold font-rubik mt-[50px] mb-[20px] ">
               {title}
-              {/* Welcome to UNO Support System
-              <br />
-              to help our customers. */}
             </div>
             <div class="w-[80%] text-white text-base font-normal font-rubik leading-tight">
-              {/* Effortlessly manage deliveries and couriers with our secure
-              support system and help clients resolve issues with their
-              packages. */}
               {subtitle}
             </div>
           </div>
@@ -39,7 +33,6 @@ function AuthenticationLeftSection({title, subtitle, image}) {
 
           {/* Social Media Icons */}
           <div className="flex space-x-8 mt-4 mt-[80px] place-content-center">
-            {/* Replace the following with your actual social media icons */}
             <div class="w-10 h-10 relative bg-opacity-20 rounded-[100px]">
               <img class="top-[10px] absolute hover:bg-slate-400 rounded-[100px]" src={instagram} />
             </div>

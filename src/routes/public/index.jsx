@@ -11,7 +11,7 @@ function Public() {
         <Routes>
             {/* <Route index element={<Login />} /> */}
             <Route index element={<AdminLogin />} />
-            <Route index element={<ChangePassword />} />
+            <Route path={CHANGE_PASSWORD} element={<ChangePassword />} />
         </Routes>
     </>
   )
