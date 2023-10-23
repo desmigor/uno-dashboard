@@ -2,6 +2,7 @@ import React from "react";
 import Logo from "../../../../assets/images/authentication/Logo.png";
 
 import AuthenticationLeftSection from "./AuthenticationLeftSection";
+import { Link } from "react-router-dom";
 
 function Login() {
   return (
@@ -49,16 +50,16 @@ function Login() {
                 placeholder="Your password"
               />
             </div>
-            <div class="text-red-800 text-xs font-normal font-rubik leading-noned ml-60">Forgot Password?</div>
+            <Link to={'/reset'}><div class="text-red-800 text-xs font-normal font-rubik leading-noned ml-60">Forgot Password?</div></Link>
             {/* Sign In Button */}
-            <button
-              type="submit"
+            <Link
+              to={'/admin'}
               className="w-[372px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex my-10"
             >
               <div class="text-center text-white text-base font-normal font-rubik leading-tight">
                 Sign In
               </div>
-            </button>
+            </Link>
           </form>
           {/* Footer */}
           <div class="w-[373px] h-4 justify-start items-center gap-6 inline-flex mt-[220px]">

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Logo from "../../../../assets/images/authentication/Logo.png";
 import AuthenticationLeftSection from "./AuthenticationLeftSection";
 import tick from "../../../../assets/images/authentication/tick-circle.png";
+import { Link } from "react-router-dom";
 
 function ChangePassword() {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,9 +31,7 @@ function ChangePassword() {
     e.preventDefault();
     // Here, you can add your password change logic and, if successful, set isSuccessModalVisible to true.
     // For this example, I'm simulating success after a short delay.
-    setTimeout(() => {
-      setIsSuccessModalVisible(true);
-    }, 1000);
+    setIsSuccessModalVisible(true);
   };
 
   return (
@@ -58,14 +57,14 @@ function ChangePassword() {
               <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
                 Password
               </div>
-              <div className="relative">
+              <div className="relative w-full">
                 <input
                   type={showPassword1 ? "text" : "password"}
                   id="password"
                   name="password"
                   value={password}
                   onChange={handlePasswordChange}
-                  className="self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-between items-center inline-flex "
+                  className="w-full h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-between items-center inline-flex "
                   placeholder="Your password"
                 />
                 <button
@@ -117,14 +116,14 @@ function ChangePassword() {
               <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
                 New Password
               </div>
-              <div className="relative">
+              <div className="relative w-full">
                 <input
                   type={showPassword ? "text" : "password"}
                   id="newPassword"
                   name="newPassword"
                   value={newPassword}
                   onChange={handleNewPasswordChange}
-                  className="self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-between items-center inline-flex "
+                  className="w-full h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-between items-center "
                   placeholder="Your new password"
                 />
                 <button
@@ -171,16 +170,13 @@ function ChangePassword() {
                 </button>
               </div>
             </div>
-            <div className="text-red-800 text-xs font-normal font-rubik leading-noned ml-60">
-              Forgot Password?
-            </div>
             {/* Sign In Button */}
             <button
               type="submit"
               className="w-[372px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex my-10"
             >
               <div className="text-center text-white text-base font-normal font-rubik leading-tight">
-                Sign In
+                Change Password
               </div>
             </button>
           </form>
@@ -247,14 +243,15 @@ function ChangePassword() {
                 </span>
               </div>
 
-              <button
+              <Link
+                to={'/support'}
                 className="w-[348px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex mt-6"
                 onClick={() => setIsSuccessModalVisible(false)}
               >
                 <div class="text-center text-white text-base font-normal font-rubik leading-tight">
                   Go to Sign In
                 </div>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
