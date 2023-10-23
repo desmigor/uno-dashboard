@@ -13,7 +13,7 @@ import SettingsIconInactive  from '../../assets/images/dashboard/icon/setting0.s
 import { Link } from 'react-router-dom';
 
 function Sidebar() {
-    const [selected, setSelcted] = useState('Pending');
+    const [selected, setSelcted] = useState('Dashboard');
 
     const sidebarLinks = [
         {
