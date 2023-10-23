@@ -13,7 +13,7 @@ function Login() {
               packages." image='bgimage' />
 
         {/* Right Column */}
-        <div className="bg-white rounded-md p-8 items-center text-center ">
+        <div className="bg-white rounded-md items-center text-center">
           <img src={Logo} alt="Logo" className="h-16 mx-auto mt-10 mb-20" />
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-4">Sign in</h2>
@@ -61,7 +61,7 @@ function Login() {
             </button>
           </form>
           {/* Footer */}
-          <div class="w-[373px] h-4 justify-start items-center gap-6 inline-flex mt-[180px]">
+          <div class="w-[373px] h-4 justify-start items-center gap-6 inline-flex mt-[220px]">
     <div class="text-gray-400 text-xs font-normal font-rubik leading-none">©2023 All Rights Reserved.</div>
     <div class="text-red-800 text-xs font-normal font-rubik leading-none">Terms Of Service</div>
     <div class="text-red-800 text-xs font-normal font-rubik leading-none">Privacy Policy</div>

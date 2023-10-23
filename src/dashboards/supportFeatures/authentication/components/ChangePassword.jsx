@@ -44,7 +44,7 @@ function ChangePassword() {
               packages." image='bgimage' />
 
         {/* Right Column */}
-        <div className="bg-white rounded-md p-8 items-center text-center ">
+        <div className="bg-white rounded-md items-center text-center ">
           <img src={Logo} alt="Logo" className="h-16 mx-auto mt-10 mb-20" />
           <div className="text-zinc-800 text-4xl font-bold font-rubik mb-4">
             Change Password
