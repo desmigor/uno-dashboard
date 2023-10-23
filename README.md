@@ -43,10 +43,12 @@ npm run dev
 
 ##### Key points
 
-      Support login is at http://localhost:5173/support
+      Support login is at http://localhost:5173/
       Admin login is at http://localhost:5173/admin
       Reset Password is at http://localhost:5173/reset
       Change password at http://localhost:5173/change-password
+      Dashboard progress so far at http://localhost:5173/dashboard/
+
 
    
 
