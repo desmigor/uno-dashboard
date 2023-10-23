@@ -39,10 +39,12 @@ function ChangePassword() {
     <div className="bg-blue p-8 rounded-md shadow-lg">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 place-content-center">
         {/* Left Column */}
-        <AuthenticationLeftSection />
+        <AuthenticationLeftSection title="Welcome to UNO Support System to help our customers." subtitle=" Effortlessly manage deliveries and couriers with our secure
+              support system and help clients resolve issues with their
+              packages." image='bgimage' />
 
         {/* Right Column */}
-        <div className="bg-white rounded-md p-8 items-center text-center ">
+        <div className="bg-white rounded-md items-center text-center ">
           <img src={Logo} alt="Logo" className="h-16 mx-auto mt-10 mb-20" />
           <div className="text-zinc-800 text-4xl font-bold font-rubik mb-4">
             Change Password
