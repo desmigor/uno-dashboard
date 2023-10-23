@@ -33,9 +33,23 @@ You need to have Node.js and npm (Node Package Manager) installed on your system
   npm run build
   ```
 
-### Accessing the login
+#### Accessing the authentication
 
-When you run ```npm run dev``` on this branch, you will have to navigate to [](http://localhost:5173/support/) for login. and from there if you click on Sign In you will go to admin login page. And try to click on buttons and links that you see to get the results.
+##### Run 
+
+```bash
+npm run dev
+```
+
+##### Key points
+
+      Support login is at http://localhost:5173/support
+      Admin login is at http://localhost:5173/admin
+      Reset Password is at http://localhost:5173/reset
+      Change password at http://localhost:5173/change-password
+
+   
+
 
 
 
