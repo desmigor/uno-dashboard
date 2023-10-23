@@ -49,7 +49,7 @@ function ResetPassword() {
               Send Reset Link
               </div>
             </Link>
-            <Link to='/support' class="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Return to Sign In</Link>
+            <Link to='/' class="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Return to Sign In</Link>
           </form>
           {/* Footer */}
           <div class="w-[373px] h-4 justify-start items-center gap-6 inline-flex mt-[220px]">

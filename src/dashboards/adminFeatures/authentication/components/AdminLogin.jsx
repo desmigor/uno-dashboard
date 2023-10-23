@@ -50,9 +50,7 @@ function Login() {
                 placeholder="Your password"
               />
             </div>
-            <div class="text-red-800 text-xs font-normal font-rubik leading-noned ml-60">
-              Forgot Password?
-            </div>
+
             {/* Sign In Button */}
             <button
               type="submit"
