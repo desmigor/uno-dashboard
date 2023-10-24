@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../../../assets/images/authentication/Logo.png";
 
 import AuthenticationLeftSection from "../../../supportFeatures/authentication/components/AuthenticationLeftSection";
+import PasswordV from "../../../../components/ui/PasswordVisible.jsx";
+import PasswordH from "../../../../components/ui/PasswordHidden.jsx";
 
 function Login() {
+
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const [password, setPassword] = useState("");
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);d
+  };
+
   return (
-    <div className="bg-blue p-8 rounded-md shadow-lg">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 place-content-center">
+    <div className="bg-blue h-[100vh] p-8 rounded-md shadow-lg">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 place-content-center h-[100%]">
         {/* Left Column */}
         <AuthenticationLeftSection
           title="Welcome to UNO Admin System to manage the app. "
@@ -41,14 +54,24 @@ function Login() {
               <div class="text-slate-500 text-sm font-normal font-rubik leading-tight">
                 Password
               </div>
-              {/* <div class="justify-center items-center gap-2.5 flex"> */}
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-between items-center inline-flex "
-                placeholder="Your password"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  className="self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-between items-center inline-flex w-[371px]"
+                  placeholder="Your password"
+                />
+                <button
+                  type="button"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <PasswordH /> : <PasswordV />}
+                </button>
+              </div>
             </div>
 
             {/* Sign In Button */}
