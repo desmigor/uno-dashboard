@@ -12,7 +12,7 @@ function AuthenticationLeftSection({ title, subtitle, image }) {
   return (
     <div
       className={
-        image + " rounded-xl p-8 flex flex-col pr-3.5 place-content-center"
+        image + " rounded-xl p-8 flex flex-col pr-3.5 place-content-center "
       }
     >
       {/* add space above here to center  */}
@@ -35,7 +35,7 @@ function AuthenticationLeftSection({ title, subtitle, image }) {
       </div>
 
       {/* Social Media Icons */}
-      <div className="flex space-x-8 mt-4 mt-[80px] place-content-center">
+      <div className="flex space-x-8 mt-[4vh] place-content-center">
         <div class="w-10 h-10 relative bg-opacity-20 rounded-[100px]">
           <img
             class="top-[10px] absolute hover:bg-slate-400 rounded-[100px]"

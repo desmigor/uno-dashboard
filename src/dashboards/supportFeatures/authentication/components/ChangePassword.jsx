@@ -39,7 +39,7 @@ function ChangePassword() {
 
   return (
     <div className="bg-blue h-[100vh] p-8 rounded-md shadow-lg">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 place-content-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-[100%] place-content-center">
         {/* Left Column */}
         <AuthenticationLeftSection title="Welcome to UNO Support System to help our customers." subtitle=" Effortlessly manage deliveries and couriers with our secure
               support system and help clients resolve issues with their
