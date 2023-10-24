@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+}
+.bgimage{
+  background-image: url('./assets/images/authentication/login_left.png');
+  background-size: cover;
+  /* filter: brightness(40%); */
+}
+
+.adminbgimage{
+  background-image: url('./assets/images/authentication/adminLoginImage.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: center center;
+}
