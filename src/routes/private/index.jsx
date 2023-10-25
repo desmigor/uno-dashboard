@@ -10,13 +10,13 @@ import Settings from '../../dashboards/supportFeatures/settings/components';
 function Private() {
   return (
     <Routes>
-      <Route path='/' element={<Layout />} >
-        <Route index element={<Dashboard />} />
-        <Route path='/pending' element={<Pending />} />
-        <Route path='/package' element={<Packages />} />
-        <Route path='/courier' element={<Couries />} />
-        <Route path='/settings' element={<Settings />} />
-      </Route>
+        <Route path='/' element={<Layout />} >
+            <Route index element={<Dashboard />} />
+            <Route path='pending' element={<Pending />} />
+            <Route path='package' element={<Packages />} />
+            <Route path='courier' element={<Couries />} />
+            <Route path='settings' element={<Settings />} />
+        </Route>
     </Routes>
   )
 }
