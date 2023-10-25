@@ -5,6 +5,7 @@ import People from '../../../../assets/images/dashboard/icon/people.svg';
 import BoxDashboard from '../../../../assets/images/dashboard/icon/Dashboardbox.svg';
 import TickCircle from '../../../../assets/images/dashboard/icon/tick-circle.svg';
 import TableCard from '../../../../components/ui/tableCard';
+import { couriers, packages, pending } from '../../../../data';
 
 function Dashboard() {
   return (
@@ -20,8 +21,12 @@ function Dashboard() {
         <Dashcard icon={TickCircle} number={'292'} percentage={'16'} text={'Delivered Packages'} iconBgColor={'bg-[#fee6da]'} />
       </div>
       <div className='w-full mt-[20px] mx-auto flex flex-row gap-5'>
-        <TableCard />
-        <TableCard />
+        <TableCard data={pending} type={'pending'} name={'Pending resolution'} />
+        <TableCard data={packages} type={'ongoing'} name={'Ongoing Packages'} />
+      </div>
+      <div className='w-full mt-[20px] mx-auto flex flex-row gap-5'>
+        <TableCard data={couriers} type={'courier'} name={'Available Courier'} />
+        <TableCard type={'map'} name={'Availability Map'} />
       </div>
     </div>
   )
