@@ -9,8 +9,6 @@ body {
   background-image: url('./assets/images/authentication/login_left.png');
   background-size: cover;
   /* filter: brightness(40%); */
-  background-repeat: no-repeat;
-  /* background-size: auto 100%; */
 }
 
 .adminbgimage{
@@ -20,4 +18,3 @@ body {
   background-size: auto 100%;
   background-position: center center;
 }
-
