@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UnoIcon from '../../assets/images/dashboard/icon/Logo.svg';
 import DashIcon  from '../../assets/images/dashboard/icon/dashboard.svg';
 import DashIconInactive  from '../../assets/images/dashboard/icon/dashboard0.svg';
@@ -20,46 +20,44 @@ function Sidebar() {
             name: "Dashboard",
             activeIcon: DashIcon,
             inactiveIcon: DashIconInactive,
-            path: '/'
+            path: '/dashboard'
         },
         {
             name: "Pending",
             activeIcon: InfoIcon,
             inactiveIcon: InfoIconInactive,
-            path: 'pending'
+            path: '/dashboard/pending'
         },
         {
             name: "Packages",
             activeIcon: PackageIcon,
             inactiveIcon: PackageIconInactive,
-            path: 'package'
+            path: '/dashboard/package'
         },
         {
             name: "Couriers",
             activeIcon: ProfileIcon,
             inactiveIcon: ProfileIconInactive,
-            path: 'courier'
+            path: '/dashboard/courier'
         },
         {
             name: "Settings",
             activeIcon: SettingsIcon,
             inactiveIcon: SettingsIconInactive,
-            path: 'settings'
+            path: '/dashboard/settings'
         },
         
     ]
   return (
-    <div className='w-[228px] h-screen bg-white relative flex flex-col items-center'>
+    <div className='w-[228px] h-screen bg-white relative flex flex-col items-center overflow-hidden '>
         <img src={UnoIcon} alt='UNOSVG' className='w-10 h-10 mt-5 mx-auto' />
         <div className='mt-[30px] w-full flex flex-col items-center gap-[8px] justify-center'>
             {
                 sidebarLinks.map((item, idx) => {
                     return(
-                        <Link to={item.path}>
-                            <div className={`cursor-pointer group hover:border hover:border-red-900 hover:bg-rose-100 w-[196px] h-[54px] px-4 py-[17px] ${selected === item.name ? 'bg-rose-100' : 'bg-white'} rounded-xl ${selected === item.name && 'border border-red-900'}  gap-[16px] flex flex-row items-center`}>
-                                <img src={selected === item.name ? item.activeIcon : item.inactiveIcon} className='w-5 h-5' alt='DASHSVG' />
-                                <span className={`${selected === item.name ? 'text-red-800' : 'text-gray-400'} group-hover:text-red-800 text-base font-normal font-rubik leading-tight`}>{item.name}</span>
-                            </div>
+                        <Link onClick={() => setSelcted(item.name)} to={item.path} className={`cursor-pointer group hover:border hover:border-red-900 hover:bg-rose-100 w-[196px] h-[54px] px-4 py-[17px] ${selected === item.name ? 'bg-rose-100' : 'bg-white'} rounded-xl ${selected === item.name && 'border border-red-900'}  gap-[16px] flex flex-row items-center`}>
+                            <img src={selected === item.name ? item.activeIcon : item.inactiveIcon} className='w-5 h-5' alt='DASHSVG' />
+                            <span className={`${selected === item.name ? 'text-red-800' : 'text-gray-400'} group-hover:text-red-800 text-base font-normal font-rubik leading-tight`}>{item.name}</span>
                         </Link>
                     )
                 })
