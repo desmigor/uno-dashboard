@@ -20,36 +20,36 @@ function Sidebar() {
             name: "Dashboard",
             activeIcon: DashIcon,
             inactiveIcon: DashIconInactive,
-            path: '/'
+            path: '/dashboard'
         },
         {
             name: "Pending",
             activeIcon: InfoIcon,
             inactiveIcon: InfoIconInactive,
-            path: '/pending'
+            path: '/dashboard/pending'
         },
         {
             name: "Packages",
             activeIcon: PackageIcon,
             inactiveIcon: PackageIconInactive,
-            path: '/package'
+            path: '/dashboard/package'
         },
         {
             name: "Couriers",
             activeIcon: ProfileIcon,
             inactiveIcon: ProfileIconInactive,
-            path: '/courier'
+            path: '/dashboard/courier'
         },
         {
             name: "Settings",
             activeIcon: SettingsIcon,
             inactiveIcon: SettingsIconInactive,
-            path: '/settings'
+            path: '/dashboard/settings'
         },
         
     ]
   return (
-    <div className='w-[228px] h-screen bg-white relative flex flex-col items-center'>
+    <div className='w-[228px] h-screen bg-white relative flex flex-col items-center overflow-hidden '>
         <img src={UnoIcon} alt='UNOSVG' className='w-10 h-10 mt-5 mx-auto' />
         <div className='mt-[30px] w-full flex flex-col items-center gap-[8px] justify-center'>
             {

@@ -19,17 +19,17 @@ function App() {
       <Router>
         <Routes>
           <Route>
-            <Route path='/login' element={<SupportLogin />} />
+            <Route path='/' element={<SupportLogin />} />
             <Route path='/reset' element={<ResetPassword />} />
             <Route path='/change-password' element={<ChangePassword />} />
             <Route path='/admin' element={<Login />} />
           </Route>
-          <Route path='/' element={<Layout />} >
+          <Route path='/dashboard' element={<Layout />} >
             <Route index element={<Dashboard />} />
-            <Route path='/pending' element={<Pending />} />
-            <Route path='/package' element={<Packages />} />
-            <Route path='/courier' element={<Couriers />} />
-            <Route path='/settings' element={<Settings />} />
+            <Route path='/dashboard/pending' element={<Pending />} />
+            <Route path='/dashboard/package' element={<Packages />} />
+            <Route path='/dashboard/courier' element={<Couriers />} />
+            <Route path='/dashboard/settings' element={<Settings />} />
           </Route>
         </Routes>
       </Router>

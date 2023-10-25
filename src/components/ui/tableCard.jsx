@@ -5,12 +5,13 @@ import Export from '../../assets/images/dashboard/icon/export.svg';
 import Person from '../../assets/images/dashboard/image/profilep.jpg'
 import Ghana from '../../assets/images/dashboard/image/ghana.png'
 import Cube from '../../assets/images/dashboard/icon/cube.png'
+import MapImage from '../../assets/images/dashboard/image/map.png'
 import Truck from '../../assets/images/dashboard/icon/truck-fast.svg'
 import UserSearch from '../../assets/images/dashboard/icon/user-search.svg'
 
 function TableCard({ type, name, data }) {
   return (
-    <div className='w-[49.2%] min-h-[325px]  p-6 bg-white rounded-lg'>
+    <div className='w-[49.2%] min-h-[325px] p-6 bg-white rounded-lg'>
         <div className='flex flex-row justify-between items-center'>
             <h1 className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}>{name}</h1>
             {
@@ -174,7 +175,7 @@ function TableCard({ type, name, data }) {
             </div>
             :
             <div class="relative overflow-x-auto shadow-sm sm:rounded-lg">
-                
+                <img src={MapImage} className='w-full h-[320px] object-cover'  />
             </div>
             }
         </div>
