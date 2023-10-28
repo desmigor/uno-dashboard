@@ -4,6 +4,8 @@ import PendingPackageContent from "./PackageTabContent";
 import CustomerTabContent from "./CustomerTabContent ";
 import boxImage from "../../../../assets/images/dashboard/image/box.png";
 import profile from "../../../../assets/images/dashboard/image/image-3.png";
+import map from "../../../../assets/images/dashboard/image/map.png";
+import LocationPointContent from "./LocationPointTabContent";
 
 function PendingTabs() {
   return (
@@ -51,25 +53,6 @@ function PendingTabs() {
           {({ selected }) => (
             <div
               class={
-                "w-[135px] h-9 px-[22px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex" +
-                (selected ? " bg-white" : "")
-              }
-            >
-              <div
-                class={
-                  "text-center text-sm font-normal font-['Rubik'] leading-tight" +
-                  (selected ? " text-zinc-800" : " text-slate-500")
-                }
-              >
-                Delivery Point
-              </div>
-            </div>
-          )}
-        </Tab>
-        <Tab as={Fragment}>
-          {({ selected }) => (
-            <div
-              class={
                 "w-[126px] h-9 px-[22px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex" +
                 (selected ? " bg-white" : "")
               }
@@ -85,6 +68,26 @@ function PendingTabs() {
             </div>
           )}
         </Tab>
+        <Tab as={Fragment}>
+          {({ selected }) => (
+            <div
+              class={
+                "w-[135px] h-9 px-[22px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex" +
+                (selected ? " bg-white" : "")
+              }
+            >
+              <div
+                class={
+                  "text-center text-sm font-normal font-['Rubik'] leading-tight" +
+                  (selected ? " text-zinc-800" : " text-slate-500")
+                }
+              >
+                Delivery Point
+              </div>
+            </div>
+          )}
+        </Tab>
+
         <Tab as={Fragment}>
           {({ selected }) => (
             <div
@@ -108,27 +111,37 @@ function PendingTabs() {
       <Tab.Panels>
         <Tab.Panel>
           <PendingPackageContent
-          image={boxImage}
-          prop1={{title:"size", value:"medium"}}
-          prop2={{title:"Package Add-ons", value:"Fragile"}}
-          prop3={{title:"Payment Method", value:"Credit Card"}}
-          prop4={{title:"Amount", value:"$20.09"}}
+            image={boxImage}
+            prop1={{ title: "size", value: "medium" }}
+            prop2={{ title: "Package Add-ons", value: "Fragile" }}
+            prop3={{ title: "Payment Method", value: "Credit Card" }}
+            prop4={{ title: "Amount", value: "$20.09" }}
           />
         </Tab.Panel>
         <Tab.Panel>
           <CustomerTabContent
-          image={profile}
-          prop1={{title:"Name", value:"Joel Matakanson"}}
-          prop2={{title:"Email", value:"joelmatak123@gmail.com"}}
-          prop3={{title:"Phone", value:"(234) 567-8901"}}
-          prop4={{title:"Location", value:"Ghana, Accra"}}
-           />
+            image={profile}
+            prop1={{ title: "Name", value: "Joel Matakanson" }}
+            prop2={{ title: "Email", value: "joelmatak123@gmail.com" }}
+            prop3={{ title: "Phone", value: "(234) 567-8901" }}
+            prop4={{ title: "Location", value: "Ghana, Accra" }}
+          />
         </Tab.Panel>
         <Tab.Panel>
-          <PendingPackageContent />
+          <LocationPointContent
+            image={map}
+            prop1={{ title: "Name", value: "Mike Jeremy" }}
+            prop2={{ title: "Pickup comment", value: "Wait near the entrance. There’s a guy who will handle to you the package"}}
+            prop3={{ title: "Phone", value: "(234) 567-8901" }}
+          />
         </Tab.Panel>
         <Tab.Panel>
-          <PendingPackageContent />
+        <LocationPointContent
+            image={map}
+            prop1={{ title: "Name", value: "Mike Jeremy" }}
+            prop2={{ title: "Delicery Note", value: "Wait near the entrance. There’s a guy who will handle to you the package"}}
+            prop3={{ title: "Phone", value: "(234) 567-8901" }}
+          />
         </Tab.Panel>
         <Tab.Panel>
           <PendingPackageContent />
