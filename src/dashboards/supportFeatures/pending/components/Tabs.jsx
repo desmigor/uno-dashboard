@@ -6,6 +6,7 @@ import boxImage from "../../../../assets/images/dashboard/image/box.png";
 import profile from "../../../../assets/images/dashboard/image/image-3.png";
 import map from "../../../../assets/images/dashboard/image/map.png";
 import LocationPointContent from "./LocationPointTabContent";
+import CourierTabContent from "./CourierTabContent";
 
 function PendingTabs() {
   return (
@@ -144,7 +145,7 @@ function PendingTabs() {
           />
         </Tab.Panel>
         <Tab.Panel>
-          <PendingPackageContent />
+          <CourierTabContent />
         </Tab.Panel>
       </Tab.Panels>
     </Tab.Group>
