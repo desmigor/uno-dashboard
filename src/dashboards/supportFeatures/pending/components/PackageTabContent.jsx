@@ -1,47 +1,46 @@
 import React from "react";
-import boxImage from "../../../../assets/images/dashboard/image/box.png";
 
-export default function PendingTabsContent() {
+export default function PendingPackageContent({image, prop1, prop2, prop3, prop4}) {
   return (
     <div class="w-[612px] h-[162px] relative bg-white rounded-xl shadow border border-gray-100">
       <div class="left-[190px] top-[26px] absolute flex-col justify-start items-start gap-5 inline-flex">
         <div class="flex-col justify-start items-start gap-[5px] flex">
           <div class="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
-            Size
+            {prop1.title}
           </div>
           <div class="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">
-            Medium
+            {prop1.value}
           </div>
         </div>
         <div class="flex-col justify-start items-start gap-[5px] flex">
           <div class="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
-            Package Add-ons
+            {prop2.title}
           </div>
           <div class="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">
-            Fragile
+            {prop2.value}
           </div>
         </div>
       </div>
       <div class="left-[388px] top-[26px] absolute flex-col justify-start items-start gap-5 inline-flex">
         <div class="flex-col justify-start items-start gap-[5px] flex">
           <div class="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
-            Payment Method
+            {prop3.title}
           </div>
           <div class="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">
-            Credit Card
+            {prop3.value}
           </div>
         </div>
         <div class="flex-col justify-start items-start gap-[5px] flex">
           <div class="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
-            Amount
+            {prop4.title}
           </div>
           <div class="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">
-            $20.09
+            {prop4.value}
           </div>
         </div>
       </div>
       <div class="opacity-60 w-[165px] h-[169px] pt-4">
-        <img src={boxImage} alt="box" className="overflow-hidden" />
+        <img src={image} alt="box" className="overflow-hidden" />
       </div>
     </div>
   );

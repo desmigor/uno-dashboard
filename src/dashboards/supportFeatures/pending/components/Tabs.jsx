@@ -1,7 +1,9 @@
 import { Fragment } from "react";
-
 import { Tab } from "@headlessui/react";
-import PendingTabsContent from "./tabsContent";
+import PendingPackageContent from "./PackageTabContent";
+import CustomerTabContent from "./CustomerTabContent ";
+import boxImage from "../../../../assets/images/dashboard/image/box.png";
+import profile from "../../../../assets/images/dashboard/image/image-3.png";
 
 function PendingTabs() {
   return (
@@ -105,19 +107,31 @@ function PendingTabs() {
       </Tab.List>
       <Tab.Panels>
         <Tab.Panel>
-          <PendingTabsContent />
+          <PendingPackageContent
+          image={boxImage}
+          prop1={{title:"size", value:"medium"}}
+          prop2={{title:"Package Add-ons", value:"Fragile"}}
+          prop3={{title:"Payment Method", value:"Credit Card"}}
+          prop4={{title:"Amount", value:"$20.09"}}
+          />
         </Tab.Panel>
         <Tab.Panel>
-          <PendingTabsContent />
+          <CustomerTabContent
+          image={profile}
+          prop1={{title:"Name", value:"Joel Matakanson"}}
+          prop2={{title:"Email", value:"joelmatak123@gmail.com"}}
+          prop3={{title:"Phone", value:"(234) 567-8901"}}
+          prop4={{title:"Location", value:"Ghana, Accra"}}
+           />
         </Tab.Panel>
         <Tab.Panel>
-          <PendingTabsContent />
+          <PendingPackageContent />
         </Tab.Panel>
         <Tab.Panel>
-          <PendingTabsContent />
+          <PendingPackageContent />
         </Tab.Panel>
         <Tab.Panel>
-          <PendingTabsContent />
+          <PendingPackageContent />
         </Tab.Panel>
       </Tab.Panels>
     </Tab.Group>

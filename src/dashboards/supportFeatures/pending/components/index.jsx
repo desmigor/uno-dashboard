@@ -2,7 +2,7 @@ import React from "react";
 import OrderResolution from "./orderResolution";
 import PendingPackage from "./pendingPackage";
 import MapImage from "../../../../assets/images/dashboard/image/map.png";
-import PendingTabs from "./tabs";
+import PendingTabs from "./Tabs";
 
 function Pending() {
   return (
