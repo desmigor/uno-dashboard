@@ -51,8 +51,9 @@ function Pending() {
         </div>
         {/* Right Column */}
         <div className="flex flex-col md:flex-row justify-center items-center col-span-4">
-          <div class="w-full h-[1010px] px-10 pt-6 pb-[117px] bg-white border-l border-gray-100 flex-col justify-center items-center gap-4 inline-flex">
-            <div class="self-stretch justify-center items-center gap-1 inline-flex">
+          <div class="w-full h-[100%] px-10 pt-0 pb-[117px] bg-white border-l border-gray-100 flex-col justify-center items-center gap-4 inline-flex">
+            <div class="self-stretch justify-center items-center gap-1 inline-flex"></div>
+            <div class="self-stretch flex-col justify-start items-center gap-6 inline-flex">
               <div>
                 <span className="text-gray-400 text-base font-normal font-['Rubik'] leading-tight">
                   Tracking ID:
@@ -64,13 +65,12 @@ function Pending() {
                   #TK-0023{" "}
                 </span>
               </div>
-            </div>
-            <div class="self-stretch flex-col justify-start items-start gap-6 inline-flex">
-              <div class="w-[612px] h-[307px] relative rounded-xl">
+              <div class="w-[80%] h-[307px] relative rounded-xl">
                 <img
-                  class="w-[612px] h-[339px] left-0 top-[-8px] absolute"
+                  class="w-[100%] h-[339px] left-0 top-[-8px] absolute rounded-xl"
                   src={MapImage}
                 />
+
                 <div class="p-3 left-[95px] top-[233px] absolute bg-white rounded-[10px] shadow flex-col justify-start items-start gap-2.5 inline-flex">
                   <div class="justify-start items-start gap-10 inline-flex">
                     <div class="justify-start items-start gap-1.5 flex">
@@ -113,6 +113,25 @@ function Pending() {
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="w-[30px] h-[30px] left-[11px] top-[111px] absolute">
+                  <div class="w-[30px] h-[30px] left-0 top-0 absolute bg-black bg-opacity-20 rounded-full"></div>
+                  <div class="w-[14.12px] h-[14.12px] left-[7.94px] top-[7.94px] absolute justify-start items-center gap-[7.06px] inline-flex">
+                    <div class="w-[14.12px] h-[14.12px] relative">
+                      <div class="w-[8.47px] h-[8.47px] left-[2.82px] top-[2.82px] absolute bg-red-800 rounded-full border-2 border-white"></div>
+                      <div class="w-[14.12px] h-[14.12px] left-0 top-[-0px] absolute bg-red-800 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="w-[30px] h-[30px] left-[420px] top-[126px] absolute">
+                  <div class="w-[30px] h-[30px] left-0 top-0 absolute bg-black bg-opacity-20 rounded-full"></div>
+                  <div class="w-[14.12px] h-[14.12px] left-[7.94px] top-[7.94px] absolute justify-start items-center gap-[7.06px] inline-flex">
+                    <div class="w-[14.12px] h-[14.12px] relative">
+                      <div class="w-[8.47px] h-[8.47px] left-[2.82px] top-[2.82px] absolute bg-green-600 rounded-full border-2 border-white"></div>
+                      <div class="w-[14.12px] h-[14.12px] left-0 top-0 absolute bg-green-600 rounded-full"></div>
                     </div>
                   </div>
                 </div>
