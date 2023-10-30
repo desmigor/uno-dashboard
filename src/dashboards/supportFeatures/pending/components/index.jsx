@@ -7,10 +7,10 @@ import PendingTabs from "./Tabs";
 function Pending() {
   return (
     <div className="bg-[#F8F9FA] h-[93%] w-full">
-      <div className=" grid grid-flow-col gap-3 ">
+      <div className="w-full mt-[20px] mx-auto flex flex-row gap-0">
         {/* Left Column */}
-        <div className="w-full col-span-2 content-center">
-          <div className="p-4 w-full h-[125px] pl-[41px] pr-5 pt-[120px] pb-4 bg-white border-b border-gray-100 flex-col justify-end items-start gap-[18px] inline-flex">
+        <div className="w-[50%] min-h-[325px] content-center">
+          <div className="p-4 w-full h-[125px] pl-[41px] pr-5 pt-2 pb-4 bg-white border-b border-gray-100 flex-col justify-end items-start gap-[18px] inline-flex">
             <div>
               <span className="text-zinc-800 text-2xl font-bold font-['Rubik']">
                 Pending Support{" "}
@@ -52,8 +52,8 @@ function Pending() {
           </div>
         </div>
         {/* Right Column */}
-        <div className="flex flex-col md:flex-row justify-center items-center col-span-2">
-          <div class="h-[100%] px-10 pt-0 pb-[117px] bg-white border-l border-gray-100 flex-col justify-center items-center gap-4 inline-flex">
+        <div className="flex flex-col md:flex-row justify-center items-center">
+          <div class="h-[100%] px-10  pb-2 bg-white border-l border-gray-100 flex-col justify-center items-center inline-flex">
             <div class="self-stretch justify-center items-center gap-1 inline-flex"></div>
             <div class="self-stretch flex-col justify-start items-start gap-6 inline-flex">
               <div>
@@ -67,7 +67,7 @@ function Pending() {
                   #TK-0023{" "}
                 </span>
               </div>
-              <div class="w-[80%] h-[307px] relative rounded-xl">
+              <div class="w-[100%] h-[307px] relative rounded-xl">
                 <img
                   class="w-[100%] h-[339px] left-0 top-[-8px] absolute rounded-xl"
                   src={MapImage}
@@ -138,8 +138,8 @@ function Pending() {
                   </div>
                 </div>
               </div>
-              <div class="flex-col justify-start items-start gap-6 flex">
-                <div class="flex-col justify-start items-start gap-4 flex">
+              <div class="flex-col justify-start items-start gap-6 flex w-[100%]">
+                <div class="flex-col justify-start items-start gap-4 flex w-[100%]">
                   <div class="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight mt-4">
                     Order Details
                   </div>

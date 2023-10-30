@@ -60,7 +60,7 @@ export default function OrderResolution() {
         Order Resolution
       </div>
 
-      <div class="p-4 bg-white rounded-xl shadow border border-gray-100 flex-col justify-center items-start gap-3 flex">
+      <div class="w-[690px]  p-4 bg-white rounded-xl shadow border border-gray-100 flex-col justify-center items-start gap-3 flex">
         <div class="self-stretch flex-col justify-start items-start gap-[5px] inline-flex">
           <div class="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
             Cancellation reason

@@ -5,7 +5,7 @@ import startingPoint from "../../../../assets/images/dashboard/icon/starting_poi
 export default function PendingPackage(active) {
   return (
     <div class="group">
-    <div class="w-[460px] h-[186px] relative bg-white rounded-xl border mx-8 my-4 group-hover:border-red-800">
+    <div class="w-[460px] h-[186px] relative bg-white rounded-xl border mx-8 my-2 group-hover:border-red-800">
       <div class="left-[16px] top-[56px] absolute justify-start items-start gap-4 inline-flex">
         <div class="w-4 h-[110px] relative">
           <div class="w-4 h-4 left-0 top-0 absolute justify-start items-center gap-2 inline-flex">
