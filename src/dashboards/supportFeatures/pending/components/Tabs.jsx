@@ -109,7 +109,7 @@ function PendingTabs() {
           )}
         </Tab>
       </Tab.List>
-      <Tab.Panels>
+      <Tab.Panels className="w-[100]">
         <Tab.Panel>
           <PendingPackageContent
             image={boxImage}
