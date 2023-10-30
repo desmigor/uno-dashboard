@@ -1,4 +1,4 @@
-import React from "react";
+import {React} from "react";
 import OrderResolution from "./orderResolution";
 import PendingPackage from "./pendingPackage";
 import MapImage from "../../../../assets/images/dashboard/image/map.png";
@@ -9,7 +9,7 @@ function Pending() {
     <div className="bg-[#F8F9FA] h-[93%] w-full">
       <div className=" grid grid-flow-col gap-3 ">
         {/* Left Column */}
-        <div className="w-full col-span-1 content-center">
+        <div className="w-full col-span-2 content-center">
           <div className="p-4 w-full h-[125px] pl-[41px] pr-5 pt-[120px] pb-4 bg-white border-b border-gray-100 flex-col justify-end items-start gap-[18px] inline-flex">
             <div>
               <span className="text-zinc-800 text-2xl font-bold font-['Rubik']">
@@ -47,13 +47,15 @@ function Pending() {
           <div className="flex flex-col items-center justify-center">
             <PendingPackage />
             <PendingPackage />
+            <PendingPackage />
+            <PendingPackage />
           </div>
         </div>
         {/* Right Column */}
-        <div className="flex flex-col md:flex-row justify-center items-center col-span-4">
-          <div class="w-full h-[100%] px-10 pt-0 pb-[117px] bg-white border-l border-gray-100 flex-col justify-center items-center gap-4 inline-flex">
+        <div className="flex flex-col md:flex-row justify-center items-center col-span-2">
+          <div class="h-[100%] px-10 pt-0 pb-[117px] bg-white border-l border-gray-100 flex-col justify-center items-center gap-4 inline-flex">
             <div class="self-stretch justify-center items-center gap-1 inline-flex"></div>
-            <div class="self-stretch flex-col justify-start items-center gap-6 inline-flex">
+            <div class="self-stretch flex-col justify-start items-start gap-6 inline-flex">
               <div>
                 <span className="text-gray-400 text-base font-normal font-['Rubik'] leading-tight">
                   Tracking ID:

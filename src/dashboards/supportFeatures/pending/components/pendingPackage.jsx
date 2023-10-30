@@ -4,7 +4,8 @@ import startingPoint from "../../../../assets/images/dashboard/icon/starting_poi
 
 export default function PendingPackage(active) {
   return (
-    <div class="w-[460px] h-[186px] relative bg-white rounded-xl border mx-8 my-4 hover:border-red-800">
+    <div class="group">
+    <div class="w-[460px] h-[186px] relative bg-white rounded-xl border mx-8 my-4 group-hover:border-red-800">
       <div class="left-[16px] top-[56px] absolute justify-start items-start gap-4 inline-flex">
         <div class="w-4 h-[110px] relative">
           <div class="w-4 h-4 left-0 top-0 absolute justify-start items-center gap-2 inline-flex">
@@ -62,11 +63,12 @@ export default function PendingPackage(active) {
           </div>
         </div>
         <div class="w-[71px] px-3 py-1.5 bg-stone-200 rounded justify-start items-center gap-2.5 flex">
-          <div class="hover:text-red-800 text-slate-500 text-xs font-normal font-['Rubik'] leading-none">
+          <div class="group-hover:text-red-800 text-slate-500 text-xs font-normal font-['Rubik'] leading-none">
             Pending
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
