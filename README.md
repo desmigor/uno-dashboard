@@ -2,9 +2,7 @@
 
 UNO delivery Dashboard for Admin and Support.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/a7a48cd3-44d7-435a-84d9-619c76846f6d/deploy-status)](https://app.netlify.com/sites/uno-dashboard/deploys)
-
-- Live link (deployed from Main branch): [https://uno-dashboard.netlify.app/](https://uno-dashboard.netlify.app/)
+- Live link (deployed from Main branch): [https://uno-dashboard.pages.dev/](https://uno-dashboard.pages.dev/)
 
 ## Getting Started
 
