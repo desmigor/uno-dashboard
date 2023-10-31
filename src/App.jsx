@@ -11,6 +11,7 @@ import Couriers from './dashboards/supportFeatures/couriers/components';
 import Settings from './dashboards/supportFeatures/settings/components';
 import Layout from './routes/private/layout';
 import Dashboard from './dashboards/supportFeatures/dashboard/components';
+import AdminDashboard from './dashboards/adminFeatures/dashboard';
 
 function App() {
 
@@ -22,14 +23,21 @@ function App() {
             <Route path='/' element={<SupportLogin />} />
             <Route path='/reset' element={<ResetPassword />} />
             <Route path='/change-password' element={<ChangePassword />} />
-            <Route path='/admin' element={<Login />} />
+            <Route path='/a-login' element={<Login />} />
           </Route>
-          <Route path='/dashboard' element={<Layout />} >
+          <Route path='/support' element={<Layout />} >
             <Route index element={<Dashboard />} />
-            <Route path='/dashboard/pending' element={<Pending />} />
-            <Route path='/dashboard/package' element={<Packages />} />
-            <Route path='/dashboard/courier' element={<Couriers />} />
-            <Route path='/dashboard/settings' element={<Settings />} />
+            <Route path='/support/pending' element={<Pending />} />
+            <Route path='/support/package' element={<Packages />} />
+            <Route path='/support/courier' element={<Couriers />} />
+            <Route path='/support/settings' element={<Settings />} />
+          </Route>
+          <Route path='/admin' element={<Layout />} >
+            <Route index element={<AdminDashboard />} />
+            <Route path='/admin/pending' element={<Pending />} />
+            <Route path='/admin/package' element={<Packages />} />
+            <Route path='/admin/courier' element={<Couriers />} />
+            <Route path='/admin/settings' element={<Settings />} />
           </Route>
         </Routes>
       </Router>

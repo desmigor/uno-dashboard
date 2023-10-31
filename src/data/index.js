@@ -69,3 +69,26 @@ export const packages = [
         status: "ongoing",
     },
 ];
+
+export const topCouriers = [
+    {
+        name: "Mike Jeremy",
+        amount: "340.04",
+    },
+    {
+        name: "James Michael L.",
+        amount: "210.00",
+    },
+    {
+        name: "Moel P. Jerome",
+        amount: "90.32",
+    },
+    {
+        name: "Moel P. Jerome",
+        amount: "90.32",
+    },
+    {
+        name: "Moel P. Jerome",
+        amount: "90.32",
+    }
+];
