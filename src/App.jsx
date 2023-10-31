@@ -1,6 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Public from './routes/public';
-import Private from './routes/private';
 import SupportLogin from './dashboards/supportFeatures/authentication/components/Login';
 import Login from './dashboards/adminFeatures/authentication/components/AdminLogin';
 import ResetPassword from './dashboards/supportFeatures/authentication/components/ResetPassword';

@@ -4,7 +4,7 @@ import Dashcard from '../../../components/ui/dashcard'
 import Money from '../../../assets/images/dashboard/icon/money-recive.svg';
 import Millage from '../../../assets/images/dashboard/icon/milleage.svg';
 import Box from '../../../assets/images/dashboard/icon/box2.svg';
-import People from '../../../assets/images/dashboard/icon/People2.svg';
+import People from '../../../assets/images/dashboard/icon/people2.svg';
 import Profile from '../../../assets/images/dashboard/icon/profile-2user2.svg';
 import Oval from '../../../assets/images/dashboard/icon/Oval.svg';
 import Dot from '../../../assets/images/dashboard/icon/Dot.svg';
