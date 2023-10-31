@@ -4,6 +4,7 @@ import Logo from "../../../../assets/images/authentication/Logo.png";
 import AuthenticationLeftSection from "../../../supportFeatures/authentication/components/AuthenticationLeftSection";
 import PasswordV from "../../../../components/ui/PasswordVisible.jsx";
 import PasswordH from "../../../../components/ui/PasswordHidden.jsx";
+import { Link } from "react-router-dom";
 
 function Login() {
 
@@ -75,14 +76,14 @@ function Login() {
             </div>
 
             {/* Sign In Button */}
-            <button
-              type="submit"
+            <Link
+              to={"/admin"}
               className="w-[372px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex my-10"
             >
               <div class="text-center text-white text-base font-normal font-rubik leading-tight">
                 Sign In
               </div>
-            </button>
+            </Link>
           </form>
           {/* Footer */}
           <div class="w-[373px] h-4 justify-start items-center gap-6 inline-flex mt-[180px]">

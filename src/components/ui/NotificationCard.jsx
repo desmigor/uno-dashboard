@@ -9,7 +9,7 @@ function NotificationCard() {
             <div className='w-6 h-6 p-1 bg-gray-100 rounded-[100px] justify-center items-center flex flex-row'>
                 <img src={Box} className='w-4 h-4' />
             </div>
-            <div className='w-[203px] font-normal font-rubik flex gap-1 text-xs text-gray-400 items-start'>Important! Package TK-2314 waiting resolution.</div> 
+            <div className="w-[203px] mt-[-5px]"><span className="text-zinc-800 text-xs font-normal font-rubik">Important! </span><span className="text-gray-400 text-xs font-normal font-rubik">Package </span><span className="text-zinc-800 text-xs font-normal font-rubik">TK-2314</span><span className="text-gray-400 text-xs font-normal font-rubik"> waiting resolution.</span></div>
         </div>
         <div className='flex flex-row gap-2 items-center mt-1'>
             <div className='w-2 h-2 bg-red-800 rounded-full' />
