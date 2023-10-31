@@ -6,14 +6,12 @@ import BoxDashboard from '../../../../assets/images/dashboard/icon/Dashboardbox.
 import TickCircle from '../../../../assets/images/dashboard/icon/tick-circle.svg';
 import TableCard from '../../../../components/ui/tableCard';
 import { couriers, packages, pending } from '../../../../data';
+import NameComponent from '../../../../components/ui/NameComponent';
 
 function Dashboard() {
   return (
-    <div className='bg-[#F8F9FA] h-[93%] w-full px-10 p-6'>
-      <div className='w-full mx-auto flex flex-row justify-between items-center'>
-        <h1 className='text-zinc-800 text-2xl font-bold font-rubik'>Welcome, Michael</h1>
-        <h2 className="text-zinc-800 text-base font-normal font-rubik leading-tight">Today, Apr. 18 , 2023</h2>
-      </div>
+    <div className='bg-[#F8F9FA] w-full px-10 p-6 overflow-auto'>
+      <NameComponent name='Micheal' date={'Today, 02 March 2023'} />
       <div className='w-full mx-auto mt-[24px] gap-5 flex flex-row'>
         <Dashcard icon={Profile} number={'222'} percentage={'16'} text={'Total Couriers'} iconBgColor={'bg-[#F4E7E7]'} />
         <Dashcard icon={People} number={'13,239'} percentage={'16'} text={'Total Customers'} iconBgColor={'bg-[#e1f1e6]'} />
