@@ -3,6 +3,8 @@ import OrderResolution from "./orderResolution";
 import PendingPackage from "./pendingPackage";
 import MapImage from "../../../../assets/images/dashboard/image/map.png";
 import PendingTabs from "./Tabs";
+import NoPendingEmpty from "./UI/NoPendingEmpty";
+import NoOrderResoultion from "./UI/OrderNoResolution";
 
 function Pending() {
   return (
@@ -49,6 +51,7 @@ function Pending() {
             <PendingPackage />
             <PendingPackage />
             <PendingPackage />
+
           </div>
         </div>
         {/* Right Column */}
