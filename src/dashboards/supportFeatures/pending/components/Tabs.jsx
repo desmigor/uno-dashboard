@@ -17,7 +17,7 @@ function PendingTabs() {
           {({ selected }) => (
             <div
               class={
-                "w-[100px] h-9 px-[22px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
+                "w-[100px] h-9 px-[18px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
                 (selected ? " bg-white" : "")
               }
             >
@@ -36,7 +36,7 @@ function PendingTabs() {
           {({ selected }) => (
             <div
               class={
-                "w-[100px] h-9 px-[22px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
+                "w-[100px] h-9 px-[18px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
                 (selected ? " bg-white" : "")
               }
             >
@@ -55,7 +55,7 @@ function PendingTabs() {
           {({ selected }) => (
             <div
               class={
-                "w-[126px] h-9 px-[22px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
+                "w-[126px] h-9 px-[18px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
                 (selected ? " bg-white" : "")
               }
             >
@@ -74,7 +74,7 @@ function PendingTabs() {
           {({ selected }) => (
             <div
               class={
-                "w-[135px] h-9 px-[22px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
+                "w-[135px] h-9 px-[18px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
                 (selected ? " bg-white" : "")
               }
             >
@@ -94,7 +94,7 @@ function PendingTabs() {
           {({ selected }) => (
             <div
               class={
-                "w-[108px] h-9 px-[22px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
+                "w-[108px] h-9 px-[18px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
                 (selected ? " bg-white" : "")
               }
             >
@@ -110,7 +110,7 @@ function PendingTabs() {
           )}
         </Tab>
       </Tab.List>
-      <Tab.Panels className="w-[100]">
+      <Tab.Panels className="w-[100%]">
         <Tab.Panel>
           <PendingPackageContent
             image={boxImage}
