@@ -10,7 +10,7 @@ import NameComponent from '../../../../components/ui/NameComponent';
 
 function Dashboard() {
   return (
-    <div className='bg-[#F8F9FA] w-full px-10 p-6 overflow-auto'>
+    <div className='bg-[#F8F9FA] h-screen w-full pb-20 px-10 p-6 overflow-auto'>
       <NameComponent name='Micheal' date={'Today, 02 March 2023'} />
       <div className='w-full mx-auto mt-[24px] gap-5 flex flex-row'>
         <Dashcard icon={Profile} number={'222'} percentage={'16'} text={'Total Couriers'} iconBgColor={'bg-[#F4E7E7]'} />
