@@ -7,7 +7,7 @@ export default function LocationPointContent({
   prop3,
 }) {
   return (
-    <div class="w-[690px]  h-[162px] relative bg-white rounded-xl shadow border border-gray-100">
+    <div class="w-[100%]  h-[162px] relative bg-white rounded-xl shadow border border-gray-100">
       <div class="left-[190px] top-[26px] absolute flex-col justify-start items-start gap-5 inline-flex">
         <div class="flex-col justify-start items-start gap-[5px] flex">
           <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
