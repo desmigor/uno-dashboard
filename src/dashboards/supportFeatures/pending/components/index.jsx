@@ -8,11 +8,11 @@ import NoOrderResoultion from "./ui/OrderNoResolution";
 
 function Pending() {
   return (
-    <div className="bg-[#F8F9FA] h-screen pb-28 w-full overflow-auto">
-      <div className="w-full  mx-auto flex flex-row gap-0">
+    <div className="bg-[#F8F9FA] h-screen w-full overflow-hidden">
+      <div className="w-full h-[100%] mx-auto flex flex-row gap-0">
         {/* Left Column */}
-        <div className="w-[60%] min-h-[325px] content-center">
-          <div className="p-4 w-full h-[125px] pl-[41px] pr-5 pt-0 pb-0 bg-white border-b border-gray-100 flex-col justify-end items-start gap-[18px] inline-flex">
+        <div className="w-[55%] h-[100%] content-center">
+          <div className="p-4 w-full min-h-[125px] pl-[41px] pr-5 pt-5 pb-0 bg-white border-b border-gray-100 flex-col justify-end items-start gap-[18px] inline-flex">
             <div>
               <span className="text-zinc-800 text-2xl font-bold font-rubik">
                 Pending Support{" "}
@@ -23,7 +23,7 @@ function Pending() {
               </span>
             </div>
             {/* Sort Filter by Date Dropdown */}
-            <div className="flex flex-row gap-4 mt-4">
+            <div className="flex flex-row gap-4 mt-4 mb-5">
               <div class="text-gray-400 text-sm font-normal font-rubik leading-tight mt-3">
                 Sort by
               </div>
@@ -46,17 +46,19 @@ function Pending() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col h-screen pb-64 items-center overflow-auto">
             <PendingPackage />
             <PendingPackage />
             <PendingPackage />
             <PendingPackage />
-
+            <PendingPackage />
+            <PendingPackage />
+            <PendingPackage />
           </div>
         </div>
         {/* Right Column */}
-        <div className="flex flex-col md:flex-row justify-center items-center">
-          <div class="h-[100%] px-10  pb-2 bg-white border-l border-gray-100 flex-col justify-center items-center inline-flex pt-5">
+        {/* <div className="flex flex-col md:flex-row justify-center items-center"> */}
+          <div class="w-[45%] px-10  pb-32 bg-white border-l border-gray-100 flex-col items-center inline-flex pt-5 overflow-y-auto">
             <div class="self-stretch justify-center items-center gap-1 inline-flex"></div>
             <div class="self-stretch flex-col justify-start items-start gap-6 inline-flex">
               <div>
@@ -148,18 +150,19 @@ function Pending() {
                   </div>
                   <PendingTabs />
                 </div>
-                <OrderResolution />
               </div>
-              <div class="w-[691px] h-[90px] pl-[189px] pr-[190px] py-5 bg-white border-t border-gray-100 justify-center items-center inline-flex">
-                <div class="w-[312px] h-[50px] px-[60px] py-[15px] bg-zinc-200 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
+              <OrderResolution />
+              <div class="w-[100%] bg-white border-t border-gray-100 justify-center items-center inline-flex" />
+              {/* <div class="w-[100%] h-[90px] pl-[189px] pr-[190px] py-5 bg-white border-t border-gray-100 justify-center items-center inline-flex"> */}
+                <div class="w-[312px] mx-auto h-[50px] px-[60px] py-[15px] bg-zinc-200 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
                   <div class="text-center text-gray-400 text-base font-normal font-rubik leading-tight">
                     Proceed with Resolution
                   </div>
                 </div>
-              </div>
+              {/* </div> */}
             </div>
           </div>
-        </div>
+        {/* </div> */}
       </div>
     </div>
   );

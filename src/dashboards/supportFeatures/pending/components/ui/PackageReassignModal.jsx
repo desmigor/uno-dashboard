@@ -187,7 +187,7 @@ function ReassignModal({
         <div class="pl-[34px] pr-[33px] pt-[21px] pb-5 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex">
           <div class="self-stretch justify-start items-start gap-[31px] inline-flex">
             <div
-              class="w-[221px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex"
+              class="w-[221px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex cursor-pointer"
               onClick={handleClose}
             >
               <div class="text-center text-zinc-800 text-base font-normal font-rubik leading-tight">
@@ -195,10 +195,10 @@ function ReassignModal({
               </div>
             </div>
             <div
-              class="w-[221px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[10px] justify-center items-center gap-2.5 flex"
+              class="w-[221px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[10px] justify-center items-center gap-2.5 flex cursor-pointer"
               onClick={handleConfirm}
             >
-              <div class="text-center text-white text-base font-normal font-rubik leading-tight">
+              <div class="text-center text-white text-base font-normal font-rubik leading-tight ">
                 Confirm
               </div>
             </div>

@@ -4,7 +4,7 @@ import NewWindow from "../../../../assets/images/dashboard/icon/export.svg";
 
 export default function CourierTabContent() {
   return (
-    <div class="w-[690px]  h-[162px] pl-[22px] pr-[47px] pt-[22px] pb-6 bg-white rounded-xl shadow border border-gray-100 justify-start items-center gap-8 inline-flex">
+    <div class="w-[100%]  h-[162px] pl-[22px] pr-[47px] pt-[22px] pb-6 bg-white rounded-xl shadow border border-gray-100 justify-start items-center gap-8 inline-flex">
       <div class="w-[109px] h-[116px] relative flex-col justify-start items-start flex">
         <div class="w-[105px] h-[105px] rounded-[100px] shadow border-2 border-white justify-center items-center inline-flex">
           <img class="w-[105px] h-[105px]n rounded-full" src={Courier} />

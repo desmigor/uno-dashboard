@@ -32,7 +32,7 @@ export default function OrderResolution() {
   };
 
   return (
-    <div class="flex-col justify-start items-start gap-4 flex">
+    <div class="flex-col w-full justify-start items-start gap-4 flex">
       <Modal
         show={showReturnModal}
         onClose={() => setshowReturnModal(false)}
@@ -73,7 +73,7 @@ export default function OrderResolution() {
         Order Resolution
       </div>
 
-      <div class="w-[690px]  p-4 bg-white rounded-xl shadow border border-gray-100 flex-col justify-center items-start gap-3 flex">
+      <div class="w-[100%]  p-4 bg-white rounded-xl shadow border border-gray-100 flex-col justify-center items-start gap-3 flex">
         <div class="self-stretch flex-col justify-start items-start gap-[5px] inline-flex">
           <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
             Cancellation reason
@@ -86,8 +86,8 @@ export default function OrderResolution() {
           <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
             Select a resolution
           </div>
-          <div class="justify-start items-start gap-3.5 inline-flex">
-            <button class="group" onClick={() => setshowReturnModal(true)}>
+          <div class="justify-between w-full items-start gap-3.5 inline-flex">
+            <button className="group w-[33%]" onClick={() => setshowReturnModal(true)}>
               <div class="h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100 group-hover:border-red-800 group-hover:bg-stone-100  justify-start items-center gap-1.5 flex">
                 <div class="w-7 h-7 justify-center items-center flex">
                   <div class="w-7 h-7 relative">
@@ -103,7 +103,7 @@ export default function OrderResolution() {
               </div>
             </button>
 
-            <button className="group" onClick={() => setshowReassignModal(true)}>
+            <button className="group w-[33%]" onClick={() => setshowReassignModal(true)}>
               <div class="h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100 justify-start items-center gap-1.5 flex group group-hover:border-red-800">
                 <div class="w-7 h-7 justify-center items-center flex">
                   <div class="w-7 h-7 relative">
@@ -115,7 +115,7 @@ export default function OrderResolution() {
                 </div>
               </div>
             </button>
-            <button class="group" onClick={() => setshowCancelModal(true)}>
+            <button className="group w-[33%]" onClick={() => setshowCancelModal(true)}>
               <div class="h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100 group-hover:border-red-800 justify-start items-center gap-1.5 flex">
                 <div class="w-7 h-7 justify-center items-center flex">
                   <div class="w-7 h-7 relative">

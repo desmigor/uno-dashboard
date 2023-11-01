@@ -40,15 +40,15 @@ function Modal({ title, content, image, show, onClose, cancel, onConfirm }) {
         <div className="pl-[38px] pr-[39px] py-5 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex">
           <div className="self-stretch justify-start items-start gap-[27px] inline-flex">
             <div
-              className="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex"
+              className="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex cursor-pointer"
               onClick={handleClose}
             >
-              <div className="text-center text-zinc-800 text-base font-normal font-rubik leading-tight">
+              <div className="text-center text-zinc-800 text-base font-normal font-rubik leading-tight cursor-pointer">
                 Cancel
               </div>
             </div>
             <div
-              className="w-[168px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[10px] justify-center items-center gap-2.5 flex"
+              className="w-[168px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[10px] justify-center items-center gap-2.5 flex cursor-pointer"
               onClick={handleConfirm}
             >
               <div className="text-center text-white text-base font-normal font-rubik leading-tight" >
