@@ -1,4 +1,4 @@
-import {React} from "react";
+import { React } from "react";
 import OrderResolution from "./orderResolution";
 import PendingPackage from "./pendingPackage";
 import MapImage from "../../../../assets/images/dashboard/image/map.png";
@@ -58,111 +58,103 @@ function Pending() {
         </div>
         {/* Right Column */}
         {/* <div className="flex flex-col md:flex-row justify-center items-center"> */}
-          <div class="w-[45%] px-10  pb-32 bg-white border-l border-gray-100 flex-col items-center inline-flex pt-5 overflow-y-auto">
-            <div class="self-stretch justify-center items-center gap-1 inline-flex"></div>
-            <div class="self-stretch flex-col justify-start items-start gap-6 inline-flex">
-              <div>
-                <span className="text-gray-400 text-base font-normal font-rubik leading-tight">
-                  Tracking ID:
-                </span>
-                <span className="text-gray-400 text-sm font-normal font-rubik leading-tight">
-                  {" "}
-                </span>
-                <span className="text-zinc-800 text-base font-semibold font-rubik leading-tight">
-                  #TK-0023{" "}
-                </span>
-              </div>
-              <div class="w-[100%] h-[307px] relative rounded-xl">
-                <img
-                  class="w-[100%] h-[339px] left-0 top-[-8px] absolute rounded-xl"
-                  src={MapImage}
-                />
+        <div class="w-[45%] px-10  pb-32 bg-white border-l border-gray-100 flex-col items-center inline-flex pt-5 overflow-y-auto">
+          <div class="self-stretch justify-center items-center gap-1 inline-flex"></div>
+          <div class="self-stretch flex-col justify-start items-start gap-6 inline-flex">
+            <div>
+              <span className="text-gray-400 text-base font-normal font-rubik leading-tight">
+                Tracking ID:
+              </span>
+              <span className="text-gray-400 text-sm font-normal font-rubik leading-tight">
+                {" "}
+              </span>
+              <span className="text-zinc-800 text-base font-semibold font-rubik leading-tight">
+                #TK-0023{" "}
+              </span>
+            </div>
+            <div class="w-[100%] h-[307px] relative rounded-xl">
+              <img
+                class="w-[100%] h-[339px] left-0 top-[-8px] absolute rounded-xl"
+                src={MapImage}
+              />
 
-                <div class="p-3 left-[95px] top-[233px] absolute bg-white rounded-[10px] shadow flex-col justify-start items-start gap-2.5 inline-flex">
-                  <div class="justify-start items-start gap-10 inline-flex">
+              <div class="p-3 left-[95px] top-[233px] absolute bg-white rounded-[10px] shadow flex-col justify-start items-start gap-2.5 inline-flex">
+                <div class="justify-start items-start gap-10 inline-flex">
+                  <div class="justify-start items-start gap-1.5 flex">
+                    <div class="w-4 h-4 justify-center items-center flex">
+                      <div class="w-4 h-4 relative"></div>
+                    </div>
+                    <div class="flex-col justify-start items-start gap-0.5 inline-flex">
+                      <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
+                        Current location
+                      </div>
+                      <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
+                        PPR3+JG6, Amasaman
+                      </div>
+                    </div>
+                  </div>
+                  <div class="justify-start items-start gap-10 flex">
                     <div class="justify-start items-start gap-1.5 flex">
                       <div class="w-4 h-4 justify-center items-center flex">
                         <div class="w-4 h-4 relative"></div>
                       </div>
                       <div class="flex-col justify-start items-start gap-0.5 inline-flex">
                         <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
-                          Current location
+                          Distance left
                         </div>
                         <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
-                          PPR3+JG6, Amasaman
+                          12 km
                         </div>
                       </div>
                     </div>
-                    <div class="justify-start items-start gap-10 flex">
-                      <div class="justify-start items-start gap-1.5 flex">
-                        <div class="w-4 h-4 justify-center items-center flex">
-                          <div class="w-4 h-4 relative"></div>
-                        </div>
-                        <div class="flex-col justify-start items-start gap-0.5 inline-flex">
-                          <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
-                            Distance left
-                          </div>
-                          <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
-                            12 km
-                          </div>
-                        </div>
+                    <div class="justify-start items-start gap-1.5 flex">
+                      <div class="w-4 h-4 justify-center items-center flex">
+                        <div class="w-4 h-4 relative"></div>
                       </div>
-                      <div class="justify-start items-start gap-1.5 flex">
-                        <div class="w-4 h-4 justify-center items-center flex">
-                          <div class="w-4 h-4 relative"></div>
+                      <div class="flex-col justify-start items-start gap-0.5 inline-flex">
+                        <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
+                          Time left
                         </div>
-                        <div class="flex-col justify-start items-start gap-0.5 inline-flex">
-                          <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
-                            Time left
-                          </div>
-                          <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
-                            30 min
-                          </div>
+                        <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
+                          30 min
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <div class="w-[30px] h-[30px] left-[11px] top-[111px] absolute">
-                  <div class="w-[30px] h-[30px] left-0 top-0 absolute bg-black bg-opacity-20 rounded-full"></div>
-                  <div class="w-[14.12px] h-[14.12px] left-[7.94px] top-[7.94px] absolute justify-start items-center gap-[7.06px] inline-flex">
-                    <div class="w-[14.12px] h-[14.12px] relative">
-                      <div class="w-[8.47px] h-[8.47px] left-[2.82px] top-[2.82px] absolute bg-red-800 rounded-full border-2 border-white"></div>
-                      <div class="w-[14.12px] h-[14.12px] left-0 top-[-0px] absolute bg-red-800 rounded-full"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-[30px] h-[30px] left-[420px] top-[126px] absolute">
-                  <div class="w-[30px] h-[30px] left-0 top-0 absolute bg-black bg-opacity-20 rounded-full"></div>
-                  <div class="w-[14.12px] h-[14.12px] left-[7.94px] top-[7.94px] absolute justify-start items-center gap-[7.06px] inline-flex">
-                    <div class="w-[14.12px] h-[14.12px] relative">
-                      <div class="w-[8.47px] h-[8.47px] left-[2.82px] top-[2.82px] absolute bg-green-600 rounded-full border-2 border-white"></div>
-                      <div class="w-[14.12px] h-[14.12px] left-0 top-0 absolute bg-green-600 rounded-full"></div>
-                    </div>
+              <div class="w-[30px] h-[30px] left-[11px] top-[111px] absolute">
+                <div class="w-[30px] h-[30px] left-0 top-0 absolute bg-black bg-opacity-20 rounded-full"></div>
+                <div class="w-[14.12px] h-[14.12px] left-[7.94px] top-[7.94px] absolute justify-start items-center gap-[7.06px] inline-flex">
+                  <div class="w-[14.12px] h-[14.12px] relative">
+                    <div class="w-[8.47px] h-[8.47px] left-[2.82px] top-[2.82px] absolute bg-red-800 rounded-full border-2 border-white"></div>
+                    <div class="w-[14.12px] h-[14.12px] left-0 top-[-0px] absolute bg-red-800 rounded-full"></div>
                   </div>
                 </div>
               </div>
-              <div class="flex-col justify-start items-start gap-6 flex w-[100%]">
-                <div class="flex-col justify-start items-start gap-4 flex w-[100%]">
-                  <div class="text-zinc-800 text-base font-semibold font-rubik leading-tight mt-4">
-                    Order Details
+              <div class="w-[30px] h-[30px] left-[420px] top-[126px] absolute">
+                <div class="w-[30px] h-[30px] left-0 top-0 absolute bg-black bg-opacity-20 rounded-full"></div>
+                <div class="w-[14.12px] h-[14.12px] left-[7.94px] top-[7.94px] absolute justify-start items-center gap-[7.06px] inline-flex">
+                  <div class="w-[14.12px] h-[14.12px] relative">
+                    <div class="w-[8.47px] h-[8.47px] left-[2.82px] top-[2.82px] absolute bg-green-600 rounded-full border-2 border-white"></div>
+                    <div class="w-[14.12px] h-[14.12px] left-0 top-0 absolute bg-green-600 rounded-full"></div>
                   </div>
-                  <PendingTabs />
                 </div>
               </div>
-              <OrderResolution />
-              <div class="w-[100%] bg-white border-t border-gray-100 justify-center items-center inline-flex" />
-              {/* <div class="w-[100%] h-[90px] pl-[189px] pr-[190px] py-5 bg-white border-t border-gray-100 justify-center items-center inline-flex"> */}
-                <div class="w-[312px] mx-auto h-[50px] px-[60px] py-[15px] bg-zinc-200 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
-                  <div class="text-center text-gray-400 text-base font-normal font-rubik leading-tight">
-                    Proceed with Resolution
-                  </div>
-                </div>
-              {/* </div> */}
             </div>
+            <div class="flex-col justify-start items-start gap-6 flex w-[100%]">
+              <div class="flex-col justify-start items-start gap-4 flex w-[100%]">
+                <div class="text-zinc-800 text-base font-semibold font-rubik leading-tight mt-4">
+                  Order Details
+                </div>
+                <PendingTabs />
+              </div>
+            </div>
+            <OrderResolution />
+            
           </div>
-        {/* </div> */}
+        </div>
       </div>
     </div>
   );

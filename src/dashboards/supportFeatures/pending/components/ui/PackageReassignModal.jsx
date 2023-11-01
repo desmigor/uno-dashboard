@@ -149,7 +149,7 @@ function ReassignModal({
                     class="w-[130px] h-10 px-[60px] py-[15px] left-[354px] top-[49px] absolute bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex"
                     onClick={() => setSelectedIndex(index)}
                   >
-                    <div class="text-center text-white text-sm font-normal font-rubik leading-tight">
+                    <div class="text-center text-white text-sm font-normal font-rubik leading-tight cursor-pointer">
                       {/* or notify via sms Button here */}
                       Select
                     </div>
