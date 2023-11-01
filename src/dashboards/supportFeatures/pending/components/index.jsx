@@ -8,7 +8,7 @@ import NoOrderResoultion from "./ui/OrderNoResolution";
 
 function Pending() {
   return (
-    <div className="bg-[#F8F9FA] h-[93%] w-full">
+    <div className="bg-[#F8F9FA] h-screen pb-28 w-full overflow-auto">
       <div className="w-full mt-[20px] mx-auto flex flex-row gap-0">
         {/* Left Column */}
         <div className="w-[60%] min-h-[325px] content-center">
