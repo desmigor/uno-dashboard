@@ -1,6 +1,6 @@
 import {React, useState} from "react";
 
-function Modal({ title, content, image, show, onClose, cancel, onConfirm }) {
+function ReassignModal({ title, content, image, show, onClose, cancel, onConfirm }) {
   if (!show) {
     return null;
   }
@@ -62,4 +62,4 @@ function Modal({ title, content, image, show, onClose, cancel, onConfirm }) {
   );
 }
 
-export default Modal;
+export default ReassignModal;

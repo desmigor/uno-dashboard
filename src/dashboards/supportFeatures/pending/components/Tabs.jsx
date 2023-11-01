@@ -7,7 +7,7 @@ import profile from "../../../../assets/images/dashboard/image/image-3.png";
 import map from "../../../../assets/images/dashboard/image/map.png";
 import LocationPointContent from "./LocationPointTabContent";
 import CourierTabContent from "./CourierTabContent";
-import NoOrderDetails from "./UI/NoOrderDetails";
+import NoOrderDetails from "./ui/NoOrderDetails";
 
 function PendingTabs() {
   return (

@@ -4,6 +4,8 @@ import ReturnRedIcon from "../../../../assets/images/dashboard/icon/refresh-2-re
 import reassignIcon from "../../../../assets/images/dashboard/icon/arrow-swap-horizontal.svg";
 import closeIcon from "../../../../assets/images/dashboard/icon/close-square.svg";
 import Modal from "../../../../components/ui/Modal";
+import ReassignModal from "./ui/PackageReassignModal";
+
 import ReturnIconModal from "../../../../assets/images/dashboard/icon/refresh-circle.svg";
 import CancelIconModal from "../../../../assets/images/dashboard/icon/close-circle.svg";
 import SuccessToast from "../../../../components/ui/SuccessToast";
@@ -11,6 +13,7 @@ import SuccessToast from "../../../../components/ui/SuccessToast";
 export default function OrderResolution() {
   const [showReturnModal, setshowReturnModal] = useState(false);
   const [showCancelModal, setshowCancelModal] = useState(false);
+  const [showReassignModal, setshowReassignModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
   const handleShowToast = () => {
@@ -26,7 +29,7 @@ export default function OrderResolution() {
     if (isConfirmed) {
       handleShowToast();
     }
-  }
+  };
 
   return (
     <div class="flex-col justify-start items-start gap-4 flex">
@@ -42,6 +45,16 @@ export default function OrderResolution() {
 
       <Modal
         show={showCancelModal}
+        onClose={() => setshowCancelModal(false)}
+        title="Package Return"
+        image={CancelIconModal}
+        content="After confirmation, this package will immediately be canceled. This action can’t be revoked."
+        cancel={true}
+        onConfirm={handleModalConfirm}
+      />
+
+      <Modal
+        show={showReassignModal}
         onClose={() => setshowCancelModal(false)}
         title="Package Return"
         image={CancelIconModal}
@@ -95,16 +108,18 @@ export default function OrderResolution() {
               </div>
             </button>
 
-            <div class="h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100 justify-start items-center gap-1.5 flex">
-              <div class="w-7 h-7 justify-center items-center flex">
-                <div class="w-7 h-7 relative">
-                  <img src={reassignIcon} alt="" />
+            <button className="group" onClick={setshowReassignModal(true)}>
+              <div class="h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100 justify-start items-center gap-1.5 flex group group-hover:border-red-800">
+                <div class="w-7 h-7 justify-center items-center flex">
+                  <div class="w-7 h-7 relative">
+                    <img src={reassignIcon} alt="" />
+                  </div>
+                </div>
+                <div class="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight group-hover:text-red-800">
+                  Reassign package
                 </div>
               </div>
-              <div class="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">
-                Reassign package
-              </div>
-            </div>
+            </button>
             <button class="group" onClick={() => setshowCancelModal(true)}>
               <div class="h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100 group-hover:border-red-800 justify-start items-center gap-1.5 flex">
                 <div class="w-7 h-7 justify-center items-center flex">
