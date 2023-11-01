@@ -10,35 +10,45 @@ import Settings from './dashboards/supportFeatures/settings/components';
 import Layout from './routes/private/layout';
 import Dashboard from './dashboards/supportFeatures/dashboard/components';
 import AdminDashboard from './dashboards/adminFeatures/dashboard';
+import AppContext from './context';
+import { useState } from 'react';
 
 function App() {
-
-
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loggedIn, setLoggedIn] = useState('not-logged-in');
+  console.log(loggedIn);
   return (
+    <AppContext.Provider value={{ isAdmin, setIsAdmin, loggedIn, setLoggedIn}}>
       <Router>
         <Routes>
+          {loggedIn === 'not-logged-in' ? 
           <Route>
-            <Route path='/' element={<SupportLogin />} />
+            <Route path='/support' element={<SupportLogin />} />
             <Route path='/reset' element={<ResetPassword />} />
             <Route path='/change-password' element={<ChangePassword />} />
-            <Route path='/a-login' element={<Login />} />
+            <Route path='/admin' element={<Login />} />
           </Route>
-          <Route path='/support' element={<Layout />} >
-            <Route index element={<Dashboard />} />
-            <Route path='/support/pending' element={<Pending />} />
-            <Route path='/support/package' element={<Packages />} />
-            <Route path='/support/courier' element={<Couriers />} />
-            <Route path='/support/settings' element={<Settings />} />
-          </Route>
-          <Route path='/admin' element={<Layout />} >
-            <Route index element={<AdminDashboard />} />
-            <Route path='/admin/pending' element={<Pending />} />
-            <Route path='/admin/package' element={<Packages />} />
-            <Route path='/admin/courier' element={<Couriers />} />
-            <Route path='/admin/settings' element={<Settings />} />
-          </Route>
+          :
+          loggedIn === 'support' ? 
+            <Route path='/support/dashboard/' element={<Layout />} >
+              <Route index element={<Dashboard />} />
+              <Route path='/support/dashboard/pending' element={<Pending />} />
+              <Route path='/support/dashboard/package' element={<Packages />} />
+              <Route path='/support/dashboard/courier' element={<Couriers />} />
+              <Route path='/support/dashboard/settings' element={<Settings />} />
+            </Route>
+          :
+            <Route path='/admin/dashboard' element={<Layout />} >
+              <Route index element={<AdminDashboard />} />
+              <Route path='/admin/dashboard/pending' element={<Pending />} />
+              <Route path='/admin/dashboard/package' element={<Packages />} />
+              <Route path='/admin/dashboard/courier' element={<Couriers />} />
+              <Route path='/admin/dashboard/settings' element={<Settings />} />
+            </Route>
+          }
         </Routes>
       </Router>
+    </AppContext.Provider>
   )
 }
 

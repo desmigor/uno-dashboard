@@ -56,7 +56,7 @@ function AdminDashboard() {
         <div className='w-full mx-auto mt-[24px] gap-5 flex flex-row'>
             <Dashcard icon={Money} number={'90,434'} percentage={'16'} text={'Total Revenue'} iconBgColor={'bg-[#F4E7E7]'} />
             <Dashcard icon={Millage} number={'230,032'} percentage={'16'} text={'Total Milleage'} iconBgColor={'bg-[#cce8f6]'} />
-            <Dashcard icon={Profile} number={'222'} percentage={'16'} text={'Total Customers'} iconBgColor={'bg-rose-100'} />
+            <Dashcard icon={Profile} number={'222'} percentage={'16'} text={'Total Couriers'} iconBgColor={'bg-rose-100'} />
             <Dashcard icon={People} number={'13,239'} percentage={'16'} text={'Total Customers'} iconBgColor={'bg-green-400 bg-opacity-20'} />
             <Dashcard icon={Box} number={'1,233'} percentage={'16'} text={'Total Orders'} iconBgColor={'bg-yellow-400 bg-opacity-20'} />
         </div>

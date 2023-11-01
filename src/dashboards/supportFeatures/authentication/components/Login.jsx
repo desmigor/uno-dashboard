@@ -1,21 +1,30 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Logo from "../../../../assets/images/authentication/Logo.png";
 import PasswordV from "../../../../components/ui/PasswordVisible.jsx";
 import PasswordH from "../../../../components/ui/PasswordHidden.jsx";
-
 import AuthenticationLeftSection from "./AuthenticationLeftSection";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AppContext from "../../../../context";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const { setIsAdmin, setLoggedIn } = useContext(AppContext);
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate('');
+  
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+  
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  
+  const handleLogin = () => {
+    setIsAdmin(false);
+    setLoggedIn('support');
+    navigate('/support/dashboard');
+  }
 
   return (
     <div className="bg-blue h-[100vh] p-8 rounded-md shadow-lg">
@@ -39,7 +48,7 @@ function Login() {
             </p>
           </div>
           {/* Input Fields */}
-          <form className="grid place-content-center ">
+          <div className="grid place-content-center ">
             <div class="w-[372px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
               <div class="text-slate-500 text-sm font-normal font-rubik leading-tight">
                 Email
@@ -82,15 +91,15 @@ function Login() {
               </div>
             </Link>
             {/* Sign In Button */}
-            <Link
-              to={"/support"}
+            <button
+              onClick={handleLogin}
               className="w-[372px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex my-10"
             >
               <div class="text-center text-white text-base font-normal font-rubik leading-tight">
                 Sign In
               </div>
-            </Link>
-          </form>
+            </button>
+          </div>
           {/* Footer */}
           <div class="w-[373px] h-4 justify-start items-center gap-6 inline-flex mt-[20vh]">
             <div class="text-gray-400 text-xs font-normal font-rubik leading-none">

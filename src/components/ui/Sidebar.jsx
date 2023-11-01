@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UnoIcon from '../../assets/images/dashboard/icon/Logo.svg';
 import DashIcon  from '../../assets/images/dashboard/icon/dashboard.svg';
 import DashIconAdmin  from '../../assets/images/dashboard/icon/category-2.svg';
@@ -18,41 +18,42 @@ import CustomerIconInactive  from '../../assets/images/dashboard/icon/people3.sv
 import SettingsIconInactive  from '../../assets/images/dashboard/icon/setting0.svg';
 import SettingsIcon2  from '../../assets/images/dashboard/icon/setting-3.svg';
 import { Link } from 'react-router-dom';
+import AppContext from '../../context';
 
 function Sidebar() {
     const [selected, setSelcted] = useState('Dashboard');
-    const [isAdmin, setIsAdmin] = useState(true);
+    const {isAdmin} = useContext(AppContext);
 
     const sidebarLinksSupport = [
         {
             name: "Dashboard",
             activeIcon: DashIcon,
             inactiveIcon: DashIconInactive,
-            path: '/support'
+            path: '/support/dashboard'
         },
         {
             name: "Pending",
             activeIcon: InfoIcon,
             inactiveIcon: InfoIconInactive,
-            path: '/support/pending'
+            path: '/support/dashboard/pending'
         },
         {
             name: "Packages",
             activeIcon: PackageIcon,
             inactiveIcon: PackageIconInactive,
-            path: '/support/package'
+            path: '/support/dashboard/package'
         },
         {
             name: "Couriers",
             activeIcon: ProfileIcon,
             inactiveIcon: ProfileIconInactive,
-            path: '/support/courier'
+            path: '/support/dashboard/courier'
         },
         {
             name: "Settings",
             activeIcon: SettingsIcon,
             inactiveIcon: SettingsIconInactive,
-            path: '/support/settings'
+            path: '/support/dashboard/settings'
         },
         
     ]
@@ -62,37 +63,37 @@ function Sidebar() {
             name: "Dashboard",
             activeIcon: DashIconAdmin,
             inactiveIcon: DashIconInactive,
-            path: '/admin'
+            path: '/admin/dashboard'
         },
         {
             name: "Pending",
             activeIcon: InfoIcon2,
             inactiveIcon: InfoIconInactive,
-            path: '/admin/pending'
+            path: '/admin/dashboard/pending'
         },
         {
             name: "Packages",
             activeIcon: PackageIcon2,
             inactiveIcon: PackageIconInactive,
-            path: '/admin/package'
+            path: '/admin/dashboard/package'
         },
         {
             name: "Couriers",
             activeIcon: ProfileIcon2,
             inactiveIcon: ProfileIconInactive,
-            path: '/admin/courier'
+            path: '/admin/dashboard/courier'
         },
         {
             name: "Customers",
             activeIcon: CustomerIcon,
             inactiveIcon: CustomerIconInactive,
-            path: '/admin/courier'
+            path: '/admin/dashboard/courier'
         },
         {
             name: "Settings",
             activeIcon: SettingsIcon2,
             inactiveIcon: SettingsIconInactive,
-            path: '/admin/settings'
+            path: '/admin/dashboard/settings'
         },
         
     ]
@@ -106,9 +107,9 @@ function Sidebar() {
             {
                 sidebarLinks.map((item, idx) => {
                     return(
-                        <Link onClick={() => setSelcted(item.name)} to={item.path} className={`cursor-pointer group hover:border hover:border-red-900 hover:bg-rose-100 w-[196px] h-[54px] px-4 py-[17px] ${isAdmin ? 'hover:bg-gradient-to-br hover:from-red-900 hover:to-red-700' : selected === item.name && 'bg-rose-100' } rounded-xl ${selected === item.name && isAdmin ? 'bg-gradient-to-br from-red-900 to-red-700' : !isAdmin && 'border border-red-900'}  gap-[16px] flex flex-row items-center`}>
+                        <Link onClick={() => setSelcted(item.name)} to={item.path} className={`cursor-pointer group ${!isAdmin && selected === item.name ? 'hover:bg-rose-100' : 'hover:bg-[#F2F2F2]'} w-[196px] h-[54px] px-4 py-[17px] ${isAdmin && 'hover:bg-[#3F4449]'} ${selected === item.name && 'bg-rose-100' } rounded-xl ${selected === item.name && isAdmin ? 'bg-gradient-to-br from-red-900 to-red-700' : !isAdmin && 'border-0 border-red-900'}  gap-[16px] flex flex-row items-center`}>
                             <img src={selected === item.name ? item.activeIcon : item.inactiveIcon} className='w-5 h-5' alt='DASHSVG' />
-                            <span className={`${selected === item.name ? isAdmin ? 'text-white' : 'text-red-800' : 'text-gray-400'} ${isAdmin ? 'group-hover:text-white' : 'group-hover:text-red-800'} text-base font-normal font-rubik leading-tight`}>{item.name}</span>
+                            <span className={`${selected === item.name ? isAdmin ? 'text-white' : 'text-red-800' : 'text-gray-400'} text-base font-normal font-rubik leading-tight`}>{item.name}</span>
                         </Link>
                     )
                 })
