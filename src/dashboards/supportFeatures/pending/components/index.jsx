@@ -3,15 +3,15 @@ import OrderResolution from "./orderResolution";
 import PendingPackage from "./pendingPackage";
 import MapImage from "../../../../assets/images/dashboard/image/map.png";
 import PendingTabs from "./Tabs";
-import NoPendingEmpty from "./UI/NoPendingEmpty";
-import NoOrderResoultion from "./UI/OrderNoResolution";
+import NoPendingEmpty from "./ui/NoPendingEmpty";
+import NoOrderResoultion from "./ui/OrderNoResolution";
 
 function Pending() {
   return (
     <div className="bg-[#F8F9FA] h-[93%] w-full">
       <div className="w-full mt-[20px] mx-auto flex flex-row gap-0">
         {/* Left Column */}
-        <div className="w-[50%] min-h-[325px] content-center">
+        <div className="w-[60%] min-h-[325px] content-center">
           <div className="p-4 w-full h-[125px] pl-[41px] pr-5 pt-2 pb-4 bg-white border-b border-gray-100 flex-col justify-end items-start gap-[18px] inline-flex">
             <div>
               <span className="text-zinc-800 text-2xl font-bold font-['Rubik']">
