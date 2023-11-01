@@ -29,7 +29,7 @@ function TableCard({ type, name, data }) {
                     {data.length === 0 ?
                     <div className='flex flex-col items-center justify-center mt-[54px] gap-3'>
                         <img src={Cube} alt='ALTICON' className='w-[100px] h-[100px]' />
-                        <div className="text-center text-gray-300 text-sm font-normal font-['Rubik'] leading-tight">There are no pending resolutions yet</div> 
+                        <div className="text-center text-gray-300 text-sm font-normal font-rubik leading-tight">There are no pending resolutions yet</div> 
                     </div>
                         :
                     <table class="w-full text-sm text-left text-gray-500">
@@ -78,7 +78,7 @@ function TableCard({ type, name, data }) {
                 {data.length === 0 ?
                     <div className='flex flex-col items-center justify-center mt-[54px] gap-3'>
                         <img src={Truck} alt='ALTICON' className='w-[100px] h-[100px]' />
-                        <div className="text-center text-gray-300 text-sm font-normal font-['Rubik'] leading-tight">There are no ongoing packages</div> 
+                        <div className="text-center text-gray-300 text-sm font-normal font-rubik leading-tight">There are no ongoing packages</div> 
                     </div>
                         :
                 <table class="w-full text-sm text-left text-gray-500">
@@ -131,7 +131,7 @@ function TableCard({ type, name, data }) {
                 {data.length === 0 ?
                     <div className='flex flex-col items-center justify-center mt-[54px] gap-3'>
                         <img src={UserSearch} alt='ALTICON' className='w-[100px] h-[100px]' />
-                        <div className="text-center text-gray-300 text-sm font-normal font-['Rubik'] leading-tight">There are no available couriers</div> 
+                        <div className="text-center text-gray-300 text-sm font-normal font-rubik leading-tight">There are no available couriers</div> 
                     </div>
                         :
                 <table class="w-full text-sm text-left text-gray-500">

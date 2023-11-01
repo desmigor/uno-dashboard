@@ -37,7 +37,7 @@ function SuccessToast({ text, show, onClose }) {
             </div>
           </div>
         </div>
-        <div class="text-gray-700 text-sm font-normal font-['Rubik'] leading-tight">
+        <div class="text-gray-700 text-sm font-normal font-rubik leading-tight">
           {text}
         </div>
       </div>

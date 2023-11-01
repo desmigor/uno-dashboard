@@ -18,52 +18,52 @@ export default function PendingPackage(active) {
         </div>
         <div class="flex-col justify-start items-start gap-9 inline-flex">
           <div class="flex-col justify-start items-start gap-[5px] flex">
-            <div class="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">
+            <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
               Pickup point
             </div>
-            <div class="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">
+            <div class="text-zinc-800 text-xs font-semibold font-rubik leading-none">
               PPR3+JG6, Amasaman
             </div>
           </div>
           <div class="flex-col justify-start items-start gap-[5px] flex">
-            <div class="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">
+            <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
               Delivery point
             </div>
-            <div class="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">
+            <div class="text-zinc-800 text-xs font-semibold font-rubik leading-none">
               PPR3+JG6, Amasaman
             </div>
           </div>
         </div>
       </div>
       <div class="left-[378px] top-[56px] absolute flex-col justify-start items-end gap-0.5 inline-flex">
-        <div class="text-zinc-800 text-xs font-normal font-['Rubik'] leading-none">
+        <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
           17-04-2023
         </div>
-        <div class="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">
+        <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
           09:32
         </div>
       </div>
       <div class="left-[378px] top-[129px] absolute flex-col justify-start items-end gap-0.5 inline-flex">
-        <div class="text-zinc-800 text-xs font-normal font-['Rubik'] leading-none">
+        <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
           17-04-2023
         </div>
-        <div class="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">
+        <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
           09:32
         </div>
       </div>
       <div class="w-[428px] left-[16px] top-[16px] absolute justify-between items-center inline-flex">
         <div class="justify-start items-center gap-1 flex">
           <div>
-            <span className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+            <span className="text-gray-400 text-sm font-normal font-rubik leading-tight">
               Tracking ID:{" "}
             </span>
-            <span className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight group-hover:text-red-800">
+            <span className="text-zinc-800 text-sm font-semibold font-rubik leading-tight group-hover:text-red-800">
               #TK-0023{" "}
             </span>
           </div>
         </div>
         <div class="w-[71px] px-3 py-1.5 bg-stone-100 rounded justify-start items-center gap-2.5 flex group-hover:bg-stone-200">
-          <div class="group-hover:text-red-800 text-slate-500 text-xs font-normal font-['Rubik'] leading-none">
+          <div class="group-hover:text-red-800 text-slate-500 text-xs font-normal font-rubik leading-none">
             Pending
           </div>
         </div>

@@ -17,7 +17,7 @@ export default function NoPendingEmpty() {
             </div>
         </div>
     </div>
-    <div class="text-center text-gray-300 text-base font-normal font-['Rubik'] leading-tight">Currently, there are no packages waiting resolution. <br/>Please check back again later!</div>
+    <div class="text-center text-gray-300 text-base font-normal font-rubik leading-tight">Currently, there are no packages waiting resolution. <br/>Please check back again later!</div>
 </div>
   );
 }

@@ -23,7 +23,7 @@ function PendingTabs() {
             >
               <div
                 class={
-                  "text-center text-sm font-normal font-['Rubik'] leading-tight" +
+                  "text-center text-sm font-normal font-rubik leading-tight" +
                   (selected ? " text-zinc-800" : " text-slate-500")
                 }
               >
@@ -42,7 +42,7 @@ function PendingTabs() {
             >
               <div
                 class={
-                  "text-center text-sm font-normal font-['Rubik'] leading-tight" +
+                  "text-center text-sm font-normal font-rubik leading-tight" +
                   (selected ? " text-zinc-800" : " text-slate-500")
                 }
               >
@@ -61,7 +61,7 @@ function PendingTabs() {
             >
               <div
                 class={
-                  "text-center text-sm font-normal font-['Rubik'] leading-tight" +
+                  "text-center text-sm font-normal font-rubik leading-tight" +
                   (selected ? " text-zinc-800" : " text-slate-500")
                 }
               >
@@ -80,7 +80,7 @@ function PendingTabs() {
             >
               <div
                 class={
-                  "text-center text-sm font-normal font-['Rubik'] leading-tight" +
+                  "text-center text-sm font-normal font-rubik leading-tight" +
                   (selected ? " text-zinc-800" : " text-slate-500")
                 }
               >
@@ -100,7 +100,7 @@ function PendingTabs() {
             >
               <div
                 class={
-                  "text-center text-sm font-normal font-['Rubik'] leading-tight" +
+                  "text-center text-sm font-normal font-rubik leading-tight" +
                   (selected ? " text-zinc-800" : " text-slate-500")
                 }
               >

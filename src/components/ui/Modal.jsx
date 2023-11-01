@@ -23,7 +23,7 @@ function Modal({ title, content, image, show, onClose, cancel, onConfirm }) {
         <div className="h-[300px] p-5 flex-col justify-start items-start gap-5 flex">
           <div className="flex-col justify-start items-center gap-5 flex">
             <div className="w-[400px] justify-between items-center inline-flex">
-              <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">
+              <div className="text-zinc-800 text-lg font-semibold font-rubik">
                 {title}
               </div>
             </div>
@@ -34,7 +34,7 @@ function Modal({ title, content, image, show, onClose, cancel, onConfirm }) {
                 </div>
               </div>
             </div>
-            <div class="w-[400px] text-center text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">{content}</div>
+            <div class="w-[400px] text-center text-slate-500 text-sm font-normal font-rubik leading-tight">{content}</div>
           </div>
         </div>
         <div className="pl-[38px] pr-[39px] py-5 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex">
@@ -43,7 +43,7 @@ function Modal({ title, content, image, show, onClose, cancel, onConfirm }) {
               className="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex"
               onClick={handleClose}
             >
-              <div className="text-center text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+              <div className="text-center text-zinc-800 text-base font-normal font-rubik leading-tight">
                 Cancel
               </div>
             </div>
@@ -51,7 +51,7 @@ function Modal({ title, content, image, show, onClose, cancel, onConfirm }) {
               className="w-[168px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[10px] justify-center items-center gap-2.5 flex"
               onClick={handleConfirm}
             >
-              <div className="text-center text-white text-base font-normal font-['Rubik'] leading-tight" >
+              <div className="text-center text-white text-base font-normal font-rubik leading-tight" >
                 Confirm
               </div>
             </div>

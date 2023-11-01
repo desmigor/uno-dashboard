@@ -10,7 +10,7 @@ export default function NoPendingEmpty() {
                     <img src={EmptyPackage} alt="" />
             </div>
         </div>
-        <div class="text-center text-gray-300 text-sm font-normal font-['Rubik'] leading-tight">Package details will be displayed here</div>
+        <div class="text-center text-gray-300 text-sm font-normal font-rubik leading-tight">Package details will be displayed here</div>
     </div>
 </div>
   );

@@ -9,7 +9,7 @@ export default function NoOrderResoultion() {
             <img src={EmptyResolution} alt="" />
           </div>
         </div>
-        <div class="text-center text-gray-300 text-sm font-normal font-['Rubik'] leading-tight">
+        <div class="text-center text-gray-300 text-sm font-normal font-rubik leading-tight">
           Package details will be displayed here
         </div>
       </div>

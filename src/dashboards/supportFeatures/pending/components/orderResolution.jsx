@@ -1,6 +1,5 @@
 import { React, useState } from "react";
 import ReturnIcon from "../../../../assets/images/dashboard/icon/refresh-2.svg";
-import ReturnRedIcon from "../../../../assets/images/dashboard/icon/refresh-2-red.svg";
 import reassignIcon from "../../../../assets/images/dashboard/icon/arrow-swap-horizontal.svg";
 import closeIcon from "../../../../assets/images/dashboard/icon/close-square.svg";
 import Modal from "../../../../components/ui/Modal";
@@ -17,10 +16,11 @@ export default function OrderResolution() {
   const [showToast, setShowToast] = useState(false);
 
   const handleShowToast = () => {
+    console.log("handleShowToast");
     setShowToast(true);
 
-    // Optional: Clear the toast after a certain duration
     setTimeout(() => {
+      console.log("handleShowToast setTimeout");
       setShowToast(false);
     }, 30);
   };
@@ -53,9 +53,9 @@ export default function OrderResolution() {
         onConfirm={handleModalConfirm}
       />
 
-      <Modal
+      <ReassignModal
         show={showReassignModal}
-        onClose={() => setshowCancelModal(false)}
+        onClose={() => setshowReassignModal(false)}
         title="Package Return"
         image={CancelIconModal}
         content="After confirmation, this package will immediately be canceled. This action can’t be revoked."
@@ -69,21 +69,21 @@ export default function OrderResolution() {
         onClose={() => setShowToast(false)}
       />
 
-      <div class="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight ">
+      <div class="text-zinc-800 text-base font-semibold font-rubik leading-tight ">
         Order Resolution
       </div>
 
       <div class="w-[690px]  p-4 bg-white rounded-xl shadow border border-gray-100 flex-col justify-center items-start gap-3 flex">
         <div class="self-stretch flex-col justify-start items-start gap-[5px] inline-flex">
-          <div class="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+          <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
             Cancellation reason
           </div>
-          <div class="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">
+          <div class="text-zinc-800 text-sm font-normal font-rubik leading-tight">
             The courier had an accident on the way
           </div>
         </div>
         <div class="self-stretch flex-col justify-start items-start gap-[7px] inline-flex">
-          <div class="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+          <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
             Select a resolution
           </div>
           <div class="justify-start items-start gap-3.5 inline-flex">
@@ -93,29 +93,24 @@ export default function OrderResolution() {
                   <div class="w-7 h-7 relative">
                     <img
                       src={ReturnIcon}
-                      onMouseOver={(e) => {
-                        e.currentTarget.src = ReturnRedIcon;
-                      }}
-                      onMouseOut={(e) => {
-                        e.currentTarget.src = ReturnIcon;
-                      }}
+                      
                     />
                   </div>
                 </div>
-                <div class="text-zinc-800 group-hover:text-red-800 text-sm font-normal font-['Rubik'] leading-tight">
+                <div class="text-zinc-800 group-hover:text-red-800 text-sm font-normal font-rubik leading-tight">
                   Return package
                 </div>
               </div>
             </button>
 
-            <button className="group" onClick={setshowReassignModal(true)}>
+            <button className="group" onClick={() => setshowReassignModal(true)}>
               <div class="h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100 justify-start items-center gap-1.5 flex group group-hover:border-red-800">
                 <div class="w-7 h-7 justify-center items-center flex">
                   <div class="w-7 h-7 relative">
                     <img src={reassignIcon} alt="" />
                   </div>
                 </div>
-                <div class="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight group-hover:text-red-800">
+                <div class="text-zinc-800 text-sm font-normal font-rubik leading-tight group-hover:text-red-800">
                   Reassign package
                 </div>
               </div>
@@ -127,7 +122,7 @@ export default function OrderResolution() {
                     <img src={closeIcon} alt="" />
                   </div>
                 </div>
-                <div class="text-zinc-800 text-sm font-normal group-hover:text-red-800  font-['Rubik'] leading-tight">
+                <div class="text-zinc-800 text-sm font-normal group-hover:text-red-800  font-rubik leading-tight">
                   Cancel package
                 </div>
               </div>
