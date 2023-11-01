@@ -9,7 +9,7 @@ import NoOrderResoultion from "./ui/OrderNoResolution";
 function Pending() {
   return (
     <div className="bg-[#F8F9FA] h-screen pb-28 w-full overflow-auto">
-      <div className="w-full mt-[20px] mx-auto flex flex-row gap-0">
+      <div className="w-full  mx-auto flex flex-row gap-0">
         {/* Left Column */}
         <div className="w-[60%] min-h-[325px] content-center">
           <div className="p-4 w-full h-[125px] pl-[41px] pr-5 pt-0 pb-0 bg-white border-b border-gray-100 flex-col justify-end items-start gap-[18px] inline-flex">
@@ -56,7 +56,7 @@ function Pending() {
         </div>
         {/* Right Column */}
         <div className="flex flex-col md:flex-row justify-center items-center">
-          <div class="h-[100%] px-10  pb-2 bg-white border-l border-gray-100 flex-col justify-center items-center inline-flex">
+          <div class="h-[100%] px-10  pb-2 bg-white border-l border-gray-100 flex-col justify-center items-center inline-flex pt-5">
             <div class="self-stretch justify-center items-center gap-1 inline-flex"></div>
             <div class="self-stretch flex-col justify-start items-start gap-6 inline-flex">
               <div>
