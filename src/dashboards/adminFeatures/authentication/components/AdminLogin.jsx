@@ -6,13 +6,17 @@ import PasswordV from "../../../../components/ui/PasswordVisible.jsx";
 import PasswordH from "../../../../components/ui/PasswordHidden.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import AppContext from "../../../../context";
+import { useDispatch, useSelector } from "react-redux";
+import { handleLoginAction } from "../../../../redux/actions/authAction";
 
 function Login() {
-
+  const { loading, error, isPassword } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const { setLoggedIn, setIsAdmin } = useContext(AppContext);
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -22,10 +26,12 @@ function Login() {
     setPassword(e.target.value);
   };
 
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  }
+
   const handleLogin = () => {
-    setLoggedIn('admin');
-    setIsAdmin(true);
-    navigate('/admin/dashboard');
+    dispatch(handleLoginAction(username, password, 'admin', navigate));
   }
 
   return (
@@ -47,18 +53,21 @@ function Login() {
             </p>
           </div>
           {/* Input Fields */}
-          <form className="grid place-content-center ">
+          <div className="grid place-content-center ">
             <div class="w-[372px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
               <div class="text-slate-500 text-sm font-normal font-rubik leading-tight">
                 Email
               </div>
               <input
                 type="email"
+                value={username}
+                onChange={handleUsernameChange}
                 id="email"
                 name="email"
                 className="self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex"
                 placeholder="Your email"
               />
+              {!isPassword && <div className="text-red-700 text-xs font-normal font-rubik leading-none">{error}</div> }
             </div>
 
             <div class="w-[372px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex my-5">
@@ -83,6 +92,7 @@ function Login() {
                   {showPassword ? <PasswordH /> : <PasswordV />}
                 </button>
               </div>
+              {isPassword && <div className="text-red-700 text-xs font-normal font-rubik leading-none">{error}</div> }
             </div>
 
             {/* Sign In Button */}
@@ -94,7 +104,7 @@ function Login() {
                 Sign In
               </div>
             </button>
-          </form>
+          </div>
           {/* Footer */}
           <div class="w-[373px] h-4 justify-start items-center gap-6 inline-flex mt-[180px]">
             <div class="text-gray-400 text-xs font-normal font-rubik leading-none">

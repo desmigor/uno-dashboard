@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import SupportLogin from './dashboards/supportFeatures/authentication/components/Login';
 import Login from './dashboards/adminFeatures/authentication/components/AdminLogin';
 import ResetPassword from './dashboards/supportFeatures/authentication/components/ResetPassword';
@@ -11,12 +11,22 @@ import Layout from './routes/private/layout';
 import Dashboard from './dashboards/supportFeatures/dashboard/components';
 import AdminDashboard from './dashboards/adminFeatures/dashboard';
 import AppContext from './context';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const { type, userToken } = useSelector((state) => state.auth);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loggedIn, setLoggedIn] = useState('not-logged-in');
-  console.log(loggedIn);
+
+  useEffect(() => {
+    getLoggedIn();
+  }, [type]);
+
+  const getLoggedIn = () => {
+    type === 'admin' ? setLoggedIn('admin') : type === 'support' ? setLoggedIn('support') : setLoggedIn('not-logged-in');
+  }
+
   return (
     <AppContext.Provider value={{ isAdmin, setIsAdmin, loggedIn, setLoggedIn}}>
       <Router>

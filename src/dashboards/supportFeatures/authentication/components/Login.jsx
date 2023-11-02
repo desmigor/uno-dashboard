@@ -5,25 +5,31 @@ import PasswordH from "../../../../components/ui/PasswordHidden.jsx";
 import AuthenticationLeftSection from "./AuthenticationLeftSection";
 import { Link, useNavigate } from "react-router-dom";
 import AppContext from "../../../../context";
+import { useDispatch, useSelector } from "react-redux";
+import { handleLoginAction } from "../../../../redux/actions/authAction";
 
 function Login() {
+  const { loading, error, isPassword } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
-  const { setIsAdmin, setLoggedIn } = useContext(AppContext);
   const [password, setPassword] = useState("");
-  const navigate = useNavigate('');
+  const [username, setUsername] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  }
   
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
   
   const handleLogin = () => {
-    setIsAdmin(false);
-    setLoggedIn('support');
-    navigate('/support/dashboard');
+    dispatch(handleLoginAction(username, password, 'support', navigate));
   }
 
   return (
@@ -55,18 +61,21 @@ function Login() {
               </div>
               <input
                 type="email"
+                value={username}
+                onChange={handleUsernameChange}
                 id="email"
                 name="email"
                 className="self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex"
                 placeholder="Your email"
               />
+              {!isPassword && <div className="text-red-700 text-xs font-normal font-rubik leading-none">{error}</div> }
             </div>
 
-            <div class="w-[372px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex my-5">
-              <div class="text-slate-500 text-sm font-normal font-rubik leading-tight">
+            <div class={`w-[372px] ${!isPassword ? error?.length === 0 ? 'mt-0' : 'mt-3' : 'mt-0'} h-[74px] flex-col justify-start items-start gap-1.5 inline-flex`}>
+              <div class="text-slate-500 text-sm font-normal font-rubik leading-tight mt-4">
                 Password
               </div>
-              <div className="relative">
+              <div className="relative justify-start">
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
@@ -84,6 +93,7 @@ function Login() {
                   {showPassword ? <PasswordH /> : <PasswordV />}
                 </button>
               </div>
+              {isPassword && <div className="text-red-700 text-xs font-normal font-rubik leading-none">{error}</div> }
             </div>
             <Link to={"/reset"}>
               <div class="text-red-800 text-xs font-normal font-rubik leading-noned ml-60">
