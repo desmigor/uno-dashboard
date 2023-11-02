@@ -15,7 +15,7 @@ export const handleLoginAction = (username, password, type, navigate) => async (
         }
 
         dispatch(login(reduxPayload));
-        navigate('/admin/dashboard');
+        navigate(type === 'admin' ? '/admin/dashboard' : '/support/dashboard');
     } catch (error) {
         console.log(error);
         const payload = {
