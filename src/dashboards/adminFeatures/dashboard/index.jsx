@@ -14,6 +14,8 @@ import ArrowLeft from '../../../assets/images/dashboard/icon/arrow-left.svg';
 import { topCouriers } from '../../../data';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -46,13 +48,14 @@ const options = {
 };
 
 function AdminDashboard() {
-
+    const { userInfo } = useSelector((state) => state.auth);
     useEffect(() => {
 
     }, []);
+
   return (
     <div className='bg-[#F8F9FA] h-screen w-full pb-20 px-10 p-6 overflow-auto'>
-        <NameComponent name='Micheal' date={'Today, 02 March 2023'} />
+        <NameComponent name={userInfo?.full_name?.split(" ")[0]} date={`Today, ${moment().format("DD MMMM YYYY")}`} />
         <div className='w-full mx-auto mt-[24px] gap-5 flex flex-row'>
             <Dashcard icon={Money} number={'90,434'} percentage={'16'} text={'Total Revenue'} iconBgColor={'bg-[#F4E7E7]'} />
             <Dashcard icon={Millage} number={'230,032'} percentage={'16'} text={'Total Milleage'} iconBgColor={'bg-[#cce8f6]'} />

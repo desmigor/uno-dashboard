@@ -3,10 +3,14 @@ import SearchIcon from '../../assets/images/dashboard/icon/search-normal.svg'
 import Notification from '../../assets/images/dashboard/icon/notification.svg';
 import NotificationModal from './NotificationModal';
 import LogoutModel from './LogoutModel';
+import { useSelector } from 'react-redux';
+import PlaceHolderImage from '../../assets/images/dashboard/image/image.png';
 
 function Navbar() {
   const [notification, setNotification] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
+  const { userInfo } = useSelector((state) => state.auth);
+
   return (
     <div className='w-full h-[62px] px-10 py-3 bg-white border-b border-gray-100 items-start gap-[539px] flex justify-between rela'>
         <div className='flex flex-row'>
@@ -24,7 +28,7 @@ function Navbar() {
               setLogoutModal(!logoutModal)
               setNotification(false);
             }} className='w-9 h-9 bg-gray-100 rounded-full cursor-pointer flex items-center justify-center'> 
-              <img src='https://images.unsplash.com/photo-1480429370139-e0132c086e2a?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWFufGVufDB8fDB8fHww' alt='NOTIFICATIONSVG' className='w-9 h-9 rounded-full object-cover' />
+              <img src={userInfo?.profile_photo_link ? userInfo?.profile_photo_link : PlaceHolderImage }  alt='NOTIFICATIONSVG' className='w-9 h-9 rounded-full object-cover' />
             </div>
         </div>
 
