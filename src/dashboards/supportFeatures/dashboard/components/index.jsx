@@ -11,19 +11,24 @@ import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { fetchPendingAction } from "../../../../redux/actions/fetchPendingAction";
 import { fetchTotalsAction } from "../../../../redux/actions/fetchTotalsAction";
+import {fetchPackagesAction} from "../../../../redux/actions/fetchPackagesAction";
 
 function Dashboard() {
   const { userInfo } = useSelector((state) => state.auth);
   const { resolutionPackages } = useSelector((state) => state.fetchPending);
   const { totals } = useSelector((state) => state.fetchTotals);
+  const { packages } = useSelector((state) => state.fetchPackages);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchTotalsAction());
     dispatch(fetchPendingAction());
+    dispatch(fetchPackagesAction());
   }, []);
 
-  console.log(totals);
+  console.log(packages);
+  console.log(resolutionPackages);
+
 
   return (
     <div className="bg-[#F8F9FA] h-screen w-full pb-20 px-10 p-6 overflow-auto">
@@ -34,33 +39,33 @@ function Dashboard() {
       <div className="w-full mx-auto mt-[24px] gap-5 flex flex-row">
         <Dashcard
           icon={Profile}
-          number={totals.total_couriers.total_count}
-          percentage={totals.total_couriers.total_rate.toFixed(3)}
-          down={totals.total_couriers.percentage < 0 ? true : false}
+          number={totals?.total_couriers?.total_count}
+          percentage={totals?.total_couriers?.total_rate.toFixed(3)}
+          down={totals?.total_couriers?.percentage < 0 ? true : false}
           text={"Total Couriers"}
           iconBgColor={"bg-[#F4E7E7]"}
         />
         <Dashcard
           icon={People}
-          number={totals.total_customers.total_count}
-          percentage={totals.total_customers.total_rate.toFixed(3)}
-          down={totals.total_customers.percentage < 0 ? true : false}
+          number={totals?.total_customers?.total_count}
+          percentage={totals?.total_customers?.total_rate.toFixed(3)}
+          down={totals?.total_customers?.percentage < 0 ? true : false}
           text={"Total Customers"}
           iconBgColor={"bg-[#e1f1e6]"}
         />
         <Dashcard
           icon={BoxDashboard}
-          number={totals.total_orders.total_count}
-          percentage={totals.total_orders.total_rate.toFixed(3)}
-          down={totals.total_orders.percentage < 0 ? true : false}
+          number={totals?.total_orders?.total_count}
+          percentage={totals?.total_orders?.total_rate.toFixed(3)}
+          down={totals?.total_orders?.percentage < 0 ? true : false}
           text={"Total Orders"}
           iconBgColor={"bg-[#cbe8f6]"}
         />
         <Dashcard
           icon={TickCircle}
-          number={totals.delivered_packages.total_count}
-          percentage={totals.delivered_packages.total_rate.toFixed(3)}
-          down={totals.delivered_packages.percentage < 0 ? true : false}
+          number={totals?.delivered_packages?.total_count}
+          percentage={totals?.delivered_packages?.total_rate.toFixed(3)}
+          down={totals?.delivered_packages?.percentage < 0 ? true : false}
           text={"Delivered Packages"}
           iconBgColor={"bg-[#fee6da]"}
         />

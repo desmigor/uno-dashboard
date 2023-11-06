@@ -13,8 +13,6 @@ import { Link } from 'react-router-dom';
 
 
 function TableCard({ type, name, data }) {
-    console.log('data')
-    console.log(data)
   return (
     <div className='w-[49.2%]  0 p-6 bg-white rounded-lg '>
         <div className='flex flex-row justify-between items-center'>
@@ -26,7 +24,7 @@ function TableCard({ type, name, data }) {
                     <h1 className={`${data?.length > 0 ? 'text-red-800' : 'text-gray-400'} text-xs font-normal font-rubik leading-none`}
                     
                     >Show All</h1> 
-                    <img src={data.length > 0 ? ArrowLeft : ArrowLeftGray} className='w-[13px] h-[13px]' />
+                    <img src={data?.length > 0 ? ArrowLeft : ArrowLeftGray} className='w-[13px] h-[13px]' />
                 </Link>
             }
         </div>
@@ -86,7 +84,7 @@ function TableCard({ type, name, data }) {
             </div>
             : type === 'ongoing' ?
             <div class={`relative overflow-x-auto ${data?.length > 0 ? 'shadow-sm' : ''}  sm:rounded-lg`}>
-                {data.length === 0 ?
+                {data?.length === 0 ?
                     <div className='flex flex-col items-center justify-center mt-[54px] gap-3'>
                         <img src={Truck} alt='ALTICON' className='w-[100px] h-[100px]' />
                         <div className="text-center text-gray-300 text-sm font-normal font-rubik leading-tight">There are no ongoing packages</div> 
@@ -111,19 +109,19 @@ function TableCard({ type, name, data }) {
                     </thead>
                     <tbody>
                         {
-                            data.map((item, idx) => <tr key={idx} class="bg-white border-b hover:bg-gray-50">
+                            data?.map((item, idx) => <tr key={idx} class="bg-white border-b hover:bg-gray-50">
                                 <th class="px-6 py-4">
-                                    <span className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.tracking}</span> 
+                                    <span className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.sr_number}</span> 
                                 </th>
                                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex flex-col gap-1">
                                 <div className='flex flex-row items-center gap-2'>
                                     <img className="w-[34px] h-[34px] rounded-[100px] object-cover" src={Person} /> 
-                                    <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.courier}</div> 
+                                    <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.courier.full_name}</div> 
                                 </div>
                                 </th>
                                 <td class="px-6 py-4">
-                                    <div className={`min-w-[106px] h-[19px] px-3 py-1.5 ${item.status === 'ongoing' ? 'bg-yellow-50' : 'bg-gray-100'} rounded justify-start items-center gap-2.5 inline-flex`}>
-                                        <span className={`${item.status === 'ongoing' ? 'text-amber-500' : 'text-slate-500'} text-xs font-normal font-rubik leading-none`}>{item.status === 'ongoing' ? 'Ongoing delivery' : 'Waiting delivery'}</span> 
+                                    <div className={`min-w-[106px] h-[19px] px-3 py-1.5 ${item.status === 2 ? 'bg-yellow-50' : 'bg-gray-100'} rounded justify-start items-center gap-2.5 inline-flex`}>
+                                        <span className={`${item.package_status === 2 ? 'text-amber-500' : 'text-slate-500'} text-xs font-normal font-rubik leading-none`}>{item.status === 'ongoing' ? 'Ongoing delivery' : 'Waiting delivery'}</span> 
                                     </div>
                                 </td>
                                 <td class="py-4">
