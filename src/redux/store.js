@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from './slices/authSlice'
-import pendingReducer from './slices/fetchPendingSlice'
-import totalsReducer from './slices/fetchTotalsSlice'
-import packagesReducer from './slices/fetchPackagesSlice'
+import pendingReducer from './slices/packageresolutionsSlice'
+import totalsReducer from './slices/dashboardTotalsSlice'
+import packagesReducer from './slices/packagesSlice'
+import couriersReducer from './slices/couriersSlice'
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
@@ -20,6 +21,7 @@ export const store = configureStore({
         fetchPending: pendingReducer,
         fetchTotals: totalsReducer,
         fetchPackages: packagesReducer,
+        fetchCouriers: couriersReducer,
     },
     middleware: [thunk]
 });

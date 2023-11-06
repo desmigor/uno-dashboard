@@ -1,5 +1,5 @@
 import callAPI from "../../utils/api";
-import { fetchPending, fetchPendingSuccess } from "../slices/fetchPendingSlice";
+import { fetchPending, fetchPendingSuccess } from "../slices/packageresolutionsSlice";
 
 export const fetchPendingAction = () => async (dispatch, getState) => {
   console.log("fetchPendingAction");

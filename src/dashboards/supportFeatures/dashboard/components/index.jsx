@@ -12,18 +12,21 @@ import moment from "moment";
 import { fetchPendingAction } from "../../../../redux/actions/fetchPendingAction";
 import { fetchTotalsAction } from "../../../../redux/actions/fetchTotalsAction";
 import {fetchPackagesAction} from "../../../../redux/actions/fetchPackagesAction";
+import { fetchCouriersAction } from "../../../../redux/actions/fetchCouriersAction";
 
 function Dashboard() {
   const { userInfo } = useSelector((state) => state.auth);
   const { resolutionPackages } = useSelector((state) => state.fetchPending);
   const { totals } = useSelector((state) => state.fetchTotals);
   const { packages } = useSelector((state) => state.fetchPackages);
+  const { couriers } = useSelector((state) => state.fetchCouriers);
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchTotalsAction());
     dispatch(fetchPendingAction());
     dispatch(fetchPackagesAction());
+    dispatch(fetchCouriersAction());
   }, []);
 
   console.log(packages);

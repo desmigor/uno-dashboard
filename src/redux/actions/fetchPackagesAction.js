@@ -1,5 +1,5 @@
 import callAPI from "../../utils/api";
-import { fetchPackages, fetchPackagesSuccess } from "../slices/fetchPackagesSlice";
+import { fetchPackages, fetchPackagesSuccess } from "../slices/packagesSlice";
 
 export const fetchPackagesAction = () => async (dispatch, getState) => {
   console.log("fetchPackagesAction");

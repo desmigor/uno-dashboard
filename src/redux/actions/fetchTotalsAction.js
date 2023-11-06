@@ -1,5 +1,5 @@
 import callAPI from "../../utils/api";
-import { fetchTotals, fetchTotalsSuccess } from "../slices/fetchTotalsSlice";
+import { fetchTotals, fetchTotalsSuccess } from "../slices/dashboardTotalsSlice";
 
 export const fetchTotalsAction = () => async (dispatch, getState) => {
   try {
