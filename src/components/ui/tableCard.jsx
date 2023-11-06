@@ -8,24 +8,32 @@ import Cube from '../../assets/images/dashboard/icon/cube.png'
 import MapImage from '../../assets/images/dashboard/image/map.png'
 import Truck from '../../assets/images/dashboard/icon/truck-fast.svg'
 import UserSearch from '../../assets/images/dashboard/icon/user-search.svg'
+import { Link } from 'react-router-dom';
+
+
 
 function TableCard({ type, name, data }) {
+    console.log('data')
+    console.log(data)
   return (
-    <div className='w-[49.2%] min-h-[325px] p-6 bg-white rounded-lg'>
+    <div className='w-[49.2%]  0 p-6 bg-white rounded-lg '>
         <div className='flex flex-row justify-between items-center'>
             <h1 className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}>{name}</h1>
             {
                 type === 'map' ? null : 
-                <button className='w-[73px] flex flex-row gap-[12px]'>
-                    <h1 className={`${data?.length > 0 ? 'text-red-800' : 'text-gray-400'} text-xs font-normal font-rubik leading-none`}>Show All</h1> 
+                <Link to={'/support/dashboard/pending/'} className='w-[73px] flex flex-row gap-[12px]' 
+                >
+                    <h1 className={`${data?.length > 0 ? 'text-red-800' : 'text-gray-400'} text-xs font-normal font-rubik leading-none`}
+                    
+                    >Show All</h1> 
                     <img src={data.length > 0 ? ArrowLeft : ArrowLeftGray} className='w-[13px] h-[13px]' />
-                </button>
+                </Link>
             }
         </div>
-        <div className='mt-[17px]'>
+        <div className='mt-[17px] h-[400px] overflow-auto'>
             {
                 type === 'pending' ?
-            <div class={`relative overflow-x-auto ${data.length > 0 ? 'shadow-sm' : ''}  sm:rounded-lg`}>
+            <div class={`relative  ${data.length > 0 ? 'shadow-sm' : ''}  sm:rounded-lg`}>
                     {data.length === 0 ?
                     <div className='flex flex-col items-center justify-center mt-[54px] gap-3'>
                         <img src={Cube} alt='ALTICON' className='w-[100px] h-[100px]' />
@@ -33,7 +41,7 @@ function TableCard({ type, name, data }) {
                     </div>
                         :
                     <table class="w-full text-sm text-left text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 border border-gray-100 ">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 border border-gray-100 position-sticky top-0">
                         <tr>
                             <th scope="col" class="px-6 py-3">
                                 <span className="text-slate-500 text-xs font-normal font-rubik leading-none">Time</span> 
@@ -49,18 +57,20 @@ function TableCard({ type, name, data }) {
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {data?.map((item, idx) => <tr key={idx} class="bg-white border-b hover:bg-gray-50">
+                    <tbody >
+                        {
+                            data.length>0?
+                        data?.map((item, idx) => <tr key={idx} class="bg-white border-b hover:bg-gray-50">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex flex-col gap-1">
-                                <span className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.date}</span>
+                                <span className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.updated_at}</span>
                                 <span className="text-gray-400 text-xs font-normal font-rubik leading-none">{item.time}</span>
                             </th>
                             <td class="px-6 py-4">
-                                <span className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.tracking}</span> 
+                                <span className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.id}</span> 
                             </td>
                             <td class="px-6 py-4">
                                 <div className='flex flex-row gap-[6px]'>
-                                    <span className="text-red-800 text-sm font-normal font-rubik underline">{item.courier}</span> 
+                                    <span className="text-red-800 text-sm font-normal font-rubik underline">{item.package.courier.full_name}</span> 
                                     <img src={Export} alt='SVGEXPORT' className='' />
                                 </div>
                             </td>
@@ -69,7 +79,8 @@ function TableCard({ type, name, data }) {
                                     <span className="text-center text-red-800 group-hover:text-white text-sm font-normal font-rubik leading-tight">View</span>
                                 </button> 
                             </td>
-                        </tr>)}
+                        </tr>) :null
+                        }
                     </tbody>
                     </table>}
             </div>

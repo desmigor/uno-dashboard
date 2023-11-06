@@ -44,7 +44,7 @@ function App() {
           loggedIn === 'support' ? 
             <Route path='/support/dashboard/' element={<Layout />} >
               <Route index element={<Dashboard />} />
-              <Route path='/support/dashboard/pending' element={<Pending />} />
+              <Route path='/support/dashboard/pending/:id' element={<Pending />} />
               <Route path='/support/dashboard/package' element={<Packages />} />
               <Route path='/support/dashboard/package/new' element={<CreatePackages />} />
               <Route path='/support/dashboard/courier' element={<Couriers />} />

@@ -25,7 +25,7 @@ const callAPI = async (endpoint, method, isAuthenticated = true, data = null) =>
             }
 
             config.headers = {
-                Authorization: token,
+                Authorization: `Bearer ${token}`,
             };
         }
 
