@@ -50,18 +50,18 @@ export default function PendingPackage({
         </div>
         <div class="left-[420px] top-[56px] absolute flex-col justify-start items-end gap-0.5 inline-flex">
           <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
-            {time.split("T")[0]}
+            {time?.split("T")[0]}
           </div>
           <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
-            {time.split("T")[1].split(".")[0]}
+            {time?.split("T")[1].split(".")[0]}
           </div>
         </div>
         <div class="left-[420px] top-[129px] absolute flex-col justify-start items-end gap-0.5 inline-flex">
           <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
-            {time.split("T")[0]}
+            {time?.split("T")[0]}
           </div>
           <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
-            {time.split("T")[1].split(".")[0]}
+            {time?.split("T")[1].split(".")[0]}
           </div>
         </div>
         <div class="w-[428px] left-[54px] top-[16px] absolute justify-between items-center inline-flex">

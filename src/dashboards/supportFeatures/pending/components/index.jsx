@@ -71,7 +71,7 @@ function Pending() {
                   tracking_id={item.id}
                   pickup_point={item.package.pickup_open_address}
                   delivery_point={item.package.drop_open_address}
-                  time={item.updated_at}
+                  time={item.package.delivery_date}
                   onClick={() => {
                     console.log(item.id);
                     setSelectedItem(item);
@@ -175,14 +175,14 @@ function Pending() {
                 <div class="text-zinc-800 text-base font-semibold font-rubik leading-tight mt-4">
                   Order Details
                 </div>
-                <PendingTabs
-                item={selectedItem}
-                 />
+                <PendingTabs item={selectedItem} />
               </div>
             </div>
-            <OrderResolution
-              item={selectedItem}
-            />
+            {selectedItem == null ? (
+              <NoOrderResoultion />
+            ) : (
+              <OrderResolution item={selectedItem} />
+            )}
           </div>
         </div>
       </div>

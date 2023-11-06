@@ -9,7 +9,8 @@ import LocationPointContent from "./LocationPointTabContent";
 import CourierTabContent from "./CourierTabContent";
 import NoOrderDetails from "./ui/NoOrderDetails";
 
-function PendingTabs(item) {
+function PendingTabs({ item }) {
+  console.log("item", item);
   return (
     <Tab.Group manual>
       <Tab.List className="w-[100%] h-12 p-1.5 bg-neutral-100 rounded-[10px] border border-gray-100 justify-between items-center inline-flex">
@@ -112,42 +113,71 @@ function PendingTabs(item) {
       </Tab.List>
       <Tab.Panels className="w-[100%]">
         <Tab.Panel>
-          <PendingPackageContent
-            image={boxImage}
-            prop1={{ title: "size", value: "medium" }}
-            prop2={{ title: "Package Add-ons", value: "Fragile" }}
-            prop3={{ title: "Payment Method", value: "Credit Card" }}
-            prop4={{ title: "Amount", value: "$20.09" }}
-          />
+          {item ? (
+            <PendingPackageContent
+              image={boxImage}
+              prop1={{ title: "size", value: "medium" }}
+              prop2={{
+                title: "Package Add-ons",
+                value: item.package.frangible ? "Frangible" : "Non-Frangible",
+              }}
+              prop3={{ title: "Payment Method", value: "Credit Card" }}
+              prop4={{ title: "Amount", value: item.package.total_cost }}
+            />
+          ) : (
+            <NoOrderDetails />
+          )}
         </Tab.Panel>
         <Tab.Panel>
-          <CustomerTabContent
-            image={profile}
-            prop1={{ title: "Name", value: "Joel Matakanson" }}
-            prop2={{ title: "Email", value: "joelmatak123@gmail.com" }}
-            prop3={{ title: "Phone", value: "(234) 567-8901" }}
-            prop4={{ title: "Location", value: "Ghana, Accra" }}
-          />
+          {item ? (
+            <CustomerTabContent
+              image={profile}
+              prop1={{
+                title: "Name",
+                value: item.package?.customer?.full_name,
+              }}
+              prop2={{ title: "Email", value: "joelmatak123@gmail.com" }}
+              prop3={{ title: "Phone", value: "(234) 567-8901" }}
+              prop4={{ title: "Location", value: "Ghana, Accra" }}
+            />
+          ) : (
+            <NoOrderDetails />
+          )}
         </Tab.Panel>
         <Tab.Panel>
-          <LocationPointContent
-            image={map}
-            prop1={{ title: "Name", value: "Mike Jeremy" }}
-            prop2={{ title: "Pickup comment", value: "Wait near the entrance. There’s a guy who will handle to you the package"}}
-            prop3={{ title: "Phone", value: "(234) 567-8901" }}
-          />
+          {item ? (
+            <LocationPointContent
+              image={map}
+              prop1={{ title: "Name", value: "Mike Jeremy" }}
+              prop2={{
+                title: "Pickup comment",
+                value:
+                  "Wait near the entrance. There’s a guy who will handle to you the package",
+              }}
+              prop3={{ title: "Phone", value: "(234) 567-8901" }}
+            />
+          ) : (
+            <NoOrderDetails />
+          )}
         </Tab.Panel>
         <Tab.Panel>
-        <LocationPointContent
-            image={map}
-            prop1={{ title: "Name", value: "Mike Jeremy" }}
-            prop2={{ title: "Delicery Note", value: "Wait near the entrance. There’s a guy who will handle to you the package"}}
-            prop3={{ title: "Phone", value: "(234) 567-8901" }}
-          />
+          {item ? (
+            <LocationPointContent
+              image={map}
+              prop1={{ title: "Name", value: "Mike Jeremy" }}
+              prop2={{
+                title: "Delicery Note",
+                value:
+                  "Wait near the entrance. There’s a guy who will handle to you the package",
+              }}
+              prop3={{ title: "Phone", value: "(234) 567-8901" }}
+            />
+          ) : (
+            <NoOrderDetails />
+          )}
         </Tab.Panel>
         <Tab.Panel>
-          <CourierTabContent 
-          />
+          {item ? <CourierTabContent /> : <NoOrderDetails />}
         </Tab.Panel>
       </Tab.Panels>
     </Tab.Group>
