@@ -9,7 +9,7 @@ import LocationPointContent from "./LocationPointTabContent";
 import CourierTabContent from "./CourierTabContent";
 import NoOrderDetails from "./ui/NoOrderDetails";
 
-function PendingTabs() {
+function PendingTabs(item) {
   return (
     <Tab.Group manual>
       <Tab.List className="w-[100%] h-12 p-1.5 bg-neutral-100 rounded-[10px] border border-gray-100 justify-between items-center inline-flex">

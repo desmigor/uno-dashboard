@@ -9,7 +9,7 @@ import ReturnIconModal from "../../../../assets/images/dashboard/icon/refresh-ci
 import CancelIconModal from "../../../../assets/images/dashboard/icon/close-circle.svg";
 import SuccessToast from "../../../../components/ui/SuccessToast";
 
-export default function OrderResolution() {
+export default function OrderResolution({item}) {
   const [showReturnModal, setshowReturnModal] = useState(false);
   const [showCancelModal, setshowCancelModal] = useState(false);
   const [showReassignModal, setshowReassignModal] = useState(false);
@@ -80,7 +80,7 @@ export default function OrderResolution() {
             Cancellation reason
           </div>
           <div class="text-zinc-800 text-sm font-normal font-rubik leading-tight">
-            The courier had an accident on the way
+            {item.title}
           </div>
         </div>
         <div class="self-stretch flex-col justify-start items-start gap-[7px] inline-flex">

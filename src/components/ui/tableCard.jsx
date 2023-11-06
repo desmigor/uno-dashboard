@@ -2,7 +2,7 @@ import React from "react";
 import ArrowLeft from "../../assets/images/dashboard/icon/arrow-left.svg";
 import ArrowLeftGray from "../../assets/images/dashboard/icon/arrow-left-gray.svg";
 import Export from "../../assets/images/dashboard/icon/export.svg";
-import Person from "../../assets/images/dashboard/image/profilep.jpg";
+import Person from "../../assets/images/dashboard/image/icon.png";
 import Ghana from "../../assets/images/dashboard/image/ghana.png";
 import Cube from "../../assets/images/dashboard/icon/cube.png";
 import MapImage from "../../assets/images/dashboard/image/map.png";
@@ -185,7 +185,11 @@ function TableCard({ type, name, data }) {
                             <div className="flex flex-row items-center gap-2">
                               <img
                                 className="w-[34px] h-[34px] rounded-[100px] object-cover"
-                                src={Person}
+                                src={
+                                    item.courier.profile_photo_link ?
+                                    item.courier.profile_photo_link :
+                                    Person
+                                }
                               />
                               <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
                                 {item.courier.full_name}
@@ -279,7 +283,11 @@ function TableCard({ type, name, data }) {
                             <div className="flex flex-row items-center gap-2">
                               <img
                                 className="w-[34px] h-[34px] rounded-[100px] object-cover"
-                                src={Person}
+                                src={
+                                    item.profile_photo_link ?
+                                    item.profile_photo_link :
+                                    Person
+                                }
                               />
                               <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
                                 {item.full_name}.

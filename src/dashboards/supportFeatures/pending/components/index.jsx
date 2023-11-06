@@ -1,12 +1,28 @@
-import { React } from "react";
+import { React, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import OrderResolution from "./orderResolution";
 import PendingPackage from "./pendingPackage";
 import MapImage from "../../../../assets/images/dashboard/image/map.png";
 import PendingTabs from "./Tabs";
+import { fetchPendingAction } from "../../../../redux/actions/fetchPendingAction";
+
 import NoPendingEmpty from "./ui/NoPendingEmpty";
 import NoOrderResoultion from "./ui/OrderNoResolution";
 
 function Pending() {
+  const { resolutionPackages } = useSelector((state) => state.fetchPending);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchPendingAction());
+  }, []);
+  console.log(resolutionPackages);
+
+  // define selectedIndex state
+  const [selectedItem, setSelectedItem] = useState(
+    resolutionPackages?.length > 0 ? resolutionPackages[0] : null
+  );
+
   return (
     <div className="bg-[#F8F9FA] h-screen w-full overflow-hidden">
       <div className="w-full h-[100%] mx-auto flex flex-row gap-0">
@@ -47,13 +63,24 @@ function Pending() {
             </div>
           </div>
           <div className="flex flex-col h-screen pb-64 items-center overflow-auto">
-            <PendingPackage />
-            <PendingPackage />
-            <PendingPackage />
-            <PendingPackage />
-            <PendingPackage />
-            <PendingPackage />
-            <PendingPackage />
+            {/* loop through resolutionPackages */}
+            {resolutionPackages?.length > 0 ? (
+              resolutionPackages?.map((item) => (
+                <PendingPackage
+                  selected={selectedItem === item ? true : false}
+                  tracking_id={item.id}
+                  pickup_point={item.package.pickup_open_address}
+                  delivery_point={item.package.drop_open_address}
+                  time={item.updated_at}
+                  onClick={() => {
+                    console.log(item.id);
+                    setSelectedItem(item);
+                  }}
+                />
+              ))
+            ) : (
+              <NoPendingEmpty />
+            )}
           </div>
         </div>
         {/* Right Column */}
@@ -148,11 +175,14 @@ function Pending() {
                 <div class="text-zinc-800 text-base font-semibold font-rubik leading-tight mt-4">
                   Order Details
                 </div>
-                <PendingTabs />
+                <PendingTabs
+                item={selectedItem}
+                 />
               </div>
             </div>
-            <OrderResolution />
-            
+            <OrderResolution
+              item={selectedItem}
+            />
           </div>
         </div>
       </div>
