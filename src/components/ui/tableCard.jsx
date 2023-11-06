@@ -21,7 +21,7 @@ function TableCard({ type, name, data }) {
             <h1 className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}>{name}</h1>
             {
                 type === 'map' ? null : 
-                <Link to={'/support/dashboard/pending/'} className='w-[73px] flex flex-row gap-[12px]' 
+                <Link to={'/support/dashboard/pending'} className='w-[73px] flex flex-row gap-[12px]' 
                 >
                     <h1 className={`${data?.length > 0 ? 'text-red-800' : 'text-gray-400'} text-xs font-normal font-rubik leading-none`}
                     
