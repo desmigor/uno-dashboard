@@ -5,7 +5,7 @@ export const fetchPendingAction = () => async (dispatch, getState) => {
   console.log("fetchPendingAction");
   try {
     const result = await callAPI(
-      "/api/resolution/packages/?all=true&status=all",
+      "/api/resolution/packages/?all=true&status=1",
       "GET",
       true
     );

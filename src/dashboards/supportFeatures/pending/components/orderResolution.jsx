@@ -80,7 +80,7 @@ export default function OrderResolution({item}) {
             Cancellation reason
           </div>
           <div class="text-zinc-800 text-sm font-normal font-rubik leading-tight">
-            {item.title}
+            {item.subject}
           </div>
         </div>
         <div class="self-stretch flex-col justify-start items-start gap-[7px] inline-flex">

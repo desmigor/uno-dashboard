@@ -90,7 +90,8 @@ function TableCard({ type, name, data }) {
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white flex flex-col gap-1"
                           >
                             <span className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
-                              {item.updated_at}
+                              {item.updated_at.split("T")[0]}{" "}
+                              {item.updated_at.split("T")[1].split(".")[0]}
                             </span>
                             <span className="text-gray-400 text-xs font-normal font-rubik leading-none">
                               {item.time}
@@ -186,9 +187,9 @@ function TableCard({ type, name, data }) {
                               <img
                                 className="w-[34px] h-[34px] rounded-[100px] object-cover"
                                 src={
-                                    item.courier.profile_photo_link ?
-                                    item.courier.profile_photo_link :
-                                    Person
+                                  item.courier.profile_photo_link
+                                    ? item.courier.profile_photo_link
+                                    : Person
                                 }
                               />
                               <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
@@ -206,14 +207,34 @@ function TableCard({ type, name, data }) {
                             >
                               <span
                                 className={`${
-                                  item.package_status === 2
+                                  item.package_status === 1
                                     ? "text-amber-500"
-                                    : "text-slate-500"
+                                    : item.package_status === 2
+                                    ? "text-yellow-500"
+                                    : item.package_status === 3
+                                    ? "text-blue-500"
+                                    : item.package_status === 4
+                                    ? "text-green-500"
+                                    : item.package_status === 5
+                                    ? "text-green-500"
+                                    : item.package_status === 6
+                                    ? "text-red-500"
+                                    : "text-red-500"
                                 } text-xs font-normal font-rubik leading-none`}
                               >
-                                {item.status === "ongoing"
-                                  ? "Ongoing delivery"
-                                  : "Waiting delivery"}
+                                {item.package_status === 1
+                                  ? "Pending courier assignment"
+                                  : item.package_status === 2
+                                  ? "Pending pickup"
+                                  : item.package_status === 3
+                                  ? "On the way for pickUp"
+                                  : item.package_status === 4
+                                  ? "On it's way"
+                                  : item.package_status === 5
+                                  ? "Delivered"
+                                  : item.package_status === 6
+                                  ? "Cancelled"
+                                  : "Unknwon"}
                               </span>
                             </div>
                           </td>
@@ -284,9 +305,9 @@ function TableCard({ type, name, data }) {
                               <img
                                 className="w-[34px] h-[34px] rounded-[100px] object-cover"
                                 src={
-                                    item.profile_photo_link ?
-                                    item.profile_photo_link :
-                                    Person
+                                  item.profile_photo_link
+                                    ? item.profile_photo_link
+                                    : Person
                                 }
                               />
                               <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">

@@ -116,12 +116,30 @@ function PendingTabs({ item }) {
           {item ? (
             <PendingPackageContent
               image={boxImage}
-              prop1={{ title: "size", value: "medium" }}
+              prop1={{
+                title: "size",
+                value:
+                  item.package.relative_size == 1
+                    ? "Small"
+                    : item.package.relative_size == 2
+                    ? "Medium"
+                    : "Large",
+              }}
               prop2={{
                 title: "Package Add-ons",
                 value: item.package.frangible ? "Frangible" : "Non-Frangible",
               }}
-              prop3={{ title: "Payment Method", value: "Credit Card" }}
+              prop3={{
+                title: "Payment Method",
+                value:
+                  item.package.payment_type == 1
+                    ? "Cash on pickup"
+                    : item.package.payment_type == 2
+                    ? "Cash on delivery"
+                    : item.package.payment_type == 3
+                    ? "Momo Pay"
+                    : "Unknown",
+              }}
               prop4={{ title: "Amount", value: item.package.total_cost }}
             />
           ) : (
@@ -148,13 +166,13 @@ function PendingTabs({ item }) {
           {item ? (
             <LocationPointContent
               image={map}
-              prop1={{ title: "Name", value: "Mike Jeremy" }}
+              prop1={{ title: "Name", value: item.package.pickup_contact_person }}
               prop2={{
                 title: "Pickup comment",
                 value:
                   "Wait near the entrance. There’s a guy who will handle to you the package",
               }}
-              prop3={{ title: "Phone", value: "(234) 567-8901" }}
+              prop3={{ title: "Phone", value: item.package.pickup_contact_phone }}
             />
           ) : (
             <NoOrderDetails />
@@ -164,13 +182,13 @@ function PendingTabs({ item }) {
           {item ? (
             <LocationPointContent
               image={map}
-              prop1={{ title: "Name", value: "Mike Jeremy" }}
+              prop1={{ title: "Name", value: item.package.drop_contact_person }}
               prop2={{
-                title: "Delicery Note",
+                title: "Delivery Note",
                 value:
                   "Wait near the entrance. There’s a guy who will handle to you the package",
               }}
-              prop3={{ title: "Phone", value: "(234) 567-8901" }}
+              prop3={{ title: "Phone", value: item.package.drop_contact_phone}}
             />
           ) : (
             <NoOrderDetails />
