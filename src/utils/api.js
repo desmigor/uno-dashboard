@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { store } from "../redux/store";
 
-export const API_URL = 'http://uno.dev.smart-maple.com';
+export const API_URL = 'https://uno.dev.smart-maple.com';
 
 const getAuthToken = () => {
     const { userToken } = store.getState().auth;
