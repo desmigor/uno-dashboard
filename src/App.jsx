@@ -13,6 +13,8 @@ import AdminDashboard from './dashboards/adminFeatures/dashboard';
 import AppContext from './context';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import CreatePackages from './dashboards/supportFeatures/packages/components/CreatePackages';
+import ChooseAddress from './dashboards/supportFeatures/packages/components/ChooseAddress';
 
 function App() {
   const { type, userToken } = useSelector((state) => state.auth);
@@ -44,17 +46,22 @@ function App() {
               <Route index element={<Dashboard />} />
               <Route path='/support/dashboard/pending' element={<Pending />} />
               <Route path='/support/dashboard/package' element={<Packages />} />
+              <Route path='/support/dashboard/package/new' element={<CreatePackages />} />
               <Route path='/support/dashboard/courier' element={<Couriers />} />
               <Route path='/support/dashboard/settings' element={<Settings />} />
             </Route>
           :
-            <Route path='/admin/dashboard' element={<Layout />} >
-              <Route index element={<AdminDashboard />} />
-              <Route path='/admin/dashboard/pending' element={<Pending />} />
-              <Route path='/admin/dashboard/package' element={<Packages />} />
-              <Route path='/admin/dashboard/courier' element={<Couriers />} />
-              <Route path='/admin/dashboard/settings' element={<Settings />} />
-            </Route>
+            <>
+              <Route path='/admin/dashboard' element={<Layout />} >
+                <Route index element={<AdminDashboard />} />
+                <Route path='/admin/dashboard/pending' element={<Pending />} />
+                <Route path='/admin/dashboard/package' element={<Packages />} />
+                <Route path='/admin/dashboard/package/new' element={<CreatePackages />} />
+                <Route path='/admin/dashboard/courier' element={<Couriers />} />
+                <Route path='/admin/dashboard/settings' element={<Settings />} />
+              </Route>
+              <Route path='/admin/dashboard/package/choose-address' element={<ChooseAddress />} />
+            </>
           }
         </Routes>
       </Router>

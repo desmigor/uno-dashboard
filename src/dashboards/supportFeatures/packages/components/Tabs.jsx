@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react'
 import { Tab } from '@headlessui/react'
 
-function Tabs() {
+function Tabs({ setTable }) {
   return (
     <Tab.Group manual>
         <Tab.List className="w-[412px] h-12 p-1.5 bg-neutral-100 rounded-[10px] border border-gray-100 justify-start items-center gap-2.5 inline-flex">
             <Tab as={Fragment}>
             {({ selected }) => (
                 <div
+                onClick={() => setTable('ongoing')}
                 class={
                     "w-[124px] h-9 px-4 py-2 rounded-md justify-start items-center gap-2.5 inline-flex  cursor-pointer" +
                     (selected ? " bg-white shadow" : "")
@@ -31,6 +32,7 @@ function Tabs() {
             <Tab as={Fragment}>
             {({ selected }) => (
                 <div
+                onClick={() => setTable('completed')}
                 class={
                     "w-[124px] h-9 px-4 py-2 rounded-md justify-start items-center gap-2.5 inline-flex  cursor-pointer" +
                     (selected ? " bg-white shadow " : "")
@@ -53,6 +55,7 @@ function Tabs() {
             <Tab as={Fragment}>
             {({ selected }) => (
                 <div
+                onClick={() => setTable('canceled')}
                 class={
                     "w-[124px] h-9 px-4 py-2 rounded-md justify-start items-center gap-2.5 inline-flex  cursor-pointer" +
                     (selected ? " bg-white shadow" : "")
