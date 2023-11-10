@@ -1,16 +1,21 @@
 import callAPI from "../../utils/api";
-import { fetchTotals, fetchTotalsSuccess } from "../slices/dashboardTotalsSlice";
+import {
+  fetchTotals,
+  fetchTotalsSuccess,
+} from "../slices/dashboardTotalsSlice";
 
-export const fetchTotalsAction = () => async (dispatch, getState) => {
-  try {
-    const result = await callAPI(
-      "/api/support/total-data",
-      "GET",
-      true
-    );
-    dispatch(fetchTotals());
-    dispatch(fetchTotalsSuccess(result));
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const fetchTotalsAction =
+  (admin = false) =>
+  async (dispatch, getState) => {
+    try {
+      const result = await callAPI(
+        admin ? "/api/admin/total-data" : "/api/support/total-data",
+        "GET",
+        true
+      );
+      dispatch(fetchTotals());
+      dispatch(fetchTotalsSuccess(result));
+    } catch (error) {
+      console.log(error);
+    }
+  };

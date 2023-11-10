@@ -14,8 +14,11 @@ import ArrowLeft from '../../../assets/images/dashboard/icon/arrow-left.svg';
 import { topCouriers } from '../../../data';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import moment from 'moment';
+import { fetchTotalsAction } from "../../../redux/actions/fetchTotalsAction";
+
+
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -49,19 +52,25 @@ const options = {
 
 function AdminDashboard() {
     const { userInfo } = useSelector((state) => state.auth);
-    useEffect(() => {
+    const { totals } = useSelector((state) => state.fetchTotals);
 
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchTotalsAction(
+            {admin:true}
+        ));
     }, []);
+    console.log(totals);
 
   return (
     <div className='bg-[#F8F9FA] h-screen w-full pb-20 px-10 p-6 overflow-auto'>
         <NameComponent name={userInfo?.full_name?.split(" ")[0]} date={`Today, ${moment().format("DD MMMM YYYY")}`} />
         <div className='w-full mx-auto mt-[24px] gap-5 flex flex-row'>
-            <Dashcard icon={Money} number={'90,434'} percentage={'16'} text={'Total Revenue'} iconBgColor={'bg-[#F4E7E7]'} />
-            <Dashcard icon={Millage} number={'230,032'} percentage={'16'} text={'Total Milleage'} iconBgColor={'bg-[#cce8f6]'} />
-            <Dashcard icon={Profile} number={'222'} percentage={'16'} text={'Total Couriers'} iconBgColor={'bg-rose-100'} />
-            <Dashcard icon={People} number={'13,239'} percentage={'16'} text={'Total Customers'} iconBgColor={'bg-green-400 bg-opacity-20'} />
-            <Dashcard icon={Box} number={'1,233'} percentage={'16'} text={'Total Orders'} iconBgColor={'bg-yellow-400 bg-opacity-20'} />
+            <Dashcard icon={Money} number={totals.total_revenue?.total_count.toFixed()} percentage={totals.total_revenue?.total_rate.toFixed(3)} text={'Total Revenue'} iconBgColor={'bg-[#F4E7E7]'} />
+            <Dashcard icon={Millage} number={totals.total_mileage?.total_count.toFixed()} percentage={totals.total_mileage?.total_rate.toFixed(3)} text={'Total Milleage'} iconBgColor={'bg-[#cce8f6]'} />
+            <Dashcard icon={Profile} number={totals.total_couriers?.total_count.toFixed()} percentage={totals.total_couriers?.total_rate.toFixed(3)} text={'Total Couriers'} iconBgColor={'bg-rose-100'} />
+            <Dashcard icon={People} number={totals.total_customers?.total_count.toFixed()} percentage={totals.total_customers?.total_rate.toFixed(3)} text={'Total Customers'} iconBgColor={'bg-green-400 bg-opacity-20'} />
+            <Dashcard icon={Box} number={totals.total_orders?.total_count.toFixed()} percentage={totals.total_orders?.total_rate.toFixed(3)} text={'Total Orders'} iconBgColor={'bg-yellow-400 bg-opacity-20'} />
         </div>
         <div className='w-full mt-[20px] mx-auto flex flex-row gap-5'>
             <ChartCard name={"Revenue Analytics"} canceled={false} completed={true} />
