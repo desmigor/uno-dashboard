@@ -4,26 +4,26 @@ const initialState = {
     loading: false,
     error: null,
     success: false,
-    couriers: [],
+    customers: [],
 }
 
-const fetchCouriersSlice = createSlice({
-    name: 'fetchCouriers',
+const fetchCustomersSlice = createSlice({
+    name: 'fetchCustomers',
     initialState: initialState,
     reducers: {
-        fetchCouriers: (state) => {
+        fetchCustomers: (state) => {
             state.loading = true;
             state.error = null;
             state.success = false;
 
         },
-        fetchCouriersSuccess: (state, { payload }) => {
+        fetchCustomersSuccess: (state, { payload }) => {
             state.loading = false;
             state.error = null;
             state.success = true;
-            state.couriers = payload.data;
+            state.customers = payload.data;
         },
-        fetchCouriersError: (state, { payload }) => {
+        fetchCustomersError: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
             state.success = false;
@@ -31,5 +31,5 @@ const fetchCouriersSlice = createSlice({
     }
 })
 
-export const { fetchCouriers, fetchCouriersSuccess, fetchCouriersError } = fetchCouriersSlice.actions;
-export default fetchCouriersSlice.reducer;
+export const { fetchCustomers, fetchCustomersSuccess, fetchCustomersError } = fetchCustomersSlice.actions;
+export default fetchCustomersSlice.reducer;

@@ -4,6 +4,7 @@ import pendingReducer from './slices/packageresolutionsSlice'
 import totalsReducer from './slices/dashboardTotalsSlice'
 import packagesReducer from './slices/packagesSlice'
 import couriersReducer from './slices/couriersSlice'
+import customerReducer from './slices/customersSlice'
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
@@ -22,6 +23,7 @@ export const store = configureStore({
         fetchTotals: totalsReducer,
         fetchPackages: packagesReducer,
         fetchCouriers: couriersReducer,
+        fetchCustomers: customerReducer,
     },
     middleware: [thunk]
 });

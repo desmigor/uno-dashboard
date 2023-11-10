@@ -5,7 +5,6 @@ import People from "../../../../assets/images/dashboard/icon/people.svg";
 import BoxDashboard from "../../../../assets/images/dashboard/icon/Dashboardbox.svg";
 import TickCircle from "../../../../assets/images/dashboard/icon/tick-circle.svg";
 import TableCard from "../../../../components/ui/tableCard";
-import { couriers, packages, pending } from "../../../../data";
 import NameComponent from "../../../../components/ui/NameComponent";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";

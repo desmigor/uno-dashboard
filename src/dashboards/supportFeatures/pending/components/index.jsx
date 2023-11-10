@@ -24,6 +24,7 @@ function Pending() {
   );
 
   return (
+    console.log(typeof(resolutionPackages)),
     <div className="bg-[#F8F9FA] h-screen w-full overflow-hidden">
       <div className="w-full h-[100%] mx-auto flex flex-row gap-0">
         {/* Left Column */}
