@@ -37,7 +37,7 @@ function App() {
           <Route>
             <Route path='/support' element={<SupportLogin />} />
             <Route path='/reset' element={<ResetPassword />} />
-            <Route path='/change-password' element={<ChangePassword />} />
+            <Route path='/forgot-password/:uid64/:token' element={<ChangePassword />} />
             <Route path='/admin' element={<Login />} />
           </Route>
           :
