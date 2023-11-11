@@ -177,7 +177,7 @@ function ChangePassword() {
               </div>
 
               <Link
-                to={'/'}
+                to={'/support'}
                 className="w-[348px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex mt-6"
                 onClick={() => setIsSuccessModalVisible(false)}
               >

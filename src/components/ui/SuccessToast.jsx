@@ -12,7 +12,7 @@ function SuccessToast({ text, show, onClose }) {
       const timeout = setTimeout(() => {
         setIsVisible(false);
         onClose();
-      }, 30);
+      }, 5000);
 
       // Clear the timeout if the component unmounts before the timeout completes
       return () => clearTimeout(timeout);
