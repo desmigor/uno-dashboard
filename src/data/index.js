@@ -23,6 +23,18 @@ export const pending = [
         tracking: "TK-3242",
         courier: "Peter Makarona",
     },
+    {
+        date: "17-04-2022",
+        time: "09:32",
+        tracking: "TK-0023",
+        courier: "Mike Jeremy",
+    },
+    {
+        date: "17-04-2022",
+        time: "09:32",
+        tracking: "TK-0023",
+        courier: "Mike Jeremy",
+    },
 ]
 
 export const couriers = [
@@ -45,7 +57,17 @@ export const couriers = [
         name: "Mik Jeremy",
         courierType: "Van",
         phoneNumber: "+233 4823-321-312",
-    }
+    },
+    {
+        name: "Mik Jeremy",
+        courierType: "Van",
+        phoneNumber: "+233 4823-321-312",
+    },
+    {
+        name: "Mik Jeremy",
+        courierType: "Van",
+        phoneNumber: "+233 4823-321-312",
+    },
 ];
 export const packages = [
     {

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../../../assets/images/authentication/Logo.png";
 import AuthenticationLeftSection from "./AuthenticationLeftSection";
 import tick from "../../../../assets/images/authentication/tick-circle.png";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import callAPI from "../../../../utils/api";
 
 import PasswordV from "../../../../components/ui/PasswordVisible.jsx";
 import PasswordH from "../../../../components/ui/PasswordHidden.jsx";
@@ -13,6 +14,9 @@ function ChangePassword() {
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [error, setError] = useState(null);
+
+  const { uid64, token } = useParams();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -30,20 +34,46 @@ function ChangePassword() {
     setNewPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here, you can add your password change logic and, if successful, set isSuccessModalVisible to true.
-    // For this example, I'm simulating success after a short delay.
-    setIsSuccessModalVisible(true);
+    const data = {
+      uid64: uid64,
+      token: token,
+      password: password,
+      password_confirm: newPassword,
+    };
+    console.log(data);
+    try {
+      const response = await callAPI(
+        "/api/auth/forgot-password/completed/",
+        "POST",
+        null,
+        data
+      );
+      console.log(response);
+      if (response.code === 200) {
+        setError(null);
+        setIsSuccessModalVisible(true);
+      } else {
+        setError(response.message);
+      }
+    } catch (err) {
+      console.log(err);
+      setError(err.response.data.message);
+    }
   };
 
   return (
     <div className="bg-blue h-[100vh] p-8 rounded-md shadow-lg">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 h-[100%] place-content-center">
         {/* Left Column */}
-        <AuthenticationLeftSection title="Welcome to UNO Support System to help our customers." subtitle=" Effortlessly manage deliveries and couriers with our secure
+        <AuthenticationLeftSection
+          title="Welcome to UNO Support System to help our customers."
+          subtitle=" Effortlessly manage deliveries and couriers with our secure
               support system and help clients resolve issues with their
-              packages." image='bgimage' />
+              packages."
+          image="bgimage"
+        />
 
         {/* Right Column */}
         <div className="bg-white rounded-md items-center text-center ">
@@ -82,7 +112,7 @@ function ChangePassword() {
 
             <div className="w-[372px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
               <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
-                New Password
+                Comfirm Password
               </div>
               <div className="relative w-full">
                 <input
@@ -103,7 +133,11 @@ function ChangePassword() {
                 </button>
               </div>
             </div>
-            {/* Sign In Button */}
+            {error != null && (
+              <div className="text-red-700 text-xs font-normal font-rubik leading-none pt-2">
+                {error}
+              </div>
+            )}
             <button
               type="submit"
               className="w-[372px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex my-10"
@@ -177,7 +211,7 @@ function ChangePassword() {
               </div>
 
               <Link
-                to={'/'}
+                to={"/support"}
                 className="w-[348px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex mt-6"
                 onClick={() => setIsSuccessModalVisible(false)}
               >
