@@ -96,7 +96,7 @@ function Login() {
               {isPassword && <div className="text-red-700 text-xs font-normal font-rubik leading-none">{error}</div> }
             </div>
             <Link to={"/reset"}>
-              <div class="text-red-800 text-xs font-normal font-rubik leading-noned ml-60">
+              <div class="text-red-800 text-xs font-normal font-rubik leading-noned ml-60 mt-8">
                 Forgot Password?
               </div>
             </Link>
