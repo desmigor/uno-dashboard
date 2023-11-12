@@ -22,7 +22,7 @@ import AppContext from '../../context';
 import { useSelector } from 'react-redux';
 
 function Sidebar() {
-    const { type } = useSelector((state) => state.auth);
+    const { userInfo } = useSelector((state) => state.auth);
     const [selected, setSelcted] = useState('Dashboard');
 
     const sidebarLinksSupport = [
@@ -99,18 +99,18 @@ function Sidebar() {
         
     ]
 
-    const sidebarLinks = type === 'admin' ? adminSidelinks : sidebarLinksSupport
+    const sidebarLinks = userInfo?.type?.id === 3 ? adminSidelinks : sidebarLinksSupport
 
   return (
-    <div className={`w-[228px] h-screen ${type === 'admin' ? 'bg-[#23292E]' : 'bg-white' } relative flex flex-col items-center overflow-hidden`}>
+    <div className={`w-[228px] h-screen ${userInfo?.type?.id === 3 ? 'bg-[#23292E]' : 'bg-white' } relative flex flex-col items-center overflow-hidden`}>
         <img src={UnoIcon} alt='UNOSVG' className='w-10 h-10 mt-5 mx-auto' />
         <div className='mt-[30px] w-full flex flex-col items-center gap-[8px] justify-center'>
             {
                 sidebarLinks.map((item, idx) => {
                     return(
-                        <Link onClick={() => setSelcted(item.name)} to={item.path} className={`cursor-pointer group ${type !== 'admin' && selected === item.name && 'bg-rose-100'}  w-[196px] h-[54px] px-4 py-[17px] ${type === 'admin' ? 'hover:bg-[#3F4449]' : 'hover:bg-[#F2f2f2]'} ${selected === item.name && 'bg-rose-100' } rounded-xl ${selected === item.name && type === 'admin' ? 'bg-gradient-to-br from-red-900 to-red-700' : type !== 'admin' && 'border-0 border-red-900'}  gap-[16px] flex flex-row items-center`}>
+                        <Link onClick={() => setSelcted(item.name)} to={item.path} className={`cursor-pointer group ${userInfo?.type?.id !== 3 && selected === item.name && 'bg-rose-100'}  w-[196px] h-[54px] px-4 py-[17px] ${userInfo?.type?.id === 3 ? 'hover:bg-[#3F4449]' : 'hover:bg-[#F2f2f2]'} ${selected === item.name && 'bg-rose-100' } rounded-xl ${selected === item.name && userInfo?.type?.id === 3 ? 'bg-gradient-to-br from-red-900 to-red-700' : userInfo?.type?.id !== 3 && 'border-0 border-red-900'}  gap-[16px] flex flex-row items-center`}>
                             <img src={selected === item.name ? item.activeIcon : item.inactiveIcon} className='w-5 h-5' alt='DASHSVG' />
-                            <span className={`${selected === item.name ? type === 'admin' ? 'text-white' : 'text-red-800' : 'text-gray-400'} text-base font-normal font-rubik leading-tight`}>{item.name}</span>
+                            <span className={`${selected === item.name ? userInfo?.type?.id === 3 ? 'text-white' : 'text-red-800' : 'text-gray-400'} text-base font-normal font-rubik leading-tight`}>{item.name}</span>
                         </Link>
                     )
                 })

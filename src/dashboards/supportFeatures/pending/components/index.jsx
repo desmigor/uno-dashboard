@@ -6,9 +6,20 @@ import PendingPackage from "./pendingPackage";
 import MapImage from "../../../../assets/images/dashboard/image/map.png";
 import PendingTabs from "./Tabs";
 import { fetchPendingAction } from "../../../../redux/actions/fetchPendingAction";
-
 import NoPendingEmpty from "./ui/NoPendingEmpty";
 import NoOrderResoultion from "./ui/OrderNoResolution";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+
+const mapContainerStyle = {
+  width: '100%',
+  height: '100%',
+};
+const center = {
+  lat: 5.614818, // default latitude
+  lng: -0.205874, // default longitude
+};
+
+const libraries = ['places'];
 
 function Pending() {
   const { resolutionPackages } = useSelector((state) => state.fetchPending);
@@ -16,12 +27,17 @@ function Pending() {
   useEffect(() => {
     dispatch(fetchPendingAction());
   }, []);
-  console.log(resolutionPackages);
+
 
   // define selectedIndex state
   const [selectedItem, setSelectedItem] = useState(
     resolutionPackages?.length > 0 ? resolutionPackages[0] : null
   );
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+    libraries,
+  });
 
   return (
     console.log(typeof(resolutionPackages)),
@@ -101,10 +117,21 @@ function Pending() {
               </span>
             </div>
             <div class="w-[100%] h-[307px] relative rounded-xl">
-              <img
-                class="w-[100%] h-[339px] left-0 top-[-8px] absolute rounded-xl"
-                src={MapImage}
-              />
+              {loadError && <div>Error loading maps</div>}
+            {!isLoaded ? <div>Loading maps</div> :
+                <GoogleMap
+                  mapContainerStyle={mapContainerStyle}
+                  zoom={10}
+                  center={center}
+                  options={{
+                    zoomControl: false,
+                    mapTypeControl: false,
+                    fullscreenControl: false,
+                    streetViewControl: false,
+                  }}
+                >
+                </GoogleMap>
+              }
 
               <div class="p-3 left-[95px] top-[233px] absolute bg-white rounded-[10px] shadow flex-col justify-start items-start gap-2.5 inline-flex">
                 <div class="justify-start items-start gap-10 inline-flex">

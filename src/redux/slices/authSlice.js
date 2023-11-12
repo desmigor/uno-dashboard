@@ -7,7 +7,8 @@ const initialState = {
     error: null,
     isPassword: false,
     type: null,
-    success: false
+    success: false,
+    refreshToken: null,
 }
 
 const authSlice = createSlice({
@@ -16,6 +17,7 @@ const authSlice = createSlice({
     reducers: {
         logout: (state) => {
             state.userToken = null;
+            state.refreshToken = null;
             state.userInfo = {};
             state.success = false;
             state.type = null;
@@ -26,8 +28,12 @@ const authSlice = createSlice({
             state.error = null;
             state.isPassword = false;
             state.type = payload.type
-            state.userInfo = { full_name: payload.ac.data.full_name, email: payload.ac.data.email, profile_photo_link: payload.ac.data.profile_photo_link }
+            state.userInfo = { full_name: payload.ac.data.full_name, email: payload.ac.data.email, profile_photo_link: payload.ac.data.profile_photo_link, type: { id: 2 } };
+            state.refreshToken = payload.ac.data.refresh;
             state.userToken = payload.ac.data.access;
+        },
+        update_token: (state, { payload }) => {
+            state.userToken = payload;
         },
         errorLogin: (state, { payload }) => {
             state.error = payload.message;
@@ -39,5 +45,5 @@ const authSlice = createSlice({
 
 })
 
-export const { logout, login, errorLogin } = authSlice.actions;
+export const { logout, login, errorLogin, update_token } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,5 +1,5 @@
 import callAPI from "../../utils/api";
-import { fetchCouriers, fetchCouriersSuccess } from "../slices/couriersSlice";
+import { fetchCouriers, fetchCouriersLocations, fetchCouriersSuccess } from "../slices/couriersSlice";
 
 export const fetchCouriersAction =
   (top = false) =>
@@ -16,3 +16,13 @@ export const fetchCouriersAction =
       console.log(error);
     }
   };
+
+
+export const fetchCouriersLocationsAction = () => async (dispatch, getState) => {
+  try {
+    const results = await callAPI('/api/courier/available-location/', 'GET', true);
+    dispatch(fetchCouriersLocations(results));
+  } catch (error) {
+    
+  }
+}
