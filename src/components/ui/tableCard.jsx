@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ArrowLeft from "../../assets/images/dashboard/icon/arrow-left.svg";
 import ArrowLeftGray from "../../assets/images/dashboard/icon/arrow-left-gray.svg";
 import Export from "../../assets/images/dashboard/icon/export.svg";
@@ -9,7 +9,7 @@ import MapImage from "../../assets/images/dashboard/image/map.png";
 import Truck from "../../assets/images/dashboard/icon/truck-fast.svg";
 import UserSearch from "../../assets/images/dashboard/icon/user-search.svg";
 import { Link } from "react-router-dom";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, InfoWindow, InfoWindowF, Marker, useLoadScript } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
 import LocationPin from '../../assets/images/dashboard/icon/location-pin.svg';
 
@@ -26,7 +26,9 @@ const libraries = ['places'];
 
 function TableCard({ type, name, data }) {
   const { locations } = useSelector((state) => state.fetchCouriers);
+  const [selectedMarker, setSelectedMarker] = useState(null)
 
+  console.log(selectedMarker);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
     libraries,
@@ -367,7 +369,7 @@ function TableCard({ type, name, data }) {
                 <GoogleMap
                   mapContainerStyle={mapContainerStyle}
                   zoom={2}
-                  center={locations?.length > 0 ? { lat: locations[0]?.latitude, longitude: locations[0]?.longitude } : center}
+                  center={locations?.length > 0 ? new google.maps.LatLng(locations[0]?.latitude,locations[0]?.longitude) : center}
                   options={{
                     zoomControl: false,
                     mapTypeControl: false,
@@ -376,8 +378,27 @@ function TableCard({ type, name, data }) {
                   }}
                 >
                   {
-                    locations?.map((item, idx) => <Marker icon={LocationPin} position={{ lat: item.latitude, lng: item.longitude }}  />)
+                    locations?.map((item, idx) => <Marker key={idx} onClick={() => setSelectedMarker(item)} icon={LocationPin} position={{ lat: item.latitude, lng: item.longitude }}  />)
                   }
+                  {selectedMarker && (
+                    <InfoWindowF
+                      position={{ lat: selectedMarker?.latitude, lng: selectedMarker?.longitude }}
+                      onCloseClick={() => {
+                        setSelectedMarker(null);
+                      }}
+                    >
+                       <div className="w-[156px] h-12 px-2 py-1.5 bg-white rounded-md shadow justify-start items-center gap-2.5 inline-flex"> 
+                          <img className="w-9 h-9" src={selectedMarker?.profile_photo_link} />
+                          <div className="w-[154px] h-9 flex-col justify-start items-start gap-1 inline-flex">
+                            <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Name</div>
+                            <div className="w-[100px] justify-start items gap-1.5 inline-flex">
+                              <div className="text-red-800 text-xs font-normal font-['Rubik'] underline leading-none">{selectedMarker?.full_name}</div>
+                              <img src={Export} alt="SVGEXPORT" className="" />
+                            </div>
+                          </div> 
+                        </div>
+                    </InfoWindowF>
+                  )}
                 </GoogleMap>
               }
           </div>
