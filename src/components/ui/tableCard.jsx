@@ -9,8 +9,29 @@ import MapImage from "../../assets/images/dashboard/image/map.png";
 import Truck from "../../assets/images/dashboard/icon/truck-fast.svg";
 import UserSearch from "../../assets/images/dashboard/icon/user-search.svg";
 import { Link } from "react-router-dom";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { useSelector } from "react-redux";
+import LocationPin from '../../assets/images/dashboard/icon/location-pin.svg';
+
+const mapContainerStyle = {
+  width: '100%',
+  height: '100%',
+};
+const center = {
+  lat: 5.614818, // default latitude
+  lng: -0.205874, // default longitude
+};
+
+const libraries = ['places'];
 
 function TableCard({ type, name, data }) {
+  const { locations } = useSelector((state) => state.fetchCouriers);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+    libraries,
+  });
+
   return (
     <div className="w-[49.2%]  0 p-6 bg-white rounded-lg ">
       <div className="flex flex-row justify-between items-center">
@@ -38,7 +59,7 @@ function TableCard({ type, name, data }) {
           </Link>
         )}
       </div>
-      <div className="mt-[17px] h-[400px] overflow-auto">
+      <div className="mt-[17px] w-full h-[400px] overflow-auto">
         {type === "pending" ? (
           <div
             class={`relative  ${
@@ -340,8 +361,25 @@ function TableCard({ type, name, data }) {
             )}
           </div>
         ) : (
-          <div class="relative overflow-x-auto shadow-sm sm:rounded-lg">
-            <img src={MapImage} className="w-full h-[320px] object-cover" />
+          <div class="relative w-full h-full overflow-x-auto shadow-sm sm:rounded-lg">
+            {loadError && <div>Error loading maps</div>}
+            {!isLoaded ? <div>Loading maps</div> :
+                <GoogleMap
+                  mapContainerStyle={mapContainerStyle}
+                  zoom={2}
+                  center={locations?.length > 0 ? { lat: locations[0]?.latitude, longitude: locations[0]?.longitude } : center}
+                  options={{
+                    zoomControl: false,
+                    mapTypeControl: false,
+                    fullscreenControl: false,
+                    streetViewControl: false,
+                  }}
+                >
+                  {
+                    locations?.map((item, idx) => <Marker icon={LocationPin} position={{ lat: item.latitude, lng: item.longitude }}  />)
+                  }
+                </GoogleMap>
+              }
           </div>
         )}
       </div>

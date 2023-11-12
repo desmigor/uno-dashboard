@@ -8,6 +8,7 @@ import Export from '../../../../assets/images/dashboard/icon/export.svg';
 import ArrowSquare2 from '../../../../assets/images/dashboard/icon/arrow-square-down2.svg';
 import Map1 from '../../../../assets/images/dashboard/icon/map12.png';
 import Edit from '../../../../assets/images/dashboard/icon/edit-2.svg';
+import ArrowDownSmall from '../../../../assets/images/dashboard/icon/arrow-down-small.svg';
 import Close from '../../../../assets/images/dashboard/icon/close-circle2.svg';
 import pickup_point from "../../../../assets/images/dashboard/icon/pickup_point.svg";
 import startingPoint from "../../../../assets/images/dashboard/icon/starting_point.svg";
@@ -19,7 +20,7 @@ import { useSelector } from 'react-redux';
 function Packages() {
   const [selected, setSelected] = useState(null);
   const [table, setTable] = useState('ongoing');
-  const { type, userToken } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
 
   return (
     <div className='bg-[#F8F9FA] h-[93%] w-full px-10 py-6'>
@@ -28,7 +29,7 @@ function Packages() {
       </div>
       <div className='mt-[24px] flex flex-row justify-between items-center'>
         <Tabs setTable={setTable} />
-        <Link to={type === 'admin' ? '/admin/dashboard/package/new' : '/support/dashboard/package/new'} className='w-[183px] h-12 py-[15px] bg-red-800 flex flex-row rounded-[10px] justify-center items-center gap-2.5'>
+        <Link to={userInfo?.type?.id === 3 ? '/admin/dashboard/package/new' : '/support/dashboard/package/new'} className='w-[183px] h-12 py-[15px] bg-red-800 flex flex-row rounded-[10px] justify-center items-center gap-2.5'>
           <div className="text-center text-white text-base font-normal font-rubik leading-tight">Create Package</div> 
           <img src={AddCircle} className='w-5 h-5' />
         </Link>
@@ -227,7 +228,7 @@ function Packages() {
                         <img src={Edit} className='w-[17px] h-4' />
                       </button>
                       <button className='w-40 h-[42px] py-[15px] rounded-[10px] border border-red-700 justify-center items-center gap-2.5 flex'>
-                        <div className="text-center text-red-700 text-sm font-normal font-rubik leading-tight">Edit Package</div> 
+                        <div className="text-center text-red-700 text-sm font-normal font-rubik leading-tight">Cancel Package</div> 
                         <img src={Close} className='w-5 h-5' />
                       </button>
                     </div>
@@ -617,6 +618,19 @@ function Packages() {
         </tbody>)}
     </table>
         </div>}
+        <div className='mt-[20px] w-full flex items-center justify-between'>
+          <div className="w-[155px] h-[25px] justify-start items-center gap-2.5 inline-flex">
+            <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Rows per page</div> 
+            <div className="w-[49px] h-[25px] cursor-pointer px-[9px] bg-white rounded-[20px] border border-gray-100 justify-start items-center gap-1 flex">
+              <div className="text-center text-zinc-800 text-xs font-normal font-['Rubik'] leading-none">20</div>
+                <img src={ArrowDownSmall} className='w-3 h-3' />
+              </div>
+          </div>
+          <div className="w-[415px] h-6 justify-start items-center gap-2.5 inline-flex">
+            <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Results per page</div>   
+            
+          </div> 
+        </div>
       </div>
     </div>
   )

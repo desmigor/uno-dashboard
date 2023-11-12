@@ -9,105 +9,215 @@ import TickOutile from '../../../../assets/images/dashboard/icon/tick-square-o.s
 import TickChecked from '../../../../assets/images/dashboard/icon/tick-square.svg'
 import ArrowDown from '../../../../assets/images/dashboard/icon/arrow-down-bold.svg'
 import CheckDiscount from '../../../../assets/images/dashboard/icon/discount-shape.svg'
-import { useState } from 'react'
+import LocationIcon from '../../../../assets/images/dashboard/icon/location.svg';
+import * as Yup from 'yup';
+
+
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import axios from 'axios'
 
 export const Step1 = ({ next }) => {
+    const { userInfo } = useSelector((state) => state.auth);
+    const [data, setData] = useState({
+        pickup: {},
+        delivery: {},
+        fullNamePickup: '',
+        phonePickup: '',
+        commentPickup: '',
+        fullNameDelivery: '',
+        phoneDelivery: '',
+        commentDelivery: '',
+    });
+    const [searchTextPickup, setSearchTextPickup] = useState('');
+    const [searchTextDelivery, setSearchTextDelivery] = useState('');
+    const [pickupSearch, setPickupSearch] = useState([]);
+    const [deliverySearch, setDeliverySearch] = useState([]);
+    const [validated, setValidated] = useState(false);
+
+    useEffect(() => {
+        checkValidations()
+    }, [data])
+
+    const validationSchema = Yup.object().shape({
+        pickup: Yup.object().shape({}).required(),
+        delivery: Yup.object().shape({}).required(),
+        fullNamePickup: Yup.string().required(),
+        phonePickup: Yup.string().required(),
+        commentPickup: Yup.string().required(),
+        fullNameDelivery: Yup.string().required(),
+        phoneDelivery: Yup.string().required(),
+        commentDelivery: Yup.string().required(),
+    });
+
+    const getPlaces = (addressToSearch) => {
+        setSearchTextPickup(addressToSearch);
+        axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
+            params: {
+                address: addressToSearch,
+                key: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+            },
+        })
+        .then(response => {
+            setPickupSearch(response.data.results);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    const getPlacesDelivery = (addressToSearch) => {
+        setSearchTextDelivery(addressToSearch);
+        axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
+            params: {
+                address: addressToSearch,
+                key: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+            },
+        })
+        .then(response => {
+            setDeliverySearch(response.data.results);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    const checkValidations = async () => {
+        try {
+            await validationSchema.validate(data, { abortEarly: false });
+            // Validation passed, all data is valid
+            setValidated(true);
+          } catch (errors) {
+            // Validation failed, errors contains validation error messages
+            console.error(errors);
+            return setValidated(false);
+          }
+    }
+
+
     return (
-        <div className="w-full min-h-[891px] p-6 bg-white rounded-[10px] mt-6 flex-col justify-start items-start gap-8 inline-flex mb-24"> 
-    <div className='w-full'>   
+<div className="w-full min-h-[891px] p-6 bg-white rounded-[10px] mt-6 flex-col justify-start items-start gap-8 inline-flex mb-24"> 
+<div className='w-[80%] mx-auto'>   
      <div className="w-[295px] h-[45px] flex-col justify-start items-start gap-2 inline-flex">
          <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Addresses</div>
          <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">You can add up to 10 delivery addresses in one order.</div>
      </div>
      <div className='flex flex-row justify-between flex-wrap mt-[16px] w-full'>
-         <div className="w-[460px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+         <div className="w-[460px] h-[74px] flex-col justify-start relative items-start gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Pickup Address</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-             <input type='text' placeholder='Amasaman KG124' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
-             <Link to={'/admin/dashboard/package/choose-address'} className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
+             <input value={searchTextPickup} type='text' onChange={(e) => getPlaces(e.target.value)} placeholder='Amasaman KG124'  className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
+             <Link to={userInfo?.type?.id === 3 ? '/admin/dashboard/package/choose-address' : '/support/dashboard/package/choose-address' } className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
                  <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight ">Choose address on map</div> 
                  <img src={ArrowLeft2} className='w-4 h-4' />
-             </Link>                        
+             </Link>
+             {pickupSearch.length > 0 && <div className={`w-full min-h-[52px] p-4 bg-white rounded-xl shadow border border-zinc-200 flex-col justify-start items-end gap-4 inline-flex absolute top-[89px]`}> 
+                    {pickupSearch.map((item, idx) => <div key={idx} onClick={() => {
+                        setData({ ...data, pickup: item });
+                        setPickupSearch([]);
+                        setSearchTextPickup(item?.formatted_address);
+                    }} className={`h-[52px] w-full flex flex-row gap-[10px] items-center ${pickupSearch.length - 1 === idx ? '' : 'border-b'} pb-[17px] border-b-[#D0D4D9] cursor-pointer`}>
+                        <img src={LocationIcon} className='w-[22px] h-[22px]' />
+                        <div className="w-[296px] text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item?.formatted_address}</div>
+                    </div>)}
+                </div>}                        
          </div>
-         <div className="w-[460px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+         <div className="w-[460px] h-[74px] flex-col justify-start items-start relative gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Delivery Address</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
              <div className='flex flex-row items-center gap-3'>
-                 <input type='text' placeholder='Amasaman KG124' className="w-[406px] self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
+                 <input value={searchTextDelivery} type='text' placeholder='Amasaman KG124' onChange={(e) => getPlacesDelivery(e.target.value)} className="w-[406px] self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
                  <img src={AddCircle} className='w-8 h-8 cursor-pointer' />
              </div>
-             <Link to={'/admin/dashboard/package/choose-address'} className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
+             <Link to={userInfo?.type?.id === 3 ? '/admin/dashboard/package/choose-address' : '/support/dashboard/package/choose-address' } className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
                  <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Choose address on map</div> 
                  <img src={ArrowLeft2} className='w-4 h-4' />
              </Link>  
+             {deliverySearch.length > 0 && <div className={`w-full min-h-[52px] p-4 bg-white rounded-xl shadow border border-zinc-200 flex-col justify-start items-end gap-4 inline-flex absolute top-[89px]`}> 
+                    {deliverySearch.map((item, idx) => <div key={idx} onClick={() => {
+                        setData({ ...data, delivery: item });
+                        setDeliverySearch([]);
+                        setSearchTextDelivery(item?.formatted_address);
+                    }} className={`h-[52px] w-full flex flex-row gap-[10px] items-center ${pickupSearch.length - 1 === idx ? '' : 'border-b'} pb-[17px] border-b-[#D0D4D9] cursor-pointer`}>
+                        <img src={LocationIcon} className='w-[22px] h-[22px]' />
+                        <div className="w-[296px] text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item?.formatted_address}</div>
+                    </div>)}
+                </div>}
          </div>
      </div>
 </div>
-<div className='w-full mt-8'>
+<div className='w-[80%] mx-auto mt-8'>
      <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Pickup Details</div>
      <div className='flex flex-row justify-between mt-[16px] w-full'>
          <div className="w-[460px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Full Name</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-             <input type='text' placeholder='James Marrko' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
+             <input value={data.fullNamePickup} onChange={(e) => setData({ ...data, fullNamePickup: e.target.value })} type='text' placeholder='James Marrko' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
          </div>
          <div className="w-[460px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Phone Number</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-             <input type='text' placeholder='+233-4823-321-312' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
+             <input value={data.phonePickup} onChange={(e) => setData({ ...data, phonePickup: e.target.value })} type='text' placeholder='+233-4823-321-312' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
          </div>
      </div> 
      <div className="w-[460px] h-[113px] mt-4 flex-col justify-start items-start gap-1.5 inline-flex">
          <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Comment</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-         <textarea placeholder='Leave a comment' className="self-stretch h-[87px] px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" ></textarea> 
+         <textarea value={data.commentPickup} onChange={(e) => setData({ ...data, commentPickup: e.target.value })} placeholder='Leave a comment' className="self-stretch h-[87px] px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" ></textarea> 
      </div>
 </div>
-<div className='w-full mt-8'>
+<div className='w-[80%] mx-auto mt-8'>
      <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Delivery Details</div>
      <div className='flex flex-row justify-between mt-[16px] w-full'>
          <div className="w-[460px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Full Name</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-             <input type='text' placeholder='James Marrko' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
+             <input value={data.fullNameDelivery} onChange={(e) => setData({ ...data, fullNameDelivery: e.target.value })} type='text' placeholder='James Marrko' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
          </div>
          <div className="w-[460px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Phone Number</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-             <input type='text' placeholder='+233-4823-321-312' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
+             <input value={data.phoneDelivery} onChange={(e) => setData({ ...data, phoneDelivery: e.target.value })} type='text' placeholder='+233-4823-321-312' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
          </div>
      </div> 
      <div className="w-[460px] h-[113px] mt-4 flex-col justify-start items-start gap-1.5 inline-flex">
          <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Comment</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-         <textarea placeholder='Leave a comment' className="self-stretch h-[87px] px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" ></textarea> 
+         <textarea value={data.commentDelivery} onChange={(e) => setData({ ...data, commentDelivery: e.target.value })} placeholder='Leave a comment' className="self-stretch h-[87px] px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" ></textarea> 
      </div>
 </div>
-<button onClick={() => next(1)} className='w-[312px] h-[50px] bg-gray-100 rounded-xl justify-center items-center gap-2.5 flex flex-row'>
-    <div className="text-center text-gray-400 text-base font-normal font-['Rubik'] leading-tight">Continue</div> 
-    <img src={ArrowLeft3} className='w-4 h-4' />
-</button>
+<div className='w-[80%] mx-auto'>
+    <button disabled={!validated} onClick={() => next(1)} className={`w-[312px] h-[50px] ${validated ? 'bg-red-800' : 'bg-gray-100'} rounded-xl justify-center items-center gap-2.5 flex flex-row`}>
+        <div className={`text-center ${validated ? 'text-white' : 'text-gray-400'} text-base font-normal font-['Rubik'] leading-tight"`}>Continue</div> 
+        <img src={validated ? ArrowLeft4 : ArrowLeft3} className='w-4 h-4' />
+    </button>
+</div>
 </div>
     )
 }
 
 
 export const Step2 = ({ next }) => {
+    const [choosenMethod, setChoosenMethod] = useState(0);
+    const [size, setSize] = useState(0);
+    const [fragile, setFragile] = useState(false);
+    const [insulated, setInsulated] = useState(false);
+
     return (
         <div className="w-full min-h-[584px] p-6 bg-white rounded-[10px] mt-6 flex-col justify-start items-start gap-8 inline-flex mb-24"> 
             <div className="w-full h-[91px] flex-col justify-start items-start gap-4 inline-flex">
                 <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Payment Method</div> 
                 <div className='w-full mt-4 flex flex-row gap-3.5'>
-                    <div className="w-[198px] h-[54px] bg-white rounded-[10px] border border-gray-100 justify-center cursor-pointer items-center gap-1.5 inline-flex">
+                    <div onClick={() => setChoosenMethod(1)} className={`w-[198px] h-[54px] rounded-[10px] border ${choosenMethod === 1 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
                         <div className="w-[44px] h-[26px] relative rounded-[3px] bg-[#FFCB05] flex items-center justify-center">
                             <img className="w-8 h-[26px]" src={Mtn} />
                         </div>
                         <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">MTN Mobile Money</div>
                     </div> 
-                    <div className="w-[231px] h-[54px] bg-white rounded-[10px] border border-gray-100 justify-center cursor-pointer items-center gap-1.5 inline-flex">
+                    <div onClick={() => setChoosenMethod(2)} className={`w-[231px] h-[54px] bg-white rounded-[10px] border ${choosenMethod === 2 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
                         <div className="w-[39px] h-[26px] pl-2.5 pr-[9px] py-[3px] bg-neutral-100 rounded-[3px] justify-center items-center inline-flex">
                             <img className="w-5 h-5" src={Voda} />
                         </div>
                         <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Vodafone Mobile Money</div>
                     </div>
-                    <div className="w-[177px] h-[54px] bg-white rounded-[10px] border border-gray-100 justify-center cursor-pointer items-center gap-1.5 inline-flex">
+                    <div onClick={() => setChoosenMethod(3)} className={`w-[177px] h-[54px] bg-white rounded-[10px] border ${choosenMethod === 3 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
                         <img className="w-[34px] h-[17px]" src={Money} />
                         <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Cash on Pickup</div>
                     </div> 
-                    <div className="w-[186px] h-[54px] bg-white rounded-[10px] border border-gray-100 justify-center cursor-pointer items-center gap-1.5 inline-flex">
+                    <div onClick={() => setChoosenMethod(4)} className={`w-[186px] h-[54px] bg-white rounded-[10px] border ${choosenMethod === 4 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
                         <img className="w-[34px] h-[17px]" src={Money} />
                         <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Cash on Delivery</div>
                     </div> 
@@ -117,21 +227,21 @@ export const Step2 = ({ next }) => {
                 <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Delivery: Package 1</div> 
                 <div className="text-slate-500 text-base font-semibold font-['Rubik'] leading-tight">Package Size</div> 
                 <div className='flex flex-row gap-6'>
-                    <div className="w-[345px] h-[106px] p-5 bg-white rounded-2xl border border-zinc-200 flex-col justify-start items-start gap-2.5 inline-flex">
+                    <div onClick={() => setSize(1)} className={`w-[345px] h-[106px] p-5 ${size === 1 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
                         <div className="self-stretch h-[66px] relative">
                             <div className="w-[103.04px] left-0 top-0 absolute text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Small Package</div>
                             <div className="w-[47.40px] left-[257.60px] top-0 absolute text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$6.00</div>
                             <div className="w-[305px] left-0 top-[26px] absolute text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
                         </div>
                     </div> 
-                    <div className="w-[345px] h-[106px] p-5 rounded-2xl border border-zinc-200 flex-col justify-start items-start gap-2.5 inline-flex">
+                    <div onClick={() => setSize(2)} className={`w-[345px] h-[106px] p-5 ${size === 2 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
                         <div className="self-stretch h-[66px] relative">
                             <div className="w-[119.53px] left-0 top-0 absolute text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Medium Package</div>
                             <div className="w-[50.49px] left-[254.51px] top-0 absolute text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$11.70</div>
                             <div className="w-[305px] left-0 top-[26px] absolute text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
                         </div>
                     </div> 
-                    <div className="w-[345px] h-[106px] p-5 bg-white rounded-2xl border border-zinc-200 flex-col justify-start items-start gap-2.5 inline-flex">
+                    <div onClick={() => setSize(3)} className={`w-[345px] h-[106px] p-5 ${size === 3 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
                         <div className="self-stretch h-[66px] relative">
                             <div className="w-[104.07px] left-0 top-0 absolute text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Large Package</div>
                             <div className="w-[57.70px] left-[247.30px] top-0 absolute text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$23.00</div>
@@ -142,12 +252,12 @@ export const Step2 = ({ next }) => {
                 <div className="w-[411px] h-[88px] flex-col justify-start items-start gap-4 inline-flex">
                     <div className="text-slate-500 text-base font-semibold font-['Rubik'] leading-tight">Package Addons</div> 
                     <div className='flex flex-row gap-6'>
-                        <div className="w-[165px] h-[52px] bg-white rounded-[10px] border border-gray-100 justify-center items-center gap-1.5 inline-flex">
-                            <img src={TickOutile} />
+                        <div onClick={() => setFragile(!fragile)} className={`w-[165px] cursor-pointer h-[52px] rounded-[10px] border ${fragile ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
+                            <img src={fragile ? TickChecked : TickOutile} />
                             <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Fragile Package</div>
                         </div>
-                        <div className="w-[222px] h-[52px] bg-white rounded-[10px] border border-gray-100 justify-center items-center gap-1.5 inline-flex">
-                            <img src={TickOutile} />
+                        <div onClick={() => setInsulated(!insulated)} className={`w-[222px] cursor-pointer h-[52px] rounded-[10px] border ${insulated ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
+                            <img src={insulated ? TickChecked : TickOutile} />
                             <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Insulated food container</div>
                         </div>
                     </div> 

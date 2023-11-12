@@ -162,6 +162,12 @@ function ChooseAddress() {
                     mapContainerStyle={mapContainerStyle}
                     zoom={15}
                     center={pickup ? { lat: pickup?.geometry?.location?.lat, lng: pickup?.geometry?.location?.lng } : center}
+                    options={{
+                        zoomControl: false,
+                        mapTypeControl: false,
+                        fullscreenControl: false,
+                        streetViewControl: false,
+                    }}
                 >
                     {pickup && <InfoBox
                         position={{ lat: pickup?.geometry?.location?.lat, lng: pickup?.geometry?.location?.lng }}

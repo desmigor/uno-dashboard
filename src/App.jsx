@@ -15,54 +15,51 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import CreatePackages from './dashboards/supportFeatures/packages/components/CreatePackages';
 import ChooseAddress from './dashboards/supportFeatures/packages/components/ChooseAddress';
+import { PrivateRoute } from './utils/PrivateRouter';
+import { PublicRoute } from './utils/PublicRouter';
 
 function App() {
-  const { type, userToken } = useSelector((state) => state.auth);
+  const { type, userInfo } = useSelector((state) => state.auth);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loggedIn, setLoggedIn] = useState('not-logged-in');
 
   useEffect(() => {
-    getLoggedIn();
-  }, [type]);
+    // getLoggedIn();
+    console.log(userInfo);
+  }, []);
 
-  const getLoggedIn = () => {
-    type === 'admin' ? setLoggedIn('admin') : type === 'support' ? setLoggedIn('support') : setLoggedIn('not-logged-in');
-  }
+  // const getLoggedIn = () => {
+  //   type === 'admin' ? setLoggedIn('admin') : type === 'support' ? setLoggedIn('support') : setLoggedIn('not-logged-in');
+  // }
 
   return (
     <AppContext.Provider value={{ isAdmin, setIsAdmin, loggedIn, setLoggedIn}}>
       <Router>
         <Routes>
-          {loggedIn === 'not-logged-in' ? 
           <Route>
-            <Route path='/support' element={<SupportLogin />} />
-            <Route path='/reset' element={<ResetPassword />} />
-            <Route path='/forgot-password/:uid64/:token' element={<ChangePassword />} />
-            <Route path='/admin' element={<Login />} />
+            <Route path='/support' element={<PublicRoute><SupportLogin /></PublicRoute>} />
+            <Route path='/reset' element={<PublicRoute><ResetPassword /></PublicRoute>} />
+            <Route path='/forgot-password/:uid64/:token' element={<PublicRoute><ChangePassword /></PublicRoute>} />
+            <Route path='/admin' element={<PublicRoute><Login /></PublicRoute>} />
           </Route>
-          :
-          loggedIn === 'support' ? 
-            <Route path='/support/dashboard/' element={<Layout />} >
-              <Route index element={<Dashboard />} />
-              <Route path='/support/dashboard/pending' element={<Pending />} />
-              <Route path='/support/dashboard/package' element={<Packages />} />
-              <Route path='/support/dashboard/package/new' element={<CreatePackages />} />
-              <Route path='/support/dashboard/courier' element={<Couriers />} />
-              <Route path='/support/dashboard/settings' element={<Settings />} />
-            </Route>
-          :
-            <>
-              <Route path='/admin/dashboard' element={<Layout />} >
-                <Route index element={<AdminDashboard />} />
-                <Route path='/admin/dashboard/pending' element={<Pending />} />
-                <Route path='/admin/dashboard/package' element={<Packages />} />
-                <Route path='/admin/dashboard/package/new' element={<CreatePackages />} />
-                <Route path='/admin/dashboard/courier' element={<Couriers />} />
-                <Route path='/admin/dashboard/settings' element={<Settings />} />
-              </Route>
-              <Route path='/admin/dashboard/package/choose-address' element={<ChooseAddress />} />
-            </>
-          }
+          <Route path='/support/dashboard/' element={<PrivateRoute isAllowed={userInfo?.type?.id !== 3} redirectTo='/admin/dashboard/'><Layout /></PrivateRoute>} >
+            <Route index element={<Dashboard />} />
+            <Route path='/support/dashboard/pending' element={<Pending />} />
+            <Route path='/support/dashboard/package' element={<Packages />} />
+            <Route path='/support/dashboard/package/new' element={<CreatePackages />} />
+            <Route path='/support/dashboard/courier' element={<Couriers />} />
+            <Route path='/support/dashboard/settings' element={<Settings />} />
+          </Route>
+          <Route path='/support/dashboard/package/choose-address' element={<PrivateRoute isAllowed={userInfo?.type?.id !== 3} redirectTo='/admin/dashboard/'><ChooseAddress /></PrivateRoute>} />
+          <Route path='/admin/dashboard' element={<PrivateRoute isAllowed={userInfo?.type?.id === 3} redirectTo='/support/dashboard/'><Layout /></PrivateRoute>} >
+            <Route index element={<AdminDashboard />} />
+            <Route path='/admin/dashboard/pending' element={<Pending />} />
+            <Route path='/admin/dashboard/package' element={<Packages />} />
+            <Route path='/admin/dashboard/package/new' element={<CreatePackages />} />
+            <Route path='/admin/dashboard/courier' element={<Couriers />} />
+            <Route path='/admin/dashboard/settings' element={<Settings />} />
+          </Route>
+          <Route path='/admin/dashboard/package/choose-address' element={<PrivateRoute isAllowed={userInfo?.type?.id === 3} redirectTo='/support/dashboard/'><ChooseAddress /></PrivateRoute>} />
         </Routes>
       </Router>
     </AppContext.Provider>

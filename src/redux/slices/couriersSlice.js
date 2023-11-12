@@ -5,6 +5,7 @@ const initialState = {
     error: null,
     success: false,
     couriers: [],
+    locations: [],
 }
 
 const fetchCouriersSlice = createSlice({
@@ -23,6 +24,9 @@ const fetchCouriersSlice = createSlice({
             state.success = true;
             state.couriers = payload.data;
         },
+        fetchCouriersLocations: (state, { payload }) => {
+            state.locations = payload.data;
+        },
         fetchCouriersError: (state, { payload }) => {
             state.loading = false;
             state.error = payload;
@@ -31,5 +35,5 @@ const fetchCouriersSlice = createSlice({
     }
 })
 
-export const { fetchCouriers, fetchCouriersSuccess, fetchCouriersError } = fetchCouriersSlice.actions;
+export const { fetchCouriers, fetchCouriersSuccess, fetchCouriersError, fetchCouriersLocations } = fetchCouriersSlice.actions;
 export default fetchCouriersSlice.reducer;
