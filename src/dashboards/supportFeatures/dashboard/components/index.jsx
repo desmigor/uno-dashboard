@@ -11,7 +11,7 @@ import moment from "moment";
 import { fetchPendingAction } from "../../../../redux/actions/fetchPendingAction";
 import { fetchTotalsAction } from "../../../../redux/actions/fetchTotalsAction";
 import {fetchPackagesAction} from "../../../../redux/actions/fetchPackagesAction";
-import { fetchCouriersAction } from "../../../../redux/actions/fetchCouriersAction";
+import { fetchCouriersAction, fetchCouriersLocationsAction } from "../../../../redux/actions/fetchCouriersAction";
 
 function Dashboard() {
   const { userInfo } = useSelector((state) => state.auth);
@@ -26,6 +26,7 @@ function Dashboard() {
     dispatch(fetchPendingAction());
     dispatch(fetchPackagesAction());
     dispatch(fetchCouriersAction());
+    dispatch(fetchCouriersLocationsAction());
   }, []);
 
   console.log(packages);
