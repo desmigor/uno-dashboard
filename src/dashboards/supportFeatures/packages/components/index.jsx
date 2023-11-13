@@ -23,7 +23,7 @@ function Packages() {
   const { userInfo } = useSelector((state) => state.auth);
 
   return (
-    <div className='bg-[#F8F9FA] h-[93%] w-full px-10 py-6'>
+    <div className='bg-[#F8F9FA] h-[93%] w-full px-10 py-6 overflow-y-auto pb-32'>
       <div>
         <span className="text-zinc-800 text-2xl font-bold font-rubik">Packages</span>
       </div>
@@ -46,7 +46,7 @@ function Packages() {
             </div>
           </div>
         </div>
-        {table === 'ongoing' && <div className='relative overflow-x-auto border border-gray-100 sm:rounded-lg mt-6'>
+        {table === 'ongoing' && <div className='relative w-full overflow-x-auto border border-gray-100 sm:rounded-lg mt-6'>
         <table class="w-full table-auto">
         <thead class="w-full h-8 relative bg-gray-50 rounded-tl-md rounded-tr-md border border-gray-100">
             <tr>
@@ -120,8 +120,8 @@ function Packages() {
             {selected === idx && <tr className='w-full h-[239px] border-b border-gray-100'>
               <td colSpan={9} className='px-[18px]'>
                 <div className='flex flex-row gap-4 w-full items-center'>
-                  <img className="w-[16%] h-[190px] rounded-md mt-[-12px]" src={Map1} />
-                  <div className='flex flex-row w-[84%]'>
+                  <img className="2xl:w-[16%] w-[10%] hidden 2xl:block h-[10%] 2xl:h-[190px] rounded-md mt-[-12px]" src={Map1} />
+                  <div className='flex flex-row w-full 2xl:w-[84%]'>
                   <div class="w-4 h-[10px] relative mt-16">
                     <div class="w-4 h-4 left-0 top-0 absolute justify-start items-center gap-2 inline-flex">
                       <img src={pickup_point} alt="" />

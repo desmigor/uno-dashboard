@@ -153,6 +153,7 @@ function TableCard({ type, name, data }) {
               data?.length > 0 ? "shadow-sm" : ""
             }  sm:rounded-lg`}
           >
+            {console.log(data, 'KOPPPP')}
             {data?.length === 0 ? (
               <div className="flex flex-col items-center justify-center mt-[54px] gap-3">
                 <img

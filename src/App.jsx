@@ -42,7 +42,7 @@ function App() {
             <Route path='/forgot-password/:uid64/:token' element={<PublicRoute><ChangePassword /></PublicRoute>} />
             <Route path='/admin' element={<PublicRoute><Login /></PublicRoute>} />
           </Route>
-          <Route path='/support/dashboard/' element={<PrivateRoute isAllowed={userInfo?.type?.id !== 3} redirectTo='/admin/dashboard/'><Layout /></PrivateRoute>} >
+          <Route path='/support/dashboard/' element={<PrivateRoute isAllowed={userInfo?.type?.id === 4} redirectTo='/admin/dashboard/'><Layout /></PrivateRoute>} >
             <Route index element={<Dashboard />} />
             <Route path='/support/dashboard/pending' element={<Pending />} />
             <Route path='/support/dashboard/package' element={<Packages />} />
