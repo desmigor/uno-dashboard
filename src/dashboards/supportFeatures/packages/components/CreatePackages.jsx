@@ -24,7 +24,7 @@ function CreatePackages() {
             <div className="text-red-800 text-xs font-normal font-['Rubik'] leading-none">New packages</div>
         </div>
         <div className="w-full h-[55px] px-6 py-4 mt-6 bg-white rounded-[10px] flex-col justify-center items-center gap-2.5 inline-flex">
-            <div className="px-[262px] justify-center items-center inline-flex">
+            <div className="2xl:px-[262px] px-[100px] justify-center items-center inline-flex">
                 <div className="justify-center items-center gap-[34px] inline-flex">
                     <div className="justify-start items-center gap-2 flex">
                         <div className={`w-[23px] h-[23px] rounded-full border ${current === 1 || current === 0 || current === 2 ? 'bg-red-800' : 'border-black'} flex items-center justify-center relative`}>
