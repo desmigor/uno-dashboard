@@ -28,7 +28,7 @@ const authSlice = createSlice({
             state.error = null;
             state.isPassword = false;
             state.type = payload.type
-            state.userInfo = { full_name: payload.ac.data.full_name, email: payload.ac.data.email, profile_photo_link: payload.ac.data.profile_photo_link, type: { id: 2 } };
+            state.userInfo = { full_name: payload.ac.data.full_name, email: payload.ac.data.email, profile_photo_link: payload.ac.data.profile_photo_link, type: { id: payload.ac.data.groups[0].id } };
             state.refreshToken = payload.ac.data.refresh;
             state.userToken = payload.ac.data.access;
         },
