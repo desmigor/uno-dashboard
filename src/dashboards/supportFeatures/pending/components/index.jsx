@@ -3,12 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 
 import OrderResolution from "./orderResolution";
 import PendingPackage from "./pendingPackage";
-import MapImage from "../../../../assets/images/dashboard/image/map.png";
+import Location from "../../../../assets/images/dashboard/icon/location-red.svg";
+import Routing from "../../../../assets/images/dashboard/icon/routing-2.svg";
+import Clock from "../../../../assets/images/dashboard/icon/clock.svg";
+import Close from "../../../../assets/images/dashboard/icon/close-thin.svg";
 import PendingTabs from "./Tabs";
 import { fetchPendingAction } from "../../../../redux/actions/fetchPendingAction";
 import NoPendingEmpty from "./ui/NoPendingEmpty";
 import NoOrderResoultion from "./ui/OrderNoResolution";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { DirectionsRenderer, GoogleMap, InfoBox, InfoBoxF, Marker, useLoadScript } from "@react-google-maps/api";
 
 const mapContainerStyle = {
   width: '100%',
@@ -23,28 +26,50 @@ const libraries = ['places'];
 
 function Pending() {
   const { resolutionPackages } = useSelector((state) => state.fetchPending);
+  const [directionsResponse, setDirectionsResponse] = useState(null);
+  const [selectedItem, setSelectedItem] = useState();
+  const [destinations, setDestinations] = useState();
+  const [pickup, setPickup] = useState();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchPendingAction());
   }, []);
 
+  useEffect(() => {
+    calculateRoute();
+  }, [selectedItem]);
+
 
   // define selectedIndex state
-  const [selectedItem, setSelectedItem] = useState(
-    resolutionPackages?.length > 0 ? resolutionPackages[0] : null
-  );
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
     libraries,
   });
 
+  async function calculateRoute() {
+    const directionsService = new window.google.maps.DirectionsService();
+    const originLatLng = new google.maps.LatLng(selectedItem?.package?.pickup_latitude, selectedItem?.package?.pickup_longitude);
+    const destinationLatLng = new google.maps.LatLng(selectedItem?.package?.drop_latitude, selectedItem?.package?.drop_longitude);
+    const results = await directionsService.route({
+      origin: originLatLng,
+      destination: destinationLatLng,
+      provideRouteAlternatives: false,
+      travelMode: window.google.maps.TravelMode.DRIVING,
+    });
+    setDirectionsResponse(results);
+    setPickup({lat: results.routes[0].legs[0].start_location.lat(), lng: results.routes[0].legs[0].start_location.lng()});
+    setDestinations({lat: results.routes[0].legs[0].end_location.lat(), lng: results.routes[0].legs[0].end_location.lng()});
+}
+
+  console.log(selectedItem, 'KKK')
   return (
     console.log(typeof(resolutionPackages)),
     <div className="bg-[#F8F9FA] h-screen w-full overflow-hidden">
-      <div className="w-full h-[100%] mx-auto flex flex-row gap-0">
+      <div className="w-full h-[100%] mx-auto flex flex-row gap-0 relative">
         {/* Left Column */}
-        <div className="w-[55%] h-[100%] content-center">
+        <div className="2xl:w-[55%] w-full h-[100%] content-center">
           <div className="p-4 w-full min-h-[125px] pl-[41px] pr-5 pt-5 pb-0 bg-white border-b border-gray-100 flex-col justify-end items-start gap-[18px] inline-flex">
             <div>
               <span className="text-zinc-800 text-2xl font-bold font-rubik">
@@ -102,7 +127,7 @@ function Pending() {
         </div>
         {/* Right Column */}
         {/* <div className="flex flex-col md:flex-row justify-center items-center"> */}
-        <div class="w-[45%] px-10  pb-32 bg-white border-l border-gray-100 flex-col items-center inline-flex pt-5 overflow-y-auto">
+        <div class={`2xl:w-[45%] w-[70%] 2xl:flex ${selectedItem ? 'flex absolute top-0 right-0 shadow-lg' : 'hidden'} px-10 h-full pb-32 bg-white border-l border-gray-100 flex-col items-center pt-5 overflow-y-auto`}>
           <div class="self-stretch justify-center items-center gap-1 inline-flex"></div>
           <div class="self-stretch flex-col justify-start items-start gap-6 inline-flex">
             <div>
@@ -116,13 +141,13 @@ function Pending() {
                 #TK-0023{" "}
               </span>
             </div>
-            <div class="w-[100%] h-[307px] relative rounded-xl">
+            <div class="w-[100%] h-[307px] relative flex justify-center rounded-xl">
               {loadError && <div>Error loading maps</div>}
             {!isLoaded ? <div>Loading maps</div> :
                 <GoogleMap
                   mapContainerStyle={mapContainerStyle}
-                  zoom={10}
-                  center={center}
+                  zoom={14}
+                  center={selectedItem ? { lat: selectedItem?.package?.pickup_latitude, lng: selectedItem?.package?.pickup_longitude } : center}
                   options={{
                     zoomControl: false,
                     mapTypeControl: false,
@@ -130,73 +155,84 @@ function Pending() {
                     streetViewControl: false,
                   }}
                 >
+                   {directionsResponse && <InfoBoxF
+                        position={pickup}
+                        options={{ closeBoxURL: "", enableEventPropagation: true }}
+                    >
+                            <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                              <div className="w-4 h-4 relative">
+                                  <div className="w-4 h-4 border border-red-800 rounded-full flex items-center justify-center" >
+                                      <div className="w-[9.60px] h-[9.60px] bg-red-800 rounded-full" />
+                                  </div>
+                              </div>
+                            </div>
+                    </InfoBoxF>}
+                    {directionsResponse && <InfoBoxF
+                        position={destinations}
+                        options={{ closeBoxURL: "", enableEventPropagation: true }}
+                    >
+                        <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                            <div className="w-4 h-4 relative">
+                                <div className="w-4 h-4 border border-green-600 rounded-full flex items-center justify-center" >
+                                    <div className="w-[9.60px] h-[9.60px] bg-green-600 rounded-full" />
+                                </div>
+                            </div>
+                        </div>
+                    </InfoBoxF>}
+                    {directionsResponse && (
+                        <DirectionsRenderer directions={directionsResponse} options={{
+                            suppressMarkers: true,
+                            polylineOptions: {
+                                strokeColor: '#1EC10F',
+                                strokeWeight: 5
+                            }
+                        }}  />
+                    )}
                 </GoogleMap>
               }
 
-              <div class="p-3 left-[95px] top-[233px] absolute bg-white rounded-[10px] shadow flex-col justify-start items-start gap-2.5 inline-flex">
-                <div class="justify-start items-start gap-10 inline-flex">
-                  <div class="justify-start items-start gap-1.5 flex">
-                    <div class="w-4 h-4 justify-center items-center flex">
-                      <div class="w-4 h-4 relative"></div>
-                    </div>
+              {selectedItem && <div class="p-3 bottom-4 w-[90%] absolute bg-white rounded-[10px] shadow flex-col justify-start items-start gap-2.5 inline-flex">
+                <div class="justify-start w-full items-start inline-flex">
+                  <div class="justify-start w-[60%] items-start gap-1.5 flex">
+                    <img src={Location} className="w-4 h-4" />
                     <div class="flex-col justify-start items-start gap-0.5 inline-flex">
                       <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
                         Current location
                       </div>
                       <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
-                        PPR3+JG6, Amasaman
+                        {selectedItem?.package?.pickup_open_address}
                       </div>
                     </div>
                   </div>
-                  <div class="justify-start items-start gap-10 flex">
+                  <div class="justify-start w-[20%] items-start gap-10 flex">
                     <div class="justify-start items-start gap-1.5 flex">
-                      <div class="w-4 h-4 justify-center items-center flex">
-                        <div class="w-4 h-4 relative"></div>
-                      </div>
+                      <img src={Routing} className="w-4 h-4" />
                       <div class="flex-col justify-start items-start gap-0.5 inline-flex">
                         <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
                           Distance left
                         </div>
                         <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
-                          12 km
+                          {selectedItem?.package?.time_left?.distance} km
+
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div class="justify-start w-[20%] items-start gap-10 flex">
                     <div class="justify-start items-start gap-1.5 flex">
-                      <div class="w-4 h-4 justify-center items-center flex">
-                        <div class="w-4 h-4 relative"></div>
-                      </div>
+                      <img src={Clock} className="w-4 h-4" />
                       <div class="flex-col justify-start items-start gap-0.5 inline-flex">
                         <div class="text-zinc-800 text-xs font-normal font-rubik leading-none">
                           Time left
                         </div>
                         <div class="text-gray-400 text-xs font-normal font-rubik leading-none">
-                          30 min
+                          {selectedItem?.package?.time_left?.distance} min
                         </div>
                       </div>
                     </div>
-                  </div>
+                    </div>
                 </div>
-              </div>
-
-              <div class="w-[30px] h-[30px] left-[11px] top-[111px] absolute">
-                <div class="w-[30px] h-[30px] left-0 top-0 absolute bg-black bg-opacity-20 rounded-full"></div>
-                <div class="w-[14.12px] h-[14.12px] left-[7.94px] top-[7.94px] absolute justify-start items-center gap-[7.06px] inline-flex">
-                  <div class="w-[14.12px] h-[14.12px] relative">
-                    <div class="w-[8.47px] h-[8.47px] left-[2.82px] top-[2.82px] absolute bg-red-800 rounded-full border-2 border-white"></div>
-                    <div class="w-[14.12px] h-[14.12px] left-0 top-[-0px] absolute bg-red-800 rounded-full"></div>
-                  </div>
-                </div>
-              </div>
-              <div class="w-[30px] h-[30px] left-[420px] top-[126px] absolute">
-                <div class="w-[30px] h-[30px] left-0 top-0 absolute bg-black bg-opacity-20 rounded-full"></div>
-                <div class="w-[14.12px] h-[14.12px] left-[7.94px] top-[7.94px] absolute justify-start items-center gap-[7.06px] inline-flex">
-                  <div class="w-[14.12px] h-[14.12px] relative">
-                    <div class="w-[8.47px] h-[8.47px] left-[2.82px] top-[2.82px] absolute bg-green-600 rounded-full border-2 border-white"></div>
-                    <div class="w-[14.12px] h-[14.12px] left-0 top-0 absolute bg-green-600 rounded-full"></div>
-                  </div>
-                </div>
-              </div>
+              </div>}
             </div>
             <div class="flex-col justify-start items-start gap-6 flex w-[100%]">
               <div class="flex-col justify-start items-start gap-4 flex w-[100%]">
@@ -212,6 +248,7 @@ function Pending() {
               <OrderResolution item={selectedItem} />
             )}
           </div>
+          <img onClick={() => setSelectedItem()} className="absolute cursor-pointer 2xl:hidden block top-5 right-5 w-10 h-10" src={Close} />
         </div>
       </div>
     </div>

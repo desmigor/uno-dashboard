@@ -103,8 +103,8 @@ export const Step1 = ({ next }) => {
          <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Addresses</div>
          <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">You can add up to 10 delivery addresses in one order.</div>
      </div>
-     <div className='flex flex-row justify-between flex-wrap mt-[16px] w-full'>
-         <div className="w-[460px] h-[74px] flex-col justify-start relative items-start gap-1.5 inline-flex">
+        <div className='flex flex-row justify-between flex-wrap mt-[16px] w-full'>
+         <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start relative items-start gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Pickup Address</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
              <input value={searchTextPickup} type='text' onChange={(e) => getPlaces(e.target.value)} placeholder='Amasaman KG124'  className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
              <Link to={userInfo?.type?.id === 3 ? '/admin/dashboard/package/choose-address' : '/support/dashboard/package/choose-address' } className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
@@ -122,12 +122,12 @@ export const Step1 = ({ next }) => {
                     </div>)}
                 </div>}                        
          </div>
-         <div className="w-[460px] h-[74px] flex-col justify-start items-start relative gap-1.5 inline-flex">
+         <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start relative gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Delivery Address</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-             <div className='flex flex-row items-center gap-3'>
-                 <input value={searchTextDelivery} type='text' placeholder='Amasaman KG124' onChange={(e) => getPlacesDelivery(e.target.value)} className="w-[406px] self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
-                 <img src={AddCircle} className='w-8 h-8 cursor-pointer' />
-             </div>
+             {/* <div className='flex flex-row items-center gap-3 '> */}
+                 <input value={searchTextDelivery} type='text' placeholder='Amasaman KG124' onChange={(e) => getPlacesDelivery(e.target.value)} className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
+                 {/* <img src={AddCircle} className='w-8 h-8 cursor-pointer' /> */}
+             {/* </div> */}
              <Link to={userInfo?.type?.id === 3 ? '/admin/dashboard/package/choose-address' : '/support/dashboard/package/choose-address' } className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
                  <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Choose address on map</div> 
                  <img src={ArrowLeft2} className='w-4 h-4' />
@@ -148,16 +148,16 @@ export const Step1 = ({ next }) => {
 <div className='w-[80%] mx-auto mt-8'>
      <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Pickup Details</div>
      <div className='flex flex-row justify-between mt-[16px] w-full'>
-         <div className="w-[460px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+         <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Full Name</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
              <input value={data.fullNamePickup} onChange={(e) => setData({ ...data, fullNamePickup: e.target.value })} type='text' placeholder='James Marrko' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
          </div>
-         <div className="w-[460px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+         <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Phone Number</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
              <input value={data.phonePickup} onChange={(e) => setData({ ...data, phonePickup: e.target.value })} type='text' placeholder='+233-4823-321-312' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
          </div>
      </div> 
-     <div className="w-[460px] h-[113px] mt-4 flex-col justify-start items-start gap-1.5 inline-flex">
+     <div className="2xl:w-[460px] w-[48%] h-[113px] mt-4 flex-col justify-start items-start gap-1.5 inline-flex">
          <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Comment</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
          <textarea value={data.commentPickup} onChange={(e) => setData({ ...data, commentPickup: e.target.value })} placeholder='Leave a comment' className="self-stretch h-[87px] px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" ></textarea> 
      </div>
@@ -165,16 +165,16 @@ export const Step1 = ({ next }) => {
 <div className='w-[80%] mx-auto mt-8'>
      <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Delivery Details</div>
      <div className='flex flex-row justify-between mt-[16px] w-full'>
-         <div className="w-[460px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+         <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Full Name</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
              <input value={data.fullNameDelivery} onChange={(e) => setData({ ...data, fullNameDelivery: e.target.value })} type='text' placeholder='James Marrko' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
          </div>
-         <div className="w-[460px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+         <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
              <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Phone Number</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
              <input value={data.phoneDelivery} onChange={(e) => setData({ ...data, phoneDelivery: e.target.value })} type='text' placeholder='+233-4823-321-312' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
          </div>
      </div> 
-     <div className="w-[460px] h-[113px] mt-4 flex-col justify-start items-start gap-1.5 inline-flex">
+     <div className="2xl:w-[460px] w-[48%] h-[113px] mt-4 flex-col justify-start items-start gap-1.5 inline-flex">
          <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Comment</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
          <textarea value={data.commentDelivery} onChange={(e) => setData({ ...data, commentDelivery: e.target.value })} placeholder='Leave a comment' className="self-stretch h-[87px] px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" ></textarea> 
      </div>
@@ -226,26 +226,32 @@ export const Step2 = ({ next }) => {
             <div className="w-full h-[91px] flex-col justify-start items-start gap-4 inline-flex mt-8">
                 <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Delivery: Package 1</div> 
                 <div className="text-slate-500 text-base font-semibold font-['Rubik'] leading-tight">Package Size</div> 
-                <div className='flex flex-row gap-6'>
-                    <div onClick={() => setSize(1)} className={`w-[345px] h-[106px] p-5 ${size === 1 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
-                        <div className="self-stretch h-[66px] relative">
-                            <div className="w-[103.04px] left-0 top-0 absolute text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Small Package</div>
-                            <div className="w-[47.40px] left-[257.60px] top-0 absolute text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$6.00</div>
-                            <div className="w-[305px] left-0 top-[26px] absolute text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
+                <div className='flex flex-row gap-6 w-full'>
+                    <div onClick={() => setSize(1)} className={`2xl:w-[345px] w-[35%] min-h-[106px] p-5 ${size === 1 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
+                        <div className="self-stretch min-h-[66px]">
+                            <div className='flex flex-row justify-between items-center'>
+                                <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Small Package</div>
+                                <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$6.00</div>
+                            </div>
+                            <div className="mt-[9px] text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
                         </div>
                     </div> 
-                    <div onClick={() => setSize(2)} className={`w-[345px] h-[106px] p-5 ${size === 2 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
-                        <div className="self-stretch h-[66px] relative">
-                            <div className="w-[119.53px] left-0 top-0 absolute text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Medium Package</div>
-                            <div className="w-[50.49px] left-[254.51px] top-0 absolute text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$11.70</div>
-                            <div className="w-[305px] left-0 top-[26px] absolute text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
+                    <div onClick={() => setSize(2)} className={`2xl:w-[345px] w-[35%] min-h-[106px] p-5 ${size === 2 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
+                        <div className="self-stretch min-h-[66px]">
+                            <div className='flex flex-row justify-between items-center'>
+                                <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Small Package</div>
+                                <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$11.70</div>
+                            </div>
+                            <div className="mt-[9px] text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
                         </div>
                     </div> 
-                    <div onClick={() => setSize(3)} className={`w-[345px] h-[106px] p-5 ${size === 3 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
-                        <div className="self-stretch h-[66px] relative">
-                            <div className="w-[104.07px] left-0 top-0 absolute text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Large Package</div>
-                            <div className="w-[57.70px] left-[247.30px] top-0 absolute text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$23.00</div>
-                            <div className="w-[305px] left-0 top-[26px] absolute text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
+                    <div onClick={() => setSize(3)} className={`2xl:w-[345px] w-[35%] min-h-[106px] p-5 ${size === 3 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
+                        <div className="self-stretch min-h-[66px]">
+                            <div className='flex flex-row justify-between items-center'>
+                                <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Large Package</div>
+                                <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$29.20</div>
+                            </div>
+                            <div className="mt-[9px] text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
                         </div>
                     </div> 
                 </div>
@@ -276,7 +282,7 @@ export const Step3 = () => {
     
     return (
         <div className='w-full flex flex-row justify-between items-start mt-6 mb-24'>
-            <div className='w-[70%] h-[789px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
+            <div className='2xl:w-[70%] w-[60%] h-[789px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
                 <div className="w-full h-[117px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
                     <div className='flex flex-row justify-between items-center w-full'>
                         <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Addresses</div> 
@@ -285,8 +291,8 @@ export const Step3 = () => {
                             <img src={ArrowLeft2} className='w-4 h-4' />
                         </button>
                     </div>
-                    <div className="w-[716px] h-[45px] justify-start items-start gap-[73px] inline-flex">
-                        <div className="w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
+                    <div className="2xl:w-[716px] w-full h-[45px] 2xl:justify-start items-start 2xl:gap-[73px] justify-between inline-flex">
+                        <div className="2xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Pickup Address</div>
                                 <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">PPR3+JG6, Amasaman</div>
@@ -309,8 +315,8 @@ export const Step3 = () => {
                             <img src={ArrowLeft2} className='w-4 h-4' />
                         </button>
                     </div>
-                    <div className="w-[716px] h-[45px] justify-start items-start gap-[73px] inline-flex">
-                        <div className="w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
+                    <div className="2xl:w-[716px] w-full h-[45px] 2xl:justify-start items-start 2xl:gap-[73px] justify-between inline-flex">
+                        <div className="2xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Package Size</div>
                                 <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Medium</div>
@@ -341,8 +347,8 @@ export const Step3 = () => {
                             <img src={ArrowLeft2} className='w-4 h-4' />
                         </button>
                     </div>
-                    <div className="w-[716px] h-[45px] justify-start items-start gap-[73px] inline-flex">
-                        <div className="w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
+                    <div className="2xl:w-[716px] w-full h-[45px] 2xl:justify-start items-start 2xl:gap-[73px] justify-between inline-flex">
+                        <div className="2xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Full Name</div>
                                 <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Michael Larson</div>
@@ -357,7 +363,7 @@ export const Step3 = () => {
                     </div>
                     <div className="w-full h-[65px] flex-col justify-start items-start gap-[5px] inline-flex">
                         <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Comment</div>
-                        <div className="w-[624px] text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">When you arrive, leave the package at the door if you won’t find anyone at the entrance.</div>
+                        <div className="2xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">When you arrive, leave the package at the door if you won’t find anyone at the entrance.</div>
                     </div> 
                 </div>
                 <div className="w-full h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
@@ -368,8 +374,8 @@ export const Step3 = () => {
                             <img src={ArrowLeft2} className='w-4 h-4' />
                         </button>
                     </div>
-                    <div className="w-[716px] h-[45px] justify-start items-start gap-[73px] inline-flex">
-                        <div className="w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
+                    <div className="2xl:w-[716px] w-full h-[45px] 2xl:justify-start items-start 2xl:gap-[73px] justify-between inline-flex">
+                        <div className="2xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Full Name</div>
                                 <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Michael Larson</div>
@@ -384,11 +390,11 @@ export const Step3 = () => {
                     </div>
                     <div className="w-full h-[65px] flex-col justify-start items-start gap-[5px] inline-flex">
                         <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Comment</div>
-                        <div className="w-[624px] text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">When you arrive, leave the package at the door if you won’t find anyone at the entrance.</div>
+                        <div className="2xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">When you arrive, leave the package at the door if you won’t find anyone at the entrance.</div>
                     </div> 
                 </div>
             </div>
-            <div className='w-[28%] flex flex-col gap-6'>
+            <div className='2xl:w-[28%] w-[38%] flex flex-col gap-6'>
                 <div className='w-full min-h-[343px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
                     <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Order Total</div>
                     <div className="w-full h-[22px] justify-between items-start inline-flex">
@@ -422,7 +428,7 @@ export const Step3 = () => {
                         <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">Total</div>
                         <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$14.00</div>
                     </div>
-                    <button className="w-[348px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex">
+                    <button className="2xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex">
                         <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">Request Delivery</div>
                     </button>
                 </div>
@@ -434,11 +440,11 @@ export const Step3 = () => {
                         </div>
                         <img src={ArrowDown} className={`w-6 h-6 ${discountExpanded && '-rotate-180' }`} />
                     </div>
-                    {discountExpanded && <div className="w-[348px] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+                    {discountExpanded && <div className="2xl:w-[348px] w-full h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
                         <div className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Discount Code</div>
                         <input type='text' placeholder='SUPPORT@133' className="placeholder:text-zinc-300 text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" />
                     </div>}
-                    {discountExpanded && <button className="w-[348px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex">
+                    {discountExpanded && <button className="2xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex">
                         <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">Apply Code</div>
                     </button>}
                 </div>

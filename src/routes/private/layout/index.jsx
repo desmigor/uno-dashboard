@@ -5,9 +5,9 @@ import Navbar from '../../../components/ui/Navbar'
 
 function Layout() {
   return (
-    <div className='flex flex-row h-screen overflow-hidden'>
+    <div className='w-full flex flex-row h-screen overflow-hidden'>
       <Sidebar />
-      <div className='w-[90%]'>
+      <div className='w-[94%] 2xl:w-[90%] '>
         <Navbar />
         <Outlet />
       </div>

@@ -20,6 +20,7 @@ function Dashboard() {
   const { packages } = useSelector((state) => state.fetchPackages);
   const { couriers } = useSelector((state) => state.fetchCouriers);
 
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchTotalsAction());
@@ -30,7 +31,6 @@ function Dashboard() {
   }, []);
 
   console.log(packages);
-  console.log(resolutionPackages);
 
 
   return (
