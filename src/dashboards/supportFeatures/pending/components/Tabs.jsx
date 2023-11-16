@@ -10,6 +10,7 @@ import LocationPointContent from "./LocationPointTabContent";
 import CourierTabContent from "./CourierTabContent";
 import NoOrderDetails from "./ui/NoOrderDetails";
 import { fetchOneCourierAction } from "../../../../redux/actions/fetchOneCourierAction";
+import { fetchOneCustomerAction } from "../../../../redux/actions/fetchOneCustomerAction";
 
 function PendingTabs({ item }) {
   const { courier } = useSelector((state) => state.fetchOneCourier);
@@ -18,6 +19,7 @@ function PendingTabs({ item }) {
   useEffect(() => {
     if (item) {
       dispatch(fetchOneCourierAction(item.package.courier));
+      dispatch(fetchOneCustomerAction(item.package.customer));
     }
   }, [item]);
 
