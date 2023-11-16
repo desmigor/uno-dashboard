@@ -1,4 +1,5 @@
-import { Fragment } from "react";
+import { React, useState, useEffect, Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Tab } from "@headlessui/react";
 import PendingPackageContent from "./PackageTabContent";
 import CustomerTabContent from "./CustomerTabContent ";
@@ -8,8 +9,18 @@ import map from "../../../../assets/images/dashboard/image/map.png";
 import LocationPointContent from "./LocationPointTabContent";
 import CourierTabContent from "./CourierTabContent";
 import NoOrderDetails from "./ui/NoOrderDetails";
+import { fetchOneCourierAction } from "../../../../redux/actions/fetchOneCourierAction";
 
 function PendingTabs({ item }) {
+  const { courier } = useSelector((state) => state.fetchOneCourier);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (item) {
+      dispatch(fetchOneCourierAction(item.package.courier));
+    }
+  }, [item]);
+
   return (
     <Tab.Group manual>
       <Tab.List className="w-[100%] h-12 p-1.5 bg-neutral-100 rounded-[10px] border border-gray-100 justify-between items-center inline-flex">
@@ -165,13 +176,18 @@ function PendingTabs({ item }) {
           {item ? (
             <LocationPointContent
               image={map}
-              prop1={{ title: "Name", value: item.package.pickup_contact_person }}
+              prop1={{
+                title: "Name",
+                value: item.package.pickup_contact_person,
+              }}
               prop2={{
                 title: "Pickup comment",
-                value:
-                  "Wait near the entrance. There’s a guy who will handle to you the package",
+                value: item.package.pickup_landmark,
               }}
-              prop3={{ title: "Phone", value: item.package.pickup_contact_phone }}
+              prop3={{
+                title: "Phone",
+                value: item.package.pickup_contact_phone,
+              }}
             />
           ) : (
             <NoOrderDetails />
@@ -184,10 +200,9 @@ function PendingTabs({ item }) {
               prop1={{ title: "Name", value: item.package.drop_contact_person }}
               prop2={{
                 title: "Delivery Note",
-                value:
-                  "Wait near the entrance. There’s a guy who will handle to you the package",
+                value: item.package.drop_landmark,
               }}
-              prop3={{ title: "Phone", value: item.package.drop_contact_phone}}
+              prop3={{ title: "Phone", value: item.package.drop_contact_phone }}
             />
           ) : (
             <NoOrderDetails />
