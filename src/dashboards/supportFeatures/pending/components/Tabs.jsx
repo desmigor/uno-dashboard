@@ -11,9 +11,11 @@ import CourierTabContent from "./CourierTabContent";
 import NoOrderDetails from "./ui/NoOrderDetails";
 import { fetchOneCourierAction } from "../../../../redux/actions/fetchOneCourierAction";
 import { fetchOneCustomerAction } from "../../../../redux/actions/fetchOneCustomerAction";
+import ProfileNone from "../../../../assets/images/dashboard/image/image.png";
 
 function PendingTabs({ item }) {
   const { courier } = useSelector((state) => state.fetchOneCourier);
+  const { customer } = useSelector((state) => state.fetchOneCustomer);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,6 +25,7 @@ function PendingTabs({ item }) {
     }
   }, [item]);
 
+  console.log("courier", courier);
   return (
     <Tab.Group manual>
       <Tab.List className="w-[100%] h-12 p-1.5 bg-neutral-100 rounded-[10px] border border-gray-100 justify-between items-center inline-flex">
@@ -161,14 +164,24 @@ function PendingTabs({ item }) {
         <Tab.Panel>
           {item ? (
             <CustomerTabContent
-              image={profile}
+              image={
+                customer?.profile_photo_link
+                  ? customer?.profile_photo
+                  : ProfileNone
+              }
               prop1={{
                 title: "Name",
-                value: item.package?.customer?.full_name,
+                value: customer?.full_name,
               }}
-              prop2={{ title: "Email", value: "joelmatak123@gmail.com" }}
-              prop3={{ title: "Phone", value: "(234) 567-8901" }}
-              prop4={{ title: "Location", value: "Ghana, Accra" }}
+              prop2={{ title: "Email", value: customer?.email }}
+              prop3={{
+                title: "Phone",
+                value: "+" + customer?.country_code + customer?.phone_number,
+              }}
+              prop4={{
+                title: "Location",
+                value: customer?.address ? customer?.address : "N/A",
+              }}
             />
           ) : (
             <NoOrderDetails />
@@ -211,7 +224,30 @@ function PendingTabs({ item }) {
           )}
         </Tab.Panel>
         <Tab.Panel>
-          {item ? <CourierTabContent /> : <NoOrderDetails />}
+          {item ? (
+            <CourierTabContent
+              image={
+                courier?.profile_photo_link
+                  ? courier?.profile_photo_link
+                  : ProfileNone
+              }
+              prop1={{
+                title: "Name",
+                value: customer?.full_name,
+              }}
+              prop2={{
+                title: "Phone",
+                value: "+" + courier?.country_code + courier?.phone_number,
+              }}
+              prop3={{ title: "country", value: courier?.country  ? courier?.country : "N/A"}}
+              prop4={{ title: "Vehicle Type", value: courier?.vehicle_type  ? courier?.vehicle_type : "N/A" }}
+              prop5={{ title: "Total trips", value: courier?.total_delivery }}
+              prop6={{ title: "Total revenue", value: courier?.total_revenue }}
+              rating={courier?.rating ? courier?.rating : "0.0"}
+            />
+          ) : (
+            <NoOrderDetails />
+          )}
         </Tab.Panel>
       </Tab.Panels>
     </Tab.Group>

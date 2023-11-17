@@ -4,7 +4,7 @@ const initialState = {
     loading: false,
     error: null,
     success: false,
-    courier: {},
+    customer: {},
 }
 
 const fetchOneCustomerSlice = createSlice({
@@ -20,7 +20,7 @@ const fetchOneCustomerSlice = createSlice({
             state.loading = false;
             state.error = null;
             state.success = true;
-            state.courier = payload.data;
+            state.customer = payload.data;
         },
         fetchOneCustomerError: (state, { payload }) => {
             state.loading = false;
