@@ -1,18 +1,15 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import DeliveryGirl from "../../../../../assets/images/dashboard/image/delivery-girl.png";
 import DeliveryGuy from "../../../../../assets/images/dashboard/image/delivery-guy(2).png";
 import DeliveryGuy3 from "../../../../../assets/images/dashboard/image/delivery-guy(3).png";
 import NoCourier from "../../../../../assets/images/dashboard/icon/user-search.svg";
+import ProfileNone from "../../../../../assets/images/dashboard/image/image.png";
+import StartVector from "../../../../../assets/images/dashboard/icon/Vector.svg";
 
-function ReassignModal({
-  title,
-  content,
-  image,
-  show,
-  onClose,
-  cancel,
-  onConfirm,
-}) {
+import { fetchMatchCouriersAction } from "../../../../../redux/actions/fetchBestMatchedCouriersAction";
+
+function ReassignModal({ show, onClose, cancel, onConfirm }) {
   if (!show) {
     return null;
   }
@@ -28,48 +25,29 @@ function ReassignModal({
   };
 
   const [SelectedIndex, setSelectedIndex] = useState();
+  // const { couriers } = useSelector((state) => state.fetchMatchCouriers);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchMatchCouriersAction(478));
+  }, []);
 
   const couriers = [
     {
-      name: "Joana Makenzie",
-      phone: "+233-4823-321-312",
-      online: true,
-      paused: false,
-      distance: "5km away",
-      rating: "4.4",
-      image: DeliveryGirl,
-    },
-    {
-      name: "Bruce P. Kamenza",
-      phone: "+233-4823-321-312",
-      online: true,
-      paused: false,
-      distance: "7km away",
-      rating: "5.0",
-      image: DeliveryGuy,
+      id: 124,
+      full_name: "test user",
+      country: 1,
+      phone_number: "2223333334",
+      rating: 0.0,
+      is_paused: true,
+      is_offline: false,
+      distance: "0.00000",
+      last_sms_date: null,
     },
   ];
 
-  const unavailableCouriers = [
-    {
-      name: "Joana Makenzie",
-      phone: "+233-4823-321-312",
-      online: false,
-      paused: false,
-      distance: "5km away",
-      rating: "4.4",
-      image: DeliveryGuy3,
-    },
-    {
-      name: "Bruce P. Kamenza",
-      phone: "+233-4823-321-312",
-      online: false,
-      paused: true,
-      distance: "9km away",
-      rating: "5.0",
-      image: DeliveryGuy,
-    },
-  ];
+  console.log("couriers", couriers);
+
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50 bg-black">
       <div class="w-[540px] h-[479px] flex-col justify-start items-start inline-flex">
@@ -105,36 +83,36 @@ function ReassignModal({
                   <div class="left-[101px] top-[43px] absolute justify-start items-center gap-3 inline-flex">
                     <div class="flex-col justify-start items-start gap-1.5 inline-flex">
                       <div class="text-zinc-800 text-sm font-normal font-rubik leading-tight">
-                        {courier.name}
+                        {courier.full_name}
                       </div>
                       <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
-                        {courier.phone}
+                        {courier.phone_number}
                       </div>
                     </div>
                   </div>
                   <div class="left-[101px] top-[16px] absolute justify-start items-start gap-2 inline-flex">
                     <div
-                      class=// "w-[60px] px-3 py-1.5 bg-green-100 rounded justify-start items-center gap-2.5 flex"
-                      {
-                        courier.online
+                      class={
+                        // "w-[60px] px-3 py-1.5 bg-green-100 rounded justify-start items-center gap-2.5 flex"
+                        !courier.is_offline && !courier.is_paused
                           ? "w-[60px] px-3 py-1.5 bg-green-100 rounded justify-start items-center gap-2.5 flex"
-                          : courier.paused
+                          : courier.is_paused
                           ? "w-[66px] h-[19px] px-3 py-1.5 bg-yellow-50 rounded justify-start items-center gap-2.5 inline-flex"
                           : "w-[61px] h-[19px] px-3 py-1.5 bg-rose-100 rounded justify-start items-center gap-2.5 inline-flex"
                       }
                     >
                       <div
                         class={
-                          courier.online
+                          !courier.is_offline && !courier.is_paused
                             ? "text-green-700  text-xs font-normal font-rubik leading-none"
-                            : courier.paused
+                            : courier.is_paused
                             ? "text-amber-500  text-xs font-normal font-rubik leading-none"
                             : "text-red-700  text-xs font-normal font-rubik leading-none"
                         }
                       >
-                        {courier.online
+                        {!courier.is_offline && !courier.is_paused
                           ? "Online"
-                          : courier.paused
+                          : courier.is_paused
                           ? "Paused"
                           : "Ofline"}
                       </div>
@@ -146,21 +124,33 @@ function ReassignModal({
                     </div>
                   </div>
                   <div
-                    class="w-[130px] h-10 px-[60px] py-[15px] left-[354px] top-[49px] absolute bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex"
+                    class={
+                      courier.is_paused
+                        ? "w-[180px] h-10 px-[20px] py-[15px] left-[300px] top-[49px] absolute bg-zinc-200 rounded-lg justify-center items-center gap-2.5 inline-flex"
+                        : "w-[130px] h-10 px-[60px] py-[15px] left-[354px] top-[49px] absolute bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex"
+                    }
                     onClick={() => setSelectedIndex(index)}
                   >
                     <div class="text-center text-white text-sm font-normal font-rubik leading-tight cursor-pointer">
-                      {/* or notify via sms Button here */}
-                      Select
+                      {!courier.is_offline && !courier.is_paused
+                        ? "Select"
+                        : courier.is_paused
+                        ? "Notify via SMS"
+                        : "Notify via SMS"}
                     </div>
                   </div>
                   <div class="w-[70px] h-[73px] left-[16px] top-[16px] absolute">
                     <img
                       class="w-[70px] h-[70px] left-0 top-0 absolute rounded-[121.67px]"
-                      src={courier.image}
+                      src={
+                        courier.profile_photo_link
+                          ? courier.profile_photo_link
+                          : ProfileNone
+                      }
                     />
                     <div class="w-[46px] px-1.5 py-1 left-[12px] top-[53px] absolute bg-yellow-50 rounded-[100px] border border-amber-500 flex-col justify-center items-start gap-2.5 inline-flex">
                       <div class="justify-start items-center gap-1 inline-flex">
+                        <img src={StartVector} alt="" />
                         <div class="text-amber-500 text-xs font-semibold font-rubik leading-none">
                           {courier.rating}
                         </div>

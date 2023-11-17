@@ -1,4 +1,4 @@
-import { React, useState, useEffect, Fragment } from "react";
+import { React, useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab } from "@headlessui/react";
 import PendingPackageContent from "./PackageTabContent";
@@ -240,7 +240,7 @@ function PendingTabs({ item }) {
                 value: "+" + courier?.country_code + courier?.phone_number,
               }}
               prop3={{ title: "country", value: courier?.country  ? courier?.country : "N/A"}}
-              prop4={{ title: "Vehicle Type", value: courier?.vehicle_type  ? courier?.vehicle_type : "N/A" }}
+              prop4={{ title: "Vehicle", value: courier?.vehicle_name  ? courier?.vehicle_name : "N/A" }}
               prop5={{ title: "Total trips", value: courier?.total_delivery }}
               prop6={{ title: "Total revenue", value: courier?.total_revenue }}
               rating={courier?.rating ? courier?.rating : "0.0"}
