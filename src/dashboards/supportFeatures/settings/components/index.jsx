@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Tab } from "@headlessui/react";
+import ProfileSection from "./ProfileSection";
 
 const tabs = [
   { name: "My Profile" },
@@ -17,7 +18,7 @@ function Settings() {
         <div className="text-zinc-800 text-2xl font-bold font-['Rubik']">
           Settings
         </div>
-        <Tab.Group>
+        <Tab.Group manual>
           <Tab.List className="py-4">
             {tabs.map((tab, index) => (
               <Tab
@@ -35,7 +36,9 @@ function Settings() {
             ))}
           </Tab.List>
           <Tab.Panels>
-            <Tab.Panel>profile</Tab.Panel>
+            <Tab.Panel>
+              <ProfileSection />
+            </Tab.Panel>
             <Tab.Panel>security</Tab.Panel>
             <Tab.Panel>notifications</Tab.Panel>
           </Tab.Panels>
