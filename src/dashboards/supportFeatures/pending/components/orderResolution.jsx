@@ -60,6 +60,7 @@ export default function OrderResolution({item}) {
         content="After confirmation, this package will immediately be canceled. This action can’t be revoked."
         cancel={true}
         onConfirm={handleModalConfirm}
+        id={item.id}
       />
 
       <SuccessToast

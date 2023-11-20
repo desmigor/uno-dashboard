@@ -9,7 +9,7 @@ import StartVector from "../../../../../assets/images/dashboard/icon/Vector.svg"
 
 import { fetchMatchCouriersAction } from "../../../../../redux/actions/fetchBestMatchedCouriersAction";
 
-function ReassignModal({ show, onClose, cancel, onConfirm }) {
+function ReassignModal({ show, onClose, cancel, onConfirm, id }) {
   if (!show) {
     return null;
   }
@@ -24,33 +24,28 @@ function ReassignModal({ show, onClose, cancel, onConfirm }) {
     onClose();
   };
 
+  const handleNotifyViaSMS = () => {
+    // dispatch(notifyViaSMSAction(id));
+    
+  };
+
   const [SelectedIndex, setSelectedIndex] = useState();
-  // const { couriers } = useSelector((state) => state.fetchMatchCouriers);
+  const { couriers } = useSelector((state) => state.fetchMatchCouriers);
+  // 10 min timer after notify via sms is clicked
+  const [timer, setTimer] = useState(1000);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchMatchCouriersAction(478));
+    id &&
+      dispatch(fetchMatchCouriersAction(id));
   }, []);
 
-  const couriers = [
-    {
-      id: 124,
-      full_name: "test user",
-      country: 1,
-      phone_number: "2223333334",
-      rating: 0.0,
-      is_paused: true,
-      is_offline: false,
-      distance: "0.00000",
-      last_sms_date: null,
-    },
-  ];
-
-  console.log("couriers", couriers);
+  
+  console.log("Id", id);
 
   return (
     <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50 bg-black">
-      <div class="w-[540px] h-[479px] flex-col justify-start items-start inline-flex">
+      <div class="w-[540px] h-[479px] flex-col justify-start items-start inline-flex ">
         <div class="h-[388px] p-5 bg-white rounded-tl-2xl rounded-tr-2xl flex-col justify-start items-start gap-6 flex">
           <div class="flex-col justify-start items-start gap-1.5 flex">
             <div class="w-[500px] justify-between items-center inline-flex">
@@ -66,7 +61,7 @@ function ReassignModal({ show, onClose, cancel, onConfirm }) {
               be highlighted.
             </div>
           </div>
-          <div class="flex-col justify-start items-start gap-3 flex">
+          <div class="flex-col justify-start items-start gap-3 overflow-auto">
             <div class="text-zinc-800 text-sm font-semibold font-rubik leading-tight">
               Best matched couriers
             </div>
@@ -93,7 +88,6 @@ function ReassignModal({ show, onClose, cancel, onConfirm }) {
                   <div class="left-[101px] top-[16px] absolute justify-start items-start gap-2 inline-flex">
                     <div
                       class={
-                        // "w-[60px] px-3 py-1.5 bg-green-100 rounded justify-start items-center gap-2.5 flex"
                         !courier.is_offline && !courier.is_paused
                           ? "w-[60px] px-3 py-1.5 bg-green-100 rounded justify-start items-center gap-2.5 flex"
                           : courier.is_paused
@@ -117,19 +111,45 @@ function ReassignModal({ show, onClose, cancel, onConfirm }) {
                           : "Ofline"}
                       </div>
                     </div>
-                    <div class="w-[81px] px-3 py-1.5 bg-gray-100 rounded justify-start items-center gap-2.5 flex">
+                    <div class="w-[100px] px-2 py-1.5 bg-gray-100 rounded justify-start items-center gap-2.5 flex">
                       <div class="text-slate-500 text-xs font-normal font-rubik leading-none">
-                        {courier.distance}
+                        {/* courier.distance rounded to 2 decimal places */}
+                        {parseFloat(courier.distance).toFixed(2)} km away
                       </div>
                     </div>
                   </div>
+                  {
+                    // 10 min timer after notify via sms is clicked
+                    courier.last_sms_date &&
+                      courier.last_sms_date + 600000 > Date.now() && (
+                        <div class="text-right pt-4 pr-4">
+                          <span className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                            Resend SMS in{" "}
+                          </span>
+                          <span className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">
+                            {timer/100} min
+                          </span>
+                        </div>
+                      )
+                  }
+
                   <div
                     class={
                       courier.is_paused
                         ? "w-[180px] h-10 px-[20px] py-[15px] left-[300px] top-[49px] absolute bg-zinc-200 rounded-lg justify-center items-center gap-2.5 inline-flex"
+                        : courier.is_offline
+                        ? "w-[180px] h-10 px-[20px] py-[15px] left-[300px] top-[49px] absolute bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex"
                         : "w-[130px] h-10 px-[60px] py-[15px] left-[354px] top-[49px] absolute bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex"
                     }
-                    onClick={() => setSelectedIndex(index)}
+                    onClick={() => {
+                      if (!courier.is_offline && !courier.is_paused) {
+                        setSelectedIndex(index);
+                      } else if (courier.is_paused) {
+                        setSelectedIndex(index);
+                      } else if (courier.is_offline) {
+                        handleNotifyViaSMS(index);
+                      }
+                    }}
                   >
                     <div class="text-center text-white text-sm font-normal font-rubik leading-tight cursor-pointer">
                       {!courier.is_offline && !courier.is_paused
