@@ -16,24 +16,24 @@ export default function SecuritySection() {
   };
   const handleNewPasswordChange = (e) => {
     setNewPassword(e.target.value);
-  }
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
-    }
+  };
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
 
   return (
     <div class="w-[100%] h-[100%] p-5 bg-white rounded-lg flex-col justify-center items-start gap-[30px] inline-flex">
       <div class="self-stretch h-[333px] flex-col justify-start items-start gap-5 flex">
         <div class="flex-col justify-start items-start gap-2.5 flex">
-          <div class="text-gray-900 text-lg font-semibold font-['Rubik']">
+          <div class="text-gray-900 text-lg font-semibold font-rubik">
             Password
           </div>
-          <div class="text-slate-500 text-base font-normal font-['Rubik'] leading-tight">
+          <div class="text-slate-500 text-base font-normal font-rubik leading-tight">
             Please change your password to something that you can remember.
           </div>
         </div>
         <div class="h-[74px] flex-col justify-start items-start gap-1.5 flex">
-          <div class="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">
+          <div class="text-slate-500 text-sm font-normal font-rubik leading-tight">
             Current password
           </div>
           <div className="relative justify-start">
@@ -56,7 +56,7 @@ export default function SecuritySection() {
           </div>
         </div>
         <div class="h-[74px] flex-col justify-start items-start gap-1.5 flex">
-          <div class="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">
+          <div class="text-slate-500 text-sm font-normal font-rubik leading-tight">
             New password
           </div>
           <div className="relative justify-start">
@@ -79,7 +79,7 @@ export default function SecuritySection() {
           </div>
         </div>
         <div class="h-[74px] flex-col justify-start items-start gap-1.5 flex">
-          <div class="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">
+          <div class="text-slate-500 text-sm font-normal font-rubik leading-tight">
             Confirm password
           </div>
           <div className="relative justify-start">
@@ -103,7 +103,7 @@ export default function SecuritySection() {
         </div>
       </div>
       <div class="w-[199px] h-[50px] px-[60px] py-[15px] bg-zinc-200 rounded-xl justify-center items-center gap-2.5 inline-flex">
-        <div class="text-center text-gray-400 text-base font-normal font-['Rubik'] leading-tight">
+        <div class="text-center text-gray-400 text-base font-normal font-rubik leading-tight">
           Save
         </div>
       </div>

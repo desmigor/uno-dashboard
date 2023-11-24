@@ -5,7 +5,7 @@ import noProfile from "../../../../assets/images/dashboard/image/image.png";
 
 export default function ProfileSection() {
   return (
-    <div className="w-[100%] h-[100%] p-5 bg-white rounded-lg flex-col justify-start items-start gap-6 inline-flex">
+    <div className="w-[100%] h-[100%] p-5 bg-white rounded-lg flex-col justify-start items-start gap-6 inline-flex overflow-auto">
       <div className="justify-start items-center gap-5 inline-flex">
         <div className="w-[100px] h-[100px] relative">
           <div className="w-[100px] h-[100px] left-0 top-0 absolute">
