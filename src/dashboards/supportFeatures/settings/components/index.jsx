@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Tab } from "@headlessui/react";
 import ProfileSection from "./ProfileSection";
+import SecuritySection from "./SecuritySection";
 
 const tabs = [
   { name: "My Profile" },
@@ -39,7 +40,9 @@ function Settings() {
             <Tab.Panel>
               <ProfileSection />
             </Tab.Panel>
-            <Tab.Panel>security</Tab.Panel>
+            <Tab.Panel>
+              <SecuritySection />
+            </Tab.Panel>
             <Tab.Panel>notifications</Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
