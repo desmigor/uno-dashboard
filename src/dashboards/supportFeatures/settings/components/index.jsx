@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Tab } from "@headlessui/react";
 import ProfileSection from "./ProfileSection";
 import SecuritySection from "./SecuritySection";
+import NotificationsSection from "./NotificationsSection";
 
 const tabs = [
   { name: "My Profile" },
@@ -13,8 +14,8 @@ function Settings() {
   const [selected, setSelected] = useState(tabs[0]);
 
   return (
-    <div className="bg-neutral-50 h-[100%]">
-      <div className="mx-10 py-6">
+    <div className="bg-neutral-50 h-[100%] overflow-auto">
+      <div className="mx-10 py-6 my-10">
         {" "}
         <div className="text-zinc-800 text-2xl font-bold font-['Rubik']">
           Settings
@@ -43,7 +44,9 @@ function Settings() {
             <Tab.Panel>
               <SecuritySection />
             </Tab.Panel>
-            <Tab.Panel>notifications</Tab.Panel>
+            <Tab.Panel>
+              <NotificationsSection />
+            </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
       </div>
