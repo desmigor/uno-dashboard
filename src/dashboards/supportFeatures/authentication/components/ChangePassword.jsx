@@ -42,7 +42,6 @@ function ChangePassword() {
       password: password,
       password_confirm: newPassword,
     };
-    console.log(data);
     try {
       const response = await callAPI(
         "/api/auth/forgot-password/completed/",
@@ -50,7 +49,6 @@ function ChangePassword() {
         null,
         data
       );
-      console.log(response);
       if (response.code === 200) {
         setError(null);
         setIsSuccessModalVisible(true);
@@ -58,7 +56,6 @@ function ChangePassword() {
         setError(response.message);
       }
     } catch (err) {
-      console.log(err);
       setError(err.response.data.message);
     }
   };

@@ -12,7 +12,6 @@ function ResetPassword() {
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
-    console.log(email);
   };
 
   const _handleSubmit = async (e) => {

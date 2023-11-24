@@ -28,7 +28,6 @@ function TableCard({ type, name, data }) {
   const { locations } = useSelector((state) => state.fetchCouriers);
   const [selectedMarker, setSelectedMarker] = useState(null)
 
-  console.log(selectedMarker);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
     libraries,
@@ -153,7 +152,6 @@ function TableCard({ type, name, data }) {
               data?.length > 0 ? "shadow-sm" : ""
             }  sm:rounded-lg`}
           >
-            {console.log(data, 'KOPPPP')}
             {data?.length === 0 ? (
               <div className="flex flex-col items-center justify-center mt-[54px] gap-3">
                 <img

@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AppContext from "../../../../context";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLoginAction } from "../../../../redux/actions/authAction";
+import Spinner from "../../../../components/ui/spinner.jsx";
 
 function Login() {
   const { loading, error, isPassword } = useSelector((state) => state.auth);
@@ -105,9 +106,9 @@ function Login() {
               onClick={handleLogin}
               className="w-[372px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex my-10"
             >
-              <div class="text-center text-white text-base font-normal font-rubik leading-tight">
-                Sign In
-              </div>
+              {
+                loading ? <Spinner className={'fill-white'} /> : <div class="text-center text-white text-base font-normal font-rubik leading-tight">Sign In</div>
+              }
             </button>
           </div>
           {/* Footer */}

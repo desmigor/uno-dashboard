@@ -11,45 +11,46 @@ import { Menu, Transition } from '@headlessui/react'
 // import CancelModal from './CancelModal';
 import AddCircle from '../../../../assets/images/dashboard/icon/add-circle.svg';
 import SuccessToast from '../../../../components/ui/SuccessToast';
+import Edit from "../../../../assets/images/dashboard/icon/edit-black.svg";
+import Close from "../../../../assets/images/dashboard/icon/close-red.svg";
+import Delete from "../../../../assets/images/dashboard/icon/trash.svg";
+import DeleteInactive from "../../../../assets/images/dashboard/icon/trash-inactive.svg";
+import MoreVertical from '../../../../assets/images/dashboard/icon/more_vertical.svg';
 import ArrowDownSmall from '../../../../assets/images/dashboard/icon/arrow-down-small.svg';
 import ArrowLeftSmall from '../../../../assets/images/dashboard/icon/arrow-left-small.svg';
 import PlaceHolderImage from '../../../../assets/images/dashboard/image/image.png';
 import { fetchAtWorkCouriers, fetchAvailableCouriers, fetchCouriersAction, fetchOfflineCouriers, fetchPausedCouriers } from '../../../../redux/actions/fetchCouriersAction';
+import { fetchCustomersActiveAction, fetchCustomersSuspendedAction } from '../../../../redux/actions/fetchCustomersAction';
 
-function Couriers() {
+function Customers() {
   const [selected, setSelected] = useState(null);
   const [count, setCount] = useState(5);
-  const [table, setTable] = useState('available');
+  const [table, setTable] = useState('active');
   const [paginations, setPaginations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
-  const { availableCouriers, availableCounts, atworkCouriers, atworkCounts, pausedCouriers, offlineCouriers, pausedCounts, offlineCounts } = useSelector((state) => state.fetchCouriers);
+  const { customersActive, customersActiveCounts, customersSuspended, customersSuspendedCounts } = useSelector((state) => state.fetchCustomers);
 
   useEffect(() => {
-    dispatch(fetchAvailableCouriers(count, currentPage));
-    dispatch(fetchAtWorkCouriers(count, currentPage));
-    dispatch(fetchPausedCouriers(count, currentPage));
-    dispatch(fetchOfflineCouriers(count, currentPage));
-
+    dispatch(fetchCustomersActiveAction(currentPage, count));
+    dispatch(fetchCustomersSuspendedAction(currentPage, count));
   }, []);
 
   useEffect(() => {
-    setPaginations(generatePagination(table === 'available' ? availableCounts : table === 'at-work' ? atworkCounts : table === 'paused' ? pausedCounts : offlineCounts, currentPage, count));
+    setPaginations(generatePagination(table === 'active' ? customersActiveCounts : customersSuspendedCounts, currentPage, count));
   }, [table, currentPage, count])
 
   useEffect(() => {
-    setPaginations(generatePagination(table === 'available' ? availableCounts : table === 'at-work' ? atworkCounts : table === 'paused' ? pausedCounts : offlineCounts, 1, count));
+    setPaginations(generatePagination(table === 'active' ? customersActiveCounts : customersSuspendedCounts, 1, count));
   }, [])
 
-  const couriers = table === 'available' ? availableCouriers : table === 'at-work' ? atworkCouriers : table === 'paused' ? pausedCouriers : table === 'offline' ? offlineCouriers : [];
+  const customersArray = table === 'active' ? customersActive : customersSuspended;
 
   const handleChangePage = (countNumber) => {
     setCount(countNumber);
-    dispatch(fetchAvailableCouriers(countNumber, 1));
-    dispatch(fetchAtWorkCouriers(countNumber, 1));
-    dispatch(fetchPausedCouriers(countNumber, 1));
-    dispatch(fetchOfflineCouriers(countNumber, 1));
+    dispatch(fetchCustomersActiveAction(1, countNumber));
+    dispatch(fetchCustomersSuspendedAction(1, countNumber));
 
   }
 
@@ -104,18 +105,18 @@ function Couriers() {
   return (
     <div className='bg-[#F8F9FA] h-[93%] w-full px-10 py-6 overflow-y-auto pb-32'>
       <div>
-        <span className="text-zinc-800 text-2xl font-bold font-rubik">Couriers</span>
+        <span className="text-zinc-800 text-2xl font-bold font-rubik">Customers</span>
       </div>
       <div className='mt-[24px] flex flex-row justify-between items-center'>
-        <Tabs paginate={() => generatePagination(table === 'available' ? availableCounts : table === 'at-work' ? atworkCounts : table === 'paused' ? pausedCounts : offlineCounts, 1,count)} table={table} availableCounts={availableCounts} atworkCounts={atworkCounts} pausedCounts={pausedCounts} offlineCounts={offlineCounts} setTable={setTable} />
-       {userInfo?.type?.id === 3 && <Link to={'/admin/dashboard/courier/new'} className='w-[183px] h-12 py-[15px] bg-red-800 flex flex-row rounded-[10px] justify-center items-center gap-2.5'>
-          <div className="text-center text-white text-base font-normal font-rubik leading-tight">Add Courier</div> 
+        <Tabs paginate={() => generatePagination(table === 'active' ? customersActiveCounts : customersSuspendedCounts, 1,count)} table={table} activeCounts={customersActiveCounts} suspendedCounts={customersSuspendedCounts} setTable={setTable} />
+       <Link to={'/admin/dashboard/customers/new'} className='w-[183px] h-12 py-[15px] bg-red-800 flex flex-row rounded-[10px] justify-center items-center gap-2.5'>
+          <div className="text-center text-white text-base font-normal font-rubik leading-tight">Add Customer</div> 
           <img src={AddCircle} className='w-5 h-5' />
-        </Link>}
+        </Link>
       </div>
       <div className='w-[100%] min-h-[400px] mt-6 relative bg-white rounded-[10px] pb-20 py-[22px] px-[16px]'>
         <div className='flex flex-row justify-between items-center'>
-          <div className="text-zinc-800 text-lg font-semibold font-rubik">Available Couriers</div> 
+          <div className="text-zinc-800 text-lg font-semibold font-rubik">{table === 'active' ? 'Active' : 'Suspended'} Customers</div> 
           <div className='flex flex-row gap-[10px] items-center'>
             {/* <Dropdown /> */}
             <div className='relative'>
@@ -141,7 +142,7 @@ function Couriers() {
                   <span className='text-slate-500 text-xs font-normal font-rubik'>Country</span>
                 </th>
                 <th scope="col" class="px-6 py-3 text-left">
-                  <span className='text-slate-500 text-xs font-normal font-rubik'>Vehicle Type</span>
+                  <span className='text-slate-500 text-xs font-normal font-rubik'>Total spent</span>
                 </th>
                 <th scope="col" class="px-6 py-3 text-left">
                     <span className='text-slate-500 text-xs font-normal font-rubik'>Status</span>
@@ -152,7 +153,7 @@ function Couriers() {
             </tr>
         </thead>
         <tbody >
-            {couriers?.map((item, idx) => <tr key={idx} onClick={() => {
+            {customersArray?.map((item, idx) => <tr key={idx} onClick={() => {
               }} class={`relative border-b border-gray-100 cursor-pointer text-left`}>
                 <th scope="row" class="px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <div className="h-[52px] flex-row justify-start items-center gap-2.5 inline-flex">
@@ -170,25 +171,61 @@ function Couriers() {
                   <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item?.country?.name}</div>
                 </td>
                 <td className='px-6 py-3 text-left'>
-                  <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{item.vehicle_name}</div>
+                  <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{item.total_spent?.toFixed(2)}</div>
                 </td>
-                <td className='px-6 py-3 text-left'>
-                  <div className={`w-[66px] h-[19px] px-3 py-1.5 ${item.is_active ? 'bg-green-100' : item.is_paused ? 'bg-yellow-50' : 'bg-rose-100'} rounded justify-start items-center gap-2.5 inline-flex`}>
-                      <div className={`${item.is_active ? 'text-green-700' : item.is_paused ? 'text-amber-500' : 'text-red-700'} text-xs font-normal font-['Rubik'] leading-none`}>{item.is_active ? 'Online' : item.is_paused ? 'Paused' : 'Offline'}</div>
+                <td className='px-6 py-3 text-left z-0'>
+                  <div className={`min-w-[66px] h-[19px] px-3 py-1.5 ${item.is_active ? 'bg-green-100' : 'bg-rose-100'} rounded justify-start items-center gap-2.5 inline-flex`}>
+                      <div className={`${item.is_active ? 'text-green-700' :  'text-red-700'} text-xs font-normal font-['Rubik'] leading-none`}>{item.is_active ? 'Online' : 'Suspended'}</div>
                   </div>
                 </td>
                 <td className='px-6 py-3 text-left'>
-                  <Link to={userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.id}` : `/support/dashboard/courier/${item.id}`} className='flex flex-row gap-[6px]'>
-                    <span className={`text-red-800 underline text-sm font-normal font-rubik leading-none`}>View</span> 
-                    <img src={Export} alt='SVGEXPORT' className='w-3 h-3' />
-                  </Link>
+                <Menu>
+                  <div className=''>
+                    <Menu.Button>
+                      <img src={MoreVertical} className='w-4 h-4 rotate-90 z-0' />
+                    </Menu.Button>
+                    <Transition
+                      as={Fragment}
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <Menu.Items className="absolute z-50 right-[37px] top-[15px] w-[158px] h-30 p-4 bg-white rounded-xl shadow flex-col justify-start items-start gap-2 inline-flex">
+                          <Menu.Item>
+                          <button className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
+                            <div className="w-6 h-6 bg-gray-100 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex">
+                              <img src={Edit} className='w-4 h-4' />
+                            </div>
+                            <div className="text-zinc-800 text-xs font-normal font-['Rubik'] leading-none">Edit</div>
+                          </button>
+                          </Menu.Item>
+                          <div className='w-full h-[1px] bg-[#D0D4D9]' />
+                          <Menu.Item>
+                          {table === 'active' ? <button className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
+                            <div className="w-6 h-6 bg-rose-100 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex">
+                              <img src={Close} className='w-10 h-10' />
+                            </div>
+                            <div className="text-red-700 text-xs font-normal font-['Rubik'] leading-none">Suspend</div>
+                          </button> :
+                           <button className="w-[132px] h-[42px] px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex">
+                            <div className="text-center text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Reactivate</div>
+                           </button>
+                          }
+                          </Menu.Item>
+                      </Menu.Items>
+                    </Transition>
+                  </div>
+                </Menu>
                 </td>
             </tr>)}
         </tbody>
     </table>
         </div>
         {
-          couriers?.length === 0 &&
+          customersArray?.length === 0 &&
           <div>
             <img src={packageOngoing} className='w-[152px] h-[152px] mx-auto mt-10 mb-3' />
             <div className="text-center text-gray-300 text-base font-normal font-['Rubik'] leading-tight">{table === 'available' ? 'Currently, there are no couriers available.' : table === 'at-work' ? 'Currently, there are no couriers at work.' : table === 'paused' ? 'Currently, there are no paused couriers.' : 'Currently, there are no offline couriers.'}</div>           
@@ -256,15 +293,11 @@ function Couriers() {
             <div className='flex flex-row gap-2.5'>
               <button disabled={currentPage === 1 ? true : false} onClick={() => {
                 setCurrentPage(currentPage - 1)
-                if (table === 'available') {
-                  dispatch(fetchAvailableCouriers(count, currentPage - 1));
-                } else if (table === 'at-work') {
-                  dispatch(fetchAtWorkCouriers(count, currentPage - 1));
-                } else if (table === 'paused') {
-                  dispatch(fetchPausedCouriers(count, currentPage - 1));
-                }else {
-                  dispatch(fetchOfflineCouriers(count, currentPage - 1));
-                }
+                if (table === 'active') {
+                  dispatch(fetchCustomersActiveAction(currentPage - 1, count));
+                } else {
+                  dispatch(fetchCustomersSuspendedAction(currentPage - 1, count));
+                } 
               }} className="w-6 h-6 cursor-pointer bg-white rounded-[100px] border border-gray-100 justify-center items-center gap-1 inline-flex">
                 <img src={ArrowLeftSmall} className='w-3 h-3' />
               </button> 
@@ -272,15 +305,11 @@ function Couriers() {
                 {paginations.map((item, idx) => 
                 <div key={idx} onClick={() => {
                   setCurrentPage(item);
-                  if (table === 'available') {
-                    dispatch(fetchAvailableCouriers(count, item));
-                  } else if (table === 'at-work') {
-                    dispatch(fetchAtWorkCouriers(count, item));
-                  } else if (table === 'paused'){
-                    dispatch(fetchPausedCouriers(count, item));
+                  if (table === 'active') {
+                    dispatch(fetchCustomersActiveAction(item, count));
                   } else {
-                    dispatch(fetchOfflineCouriers(count, item));
-                  }
+                    dispatch(fetchCustomersSuspendedAction(item, count));
+                  } 
 
                 }} className={`w-6 h-6 px-[9px] ${ item === currentPage ? "bg-red-800" : "bg-white" } rounded-[100px] cursor-pointer justify-center items-center gap-1 inline-flex`}>
                   <div className={`${ item === currentPage ? "text-white" : "text-zinc-800" } text-xs font-normal font-['Rubik'] leading-none`}>{item}</div>
@@ -288,15 +317,11 @@ function Couriers() {
               </div>
               <button disabled={currentPage === paginations[paginations.length - 1] ? true : false} onClick={() => {
                 setCurrentPage(currentPage + 1)
-                if (table === 'available') {
-                  dispatch(fetchAvailableCouriers(count, currentPage + 1));
-                } else if (table === 'at-work') {
-                  dispatch(fetchAtWorkCouriers(count, currentPage + 1));
-                } else if (table === 'paused') {
-                  dispatch(fetchPausedCouriers(count, currentPage + 1));
+                if (table === 'active') {
+                  dispatch(fetchCustomersActiveAction(currentPage + 1, count));
                 } else {
-                  dispatch(fetchOfflineCouriers(count, currentPage + 1));
-                }
+                  dispatch(fetchCustomersSuspendedAction(currentPage + 1, count));
+                } 
               }} className="w-6 h-6 cursor-pointer bg-white rounded-[100px] border border-gray-100 justify-center items-center gap-1 inline-flex">
                 <img src={ArrowLeftSmall} className='w-3 h-3 rotate-180' />
               </button> 
@@ -309,4 +334,4 @@ function Couriers() {
   )
 }
 
-export default Couriers
+export default Customers
