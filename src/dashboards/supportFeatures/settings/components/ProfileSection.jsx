@@ -1,11 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import EditIcon from "../../../../assets/images/dashboard/icon/edit-3.svg";
 import EditIcon2 from "../../../../assets/images/dashboard/icon/edit-2.svg";
 import noProfile from "../../../../assets/images/dashboard/image/image.png";
+import EditProfileModal from "../components/UI/EditProfileModal";
+import SuccessToast from "../../../../components/ui/SuccessToast";
 
 export default function ProfileSection() {
+  const [ShowEditProfileModal, setShowEditProfileModal] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
+  const handleModalConfirm = (isConfirmed) => {
+    if (isConfirmed) {
+      handleShowToast();
+    }
+  };
+
+  const handleShowToast = () => {
+    setShowEditProfileModal(false);
+    setShowToast(true);
+
+    setTimeout(() => {
+      setShowToast(false);
+    }, 30);
+  };
+
   return (
     <div className="w-[100%] h-[100%] p-5 bg-white rounded-lg flex-col justify-start items-start gap-6 inline-flex overflow-auto">
+      <EditProfileModal
+        show={ShowEditProfileModal}
+        onremove={() => setShowEditProfileModal(false)}
+        title="Profile Picture"
+        image={noProfile}
+        content="A picture helps people recognize you and lets you know when you’re signed in to your account."
+        onConfirm={handleModalConfirm}
+      />
+
+      <SuccessToast
+        text="The pending package has been successfully resolved"
+        show={showToast}
+        onClose={() => setShowToast(false)}
+      />
+
       <div className="justify-start items-center gap-5 inline-flex">
         <div className="w-[100px] h-[100px] relative">
           <div className="w-[100px] h-[100px] left-0 top-0 absolute">
@@ -15,7 +50,9 @@ export default function ProfileSection() {
               src={noProfile}
             />
           </div>
-          <div className="h-8 pl-[10.15px] pr-[7.80px] py-[9.37px] left-[66px] top-[60px] absolute bg-red-800 rounded-[100px] justify-center items-center inline-flex">
+          <div className="h-8 pl-[10.15px] pr-[7.80px] py-[9.37px] left-[66px] top-[60px] absolute bg-red-800 rounded-[100px] justify-center items-center inline-flex" onClick={() =>
+            setShowEditProfileModal(true)}
+          >
             <div className="w-3.5 h-[13.27px] relative flex-col justify-start items-start flex">
               <img src={EditIcon} className="" />
             </div>
