@@ -1,6 +1,6 @@
 import React from 'react';
 
-const GroupProfile = ({ name }) => {
+const GroupProfile = ({ name, small = false }) => {
   const randomColor = () => {
     const colors = [
       'bg-red-400',
@@ -32,8 +32,8 @@ const GroupProfile = ({ name }) => {
   const firstLetter = name ? name.charAt(0).toUpperCase() : '';
 
   return (
-    <div className={`w-[46px] h-[46px] flex items-center justify-center rounded-full ${backgroundColor}`}>
-      <span className={`text-xl font-bold ${textClass}`}>{firstLetter}</span>
+    <div className={`${small ? 'w-6 h-6' : 'w-[46px] h-[46px]'} flex items-center justify-center rounded-full ${backgroundColor}`}>
+      <span className={`${small ? 'text-xs' : 'text-xl'} font-bold ${textClass}`}>{firstLetter}</span>
     </div>
   );
 };

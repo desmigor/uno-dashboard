@@ -22,6 +22,7 @@ const initialState = {
     groups: [],
     groupDetails: {},
     countries: [],
+    vehicles: [],
 }
 
 const fetchCouriersSlice = createSlice({
@@ -84,8 +85,11 @@ const fetchCouriersSlice = createSlice({
         fetchGroupDetails: (state, { payload }) => {
             state.groupDetails = payload.data;
         },
+        fetchVehicle: (state, { payload }) => {
+            state.vehicles = payload.data;
+        }
     }
 })
 
-export const { fetchCouriers, fetchCouriersSuccess, fetchCouriersError, fetchCouriersLocations, fetchCouriersAvailable, fetchCouriersAtWork, fetchCouriersPaused, fetchCouriersOffline, fetchCourierDetails, fetchCourierPackages, fetchGroups, fetchCoutries, fetchGroupCouriers, fetchGroupDetails } = fetchCouriersSlice.actions;
+export const { fetchCouriers, fetchCouriersSuccess, fetchCouriersError, fetchCouriersLocations, fetchCouriersAvailable, fetchCouriersAtWork, fetchCouriersPaused, fetchCouriersOffline, fetchCourierDetails, fetchCourierPackages, fetchGroups, fetchCoutries, fetchGroupCouriers, fetchGroupDetails, fetchVehicle } = fetchCouriersSlice.actions;
 export default fetchCouriersSlice.reducer;
