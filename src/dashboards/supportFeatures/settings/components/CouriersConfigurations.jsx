@@ -4,10 +4,13 @@ import Search from "../../../../assets/images/dashboard/icon/search-normal2.svg"
 import { Menu, Transition } from "@headlessui/react";
 import ArrowDownSmall from "../../../../assets/images/dashboard/icon/arrow-down-small.svg";
 import ArrowLeftSmall from "../../../../assets/images/dashboard/icon/arrow-left-small.svg";
+import AddIcon from "../../../../assets/images/dashboard/icon/add-circle.svg";
+import AddVehicleType from "./UI/AddVehicleTypeModal";
 
 export default function CouriersConfigurations() {
   const [paginations, setPaginations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const vehicle_types = [
     {
@@ -45,26 +48,53 @@ export default function CouriersConfigurations() {
       date: "Dec, 23m 2023",
       couriers: "12",
     },
+    {
+      name: "Hoho",
+      size: "20X20",
+      capacit: "5kg",
+      date: "Dec, 23m 2023",
+      couriers: "12",
+    },
   ];
 
   return (
+
     <div className="w-[100%] min-h-[400px] mt-6 relative bg-white rounded-[10px] pb-20 py-[22px] px-[16px]">
+      <AddVehicleType
+      show={showCreateModal}
+      onClose={() => setShowCreateModal(false)}
+      onConfirm={() => setShowCreateModal(false)}
+      />
       <div className="flex flex-row justify-between items-center">
         <div class="text-zinc-800 text-lg font-semibold font-rubik">
           Vehicle types
         </div>
-        <div className="flex flex-row gap-[10px] items-center">
-          {/* <Dropdown /> */}
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search courier ..."
-              className="placeholder:text-gray-300 text-sm font-normal font-rubik leading-tight w-[328px] h-10 pr-4 pl-10 py-[13px] rounded-xl border border-gray-100 justify-start items-center inline-flex"
-            />
-            <img
-              src={Search}
-              className="w-4 h-4 absolute top-[12px] left-[16px]"
-            />
+        <div className="flex flex-row gap-4">
+          <div className="flex flex-row gap-[10px] items-center">
+            {/* <Dropdown /> */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search courier ..."
+                className="placeholder:text-gray-300 text-sm font-normal font-rubik leading-tight w-[328px] h-10 pr-4 pl-10 py-[13px] rounded-xl border border-gray-100 justify-start items-center inline-flex"
+              />
+              <img
+                src={Search}
+                className="w-4 h-4 absolute top-[12px] left-[16px]"
+              />
+            </div>
+          </div>
+          <div class=" h-10 px-[60px] py-[15px] bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex cursor-pointer"
+            onClick={() => setShowCreateModal(true)}
+          >
+            <div class="text-center text-white text-sm font-normal font-rubik leading-tight cursor-pointer">
+              Add type
+            </div>
+            <div class="w-5 h-5 justify-center items-center flex">
+              <div class="w-5 h-5 relative">
+                <img src={AddIcon}/>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -117,28 +147,28 @@ export default function CouriersConfigurations() {
                   class="px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   <div className="h-[52px] flex-row justify-start items-center gap-2.5 inline-flex">
-                    <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">
+                    <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
                       {item.name}
                     </div>
                   </div>
                 </th>
                 <td className="px-6 py-3 text-left">
-                  <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
                     {item.size}
                   </div>
                 </td>
                 <td className="px-6 py-3 text-left">
-                  <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
                     {item.capacit}
                   </div>
                 </td>
                 <td className="px-6 py-3 text-left">
-                  <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
                     {item?.date}
                   </div>
                 </td>
                 <td className="px-6 py-3 text-left">
-                  <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">
+                  <div className="text-zinc-800 text-sm font-semibold font-rubik leading-tight">
                     {item.couriers}
                   </div>
                 </td>
@@ -151,12 +181,12 @@ export default function CouriersConfigurations() {
       {vehicle_types?.length === 0 && <div></div>}
       <div className="mt-[20px] absolute bottom-3  w-[97.5%] flex items-center justify-between">
         <div className="w-[155px] h-[25px] justify-start items-center gap-2.5 inline-flex">
-          <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+          <div className="text-gray-400 text-sm font-normal font-rubik leading-tight">
             Rows per page
           </div>
           <Menu as="div">
             <Menu.Button className="w-[49px] h-[25px] cursor-pointer px-[9px] bg-white rounded-[20px] border border-gray-100 justify-start items-center gap-1 flex">
-              <div className="text-center text-zinc-800 text-xs font-normal font-['Rubik'] leading-none">
+              <div className="text-center text-zinc-800 text-xs font-normal font-rubik leading-none">
                 {/* {count} */}
               </div>
               <img src={ArrowDownSmall} className="w-3 h-3" />
@@ -177,7 +207,7 @@ export default function CouriersConfigurations() {
                 >
                   <Menu.Item>
                     {({ active }) => (
-                      <div className="text-center text-zinc-800 text-sm font-normal font-['Rubik'] leading-none">
+                      <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-none">
                         5
                       </div>
                     )}
@@ -189,7 +219,7 @@ export default function CouriersConfigurations() {
                 >
                   <Menu.Item>
                     {({ active }) => (
-                      <div className="text-center text-zinc-800 text-sm font-normal font-['Rubik'] leading-none">
+                      <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-none">
                         10
                       </div>
                     )}
@@ -201,7 +231,7 @@ export default function CouriersConfigurations() {
                 >
                   <Menu.Item>
                     {({ active }) => (
-                      <div className="text-center text-zinc-800 text-sm font-normal font-['Rubik'] leading-none">
+                      <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-none">
                         15
                       </div>
                     )}
@@ -213,7 +243,7 @@ export default function CouriersConfigurations() {
                 >
                   <Menu.Item>
                     {({ active }) => (
-                      <div className="text-center text-zinc-800 text-sm font-normal font-['Rubik'] leading-none">
+                      <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-none">
                         20
                       </div>
                     )}
@@ -225,7 +255,7 @@ export default function CouriersConfigurations() {
                 >
                   <Menu.Item>
                     {({ active }) => (
-                      <div className="text-center text-zinc-800 text-sm font-normal font-['Rubik'] leading-none">
+                      <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-none">
                         25
                       </div>
                     )}
@@ -236,7 +266,7 @@ export default function CouriersConfigurations() {
           </Menu>
         </div>
         <div className="min-w-[415px] h-6 justify-end items-center gap-2.5 flex">
-          <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+          <div className="text-gray-400 text-sm font-normal font-rubik leading-tight">
             Results per page
           </div>
           <div className="flex flex-row gap-2.5">
@@ -281,7 +311,7 @@ export default function CouriersConfigurations() {
                   <div
                     className={`${
                       item === currentPage ? "text-white" : "text-zinc-800"
-                    } text-xs font-normal font-['Rubik'] leading-none`}
+                    } text-xs font-normal font-rubik leading-none`}
                   >
                     {item}
                   </div>
