@@ -3,11 +3,16 @@ import { Tab } from "@headlessui/react";
 import ProfileSection from "./ProfileSection";
 import SecuritySection from "./SecuritySection";
 import NotificationsSection from "./NotificationsSection";
+import PackageConfigurations from "./packageConfigurations";
+import CouriersConfigurations from "./CouriersConfigurations";
 
 const tabs = [
   { name: "My Profile" },
+  { name: "Package Configurations" },
+  {name: "Courier configurations"},
   { name: "Security" },
   { name: "Notifications" },
+  
 ];
 
 function Settings() {
@@ -28,8 +33,8 @@ function Settings() {
                 className={({ selected }) =>
                   `${
                     selected
-                      ? "w-[130px] h-9 px-6 py-2 border-b border-red-800 justify-start items-start gap-2.5 inline-flex text-center text-red-800 text-sm font-normal font-['Rubik'] leading-tight"
-                      : "w-[130px] h-9 px-6 py-2 border-b border-gray-100 justify-start items-start gap-2.5 inline-flex text-center text-slate-400 text-sm font-normal font-['Rubik'] leading-tight"
+                      ? " h-9 px-6 py-2 border-b border-red-800 justify-start items-start gap-2.5 inline-flex text-center text-red-800 text-sm font-normal font-rubik leading-tight"
+                      : " h-9 px-6 py-2 border-b border-gray-100 justify-start items-start gap-2.5 inline-flex text-center text-slate-400 text-sm font-normal font-rubik leading-tight"
                   } `
                 }
               >
@@ -40,6 +45,12 @@ function Settings() {
           <Tab.Panels>
             <Tab.Panel>
               <ProfileSection />
+            </Tab.Panel>
+            <Tab.Panel>
+              <PackageConfigurations />
+            </Tab.Panel>
+            <Tab.Panel>
+              <CouriersConfigurations />
             </Tab.Panel>
             <Tab.Panel>
               <SecuritySection />
