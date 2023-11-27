@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { fetchPendingAction } from "../../../../redux/actions/fetchPendingAction";
 import { fetchTotalsAction } from "../../../../redux/actions/fetchTotalsAction";
-import {fetchPackagesAction} from "../../../../redux/actions/fetchPackagesAction";
+import {fetchPackagesAction, fetchPackagesOngoingAction,  fetchPackagesCompletedAction, fetchPackagesCanceledAction} from "../../../../redux/actions/fetchPackagesAction";
 import { fetchCouriersAction, fetchCouriersLocationsAction } from "../../../../redux/actions/fetchCouriersAction";
 
 function Dashboard() {
@@ -26,11 +26,13 @@ function Dashboard() {
     dispatch(fetchTotalsAction());
     dispatch(fetchPendingAction());
     dispatch(fetchPackagesAction());
+    dispatch(fetchPackagesOngoingAction(1, 5));
+    dispatch(fetchPackagesCompletedAction(1, 5));
+    dispatch(fetchPackagesCanceledAction(1, 5));
     dispatch(fetchCouriersAction());
     dispatch(fetchCouriersLocationsAction());
   }, []);
 
-  console.log(packages);
 
 
   return (

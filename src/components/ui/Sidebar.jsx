@@ -8,7 +8,12 @@ import InfoIcon2  from '../../assets/images/dashboard/icon/information2.svg';
 import InfoIconInactive  from '../../assets/images/dashboard/icon/information0.svg';
 import PackageIcon  from '../../assets/images/dashboard/icon/box.svg';
 import PackageIcon2  from '../../assets/images/dashboard/icon/box3.svg';
+import Layer  from '../../assets/images/dashboard/icon/layer.svg';
+import Sort  from '../../assets/images/dashboard/icon/sort.svg';
+import LayerO  from '../../assets/images/dashboard/icon/layer-o.svg';
+import SortO  from '../../assets/images/dashboard/icon/sort-o.svg';
 import PackageIconInactive  from '../../assets/images/dashboard/icon/box0.svg';
+import ArrowDown  from '../../assets/images/dashboard/icon/arrow-down-white.svg';
 import ProfileIcon  from '../../assets/images/dashboard/icon/profile-2user.svg';
 import ProfileIcon2  from '../../assets/images/dashboard/icon/profile-2user3.svg';
 import ProfileIconInactive  from '../../assets/images/dashboard/icon/profile0.svg';
@@ -24,6 +29,8 @@ import { useSelector } from 'react-redux';
 function Sidebar() {
     const { userInfo } = useSelector((state) => state.auth);
     const [selected, setSelcted] = useState('Dashboard');
+    const [selectedSubCourier, setSelectedSubCourier] = useState('All Couriers');
+    const [expanded, setExpanded] = useState(false);
 
     const sidebarLinksSupport = [
         {
@@ -88,7 +95,7 @@ function Sidebar() {
             name: "Customers",
             activeIcon: CustomerIcon,
             inactiveIcon: CustomerIconInactive,
-            path: '/admin/dashboard/courier'
+            path: '/admin/dashboard/customers'
         },
         {
             name: "Settings",
@@ -108,10 +115,28 @@ function Sidebar() {
             {
                 sidebarLinks.map((item, idx) => {
                     return(
-                        <Link onClick={() => setSelcted(item.name)} to={item.path} className={`cursor-pointer group ${userInfo?.type?.id !== 3 && selected === item.name && 'bg-rose-100'}  2xl:w-[196px] w-[90%] h-[54px] px-4 py-[17px] ${userInfo?.type?.id === 3 ? 'hover:bg-[#3F4449]' : 'hover:bg-[#F2f2f2]'} ${selected === item.name && 'bg-rose-100' } rounded-xl ${selected === item.name && userInfo?.type?.id === 3 ? 'bg-gradient-to-br from-red-900 to-red-700' : userInfo?.type?.id !== 3 && 'border-0 border-red-900'}  2xl:gap-[16px] 2xl:flex 2xl:flex-row 2xl:items-center`}>
-                            <img src={selected === item.name ? item.activeIcon : item.inactiveIcon} className='w-5 h-5 mx-auto 2xl:mx-0' alt='DASHSVG' />
-                            <span className={`${selected === item.name ? userInfo?.type?.id === 3 ? 'text-white' : 'text-red-800' : 'text-gray-400'} text-base hidden 2xl:flex font-normal font-rubik leading-tight`}>{item.name}</span>
-                        </Link>
+                        <div className={`w-[196px] ${userInfo?.type?.id === 3 && item.name === 'Couriers' && expanded ? 'h-[178px]' : ''} ${userInfo?.type?.id === 3 && item.name === 'Couriers' && selected === item.name ? 'bg-neutral-600' : ''} rounded-[10px] flex-col justify-start items-start gap-2 inline-flex`}>
+                            <Link onClick={() => {
+                                setSelcted(item.name)
+                                setExpanded(userInfo?.type?.id === 3 && item.name === 'Couriers' ? !expanded : false);
+                            }} to={item.path} className={`cursor-pointer group ${userInfo?.type?.id !== 3 && selected === item.name && 'bg-rose-100'}  2xl:w-[196px] w-[90%] h-[54px] px-4 py-[17px] ${userInfo?.type?.id === 3 ? 'hover:bg-[#3F4449]' : 'hover:bg-[#F2f2f2]'} ${selected === item.name && 'bg-rose-100' } rounded-xl ${selected === item.name && userInfo?.type?.id === 3 ? 'bg-gradient-to-br from-red-900 to-red-700' : userInfo?.type?.id !== 3 && 'border-0 border-red-900'}  2xl:gap-[16px] 2xl:flex 2xl:flex-row 2xl:items-center`}>
+                                <img src={selected === item.name ? item.activeIcon : item.inactiveIcon} className='w-5 h-5 mx-auto 2xl:mx-0' alt='DASHSVG' />
+                                <span className={`${selected === item.name ? userInfo?.type?.id === 3 ? 'text-white' : 'text-red-800' : 'text-gray-400'} text-base hidden 2xl:flex font-normal font-rubik leading-tight`}>{item.name}</span>
+                                <img src={ArrowDown} className={`${userInfo?.type?.id === 3 && item.name === 'Couriers' ? 'block' : 'hidden'} ${expanded ? 'rotate-0' : 'rotate-180'} w-5 h-5 ml-auto`} />
+                            </Link>
+                            {expanded && userInfo?.type?.id === 3 && item.name === 'Couriers' && <Link onClick={() => {
+                                setSelectedSubCourier('All Couriers')
+                            }} to={item.path} className={`w-[196px] h-[54px] px-4 py-[17px] ${selectedSubCourier === 'All Couriers' && 'bg-opacity-20 bg-white border-white border'} gap-4 flex rounded-[10px] flex-row justify-start items-center`}>
+                                <img src={selectedSubCourier === 'All Couriers' ? Sort : SortO} className='w-5 h-5 mx-auto 2xl:mx-0' alt='DASHSVG' />
+                                <span className={`${selectedSubCourier === 'All Couriers' ? 'text-white' : 'text-[#b5b7b9]'} text-base hidden 2xl:flex font-normal font-rubik leading-tight`}>All Couriers</span>
+                            </Link>}
+                            {expanded && userInfo?.type?.id === 3 && item.name === 'Couriers' && <Link onClick={() => {
+                                setSelectedSubCourier('Groups')
+                            }} to={`/admin/dashboard/courier/groups`} className={`w-[196px] h-[54px] px-4 py-[17px] ${selectedSubCourier === 'Groups' && 'bg-opacity-20 bg-white border-white border'} gap-4 flex rounded-[10px] flex-row justify-start items-center`}>
+                                <img src={selectedSubCourier === 'Groups' ? LayerO : Layer } className='w-5 h-5 mx-auto 2xl:mx-0' alt='DASHSVG' />
+                                <span className={`${selectedSubCourier === 'Groups' ? 'text-white' : 'text-[#b5b7b9]'} text-base hidden 2xl:flex font-normal font-rubik leading-tight`}>Groups</span>
+                            </Link>}
+                        </div>
                     )
                 })
             }

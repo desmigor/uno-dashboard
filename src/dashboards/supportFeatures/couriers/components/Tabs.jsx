@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Tab } from '@headlessui/react'
 
-function Tabs({ setTable, ongoingCount, completedCount, canceledCount, table, paginate }) {
+function Tabs({ setTable, availableCounts, atworkCounts, pausedCounts, offlineCounts, table, paginate }) {
   return (
     <Tab.Group manual>
         <Tab.List className="min-w-[412px] h-12 p-1.5 bg-neutral-100 rounded-[10px] border border-gray-100 justify-start items-center gap-2.5 inline-flex">
@@ -9,7 +9,7 @@ function Tabs({ setTable, ongoingCount, completedCount, canceledCount, table, pa
             {({ selected }) => (
                 <div
                 onClick={() => {
-                    setTable('ongoing')
+                    setTable('available')
                     paginate()
                 }}
                 class={
@@ -23,11 +23,11 @@ function Tabs({ setTable, ongoingCount, completedCount, canceledCount, table, pa
                     (selected ? " text-zinc-800" : " text-slate-500")
                     }
                 >
-                    Ongoing
+                    Available
                 </div>
 
-                <div className={`min-w-[27px] h-[19px] px-1.5 rounded-md border ${table === 'ongoing' ? 'border-red-800' : 'border-gray-100'} justify-start items-center gap-2.5 inline-flex`}>
-                <div className={`text-center ${table === 'ongoing' ? 'text-red-800' : 'text-zinc-800'} text-xs font-normal font-rubik leading-none`}>{ongoingCount}</div> 
+                <div className={`min-w-[27px] h-[19px] px-1.5 rounded-md border ${table === 'available' ? 'border-red-800' : 'border-gray-100'} justify-start items-center gap-2.5 inline-flex`}>
+                <div className={`text-center ${table === 'available' ? 'text-red-800' : 'text-zinc-800'} text-xs font-normal font-rubik leading-none`}>{availableCounts}</div> 
                 </div>
                 </div>
             )}
@@ -36,7 +36,7 @@ function Tabs({ setTable, ongoingCount, completedCount, canceledCount, table, pa
             {({ selected }) => (
                 <div
                 onClick={() => {
-                    setTable('completed')
+                    setTable('at-work')
                     paginate()
                 }}
                 class={
@@ -50,10 +50,10 @@ function Tabs({ setTable, ongoingCount, completedCount, canceledCount, table, pa
                     (selected ? " text-zinc-800" : " text-slate-500")
                     }
                 >
-                    Completed
+                    At Work
                 </div>
-                <div className={`min-w-[27px] h-[19px] px-1.5 rounded-md border ${table === 'completed' ? 'border-red-800' : 'border-gray-100'} justify-start items-center gap-2.5 inline-flex`}>
-                <div className={`text-center ${table === 'completed' ? 'text-red-800' : 'text-zinc-800'} text-xs font-normal font-rubik leading-none`}>{completedCount}</div>
+                <div className={`min-w-[27px] h-[19px] px-1.5 rounded-md border ${table === 'at-work' ? 'border-red-800' : 'border-gray-100'} justify-start items-center gap-2.5 inline-flex`}>
+                <div className={`text-center ${table === 'at-work' ? 'text-red-800' : 'text-zinc-800'} text-xs font-normal font-rubik leading-none`}>{atworkCounts}</div>
                 </div> 
                 </div>
             )}
@@ -62,7 +62,7 @@ function Tabs({ setTable, ongoingCount, completedCount, canceledCount, table, pa
             {({ selected }) => (
                 <div
                 onClick={() => {
-                    setTable('canceled')
+                    setTable('paused')
                     paginate()
                 }}
                 class={
@@ -76,10 +76,36 @@ function Tabs({ setTable, ongoingCount, completedCount, canceledCount, table, pa
                     (selected ? " text-zinc-800" : " text-slate-500")
                     }
                 >
-                    Canceled
+                    Paused
                 </div>
-                <div className={`min-w-[27px] h-[19px] px-1.5 rounded-md border ${table === 'canceled' ? 'border-red-800' : 'border-gray-100'} justify-start items-center gap-2.5 inline-flex`}>
-                    <div className={`text-center ${table === 'canceled' ? 'text-red-800' : 'text-zinc-800'} text-xs font-normal font-rubik leading-none`}>{canceledCount}</div>
+                <div className={`min-w-[27px] h-[19px] px-1.5 rounded-md border ${table === 'paused' ? 'border-red-800' : 'border-gray-100'} justify-start items-center gap-2.5 inline-flex`}>
+                    <div className={`text-center ${table === 'paused' ? 'text-red-800' : 'text-zinc-800'} text-xs font-normal font-rubik leading-none`}>{pausedCounts}</div>
+                </div> 
+                </div>
+            )}
+            </Tab>
+            <Tab as={Fragment}>
+            {({ selected }) => (
+                <div
+                onClick={() => {
+                    setTable('offline')
+                    paginate()
+                }}
+                class={
+                    "min-w-[124px] h-9 px-4 py-2 rounded-md justify-start items-center gap-2.5 inline-flex  cursor-pointer" +
+                    (selected ? " bg-white shadow" : "")
+                }
+                >
+                <div
+                    class={
+                    "text-center text-sm font-normal font-rubik leading-tight" +
+                    (selected ? " text-zinc-800" : " text-slate-500")
+                    }
+                >
+                    Offline
+                </div>
+                <div className={`min-w-[27px] h-[19px] px-1.5 rounded-md border ${table === 'offline' ? 'border-red-800' : 'border-gray-100'} justify-start items-center gap-2.5 inline-flex`}>
+                    <div className={`text-center ${table === 'offline' ? 'text-red-800' : 'text-zinc-800'} text-xs font-normal font-rubik leading-none`}>{offlineCounts}</div>
                 </div> 
                 </div>
             )}

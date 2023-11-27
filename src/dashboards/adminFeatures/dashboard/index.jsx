@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import NameComponent from "../../../components/ui/NameComponent";
 import Dashcard from "../../../components/ui/dashcard";
 import Money from "../../../assets/images/dashboard/icon/money-recive.svg";
@@ -8,7 +8,6 @@ import People from "../../../assets/images/dashboard/icon/people2.svg";
 import Profile from "../../../assets/images/dashboard/icon/profile-2user2.svg";
 import Oval from "../../../assets/images/dashboard/icon/Oval.svg";
 import Dot from "../../../assets/images/dashboard/icon/Dot.svg";
-import Person from "../../../assets/images/dashboard/image/profilep.jpg";
 import ChartCard from "../../../components/ui/ChartCard";
 import ArrowLeft from "../../../assets/images/dashboard/icon/arrow-left.svg";
 import { Doughnut } from "react-chartjs-2";
@@ -56,12 +55,12 @@ function AdminDashboard() {
   const { customers } = useSelector((state) => state.fetchCustomers);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchTotalsAction({ admin: true }));
     dispatch(fetchCouriersAction({ top: true }));
     dispatch(fetchCustomersAction());
   }, []);
-  console.log(customers);
 
   return (
     <div className="bg-[#F8F9FA] h-screen w-full pb-20 px-10 p-6 overflow-auto">
