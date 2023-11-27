@@ -6,7 +6,7 @@ import Box from "../../../../assets/images/dashboard/icon/box2.svg";
 import Export from '../../../../assets/images/dashboard/icon/export.svg';
 import Profile2 from "../../../../assets/images/dashboard/icon/profile-2user2.svg";
 import Search from '../../../../assets/images/dashboard/icon/search-normal2.svg';
-import Profile from '../../../../assets/images/dashboard/icon/profile-2user3.svg';
+import Profile from '../../../../assets/images/dashboard//image/profilep.jpg';
 import GroupProfile from './GroupProfile';
 import packageOngoing from "../../../../assets/images/dashboard/icon/user-search2.svg";
 import ArrowDownSmall from '../../../../assets/images/dashboard/icon/arrow-down-small.svg';
@@ -132,7 +132,7 @@ const GroupDetails = () => {
             <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">View Group</div>
         </div> 
         <div className='flex w-full gap-5 mt-[23px] flex-row'>
-            <div className="w-[50%] min-h-[212px] pl-4 pr-[49px] py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[33px] inline-flex">
+            <div className="w-[50%] h-[212px] pl-4 pr-[49px] py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[33px] inline-flex">
                 <div className='flex flex-row gap-4 items-start'>
                     <GroupProfile name={groupDetails?.name} />
                     <div className='flex flex-col'>
@@ -204,7 +204,7 @@ const GroupDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className='w-[25%] min-h-[212px] px-4 py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[13px] inline-flex'>
+            <div className='w-[25%] h-[212px] px-4 py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[13px] inline-flex'>
                 <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">Deliveries</div>
                 <div
                     style={{
@@ -262,53 +262,63 @@ const GroupDetails = () => {
                 </div>
                 </div>
             </div>
-            <div className='w-[25%] min-h-[212px] pl-4 pr-[49px] py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[15px] inline-flex'>
-                <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight mb-5">Top Couriers</div>
-                {
-                  groupDetails?.top_couriers.map((item, idx) => <div className="w-full h-[38px] justify-start items-center gap-3 inline-flex">
-                    <img className="w-9 h-9 rounded-[100px] object-cover" src={item.profile_photo_link} />
+            <div className='w-[25%] h-[212px] pl-4 pr-[49px] py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[15px] inline-flex'>
+                <div className="w-[236px] text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">Top Couriers</div>
+                <div className="w-full h-[38px] justify-start items-center gap-3 inline-flex">
+                    <img className="w-9 h-9 rounded-[100px] object-cover" src={Profile} />
                     <div className="flex-col justify-start items-start gap-0.5 inline-flex">
                         <div className="justify-start items-center gap-1.5 inline-flex">
-                            <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item.full_name}</div>
+                            <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Mike Jeremy</div>
                         </div>
-                        <div className="text-slate-500 text-xs font-normal font-['Rubik'] leading-none">${item.total_revenue}</div>
+                        <div className="text-slate-500 text-xs font-normal font-['Rubik'] leading-none">$340.04</div>
                     </div>
-                  </div>)
-                }
-                {
-                  <div className='w-full'>
-                    {groupDetails?.top_couriers?.length === 0 && <img src={packageOngoing} className='w-[69px] h-[69px] mx-auto' /> }
-                    <h1 className="text-center text-gray-300 text-sm font-normal font-['Rubik'] leading-tight mt-[8px]">No couriers added yet</h1>
-                  </div>
-                }
+                </div>
+                <div className="w-full h-[38px] justify-start items-center gap-3 inline-flex">
+                    <img className="w-9 h-9 rounded-[100px] object-cover" src={Profile} />
+                    <div className="flex-col justify-start items-start gap-0.5 inline-flex">
+                        <div className="justify-start items-center gap-1.5 inline-flex">
+                            <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Mike Jeremy</div>
+                        </div>
+                        <div className="text-slate-500 text-xs font-normal font-['Rubik'] leading-none">$340.04</div>
+                    </div>
+                </div>
+                <div className="w-full h-[38px] justify-start items-center gap-3 inline-flex">
+                    <img className="w-9 h-9 rounded-[100px] object-cover" src={Profile} />
+                    <div className="flex-col justify-start items-start gap-0.5 inline-flex">
+                        <div className="justify-start items-center gap-1.5 inline-flex">
+                            <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Mike Jeremy</div>
+                        </div>
+                        <div className="text-slate-500 text-xs font-normal font-['Rubik'] leading-none">$340.04</div>
+                    </div>
+                </div>
             </div>
         </div>
         <div className="w-full mx-auto mt-[24px] gap-5 flex flex-row">
         <Dashcard
           icon={Money}
-          number={groupDetails?.total_revenue?.total_count?.toFixed() || 0}
-          percentage={groupDetails?.total_revenue?.total_rate?.toFixed(3) ||0}
+          number={groupDetails?.total_revenue?.toFixed()}
+          percentage={groupDetails?.total_revenue?.toFixed(3)}
           text={"Total Revenue"}
           iconBgColor={"bg-[#F4E7E7]"}
         />
         <Dashcard
           icon={Millage}
-          number={groupDetails.total_mileage?.total_count?.toFixed() || 0}
-          percentage={groupDetails.total_mileage?.total_rate?.toFixed(3) || 0}
+          number={groupDetails.total_mileage?.toFixed()}
+          percentage={groupDetails.total_mileage?.toFixed(3)}
           text={"Total Milleage"}
           iconBgColor={"bg-[#cce8f6]"}
         />
         <Dashcard
           icon={Profile2}
-          number={groupDetails.courier_count?.toFixed() || 0}
-          percentage={groupDetails.courier_count?.toFixed(3) || 0}
+          number={groupDetails.courier_count?.toFixed()}
+          percentage={groupDetails.courier_count?.toFixed(3)}
           text={"Total Couriers"}
           iconBgColor={"bg-rose-100"}
         />
         <Dashcard
           icon={Box}
-          number={groupDetails.total_orders?.total_count?.toFixed() || 0}
-          percentage={groupDetails.total_orders?.total_rate?.toFixed(3) || 0}
+          number={groupDetails.total_orders?.total_count?.toFixed()}
+          percentage={groupDetails.total_orders?.total_rate?.toFixed(3)}
           text={"Total Orders"}
           iconBgColor={"bg-yellow-400 bg-opacity-20"}
         />
