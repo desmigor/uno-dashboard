@@ -17,7 +17,7 @@ function Settings() {
     <div className="bg-neutral-50 h-[100%] overflow-auto">
       <div className="mx-10 py-6 my-10">
         {" "}
-        <div className="text-zinc-800 text-2xl font-bold font-['Rubik']">
+        <div className="text-zinc-800 text-2xl font-bold font-rubik">
           Settings
         </div>
         <Tab.Group manual>
@@ -28,8 +28,8 @@ function Settings() {
                 className={({ selected }) =>
                   `${
                     selected
-                      ? "w-[130px] h-9 px-6 py-2 border-b border-red-800 justify-start items-start gap-2.5 inline-flex text-center text-red-800 text-sm font-normal font-['Rubik'] leading-tight"
-                      : "w-[130px] h-9 px-6 py-2 border-b border-gray-100 justify-start items-start gap-2.5 inline-flex text-center text-slate-400 text-sm font-normal font-['Rubik'] leading-tight"
+                      ? "w-[130px] h-9 px-6 py-2 border-b border-red-800 justify-start items-start gap-2.5 inline-flex text-center text-red-800 text-sm font-normal font-rubik leading-tight"
+                      : "w-[130px] h-9 px-6 py-2 border-b border-gray-100 justify-start items-start gap-2.5 inline-flex text-center text-slate-400 text-sm font-normal font-rubik leading-tight"
                   } `
                 }
               >
