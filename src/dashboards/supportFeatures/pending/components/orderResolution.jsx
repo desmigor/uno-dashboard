@@ -17,11 +17,9 @@ export default function OrderResolution({item}) {
   const [SelectedAction, setSelectedAction] = useState("");
 
   const handleShowToast = () => {
-    console.log("handleShowToast");
     setShowToast(true);
 
     setTimeout(() => {
-      console.log("handleShowToast setTimeout");
       setShowToast(false);
     }, 30);
   };

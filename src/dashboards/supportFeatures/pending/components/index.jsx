@@ -63,9 +63,7 @@ function Pending() {
     setDestinations({lat: results.routes[0].legs[0].end_location.lat(), lng: results.routes[0].legs[0].end_location.lng()});
 }
 
-  console.log(selectedItem, 'KKK')
   return (
-    console.log(typeof(resolutionPackages)),
     <div className="bg-[#F8F9FA] h-screen w-full overflow-hidden">
       <div className="w-full h-[100%] mx-auto flex flex-row gap-0 relative">
         {/* Left Column */}
@@ -115,7 +113,6 @@ function Pending() {
                   delivery_point={item.package.drop_open_address}
                   time={item.package.delivery_date}
                   onClick={() => {
-                    console.log(item.id);
                     setSelectedItem(item);
                   }}
                 />

@@ -1,8 +1,9 @@
 import callAPI from "../../utils/api";
-import { errorLogin, login } from "../slices/authSlice";
+import { errorLogin, login, startLoading } from "../slices/authSlice";
 
 export const handleLoginAction = (username, password, type, navigate) => async (dispatch, getState) => {
     try {
+        dispatch(startLoading());
         const payload = {
             username,
             password
@@ -17,7 +18,6 @@ export const handleLoginAction = (username, password, type, navigate) => async (
         dispatch(login(reduxPayload));
         navigate(type === 'admin' ? '/admin/dashboard' : '/support/dashboard');
     } catch (error) {
-        console.log(error);
         const payload = {
             message: error.response.data.message,
             isPassword: error.response.data.message === "Please fill out the username." ? false : true
