@@ -1,8 +1,12 @@
-import React from "react";
+import React,{useState} from "react";
 import MenuIcon from "../../../../assets/images/dashboard/icon/more_vertical.svg";
 import AddIcon from "../../../../assets/images/dashboard/icon/add-circle.svg";
+import AddPackageSizeModal from "./UI/AddPackageSizeModal";
 
 export default function PackageConfigurations() {
+  const [addSizeModal, setAddSizeModal] = useState(false);
+  const [addOnModal, setAddOnModal] = useState(false);
+
   const packageSizes = [
     {
       title: "Cute Box",
@@ -95,13 +99,23 @@ export default function PackageConfigurations() {
   ];
 
   return (
-    <div className="flex flex-col gap-6 overflow-auto">
-      <div className="w-[100%] h-[100%] relative bg-white rounded-lg p-6">
+    <div >
+      <AddPackageSizeModal
+      show={addSizeModal}
+        open={addSizeModal}
+        onClose={() => setAddSizeModal(false)}
+      />
+    
+    <div className={`flex flex-col gap-6 overflow-auto ${addSizeModal || addOnModal? 'hidden' : ''}`}>
+      
+      <div className={`w-[100%] h-[100%] relative bg-white rounded-lg p-6`}>
         <div className="flex flex-row justify-between pb-2">
           <div className="text-zinc-800 text-lg font-semibold font-rubik ">
             Package sizes
           </div>
-          <div className="h-10 px-[30px] py-[15px] bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex">
+          <div className="h-10 px-[30px] py-[15px] bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex cursor-pointer"
+          onClick={setAddSizeModal}
+          >
             <div className="text-center text-white text-sm font-normal font-rubik leading-tight">
               Add Size
             </div>
@@ -116,7 +130,7 @@ export default function PackageConfigurations() {
           {packageSizes.map((item, index) => (
             <div
               key={index}
-              className="w-[350px] h-[200px] relative bg-white rounded-xl shadow border border-gray-100"
+              className="w-[340px] h-[200px] relative bg-white rounded-xl shadow border border-gray-100"
             >
               <div className="w-4 h-4 left-[324px] top-[10px] absolute">
                 <div className="left-[-2.67px] top-[-2.67px] absolute">
@@ -128,13 +142,13 @@ export default function PackageConfigurations() {
                   <div className="text-zinc-800 text-sm font-semibold font-rubik] leading-tight">
                     {item.title}
                   </div>
-                  <div className="w-[318px] h-[35px] text-gray-400 text-[13px] font-normal font-rubik] leading-tight overflow-auto">
+                  <div className="w-[312px] h-[35px] text-gray-400 text-[13px] font-normal font-rubik] leading-tight overflow-auto">
                     {item.description}
                   </div>
                 </div>
-                <hr className="w-[318px] border border-gray-200 border-solid " />
+                <hr className="w-[312px] border border-gray-200 border-solid " />
                 <div className="flex-col justify-start items-start gap-1.5 flex">
-                  <div className="w-[318px] justify-between items-start inline-flex">
+                  <div className="w-[312px] justify-between items-start inline-flex">
                     <div className="text-gray-400 text-xs font-normal font-rubik] leading-none">
                       Base Price
                     </div>
@@ -142,7 +156,7 @@ export default function PackageConfigurations() {
                       ${item.basePrice}
                     </div>
                   </div>
-                  <div className="w-[318px] justify-between items-start inline-flex">
+                  <div className="w-[312px] justify-between items-start inline-flex">
                     <div className="text-gray-400 text-xs font-normal font-rubik] leading-none">
                       First 10km
                     </div>
@@ -150,7 +164,7 @@ export default function PackageConfigurations() {
                       ${item.first10km}
                     </div>
                   </div>
-                  <div className="w-[318px] justify-between items-start inline-flex">
+                  <div className="w-[312px] justify-between items-start inline-flex">
                     <div className="text-gray-400 text-xs font-normal font-rubik] leading-none">
                       Next 15km
                     </div>
@@ -158,7 +172,7 @@ export default function PackageConfigurations() {
                       ${item.next15km}
                     </div>
                   </div>
-                  <div className="w-[318px] justify-between items-start inline-flex">
+                  <div className="w-[312px] justify-between items-start inline-flex">
                     <div className="text-gray-400 text-xs font-normal font-rubik] leading-none">
                       Next 25km
                     </div>
@@ -166,7 +180,7 @@ export default function PackageConfigurations() {
                       ${item.next25km}
                     </div>
                   </div>
-                  <div className="w-[318px] justify-between items-start inline-flex">
+                  <div className="w-[312px] justify-between items-start inline-flex">
                     <div className="text-gray-400 text-xs font-normal font-rubik] leading-none">
                       Next n-km
                     </div>
@@ -185,7 +199,7 @@ export default function PackageConfigurations() {
           <div className="text-zinc-800 text-lg font-semibold font-rubik ">
             Package add-ons
           </div>
-          <div className="h-10 px-[30px] py-[15px] bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex">
+          <div className="h-10 px-[30px] py-[15px] bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex cursor-pointer">
             <div className="text-center text-white text-sm font-normal font-rubik leading-tight">
               Add add-on
             </div>
@@ -200,7 +214,7 @@ export default function PackageConfigurations() {
           {packageAddOns.map((item, index) => (
             <div
               key={index}
-              className="w-[350px] h-[126px] relative bg-white rounded-xl shadow border border-gray-100"
+              className="w-[340px] h-[126px] relative bg-white rounded-xl shadow border border-gray-100"
             >
               <div className="w-4 h-4 left-[324px] top-[10px] absolute">
                 <div className="w-[21.33px] h-[21.33px] left-[-2.67px] top-[-2.67px] absolute"></div>
@@ -210,7 +224,7 @@ export default function PackageConfigurations() {
                   <div className="text-zinc-800 text-sm font-semibold font-rubik leading-tight">
                     {item.title}
                   </div>
-                  <div className="w-[318px] text-gray-400 text-sm font-normal font-rubik leading-tight">
+                  <div className="w-[312px] text-gray-400 text-sm font-normal font-rubik leading-tight">
                     {item.description}
                   </div>
                 </div>
@@ -222,6 +236,7 @@ export default function PackageConfigurations() {
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 }
