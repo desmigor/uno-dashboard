@@ -58,13 +58,15 @@ export default function CouriersConfigurations() {
   ];
 
   return (
-
     <div className="w-[100%] min-h-[400px] mt-6 relative bg-white rounded-[10px] pb-20 py-[22px] px-[16px]">
       <AddVehicleType
       show={showCreateModal}
       onClose={() => setShowCreateModal(false)}
       onConfirm={() => setShowCreateModal(false)}
       />
+      <div className={`${
+        showCreateModal ? "hidden" : ""
+      }`}>
       <div className="flex flex-row justify-between items-center">
         <div class="text-zinc-800 text-lg font-semibold font-rubik">
           Vehicle types
@@ -342,6 +344,7 @@ export default function CouriersConfigurations() {
             </button>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
