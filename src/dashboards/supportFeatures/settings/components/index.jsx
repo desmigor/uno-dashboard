@@ -20,7 +20,7 @@ function Settings() {
 
   return (
     <div className="bg-neutral-50 h-[100%] overflow-auto">
-      <div className="mx-10 py-6 my-10">
+      <div className="mx-10 py-6">
         {" "}
         <div className="text-zinc-800 text-2xl font-bold font-['Rubik']">
           Settings
