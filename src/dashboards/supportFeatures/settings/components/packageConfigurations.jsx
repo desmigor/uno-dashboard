@@ -1,103 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import MenuIcon from "../../../../assets/images/dashboard/icon/more_vertical.svg";
 import AddIcon from "../../../../assets/images/dashboard/icon/add-circle.svg";
 import AddPackageSizeModal from "./UI/AddPackageSizeModal";
 import AddPackageAddOn from "./UI/AddPackageAddOn";
+import {fetchPackageSizesAction,fetchPackageAddOnsAction} from "../../../../redux/actions/fetchPackageSizesAction";
+
 
 export default function PackageConfigurations() {
+  const { packageSizes} = useSelector((state) => state.fetchPackageSizes);
+  const { packageAddOns } = useSelector((state) => state.fetchPackageSizes);
+  const dispatch = useDispatch();
   const [addSizeModal, setAddSizeModal] = useState(false);
   const [addOnModal, setAddOnModal] = useState(false);
 
-  const packageSizes = [
-    {
-      title: "Cute Box",
-      description:
-        "20cm × 40cm X 40cm or less and 5kg or less. Your package can fit in a closed box on motorbike.",
-      basePrice: 6.0,
-      first10km: 60.0,
-      next15km: 45.0,
-      next25km: 112.5,
-      nextNkm: 0.6,
-    },
-    {
-      title: "Small Box",
-      description:
-        "30cm × 40cm X 40cm or less and 10kg or less. Your package can fit in a closed box on motorbike. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      basePrice: 8.0,
-      first10km: 80.0,
-      next15km: 60.0,
-      next25km: 150.0,
-      nextNkm: 0.8,
-    },
-    {
-      title: "Medium Box",
-      description:
-        "40cm × 40cm X 40cm or less and 15kg or less. Your package can fit in a closed box on motorbike.",
-      basePrice: 10.0,
-      first10km: 100.0,
-      next15km: 75.0,
-      next25km: 187.5,
-      nextNkm: 1.0,
-    },
-    {
-      title: "Large Box",
-      description:
-        "50cm × 50cm X 50cm or less and 20kg or less. Your package can fit in a closed box on motorbike.",
-      basePrice: 12.0,
-      first10km: 120.0,
-      next15km: 90.0,
-      next25km: 225.0,
-      nextNkm: 1.2,
-    },
-    {
-      title: "Extra Large Box",
-      description:
-        "60cm × 60cm X 60cm or less and 25kg or less. Your package can fit in a closed box on motorbike.",
-      basePrice: 14.0,
-      first10km: 140.0,
-      next15km: 105.0,
-      next25km: 262.5,
-      nextNkm: 1.4,
-    },
-    {
-      title: "Extra Extra Large Box",
-      description:
-        "70cm × 70cm X 70cm or less and 30kg or less. Your package can fit in a closed box on motorbike.",
-      basePrice: 16.0,
-      first10km: 160.0,
-      next15km: 120.0,
-      next25km: 300.0,
-      nextNkm: 1.6,
-    },
-  ];
-
-  const packageAddOns = [
-    {
-      title: "Fragile",
-      description: "Your package is fragile and needs extra care.",
-      price: 2.0,
-    },
-    {
-      title: "Heavy",
-      description: "Your package is heavy and needs extra care.",
-      price: 2.0,
-    },
-    {
-      title: "Large",
-      description: "Your package is large and needs extra care.",
-      price: 2.0,
-    },
-    {
-      title: "Extra Large",
-      description: "Your package is extra large and needs extra care.",
-      price: 2.0,
-    },
-    {
-      title: "Extra Extra Large",
-      description: "Your package is extra extra large and needs extra care.",
-      price: 2.0,
-    },
-  ];
+  useEffect(() => {
+    dispatch(fetchPackageSizesAction());
+    dispatch(fetchPackageAddOnsAction());
+  }, []);
 
   return (
     <div>
@@ -112,11 +33,6 @@ export default function PackageConfigurations() {
         onClose={() => setAddOnModal(false)}
       />
 
-      <div
-        className={`flex flex-col gap-6 overflow-auto ${
-          addSizeModal || addOnModal ? "hidden" : ""
-        }`}
-      >
         <div className={`w-[100%] h-[100%] relative bg-white rounded-lg p-6`}>
           <div className="flex flex-row justify-between pb-2">
             <div className="text-zinc-800 text-lg font-semibold font-rubik ">
@@ -137,7 +53,8 @@ export default function PackageConfigurations() {
             </div>
           </div>
           <div className="flex flex-wrap gap-6">
-            {packageSizes.map((item, index) => (
+            {packageSizes?.length > 0 && (
+            packageSizes?.map((item, index) => (
               <div
                 key={index}
                 className="w-[340px] h-[200px] relative bg-white rounded-xl shadow border border-gray-100"
@@ -150,7 +67,7 @@ export default function PackageConfigurations() {
                 <div className="left-[16px] top-[16px] absolute flex-col justify-start items-start gap-3 inline-flex">
                   <div className="flex-col justify-start items-start gap-1.5 flex">
                     <div className="text-zinc-800 text-sm font-semibold font-rubik] leading-tight">
-                      {item.title}
+                      {item.name}
                     </div>
                     <div className="w-[312px] h-[35px] text-gray-400 text-[13px] font-normal font-rubik] leading-tight overflow-auto">
                       {item.description}
@@ -163,7 +80,7 @@ export default function PackageConfigurations() {
                         Base Price
                       </div>
                       <div className="text-right text-red-800 text-xs font-semibold font-rubik] leading-none">
-                        ${item.basePrice}
+                        ${item.price}
                       </div>
                     </div>
                     <div className="w-[312px] justify-between items-start inline-flex">
@@ -171,7 +88,7 @@ export default function PackageConfigurations() {
                         First 10km
                       </div>
                       <div className="text-right text-zinc-800 text-xs font-normal font-rubik] leading-none">
-                        ${item.first10km}
+                        ${(item.price * 10).toFixed(2)}
                       </div>
                     </div>
                     <div className="w-[312px] justify-between items-start inline-flex">
@@ -179,7 +96,7 @@ export default function PackageConfigurations() {
                         Next 15km
                       </div>
                       <div className="text-right text-zinc-800 text-xs font-normal font-rubik] leading-none">
-                        ${item.next15km}
+                        ${(item.price * 0.5 * 15).toFixed(2)}
                       </div>
                     </div>
                     <div className="w-[312px] justify-between items-start inline-flex">
@@ -187,7 +104,7 @@ export default function PackageConfigurations() {
                         Next 25km
                       </div>
                       <div className="text-right text-zinc-800 text-xs font-normal font-rubik] leading-none">
-                        ${item.next25km}
+                        ${(item.price * 0.75 * 25).toFixed(2)}
                       </div>
                     </div>
                     <div className="w-[312px] justify-between items-start inline-flex">
@@ -195,13 +112,13 @@ export default function PackageConfigurations() {
                         Next n-km
                       </div>
                       <div className="text-right text-zinc-800 text-xs font-normal font-rubik] leading-none">
-                        n x ${item.nextNkm}
+                        n x ${(item.price * 0.1).toFixed(2)}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            ))}
+            )))}
           </div>
         </div>
         <div className="w-[100%] h-[100%] relative bg-white rounded-lg p-6">
@@ -223,7 +140,9 @@ export default function PackageConfigurations() {
             </div>
           </div>
           <div className="flex flex-wrap gap-6">
-            {packageAddOns.map((item, index) => (
+            {
+            packageAddOns?.length > 0 && 
+            (packageAddOns.map((item, index) => (
               <div
                 key={index}
                 className="w-[340px] h-[126px] relative bg-white rounded-xl shadow border border-gray-100"
@@ -245,10 +164,11 @@ export default function PackageConfigurations() {
                   </div>
                 </div>
               </div>
-            ))}
+            )))
+          }
           </div>
         </div>
       </div>
-    </div>
+    
   );
 }
