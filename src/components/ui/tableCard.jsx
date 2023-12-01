@@ -237,10 +237,12 @@ function TableCard({ type, name, data }) {
                                     : item.package_status === 3
                                     ? "text-blue-500"
                                     : item.package_status === 4
-                                    ? "text-green-500"
+                                    ? "text-green-300"
                                     : item.package_status === 5
-                                    ? "text-green-500"
+                                    ? "text-green-400"
                                     : item.package_status === 6
+                                    ? "text-green-500"
+                                    : item.package_status === 7
                                     ? "text-red-500"
                                     : "text-red-500"
                                 } text-xs font-normal font-rubik leading-none`}
@@ -254,8 +256,10 @@ function TableCard({ type, name, data }) {
                                   : item.package_status === 4
                                   ? "On it's way"
                                   : item.package_status === 5
-                                  ? "Delivered"
+                                  ? "On the way for delivery"
                                   : item.package_status === 6
+                                  ? "Delivered"
+                                  : item.package_status === 7
                                   ? "Cancelled"
                                   : "Unknwon"}
                               </span>

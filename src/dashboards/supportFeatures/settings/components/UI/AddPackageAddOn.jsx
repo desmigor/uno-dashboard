@@ -4,6 +4,12 @@ import callAPI from "../../../../../utils/api";
 import { fetchPackageAddOnsAction } from "../../../../../redux/actions/fetchPackageSizesAction";
 
 export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
+  
+
+  if (!show) {
+    return null;
+  }
+
   const [addOnName, setAddOnName] = useState(editData ? editData.name : "");
   const [description, setDescription] = useState(
     editData ? editData.description : ""
@@ -21,8 +27,6 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
   };
 
   console.log(editData);
-  console.log(description);
-  console.log(amount);
 
   const handleSave = async () => {
     const data = {
@@ -46,8 +50,27 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
     }
   };
 
-  if (!show) {
-    return null;
+  const handleEditPackageAddOn = async (id) => {
+
+    const data = {
+      name: addOnName,
+      description: description,
+      price: amount,
+      currency: 1,
+    };
+    try {
+      const result = await callAPI(
+        `/api/package-settings/package-addon/${id}`,
+        "PUT",
+        true,
+        data
+      );
+      console.log(result);
+      fetchPackageAddOnsAction();
+      onClose();
+    } catch (err) {
+      console.log(err);
+    }
   }
   return (
     <Dialog open={show ? true : false} onClose={onClose}>
@@ -57,8 +80,9 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
             <form className="flex-col justify-start items-start gap-5 flex">
               <div className="w-[409px] justify-between items-center inline-flex">
                 <div className="text-zinc-800 text-lg font-semibold font-rubik">
-                  {/* {editData ? "Edit Package Add-on" : "Add Package Add-on"} */}
-                  Add Package Add-on
+                  {
+                    editData ? "Edit Package Add-on" : "Add Package Add-on"
+                  }
                 </div>
                 <div className="w-6 h-6 justify-center items-center flex">
                   <div className="w-6 h-6 relative"></div>
@@ -121,12 +145,17 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
                 </div>
               </div>
               <button
+                disabled={!addOnName || !description || !amount}
                 className={`w-[168px] h-[50px] px-[60px] py-[15px]  rounded-xl justify-center items-center gap-2.5 flex cursor-pointer ${
                   !addOnName || !description || !amount
                     ? "text-gray-400 bg-zinc-200 disabled"
                     : "text-white bg-red-800 enabled"
                 }`}
-                onClick={handleSave}
+                onClick={
+                  editData
+                    ? () => handleEditPackageAddOn(editData.id)
+                    : handleSave
+                }
               >
                 <div className="text-center  text-base font-normal font-rubik leading-tight">
                   Save

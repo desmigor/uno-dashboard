@@ -1,0 +1,15 @@
+import callAPI from "../../utils/api";
+import { fetchAccountNotificationsAction, fetchAccountNotificationsActionSuccess } from "../slices/accountNotificationsSlice";
+
+export const fetchAccountNotificationsActionAction = () => async (dispatch, getState) => {
+  try {
+    const result = await callAPI(
+      "/api/notification/user-notification-setting/",
+      "GET",
+      true
+    );
+    dispatch(fetchAccountNotificationsAction());
+    dispatch(fetchAccountNotificationsActionSuccess(result));
+  } catch (error) {
+  }
+};

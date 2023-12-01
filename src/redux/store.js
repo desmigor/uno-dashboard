@@ -5,13 +5,11 @@ import totalsReducer from './slices/dashboardTotalsSlice'
 import packagesReducer from './slices/packagesSlice'
 import couriersReducer from './slices/couriersSlice'
 import customerReducer from './slices/customersSlice'
-<<<<<<< HEAD
 import oneCourierReducer from './slices/oneCourierSlice'
 import oneCustomerReducer from './slices/oneCustomerSlice'
 import matchedCouriers from "./slices/matchedCouriersSlice";
-=======
 import packageSizesReducer from "./slices/packageSizesSlice";
->>>>>>> add fetching package sizes and package add ons
+import accountActionReducer from "./slices/accountNotificationsSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
@@ -31,13 +29,11 @@ export const store = configureStore({
         fetchPackages: packagesReducer,
         fetchCouriers: couriersReducer,
         fetchCustomers: customerReducer,
-<<<<<<< HEAD
         fetchOneCourier: oneCourierReducer,
         fetchOneCustomer: oneCustomerReducer,
-        fetchMatchCouriers: matchedCouriers
-=======
+        fetchMatchCouriers: matchedCouriers,
         fetchPackageSizes: packageSizesReducer,
->>>>>>> add fetching package sizes and package add ons
+        fetchAccountNotifications: accountActionReducer,
     },
     middleware: [thunk]
 });

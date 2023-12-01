@@ -21,27 +21,42 @@ export default function PackageConfigurations() {
   const dispatch = useDispatch();
   const [addSizeModal, setAddSizeModal] = useState(false);
   const [addOnModal, setAddOnModal] = useState(false);
-  const [selectedEditItem, setselectedEditItem] = useState({});
+  const [selectedEditItem, setselectedEditItem] = useState(null);
 
   useEffect(() => {
     dispatch(fetchPackageSizesAction());
     dispatch(fetchPackageAddOnsAction());
+    // fetch package sizes using fetch method
   }, []);
 
-  console.log(packageAddOns);
+  console.log({packageSizes});
 
   const handleDeletePackageAddOn = async (id) => {
     try {
-      console.log("Clicked");
-      console.log(id);
-
-      const result = await callAPI(
+      console.log(id);      
+       const result = await callAPI(
         `/api/package-settings/package-addon/${id}`,
         "DELETE",
         true
       );
-      console.log(result);
+        console.log(result, 'ppppp');
       dispatch(fetchPackageAddOnsAction());
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDeletePackageSize = async (id) => {
+    try {
+      console.log(id);
+
+      const result = await callAPI(
+        `/api/package-settings/package-size/${id}`,
+        "DELETE",
+        true
+      );
+      console.log(result);
+      dispatch(fetchPackageSizesAction());
     } catch (err) {
       console.log(err);
     }
@@ -53,7 +68,7 @@ export default function PackageConfigurations() {
         show={addSizeModal}
         open={addSizeModal}
         onClose={() => {
-          selectedEditItem ? setselectedEditItem({}) : null;
+          selectedEditItem ? setselectedEditItem(null) : null;
           setAddSizeModal(false);
         }}
         editData={selectedEditItem}
@@ -62,7 +77,7 @@ export default function PackageConfigurations() {
         show={addOnModal}
         open={addOnModal}
         onClose={() => {
-          selectedEditItem ? setselectedEditItem({}) : null;
+          selectedEditItem ? setselectedEditItem(null) : null;
           setAddOnModal(false);
         }}
         editData={selectedEditItem}
@@ -132,15 +147,12 @@ export default function PackageConfigurations() {
 
                           <Menu.Item>
                             <button
-                              disabled={item.courier_count > 0 ? true : false}
+                              onClick={() => handleDeletePackageSize(item.id)}
                               className="w-full h-6 justify-start items-center gap-2.5 inline-flex"
                             >
                               <div
-                                className={`w-6 h-6 ${
-                                  item.courier_count > 0
-                                    ? "opacity-30 bg-gray-100"
-                                    : "bg-rose-100"
-                                } rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex`}
+                                className={`w-6 h-6  bg-rose-100
+                                 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex`}
                               >
                                 <img
                                   src={
@@ -186,38 +198,19 @@ export default function PackageConfigurations() {
                         ${item.price}
                       </div>
                     </div>
-                    <div className="w-[312px] justify-between items-start inline-flex">
+                    {
+                      item.price_per_km?.map((item, index) => (
+                        <div className="w-[312px] justify-between items-start inline-flex">
                       <div className="text-gray-400 text-xs font-normal font-rubik] leading-none">
-                        First 10km
+                      {item.km} {item.title}
                       </div>
                       <div className="text-right text-zinc-800 text-xs font-normal font-rubik] leading-none">
-                        ${(item.price * 10).toFixed(2)}
+                        ${(item.price_control).toFixed(2)}
                       </div>
                     </div>
-                    <div className="w-[312px] justify-between items-start inline-flex">
-                      <div className="text-gray-400 text-xs font-normal font-rubik] leading-none">
-                        Next 15km
-                      </div>
-                      <div className="text-right text-zinc-800 text-xs font-normal font-rubik] leading-none">
-                        ${(item.price * 0.5 * 15).toFixed(2)}
-                      </div>
-                    </div>
-                    <div className="w-[312px] justify-between items-start inline-flex">
-                      <div className="text-gray-400 text-xs font-normal font-rubik] leading-none">
-                        Next 25km
-                      </div>
-                      <div className="text-right text-zinc-800 text-xs font-normal font-rubik] leading-none">
-                        ${(item.price * 0.75 * 25).toFixed(2)}
-                      </div>
-                    </div>
-                    <div className="w-[312px] justify-between items-start inline-flex">
-                      <div className="text-gray-400 text-xs font-normal font-rubik] leading-none">
-                        Next n-km
-                      </div>
-                      <div className="text-right text-zinc-800 text-xs font-normal font-rubik] leading-none">
-                        n x ${(item.price * 0.1).toFixed(2)}
-                      </div>
-                    </div>
+                      ))
+                    }
+                    
                   </div>
                 </div>
               </div>

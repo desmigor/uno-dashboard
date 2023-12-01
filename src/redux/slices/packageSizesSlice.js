@@ -5,7 +5,7 @@ const initialState = {
     error: null,
     success: false,
     packageSizes: {},
-    packageAddOns: {},
+    packageAddOns: [],
 }
 
 const fetchPackageSizesSlice = createSlice({
@@ -18,6 +18,7 @@ const fetchPackageSizesSlice = createSlice({
             state.success = false;
         },
         fetchPackageSizesSuccess: (state, { payload }) => {
+            console.log({payload})
             state.loading = false;
             state.error = null;
             state.success = true;

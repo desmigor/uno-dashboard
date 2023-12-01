@@ -1,15 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch } from "@headlessui/react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAccountNotificationsActionAction } from "../../../../redux/actions/accountNotificationsAction.js";
 
 export default function NotificationsSection() {
-  const [accountUpdatesEnabled, setAccountUpdatesEnabled] = useState(false);
-  const [newsUpdatesEnabled, setNewsUpdatesEnabled] = useState(false);
-  const [pendingPackagesEnabled, setPendingPackagesEnabled] = useState(false);
-  const [newPackagesEnabled, setNewPackagesEnabled] = useState(false);
-  const [couriersEnabled, setCouriersEnabled] = useState(false);
+  const dispatch = useDispatch();
+  const { accountNotifications } = useSelector(
+    (state) => state.fetchAccountNotifications
+  );
+
+  const [accountUpdatesEnabled, setAccountUpdatesEnabled] = useState(
+    accountNotifications? accountNotifications.email_account_updates : false
+  );
+  const [newsUpdatesEnabled, setNewsUpdatesEnabled] = useState(
+    accountNotifications? accountNotifications.email_news_and_updates : false
+  );
+  const [pendingPackagesEnabled, setPendingPackagesEnabled] = useState(
+    accountNotifications? accountNotifications.email_pending_packages : false
+  );
+  const [newPackagesEnabled, setNewPackagesEnabled] = useState(
+    accountNotifications? accountNotifications.email_new_packages : false
+  );
+  const [couriersEnabled, setCouriersEnabled] = useState(
+    accountNotifications? accountNotifications.email_courier : false
+  );
   const [accountUpdatesPushEnabled, setAccountUpdatesPushEnabled] =
-    useState(false);
-  const [newsUpdatesPushEnabled, setNewsUpdatesPushEnabled] = useState(false);
+    useState(
+      accountNotifications? accountNotifications.account_updates : false
+    );
+  const [newsUpdatesPushEnabled, setNewsUpdatesPushEnabled] = useState(
+    accountNotifications? accountNotifications.news_and_updates : false
+  );
+
+  useEffect(() => {
+    dispatch(fetchAccountNotificationsActionAction());
+  }, []);
+
+  console.log(accountNotifications);
+  
 
   return (
     <div class="w-[100%] h-[100%] p-5 bg-white rounded-lg flex-col justify-start items-start gap-6 inline-flex">
@@ -39,7 +67,7 @@ export default function NotificationsSection() {
                 checked={accountUpdatesEnabled}
                 onChange={setAccountUpdatesEnabled}
                 className={`${
-                    accountUpdatesEnabled ? "bg-red-800" : "bg-zinc-200"
+                  accountUpdatesEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
               >
                 <span
@@ -64,7 +92,7 @@ export default function NotificationsSection() {
                 checked={newsUpdatesEnabled}
                 onChange={setNewsUpdatesEnabled}
                 className={`${
-                    newsUpdatesEnabled ? "bg-red-800" : "bg-zinc-200"
+                  newsUpdatesEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
               >
                 <span
@@ -89,7 +117,7 @@ export default function NotificationsSection() {
                 checked={pendingPackagesEnabled}
                 onChange={setPendingPackagesEnabled}
                 className={`${
-                    pendingPackagesEnabled ? "bg-red-800" : "bg-zinc-200"
+                  pendingPackagesEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
               >
                 <span
@@ -114,7 +142,7 @@ export default function NotificationsSection() {
                 checked={newPackagesEnabled}
                 onChange={setNewPackagesEnabled}
                 className={`${
-                    newPackagesEnabled ? "bg-red-800" : "bg-zinc-200"
+                  newPackagesEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
               >
                 <span
@@ -139,7 +167,7 @@ export default function NotificationsSection() {
                 checked={couriersEnabled}
                 onChange={setCouriersEnabled}
                 className={`${
-                    couriersEnabled ? "bg-red-800" : "bg-zinc-200"
+                  couriersEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
               >
                 <span
@@ -178,12 +206,14 @@ export default function NotificationsSection() {
                 checked={accountUpdatesPushEnabled}
                 onChange={setAccountUpdatesPushEnabled}
                 className={`${
-                    accountUpdatesPushEnabled ? "bg-red-800" : "bg-zinc-200"
+                  accountUpdatesPushEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
               >
                 <span
                   className={`${
-                    accountUpdatesPushEnabled ? "translate-x-6" : "translate-x-1"
+                    accountUpdatesPushEnabled
+                      ? "translate-x-6"
+                      : "translate-x-1"
                   } inline-block h-4 w-4 transform rounded-full bg-white transition`}
                 />
               </Switch>
@@ -203,7 +233,7 @@ export default function NotificationsSection() {
                 checked={newsUpdatesPushEnabled}
                 onChange={setNewsUpdatesPushEnabled}
                 className={`${
-                    newsUpdatesPushEnabled? "bg-red-800" : "bg-zinc-200"
+                  newsUpdatesPushEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
               >
                 <span
