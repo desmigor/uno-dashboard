@@ -61,7 +61,7 @@ export default function OrderResolution({ item }) {
         image={CancelIconModal}
         content="After confirmation, this package will immediately be canceled. This action can’t be revoked."
         cancel={true}
-        onConfirm={handleModalConfirm}
+        onConfirm={handleModalConfirm(true)}
         id={item.id}
       />
 
