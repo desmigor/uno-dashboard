@@ -9,7 +9,7 @@ import ReturnIconModal from "../../../../assets/images/dashboard/icon/refresh-ci
 import CancelIconModal from "../../../../assets/images/dashboard/icon/close-circle.svg";
 import SuccessToast from "../../../../components/ui/SuccessToast";
 
-export default function OrderResolution({item}) {
+export default function OrderResolution({ item }) {
   const [showReturnModal, setshowReturnModal] = useState(false);
   const [showCancelModal, setshowCancelModal] = useState(false);
   const [showReassignModal, setshowReassignModal] = useState(false);
@@ -24,7 +24,7 @@ export default function OrderResolution({item}) {
     }, 30);
   };
 
-  const handleModalConfirm = (isConfirmed) => {
+  const handleModalConfirm = (isConfirmed) => async () => {
     if (isConfirmed) {
       handleShowToast();
     }
@@ -39,7 +39,8 @@ export default function OrderResolution({item}) {
         image={ReturnIconModal}
         content="After confirmation, this package will immediately be returned to the pickup address by the current courier. This action can’t be revoked."
         cancel={false}
-        onConfirm={handleModalConfirm}
+        onConfirm={() => handleModalConfirm()}
+        issue_id={item.id}
       />
 
       <Modal
@@ -50,6 +51,7 @@ export default function OrderResolution({item}) {
         content="After confirmation, this package will immediately be canceled. This action can’t be revoked."
         cancel={true}
         onConfirm={handleModalConfirm}
+        issue_id={item.id}
       />
 
       <ReassignModal
@@ -59,7 +61,8 @@ export default function OrderResolution({item}) {
         image={CancelIconModal}
         content="After confirmation, this package will immediately be canceled. This action can’t be revoked."
         cancel={true}
-        onConfirm={handleModalConfirm}
+        onConfirm={handleModalConfirm(true)}
+        id={item.id}
       />
 
       <SuccessToast
