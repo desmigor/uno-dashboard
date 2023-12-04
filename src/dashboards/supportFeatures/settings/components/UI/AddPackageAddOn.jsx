@@ -1,15 +1,15 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Dialog } from "@headlessui/react";
 import callAPI from "../../../../../utils/api";
 import { fetchPackageAddOnsAction } from "../../../../../redux/actions/fetchPackageSizesAction";
+import Spinner from "../../../../../components/ui/spinner";
 
 export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
-  
-
   if (!show) {
     return null;
   }
-
+  const dispatch = useDispatch();
   const [addOnName, setAddOnName] = useState(editData ? editData.name : "");
   const [description, setDescription] = useState(
     editData ? editData.description : ""
@@ -26,9 +26,12 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
     setAmount(e.target.value);
   };
 
+  const [loading, setLoading] = useState(false);
+
   console.log(editData);
 
   const handleSave = async () => {
+    setLoading(true);
     const data = {
       name: addOnName,
       description: description,
@@ -43,15 +46,17 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
         data
       );
       console.log(result);
-      fetchPackageAddOnsAction();
+      dispatch(fetchPackageAddOnsAction());
+      setLoading(false);
       onClose();
     } catch (err) {
+      setLoading(false);
       console.log(err.message);
     }
   };
 
   const handleEditPackageAddOn = async (id) => {
-
+    setLoading(true);
     const data = {
       name: addOnName,
       description: description,
@@ -66,12 +71,15 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
         data
       );
       console.log(result);
-      fetchPackageAddOnsAction();
+      dispatch(fetchPackageAddOnsAction());
+      setLoading(false);
+
       onClose();
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
-  }
+  };
   return (
     <Dialog open={show ? true : false} onClose={onClose}>
       <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50 bg-black modal overflow-auto">
@@ -80,9 +88,7 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
             <form className="flex-col justify-start items-start gap-5 flex">
               <div className="w-[409px] justify-between items-center inline-flex">
                 <div className="text-zinc-800 text-lg font-semibold font-rubik">
-                  {
-                    editData ? "Edit Package Add-on" : "Add Package Add-on"
-                  }
+                  {editData ? "Edit Package Add-on" : "Add Package Add-on"}
                 </div>
                 <div className="w-6 h-6 justify-center items-center flex">
                   <div className="w-6 h-6 relative"></div>
@@ -157,9 +163,13 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
                     : handleSave
                 }
               >
-                <div className="text-center  text-base font-normal font-rubik leading-tight">
-                  Save
-                </div>
+                {loading ? (
+                  <Spinner className={"fill-white"} />
+                ) : (
+                  <div className="text-center  text-base font-normal font-rubik leading-tight">
+                    Save
+                  </div>
+                )}
               </button>
             </div>
           </div>

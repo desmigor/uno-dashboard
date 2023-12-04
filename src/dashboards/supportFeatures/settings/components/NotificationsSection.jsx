@@ -1,45 +1,66 @@
 import React, { useState, useEffect } from "react";
 import { Switch } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAccountNotificationsActionAction } from "../../../../redux/actions/accountNotificationsAction.js";
+import {
+  fetchAccountNotificationsActionAction,
+  updateAccountNotificationsActionAction,
+} from "../../../../redux/actions/accountNotificationsAction.js";
 
 export default function NotificationsSection() {
   const dispatch = useDispatch();
   const { accountNotifications } = useSelector(
     (state) => state.fetchAccountNotifications
   );
-
-  const [accountUpdatesEnabled, setAccountUpdatesEnabled] = useState(
-    accountNotifications? accountNotifications.email_account_updates : false
-  );
-  const [newsUpdatesEnabled, setNewsUpdatesEnabled] = useState(
-    accountNotifications? accountNotifications.email_news_and_updates : false
-  );
-  const [pendingPackagesEnabled, setPendingPackagesEnabled] = useState(
-    accountNotifications? accountNotifications.email_pending_packages : false
-  );
-  const [newPackagesEnabled, setNewPackagesEnabled] = useState(
-    accountNotifications? accountNotifications.email_new_packages : false
-  );
-  const [couriersEnabled, setCouriersEnabled] = useState(
-    accountNotifications? accountNotifications.email_courier : false
-  );
-  const [accountUpdatesPushEnabled, setAccountUpdatesPushEnabled] =
-    useState(
-      accountNotifications? accountNotifications.account_updates : false
-    );
-  const [newsUpdatesPushEnabled, setNewsUpdatesPushEnabled] = useState(
-    accountNotifications? accountNotifications.news_and_updates : false
-  );
-
   useEffect(() => {
     dispatch(fetchAccountNotificationsActionAction());
-  }, []);
+  }, [dispatch]);
 
-  console.log(accountNotifications);
-  
+  useEffect(() => {
+    // Check if accountNotifications is not empty before setting the state
+    if (Object.keys(accountNotifications).length !== 0) {
+      setAccountUpdatesEnabled(accountNotifications.email_account_updates);
+      setNewsUpdatesEnabled(accountNotifications.email_news_and_updates);
+      setPendingPackagesEnabled(accountNotifications.email_pending_packages);
+      setNewPackagesEnabled(accountNotifications.email_new_packages);
+      setCouriersEnabled(accountNotifications.email_courier);
+      setAccountUpdatesPushEnabled(accountNotifications.account_updates);
+      setNewsUpdatesPushEnabled(accountNotifications.news_and_updates);
+    }
+  }, [accountNotifications]);
+
+  const [accountUpdatesEnabled, setAccountUpdatesEnabled] = useState(
+    accountNotifications ? accountNotifications.email_account_updates : false
+  );
+  const [newsUpdatesEnabled, setNewsUpdatesEnabled] = useState(
+    accountNotifications ? accountNotifications.email_news_and_updates : false
+  );
+  const [pendingPackagesEnabled, setPendingPackagesEnabled] = useState(
+    accountNotifications ? accountNotifications.email_pending_packages : false
+  );
+  const [newPackagesEnabled, setNewPackagesEnabled] = useState(
+    accountNotifications ? accountNotifications.email_new_packages : false
+  );
+  const [couriersEnabled, setCouriersEnabled] = useState(
+    accountNotifications ? accountNotifications.email_courier : false
+  );
+  const [accountUpdatesPushEnabled, setAccountUpdatesPushEnabled] = useState(
+    accountNotifications ? accountNotifications.account_updates : false
+  );
+  const [newsUpdatesPushEnabled, setNewsUpdatesPushEnabled] = useState(
+    accountNotifications ? accountNotifications.news_and_updates : false
+  );
+
+
+  const handleUpdateAccountNotifications = async (data) => {
+    try {
+      dispatch(updateAccountNotificationsActionAction(data));
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
+    Object.keys(accountNotifications).length !== 0 && (
     <div class="w-[100%] h-[100%] p-5 bg-white rounded-lg flex-col justify-start items-start gap-6 inline-flex">
       <div class="flex-col justify-start items-start gap-2.5 flex">
         <div class="text-gray-900 text-lg font-semibold font-rubik">
@@ -65,7 +86,14 @@ export default function NotificationsSection() {
             <div class="justify-start items-start flex">
               <Switch
                 checked={accountUpdatesEnabled}
-                onChange={setAccountUpdatesEnabled}
+                onChange={
+                  () => {
+                    setAccountUpdatesEnabled(!accountUpdatesEnabled);
+                    handleUpdateAccountNotifications({
+                      email_account_updates: !accountUpdatesEnabled,
+                    });
+                  }
+                }
                 className={`${
                   accountUpdatesEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
@@ -90,7 +118,12 @@ export default function NotificationsSection() {
             <div class="justify-start items-start flex">
               <Switch
                 checked={newsUpdatesEnabled}
-                onChange={setNewsUpdatesEnabled}
+                onChange={() => {
+                  setNewsUpdatesEnabled(!newsUpdatesEnabled);
+                  handleUpdateAccountNotifications({
+                    email_news_and_updates: !newsUpdatesEnabled,
+                  });
+                }}
                 className={`${
                   newsUpdatesEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
@@ -115,7 +148,14 @@ export default function NotificationsSection() {
             <div class="opacity-40 justify-start items-start flex">
               <Switch
                 checked={pendingPackagesEnabled}
-                onChange={setPendingPackagesEnabled}
+                onChange={
+                  () => {
+                    setPendingPackagesEnabled(!pendingPackagesEnabled);
+                    handleUpdateAccountNotifications({
+                      email_pending_packages: !pendingPackagesEnabled,
+                    });
+                  }
+                }
                 className={`${
                   pendingPackagesEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
@@ -140,7 +180,14 @@ export default function NotificationsSection() {
             <div class="justify-start items-start flex">
               <Switch
                 checked={newPackagesEnabled}
-                onChange={setNewPackagesEnabled}
+                onChange={
+                  () => {
+                    setNewPackagesEnabled(!newPackagesEnabled);
+                    handleUpdateAccountNotifications({
+                      email_new_packages: !newPackagesEnabled,
+                    });
+                  }
+                }
                 className={`${
                   newPackagesEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
@@ -165,7 +212,14 @@ export default function NotificationsSection() {
             <div class="justify-start items-start flex">
               <Switch
                 checked={couriersEnabled}
-                onChange={setCouriersEnabled}
+                onChange={
+                  () => {
+                    setCouriersEnabled(!couriersEnabled);
+                    handleUpdateAccountNotifications({
+                      email_courier: !couriersEnabled,
+                    });
+                  }
+                }
                 className={`${
                   couriersEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
@@ -204,7 +258,14 @@ export default function NotificationsSection() {
             <div class="justify-start items-start flex">
               <Switch
                 checked={accountUpdatesPushEnabled}
-                onChange={setAccountUpdatesPushEnabled}
+                onChange={
+                  () => {
+                    setAccountUpdatesPushEnabled(!accountUpdatesPushEnabled);
+                    handleUpdateAccountNotifications({
+                      account_updates: !accountUpdatesPushEnabled,
+                    });
+                  }
+                }
                 className={`${
                   accountUpdatesPushEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
@@ -231,7 +292,14 @@ export default function NotificationsSection() {
             <div class="justify-start items-start flex">
               <Switch
                 checked={newsUpdatesPushEnabled}
-                onChange={setNewsUpdatesPushEnabled}
+                onChange={
+                  () => {
+                    setNewsUpdatesPushEnabled(!newsUpdatesPushEnabled);
+                    handleUpdateAccountNotifications({
+                      news_and_updates: !newsUpdatesPushEnabled,
+                    });
+                  }
+                }
                 className={`${
                   newsUpdatesPushEnabled ? "bg-red-800" : "bg-zinc-200"
                 } relative inline-flex h-5 w-11 items-center rounded-full`}
@@ -255,5 +323,6 @@ export default function NotificationsSection() {
         </div>
       </div>
     </div>
+    )
   );
 }

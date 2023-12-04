@@ -60,13 +60,10 @@ export default function CouriersConfigurations() {
   return (
     <div className="w-[100%] min-h-[400px] mt-6 relative bg-white rounded-[10px] pb-20 py-[22px] px-[16px]">
       <AddVehicleType
-      show={showCreateModal}
-      onClose={() => setShowCreateModal(false)}
-      onConfirm={() => setShowCreateModal(false)}
+        show={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onConfirm={() => setShowCreateModal(false)}
       />
-      <div className={`${
-        showCreateModal ? "hidden" : ""
-      }`}>
       <div className="flex flex-row justify-between items-center">
         <div class="text-zinc-800 text-lg font-semibold font-rubik">
           Vehicle types
@@ -86,7 +83,8 @@ export default function CouriersConfigurations() {
               />
             </div>
           </div>
-          <div class=" h-10 px-[60px] py-[15px] bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex cursor-pointer"
+          <div
+            class=" h-10 px-[60px] py-[15px] bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex cursor-pointer"
             onClick={() => setShowCreateModal(true)}
           >
             <div class="text-center text-white text-sm font-normal font-rubik leading-tight cursor-pointer">
@@ -94,7 +92,7 @@ export default function CouriersConfigurations() {
             </div>
             <div class="w-5 h-5 justify-center items-center flex">
               <div class="w-5 h-5 relative">
-                <img src={AddIcon}/>
+                <img src={AddIcon} />
               </div>
             </div>
           </div>
@@ -344,7 +342,6 @@ export default function CouriersConfigurations() {
             </button>
           </div>
         </div>
-      </div>
       </div>
     </div>
   );

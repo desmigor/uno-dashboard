@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import MenuIcon from "../../../../assets/images/dashboard/icon/more_vertical.svg";
 import AddIcon from "../../../../assets/images/dashboard/icon/add-circle.svg";
 import AddPackageSizeModal from "./UI/AddPackageSizeModal";
@@ -114,7 +113,7 @@ export default function PackageConfigurations() {
                 <div className="w-4 h-4 left-[324px] top-[10px] absolute">
                   <Menu>
                     <div className="">
-                      <Menu.Button className="pr-2">
+                      <Menu.Button >
                         <img src={MenuIcon} className="w-4 h-4" />
                       </Menu.Button>
                       <Transition
@@ -218,15 +217,17 @@ export default function PackageConfigurations() {
         </div>
       </div>
 
-      <div className="w-[100%] h-[100%] relative bg-white rounded-lg p-6 mb-12">
+      <div className="w-[100%] h-[100%] relative bg-white rounded-lg p-6 mb-12 ">
         <div
           className="flex flex-row justify-between pb-2"
-          onClick={setAddOnModal}
+          
         >
           <div className="text-zinc-800 text-lg font-semibold font-rubik ">
             Package add-ons
           </div>
-          <div className="h-10 px-[30px] py-[15px] bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex cursor-pointer">
+          <div className="h-10 px-[30px] py-[15px] bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex cursor-pointer"
+          onClick={setAddOnModal}
+          >
             <div className="text-center text-white text-sm font-normal font-rubik leading-tight">
               Add add-on
             </div>

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useRef } from "react";
 import trashIcon from "../../../../../assets/images/dashboard/icon/trash.svg";
 import uploadIcon from "../../../../../assets/images/dashboard/icon/send-square.svg";
 
@@ -14,16 +14,31 @@ function EditProfileModal({
   if (!show) {
     return null;
   }
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
 
   const handleConfirm = () => {
     onConfirm(true);
     onClose();
   };
+  const openFileDialog = () => {
+    fileInputRef.current.click();
+  };
 
   const handleUpload = () => {
-    // open file dialog
-    file = document.getElementById("file");
-    file.click();
+    if (selectedFile) {
+      // You can now perform the upload logic here, for example, using Axios or fetch.
+      // For simplicity, let's just log the file details for now.
+      console.log('Selected File:', selectedFile);
+    } else {
+      console.log('No file selected');
+    }
   }
 
 
@@ -35,31 +50,42 @@ function EditProfileModal({
             <div class="text-zinc-800 text-lg font-semibold font-['Rubik']">
               {title}
             </div>
-            </div>
+          </div>
           <img
             class="w-40 h-40 rounded-full"
-            src={image}
+            src={
+              selectedFile
+                ? URL.createObjectURL(selectedFile)
+                : image
+            }
           />
           <div class="w-[400px] px-2 text-center text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">
             {content}
           </div>
-          <div class="w-[200px] h-[50px] px-[20px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 inline-flex"
-          onClick={handleUpload}
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+          <button class="w-[200px] h-[50px] px-[20px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 inline-flex cursor-pointer"
+            onClick={openFileDialog}
           >
             <div class="w-6 h-6 justify-center items-center flex">
               <div class="w-6 h-6 relative">
-                  <img src={uploadIcon} />
+                <img src={uploadIcon} />
               </div>
             </div>
             <div class="text-center text-zinc-800 text-base font-normal font-['Rubik'] leading-tight cursor-pointer">
               Upload image
             </div>
-          </div>
+          </button>
         </div>
         <div className="pl-[22px] pr-[23px] py-5 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex">
           <div className="self-stretch justify-start items-start gap-[27px] inline-flex">
-            <div class="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-red-700 justify-center items-center gap-2.5 inline-flex" 
-            onClick={onremove}
+            <div class="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-red-700 justify-center items-center gap-2.5 inline-flex"
+              onClick={onremove}
             >
               <div class="w-5 h-5 justify-center items-center flex">
                 <div class="w-5 h-5 relative">
