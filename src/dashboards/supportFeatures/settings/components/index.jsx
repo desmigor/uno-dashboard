@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Tab } from "@headlessui/react";
 import ProfileSection from "./ProfileSection";
 import SecuritySection from "./SecuritySection";
@@ -6,17 +7,29 @@ import NotificationsSection from "./NotificationsSection";
 import PackageConfigurations from "./packageConfigurations";
 import CouriersConfigurations from "./CouriersConfigurations";
 
-const tabs = [
-  { name: "My Profile" },
-  { name: "Package Configurations" },
-  {name: "Courier configurations"},
-  { name: "Security" },
-  { name: "Notifications" },
-  
-];
-
 function Settings() {
+  const { userInfo } = useSelector((state) => state.auth);
+
+  var tabs = [
+    { name: "My Profile" },
+  //  { name: "Package Configurations" },
+  //   { name: "Courier configurations" },
+    { name: "Security" },
+    { name: "Notifications" },
+  ];
+
+  if (userInfo?.type?.id === 3) {
+    tabs = [
+      { name: "My Profile" },
+      { name: "Package Configurations" },
+      { name: "Courier configurations" },
+      { name: "Security" },
+      { name: "Notifications" },
+    ];
+  }
+
   const [selected, setSelected] = useState(tabs[0]);
+  console.log(tabs);
 
   return (
     <div className="bg-neutral-50 h-[100%] overflow-auto">
@@ -46,12 +59,16 @@ function Settings() {
             <Tab.Panel>
               <ProfileSection />
             </Tab.Panel>
-            <Tab.Panel>
-              <PackageConfigurations />
-            </Tab.Panel>
-            <Tab.Panel>
-              <CouriersConfigurations />
-            </Tab.Panel>
+            {userInfo?.type?.id === 3 && (
+              <Tab.Panel>
+                <PackageConfigurations />
+              </Tab.Panel>
+            )}
+            {userInfo?.type?.id === 3 && (
+              <Tab.Panel>
+                <CouriersConfigurations />
+              </Tab.Panel>
+            )}
             <Tab.Panel>
               <SecuritySection />
             </Tab.Panel>
