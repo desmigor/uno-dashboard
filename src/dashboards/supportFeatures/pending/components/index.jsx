@@ -75,7 +75,7 @@ function Pending() {
               </span>
               <span className="text-gray-400 text-base font-semibold font-rubik leading-tight">
                 {" "}
-                - 2 packages
+                - {resolutionPackages?.length}{" Packages"}
               </span>
             </div>
             {/* Sort Filter by Date Dropdown */}
