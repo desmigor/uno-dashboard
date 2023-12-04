@@ -9,7 +9,7 @@ import Spinner from "../../../../components/ui/spinner";
 export default function ProfileSection() {
   const [ShowEditProfileModal, setShowEditProfileModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [editInformations, setEditInformations] = useState(true);
+  const [editInformations, setEditInformations] = useState(false);
   const [editAddress, setEditAddress] = useState(false);
   const [loading, setLoading] = useState(false);
 
