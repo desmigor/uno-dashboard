@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Tick from "../../assets/images/dashboard/icon/tick-circle2.svg";
 import Close from "../../assets/images/dashboard/icon/add.svg";
+import CloseIcon from "../../assets/images/dashboard/icon/close-circle.svg";
 
-function SuccessToast({ text, show, onClose }) {
+function SuccessToast({ text, show, onClose,
+  success = true,
+ }) {
+
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -28,12 +32,21 @@ function SuccessToast({ text, show, onClose }) {
     <div class={`${
             isVisible ? 'block' : 'hidden'
           }
-    w-[490px] h-11 p-2 m-4 fixed top-0 right-0  bg-green-100 rounded-lg border border-green-200 justify-start items-center gap-16 inline-flex`}>
+     h-11 p-2 m-4 fixed top-0 right-0   rounded-lg border  justify-start items-center gap-16 inline-flex
+     ${success ? 'bg-green-100 border-green-200' : 'bg-rose-100 border-red-200'}
+     `}>
       <div class="justify-start items-center gap-3 flex">
-        <div class="w-8 h-7 px-1 py-0.5 bg-green-500 rounded-lg shadow-inner justify-center items-center flex">
+        <div class={`w-8 h-7 px-1 py-0.5 bg-green-500 rounded-lg shadow-inner justify-center items-center flex
+      ${
+        success ? 'bg-green-500' : 'bg-red-500'
+      }
+        `
+      }>
           <div class="grow shrink basis-0 self-stretch justify-center items-center inline-flex">
             <div class="w-6 h-6 relative">
-                <img src={Tick} alt="" />
+                <img src={
+                  success ? Tick : CloseIcon
+                } alt="" />
             </div>
           </div>
         </div>

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Dialog } from "@headlessui/react";
 import callAPI from "../../../../../utils/api";
 import { fetchPackageSizesAction } from "../../../../../redux/actions/fetchPackageSizesAction";
+import Spinner from "../../../../../components/ui/spinner";
 
 export default function AddPackageSizeModal({
   show,
@@ -12,6 +14,7 @@ export default function AddPackageSizeModal({
   if (!show) {
     return null;
   }
+  const dispatch = useDispatch();
   const [sizeName, setSizeName] = useState(editData ? editData.name : "");
   const [description, setDescription] = useState(
     editData ? editData.description : ""
@@ -51,8 +54,10 @@ export default function AddPackageSizeModal({
   const [dataId4, setDataId3] = useState(
     editData ? editData.price_per_km[3].id : null
   );
+  const [loading, setLoading] = useState(false);
 
   const handleSave = async () => {
+    setLoading(true);
     const data = {
       name: sizeName,
       description: description,
@@ -87,6 +92,7 @@ export default function AddPackageSizeModal({
       ],
     };
     console.log(data);
+
     try {
       const result = await callAPI(
         "/api/package-settings/package-size/",
@@ -95,14 +101,17 @@ export default function AddPackageSizeModal({
         data
       );
       console.log(result);
-      fetchPackageSizesAction();
+      dispatch(fetchPackageSizesAction());
+      setLoading(false);
       onClose();
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
   };
 
   const handleEditPackageSize = async (id) => {
+    setLoading(true);
     const data = {
       name: sizeName,
       description: description,
@@ -149,9 +158,11 @@ export default function AddPackageSizeModal({
         data
       );
       console.log(result);
-      fetchPackageSizesAction();
+      dispatch(fetchPackageSizesAction());
+      setLoading(false);
       onClose();
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
   };
@@ -347,10 +358,11 @@ export default function AddPackageSizeModal({
                 </div>
               </div>
               <button
-                disabled={!sizeName || !description || !basePrice}
+                disabled={ loading || !sizeName || !description || !basePrice || !firstKM || !priceControl || !nextKM || !priceControl2 || !nextKM2 || !priceControl3 || !nKM
+                }
                 className={`w-[168px] h-[50px] px-[60px] py-[15px]  rounded-xl justify-center items-center gap-2.5 flex cursor-pointer ${
-                  !sizeName || !description || !basePrice
-                    ? "text-gray-400 bg-zinc-200 disabled"
+                  !sizeName || !description || !basePrice || !firstKM || !priceControl || !nextKM || !priceControl2 || !nextKM2 || !priceControl3 || !nKM
+                    ? "text-gray-400 bg-zinc-200"
                     : "text-white bg-red-800 enabled"
                 }`}
                 onClick={
@@ -359,9 +371,13 @@ export default function AddPackageSizeModal({
                     : handleSave
                 }
               >
-                <div className="text-center text-base font-normal font-rubik leading-tight">
-                  Save
-                </div>
+                {loading ? (
+                  <Spinner className={"fill-white"} />
+                ) : (
+                  <div className="text-center text-base font-normal font-rubik leading-tight">
+                    Save
+                  </div>
+                )}
               </button>
             </div>
           </div>

@@ -8,6 +8,8 @@ import customerReducer from './slices/customersSlice'
 import oneCourierReducer from './slices/oneCourierSlice'
 import oneCustomerReducer from './slices/oneCustomerSlice'
 import matchedCouriers from "./slices/matchedCouriersSlice";
+import packageSizesReducer from "./slices/packageSizesSlice";
+import accountActionReducer from "./slices/accountNotificationsSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
@@ -29,7 +31,9 @@ export const store = configureStore({
         fetchCustomers: customerReducer,
         fetchOneCourier: oneCourierReducer,
         fetchOneCustomer: oneCustomerReducer,
-        fetchMatchCouriers: matchedCouriers
+        fetchMatchCouriers: matchedCouriers,
+        fetchPackageSizes: packageSizesReducer,
+        fetchAccountNotifications: accountActionReducer,
     },
     middleware: [thunk]
 });
