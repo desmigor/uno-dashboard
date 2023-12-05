@@ -13,9 +13,15 @@ import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment';
 import { fetchGroupsAction } from '../../../../redux/actions/fetchCouriersAction';
 import { Menu, Transition } from '@headlessui/react'
+import GroupActionModel from './GroupActionModel';
 
 
 const Groups = () => {
+  const [id, setId] = useState();
+  const [isOpen, setIsOpen] = useState(false);
+  const [text, setText] = useState('');
+  const [item, setItem] = useState({});
+  const [action, setAction] = useState('delete');
   const { groups } = useSelector(state => state.fetchCouriers);
   const dispatch = useDispatch(); 
 
@@ -41,11 +47,11 @@ const Groups = () => {
               </div>
               <div className="text-center text-gray-400 text-sm mt-[21px] font-normal font-rubik leading-relaxed">A new group will be displayed here.</div>
             </Link>
-            {groups?.map((item, idx) => <div key={idx} className="relative w-[364px] h-[270px] px-3.5 py-4 bg-white rounded-[10px] shadow flex-col justify-start items-start gap-3 inline-flex">
+            {groups?.map((item, idx) => <div key={idx} className="relative w-[364px] min-h-[270px] px-3.5 py-4 bg-white rounded-[10px] shadow flex-col justify-start items-start gap-3 inline-flex">
               <div className='flex flex-row w-full items-center justify-between'>
                 <div className='flex flex-row gap-4 items-center'>
                   <GroupProfile name={item.name} />
-                  <div className="w-[145px] h-[45px] flex-col justify-start items-start gap-1 inline-flex">
+                  <div className="min-w-[145px] h-[45px] flex-col justify-start items-start gap-1 inline-flex">
                     <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">{item.name}</div>
                     <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">From {moment(item.created_at).format('MMM. DD, YYYY')}</div>
                   </div>
@@ -67,16 +73,22 @@ const Groups = () => {
                       <Menu.Items className="absolute right-[37px] top-[15px] w-[158px] h-40 p-4 bg-white rounded-xl shadow flex-col justify-start items-start gap-2 inline-flex">
                           <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Group Actions</div>
                           <Menu.Item>
-                          <button className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
+                          <Link to={`/admin/dashboard/courier/groups/update/${item.id}`} className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
                             <div className="w-6 h-6 bg-gray-100 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex">
                               <img src={Edit} className='w-4 h-4' />
                             </div>
                             <div className="text-zinc-800 text-xs font-normal font-['Rubik'] leading-none">Edit</div>
-                          </button>
+                          </Link>
                           </Menu.Item>
                           <div className='w-full h-[1px] bg-[#D0D4D9]' />
                           <Menu.Item>
-                          <button className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
+                          <button onClick={() => {
+                            setId(item.id);
+                            setIsOpen(true);
+                            setAction('deactivate');
+                            setItem(item);
+                            setText(`After confirmation, ${item.name} will be automatically be deactivate with all the couriers that belong to the group.`)
+                          }} className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
                             <div className="w-6 h-6 bg-yellow-50 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex">
                               <img src={Close} className='w-10 h-10' />
                             </div>
@@ -85,7 +97,13 @@ const Groups = () => {
                           </Menu.Item>
                           <div className='w-full h-[1px] bg-[#D0D4D9]' />
                           <Menu.Item>
-                          <button disabled={item.courier_count > 0 ? true : false} className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
+                          <button onClick={() => {
+                            setId(item.id);
+                            setIsOpen(true);
+                            setAction('delete');
+                            setItem(item);
+                            setText(`After confirmation, ${item.name} will be automatically be deleted and you won’t be able to restore it.`);
+                          }} disabled={item.courier_count > 0 ? true : false} className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
                             <div className={`w-6 h-6 ${item.courier_count > 0 ? 'opacity-30 bg-gray-100' : 'bg-rose-100'} rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex`}>
                               <img src={item.courier_count > 0 ? DeleteInactive : Delete} className='w-4 h-4' />
                             </div>
@@ -136,6 +154,7 @@ const Groups = () => {
             </div>)}
           </div>
         </div>
+        <GroupActionModel id={id} isOpen={isOpen} setIsOpen={setIsOpen} text={text} action={action} item={item} />
     </div>
   )
 }

@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ArrowLeft from '../../../../assets/images/dashboard/icon/arrow-left-black.svg'
 import { Step1, Step2, Step3 } from './steps'
+import { useDispatch, useSelector } from 'react-redux';
+import { addAddresses, addPackageDetails, addSummary } from '../../../../redux/slices/packageInputs';
 
 function CreatePackages() {
     const [current, setCurrent] = useState(0);
+    const { step } = useSelector(state => state.packages);
+    const dispatch = useDispatch()
     
-    
-    const next = (nbr) => {
+    useEffect(() => {
+        setCurrent(step);
+    }, []);
+
+    const next = (nbr, data) => {
         setCurrent(nbr);
+        dispatch(nbr === 1 ? addAddresses(data) : nbr === 2 ? addPackageDetails(data) : addSummary(data));
     }
     
     const steps = [

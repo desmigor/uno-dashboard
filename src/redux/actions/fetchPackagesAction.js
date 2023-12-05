@@ -87,3 +87,23 @@ export const cancelPackage = (id) => async (dispatch, getState) => {
     console.log(error, 'KKKKK');
   }
 }
+
+export const addPackagesPickupAddress = (item) => async (dispatch, getState) => {
+  try {
+    const payload = {
+      "title" : "Pickup Address",
+      "open_address" : item?.formatted_address,
+      "landmark": "",
+      "location": item?.country,
+      "contact_person": item?.name,
+      "contact_phone" : item?.phone,
+      "contact_country": 1,
+      "latitude": item?.latitude,
+      "longitude" : item?.longitude,
+      "address_type" : 1,
+      "temporary" : true
+    }
+  } catch (error) {
+    
+  }
+}
