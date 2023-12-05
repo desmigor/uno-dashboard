@@ -1,5 +1,6 @@
 import callAPI from "../../utils/api";
-import { fetchCourierDetails, fetchCourierPackages, fetchCouriers, fetchCouriersAtWork, fetchCouriersAvailable, fetchCouriersLocations, fetchCouriersOffline, fetchCouriersPaused, fetchCouriersSuccess, fetchCoutries, fetchGroupCouriers, fetchGroupDetails, fetchGroups, fetchVehicle } from "../slices/couriersSlice";
+import { fetchCourierDetails, fetchCourierPackages, fetchCouriers, fetchCouriersAtWork, fetchCouriersAvailable, fetchCouriersError, fetchCouriersLocations, fetchCouriersOffline, fetchCouriersPaused, fetchCouriersSuccess, fetchCoutries, fetchGroupCouriers, fetchGroupDetails, fetchGroups, fetchVehicle } from "../slices/couriersSlice";
+import { fetchCustomersError } from "../slices/customersSlice";
 
 export const fetchCouriersAction =
   (top = false, count = 5, page = 1) =>
@@ -66,6 +67,7 @@ export const fetchDetailsCouriers = (id) => async (dispatch, getState) => {
   try {
     const results = await callAPI(`/api/courier/couriers/${id}/`);
     dispatch(fetchCourierDetails(results));
+    return results;
   } catch (error) {
     
   }
@@ -125,6 +127,7 @@ export const fetchGroupDetailsAction = (id) => async (dispatch, getState) => {
   try {
     const results = await callAPI(`/api/courier/courier-groups/${id}`);
     dispatch(fetchGroupDetails(results));
+    return results;
   } catch (error) {
     
   }
@@ -143,6 +146,37 @@ export const addCourierAction = (payload, navigate) => async (dispatch, getState
   try {
     dispatch(fetchCouriers());
     const results = await callAPI(`/api/courier/couriers/add/`, 'POST', true, payload);
+    dispatch(fetchAvailableCouriers());
+    navigate('/admin/dashboard/courier');
+  } catch (error) {
+    dispatch(fetchCustomersError(error.response.data.message));
+    toast.error(error.response.data.message, {
+      position: "top-right",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  }
+}
+
+export const updateGroupAction = (payload, id, navigate) => async (dispatch, getState) => {
+  try {
+    dispatch(fetchCouriers());
+    const results = await callAPI(`/api/courier/courier-groups/${id}`, 'PUT', true, payload);
+    dispatch(fetchGroupsAction(results));
+    navigate('/admin/dashboard/courier/groups/');
+  } catch (error) {
+    dispatch(fetchCouriersError(error));
+  }
+}
+
+export const updateCourierAction = (payload, navigate) => async (dispatch, getState) => {
+  try {
+    dispatch(fetchCouriers());
+    await callAPI(`/api/courier/couriers/update/`, 'POST', true, payload);
     dispatch(fetchAvailableCouriers());
     navigate('/admin/dashboard/courier');
   } catch (error) {

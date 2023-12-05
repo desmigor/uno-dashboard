@@ -11,6 +11,7 @@ import ArrowDownSmall from '../../../../assets/images/dashboard/icon/arrow-down-
 import ArrowLeftSmall from '../../../../assets/images/dashboard/icon/arrow-left-small.svg';
 import Map1 from '../../../../assets/images/dashboard/icon/map12.png';
 import Close from '../../../../assets/images/dashboard/icon/close-circle2.svg';
+import EditBlack from '../../../../assets/images/dashboard/icon/edit-black.svg';
 import packageOngoing from "../../../../assets/images/dashboard/icon/package-ongoing.svg";
 import Edit from '../../../../assets/images/dashboard/icon/edit-2.svg';
 import startingPoint from "../../../../assets/images/dashboard/icon/starting_point.svg";
@@ -18,7 +19,7 @@ import Search from '../../../../assets/images/dashboard/icon/search-normal2.svg'
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCouriersPackagesAction, fetchDetailsCouriers } from '../../../../redux/actions/fetchCouriersAction';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PlaceHolderImage from '../../../../assets/images/dashboard/image/image.png';
 import Dropdown from '../../packages/components/Dropdown';
 import { fetchPackageDetails } from '../../../../redux/actions/fetchPackagesAction';
@@ -148,19 +149,35 @@ const CouriersView = () => {
                     </GoogleMap>
                 }
             </div>
-            <div className=''>
-                <div className='flex flex-row gap-4 items-center'>
-                    <img className="w-[50px] h-[50px] object-cover rounded-full" src={courierDetals?.profile_photo_link || PlaceHolderImage} />
-                    <div className='flex flex-col'>
-                        <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">{courierDetals?.full_name}</div> 
-                        <div className='flex flex-row items-center gap-1.5 mt-[6px]'>
-                            <div className="text-amber-500 text-sm font-semibold font-['Rubik'] leading-tight">{courierDetals?.rating}.0</div> 
-                            <img src={Star} className='w-3 h-3' />
-                            <img src={Star} className='w-3 h-3' />
-                            <img src={Star} className='w-3 h-3' />
-                            <img src={Star} className='w-3 h-3' />
-                            <img src={StarO} className='w-3 h-3' />
-                        </div>
+            <div className='w-full'>
+                <div className='flex flex-row items-center w-full justify-between'>
+                    <div className='flex flex-row gap-4 items-center'>
+                      <img className="w-[50px] h-[50px] object-cover rounded-full" src={courierDetals?.profile_photo_link || PlaceHolderImage} />
+                      <div className='flex flex-col'>
+                          <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">{courierDetals?.full_name}</div> 
+                          <div className='flex flex-row items-center gap-1.5 mt-[6px]'>
+                              <div className="text-amber-500 text-sm font-semibold font-['Rubik'] leading-tight">{courierDetals?.rating}.0</div> 
+                              <img src={Star} className='w-3 h-3' />
+                              <img src={Star} className='w-3 h-3' />
+                              <img src={Star} className='w-3 h-3' />
+                              <img src={Star} className='w-3 h-3' />
+                              <img src={StarO} className='w-3 h-3' />
+                          </div>
+                      </div>
+                    </div>
+                    <div className='flex flex-row items-center gap-4'>
+                      <Link to={`/admin/dashboard/courier/update/${id}`} className="w-[140px] h-[42px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 inline-flex">
+                        <div className="text-center text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Edit Details</div>
+                        <img src={EditBlack} className='h-4 w-4' />
+                      </Link>
+                      {courierDetals?.is_active === true ? <div className="w-[140px] h-[42px] px-[60px] py-[15px] rounded-[10px] border border-red-700 justify-center items-center gap-1.5 inline-flex">
+                        <div className="text-center text-red-700 text-sm font-normal font-['Rubik'] leading-tight">Deactivate</div>
+                        <img src={Close} className='h-4 w-4' />
+                      </div> : 
+                      <div className="w-[140px] h-[42px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex">
+                        <div className="text-center text-white text-base font-normal font-['Rubik'] leading-tight">Reactivate</div>
+                      </div>
+                      }
                     </div>
                 </div>
                 <div className="w-full h-[101px] justify-start items-start gap-[42px] inline-flex mt-[21px]">

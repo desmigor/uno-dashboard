@@ -15,6 +15,7 @@ import ArrowDownSmall from '../../../../assets/images/dashboard/icon/arrow-down-
 import ArrowLeftSmall from '../../../../assets/images/dashboard/icon/arrow-left-small.svg';
 import PlaceHolderImage from '../../../../assets/images/dashboard/image/image.png';
 import { fetchAtWorkCouriers, fetchAvailableCouriers, fetchCouriersAction, fetchOfflineCouriers, fetchPausedCouriers } from '../../../../redux/actions/fetchCouriersAction';
+import SuspendCustomerModal from '../../../adminFeatures/customers/components/SuspendCustomerModal';
 
 function Couriers() {
   const [selected, setSelected] = useState(null);
@@ -43,6 +44,7 @@ function Couriers() {
   }, [])
 
   const couriers = table === 'available' ? availableCouriers : table === 'at-work' ? atworkCouriers : table === 'paused' ? pausedCouriers : table === 'offline' ? offlineCouriers : [];
+  console.log(couriers);
 
   const handleChangePage = (countNumber) => {
     setCount(countNumber);
@@ -173,8 +175,8 @@ function Couriers() {
                   <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{item.vehicle_name}</div>
                 </td>
                 <td className='px-6 py-3 text-left'>
-                  <div className={`w-[66px] h-[19px] px-3 py-1.5 ${item.is_active ? 'bg-green-100' : item.is_paused ? 'bg-yellow-50' : 'bg-rose-100'} rounded justify-start items-center gap-2.5 inline-flex`}>
-                      <div className={`${item.is_active ? 'text-green-700' : item.is_paused ? 'text-amber-500' : 'text-red-700'} text-xs font-normal font-['Rubik'] leading-none`}>{item.is_active ? 'Online' : item.is_paused ? 'Paused' : 'Offline'}</div>
+                  <div className={`w-[66px] h-[19px] px-3 py-1.5 ${item.is_offline ? 'bg-rose-100' : item.is_active ? 'bg-green-100' : item.is_active && item.is_paused ? 'bg-yellow-100' : 'bg-rose-100' } rounded justify-start items-center gap-2.5 inline-flex`}>
+                      <div className={`${item.is_offline ? 'text-red-700' : item.is_active ? 'text-green-700' : item.is_active && item.is_paused ? 'text-amber-500' : 'text-red-700' } text-xs font-normal font-['Rubik'] leading-none`}>{item.is_offline ? 'Offline' : item.is_active && !item.is_paused ? 'Online' :  item.is_active && item.is_paused ? 'Paused' : 'Offline' }</div>
                   </div>
                 </td>
                 <td className='px-6 py-3 text-left'>

@@ -55,3 +55,32 @@ export const createCustomerAction = (payload, navigate) => async (dispatch, getS
     });
   }
 }
+
+export const searchCustomersActiveAction = (page=1, count=5, search) => async (dispatch, getState) => {
+  try {
+    const results = await callAPI(`/api/customer/active/?page=${page}&count=${count}&search=${search}`);
+    dispatch(fetchCustomersActive(results));
+  } catch (error) {
+    
+  }
+}
+
+export const searchCustomersSuspendedAction = (page=1, count=5, search) => async (dispatch, getState) => {
+  try {
+    const results = await callAPI(`/api/customer/suspended/?page=${page}&count=${count}&search=${search}`);
+    dispatch(fetchCustomersSuspended(results));
+  } catch (error) {
+    
+  }
+}
+
+export const handleupdateCustomer = (id, payload, navigate) => async (dispatch, getState) => {
+  try {
+    const results = await callAPI(`/api/customer/${id}/`, 'PUT', true, payload);
+    dispatch(fetchCustomersActiveAction(1, 5));
+    dispatch(fetchCustomersSuspendedAction(1, 5));
+    navigate('/admin/dashboard/customers');
+  } catch (error) {
+    
+  }
+}

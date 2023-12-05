@@ -9,7 +9,7 @@ export default function CustomerTabContent({
 }) {
   return (
     <div class="w-[100%] h-[162px] relative bg-white rounded-xl shadow border border-gray-100">
-      <div class="left-[190px] top-[26px] absolute flex-col justify-start items-start gap-5 inline-flex">
+      <div class="left-[160px] top-[26px] absolute flex-col justify-start items-start gap-5 inline-flex">
         <div class="flex-col justify-start items-start gap-[5px] flex">
           <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
             {prop1.title}
@@ -27,7 +27,7 @@ export default function CustomerTabContent({
           </div>
         </div>
       </div>
-      <div class="left-[420px] top-[26px] absolute flex-col justify-start items-start gap-5 inline-flex">
+      <div class="left-[410px] top-[26px] absolute flex-col justify-start items-start gap-5 inline-flex">
         <div class="flex-col justify-start items-start gap-[5px] flex">
           <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
             {prop3.title}
@@ -45,7 +45,7 @@ export default function CustomerTabContent({
           </div>
         </div>
       </div>
-      <div class="w-[114px] left-[20px] top-[24px] absolute justify-center items-center inline-flex">
+      <div class="w-[114px] left-[12px] top-[24px] absolute justify-center items-center inline-flex">
         <img class="rounded-[100px] shadow border-2 border-white " src={image} />
       </div>
     </div>

@@ -114,6 +114,7 @@ export const Step1 = ({ next }) => {
              {pickupSearch.length > 0 && <div className={`w-full min-h-[52px] p-4 bg-white rounded-xl shadow border border-zinc-200 flex-col justify-start items-end gap-4 inline-flex absolute top-[89px]`}> 
                     {pickupSearch.map((item, idx) => <div key={idx} onClick={() => {
                         setData({ ...data, pickup: item });
+                        console.log(item);
                         setPickupSearch([]);
                         setSearchTextPickup(item?.formatted_address);
                     }} className={`h-[52px] w-full flex flex-row gap-[10px] items-center ${pickupSearch.length - 1 === idx ? '' : 'border-b'} pb-[17px] border-b-[#D0D4D9] cursor-pointer`}>
@@ -180,7 +181,7 @@ export const Step1 = ({ next }) => {
      </div>
 </div>
 <div className='w-[80%] mx-auto'>
-    <button disabled={!validated} onClick={() => next(1)} className={`w-[312px] h-[50px] ${validated ? 'bg-red-800' : 'bg-gray-100'} rounded-xl justify-center items-center gap-2.5 flex flex-row`}>
+    <button disabled={!validated} onClick={() => next(1, data)} className={`w-[312px] h-[50px] ${validated ? 'bg-red-800' : 'bg-gray-100'} rounded-xl justify-center items-center gap-2.5 flex flex-row`}>
         <div className={`text-center ${validated ? 'text-white' : 'text-gray-400'} text-base font-normal font-['Rubik'] leading-tight"`}>Continue</div> 
         <img src={validated ? ArrowLeft4 : ArrowLeft3} className='w-4 h-4' />
     </button>
@@ -195,6 +196,13 @@ export const Step2 = ({ next }) => {
     const [size, setSize] = useState(0);
     const [fragile, setFragile] = useState(false);
     const [insulated, setInsulated] = useState(false);
+
+    const data = {
+        fragile,
+        insulated,
+        size,
+        choosenMethod,
+    }
 
     return (
         <div className="w-full min-h-[584px] p-6 bg-white rounded-[10px] mt-6 flex-col justify-start items-start gap-8 inline-flex mb-24"> 
@@ -258,17 +266,23 @@ export const Step2 = ({ next }) => {
                 <div className="w-[411px] h-[88px] flex-col justify-start items-start gap-4 inline-flex">
                     <div className="text-slate-500 text-base font-semibold font-['Rubik'] leading-tight">Package Addons</div> 
                     <div className='flex flex-row gap-6'>
-                        <div onClick={() => setFragile(!fragile)} className={`w-[165px] cursor-pointer h-[52px] rounded-[10px] border ${fragile ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
+                        <div onClick={() => { 
+                            setFragile(true);
+                            setInsulated(false);
+                        }} className={`w-[165px] cursor-pointer h-[52px] rounded-[10px] border ${fragile ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
                             <img src={fragile ? TickChecked : TickOutile} />
                             <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Fragile Package</div>
                         </div>
-                        <div onClick={() => setInsulated(!insulated)} className={`w-[222px] cursor-pointer h-[52px] rounded-[10px] border ${insulated ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
+                        <div onClick={() => {
+                            setInsulated(true);
+                            setFragile(false);
+                        }} className={`w-[222px] cursor-pointer h-[52px] rounded-[10px] border ${insulated ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
                             <img src={insulated ? TickChecked : TickOutile} />
                             <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Insulated food container</div>
                         </div>
                     </div> 
                 </div>
-                <button onClick={() => next(2)}  className="w-[312px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex mt-4">
+                <button onClick={() => next(2, data)}  className="w-[312px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex mt-4">
                     <div className="text-center text-white text-base font-normal font-['Rubik'] leading-tight">Proceed to Summary</div>
                     <img src={ArrowLeft4} className='w-5 h-5' />
                 </button>
@@ -279,7 +293,8 @@ export const Step2 = ({ next }) => {
 
 export const Step3 = () => {
     const [discountExpanded, setDiscountExpanded] = useState(false);
-    
+    const { packages } = useSelector(state => state.packages);
+
     return (
         <div className='w-full flex flex-row justify-between items-start mt-6 mb-24'>
             <div className='2xl:w-[70%] w-[60%] h-[789px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
@@ -295,15 +310,15 @@ export const Step3 = () => {
                         <div className="2xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Pickup Address</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">PPR3+JG6, Amasaman</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{packages?.addressDetails?.pickup?.formatted_address}</div>
                             </div>
                         </div>
                         <div className="flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Delivery Address</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">PPR3+JG6, Amasaman</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{packages?.addressDetails?.delivery?.formatted_address}</div>
                             </div>
-                        </div>
+                        </div>r
                     </div>
 
                 </div>

@@ -6,7 +6,7 @@ import Box from "../../../../assets/images/dashboard/icon/box2.svg";
 import Export from '../../../../assets/images/dashboard/icon/export.svg';
 import Profile2 from "../../../../assets/images/dashboard/icon/profile-2user2.svg";
 import Search from '../../../../assets/images/dashboard/icon/search-normal2.svg';
-import Profile from '../../../../assets/images/dashboard/icon/profile-2user3.svg';
+import Profile from '../../../../assets/images/dashboard//image/profilep.jpg';
 import GroupProfile from './GroupProfile';
 import packageOngoing from "../../../../assets/images/dashboard/icon/user-search2.svg";
 import ArrowDownSmall from '../../../../assets/images/dashboard/icon/arrow-down-small.svg';
@@ -132,183 +132,183 @@ const GroupDetails = () => {
             <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">View Group</div>
         </div> 
         <div className='flex w-full gap-5 mt-[23px] flex-row'>
-            <div className="w-[50%] min-h-[212px] pl-4 pr-[49px] py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[33px] inline-flex">
-                <div className='flex flex-row gap-4 items-start'>
-                    <GroupProfile name={groupDetails?.name} />
-                    <div className='flex flex-col'>
-                        <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">{groupDetails?.name}</div> 
-                        <div className='flex flex-row items-center gap-1.5 mt-[6px]'>
-                            <div className="text-amber-500 text-sm font-semibold font-['Rubik'] leading-tight">4.0</div> 
-                            <img src={Star} className='w-3 h-3' />
-                            <img src={Star} className='w-3 h-3' />
-                            <img src={Star} className='w-3 h-3' />
-                            <img src={Star} className='w-3 h-3' />
-                            <img src={StarO} className='w-3 h-3' />
-                        </div>
-                    </div>
-                </div>
-                <div className="w-full justify-start items-start gap-[42px] inline-flex">
-                    <div className="flex-col justify-start items-start gap-[17px] inline-flex">
-                        <div className="flex-col justify-start items-start gap-1.5 flex">
-                            <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Status</div>
-                            <div className={`h-[19px] px-3 py-1.5 ${groupDetails?.is_active ? 'bg-green-100' : 'bg-rose-100'} rounded justify-start items-center gap-2.5 inline-flex`}>
-                                <div className={`${groupDetails?.is_active ? 'text-green-700' : 'text-red-700'} text-xs font-normal font-['Rubik'] leading-none`}>{groupDetails?.is_active ? 'Active' : 'Offline'}</div>
-                            </div>
-                        </div>
-                        <div className="flex-col justify-start items-start gap-2 flex">
-                            <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Created on</div>
-                            <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{moment(groupDetails?.created_at).format('DD MMM. YYYY')}</div>
-                        </div>
-                    </div>
-                    <div className="justify-start items-start gap-[74px] flex">
-                        <div className="flex-col justify-start items-start gap-[19px] inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Owner/Admin</div>
-                                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{groupDetails?.owner_name}</div>
-                            </div>
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Country</div>
-                                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{groupDetails?.country?.name}</div>
-                            </div>
-                        </div>
-                        <div className="flex-col justify-start items-start gap-[19px] inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Phone</div>
-                                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{groupDetails?.owner_phone}</div>
-                            </div>
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Email</div>
-                                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{groupDetails?.owner_email}</div>
-                            </div>
-                        </div>
-                        {/* <div className="flex-col justify-start items-start gap-[19px] inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Vehicle Type</div>
-                                <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{courierDetals?.vehicle_name}</div>
-                            </div>
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Total Deliveries</div>
-                                <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{courierDetals?.deliveries_count}</div>
-                            </div>
-                        </div> */}
-                        {/* <div className="flex-col justify-start items-start gap-[19px] inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Capacity</div>
-                                <div><span className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">40kg/400 m</span><span className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">3</span></div>
-                            </div>
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Packages</div>
-                                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Standard</div>
-                            </div>
-                        </div> */}
-                    </div>
-                </div>
-            </div>
-            <div className='w-[25%] min-h-[212px] px-4 py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[13px] inline-flex'>
-                <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">Deliveries</div>
-                <div
-                    style={{
-                        width: "100px",
-                        height: "100px",
-                        alignSelf: "center",
-                        position: 'relative',
-                    }}
-                >
-                    <Doughnut data={data} options={options} />
-                    <div className="text-center text-zinc-800 text-xs font-normal font-['Rubik'] leading-none absolute top-[44px] left-8">Orders</div>
-                </div>
-                <div className="w-full flex justify-between">
-                <div className="flex flex-row gap-[8px]">
-                    <div className="relative">
-                        <img src={Oval} className="w-4 h-4" />
-                        <img
-                        src={Dot}
-                        className="w-2 h-2 absolute top-[4px] left-[4px]"
-                        />
-                    </div>
-                    <span className="text-green-500 text-xs font-normal font-rubik">
-                        Completed
-                    </span>
-                    </div>
-                    <div className="flex flex-row gap-1">
-                    <div className="text-zinc-800 text-xs font-normal font-rubik">
-                        {groupDetails?.completed_deliveries?.total_rate}%{" "}
-                    </div>
-                    <div className="text-slate-500 text-xs font-normal font-rubik">
-                        • {groupDetails?.completed_deliveries?.total_count?.toLocaleString()}
-                    </div>
-                </div>
-                </div>
-                <div className="w-full flex justify-between">
-                <div className="flex flex-row gap-[8px]">
-                    <div className="relative">
-                        <img src={Oval} className="w-4 h-4" />
-                        <img
-                        src={Dot}
-                        className="w-2 h-2 absolute top-[4px] left-[4px]"
-                        />
-                    </div>
-                    <span className="text-rose-400 text-xs font-normal font-rubik">
-                        Canceled
-                    </span>
-                    </div>
-                    <div className="flex flex-row gap-1">
-                    <div className="text-zinc-800 text-xs font-normal font-rubik">
-                        {groupDetails?.canceled_deliveries?.total_rate}%{" "}
-                    </div>
-                    <div className="text-slate-500 text-xs font-normal font-rubik">
-                        • {groupDetails?.canceled_deliveries?.total_count?.toLocaleString()}
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div className='w-[25%] min-h-[212px] pl-4 pr-[49px] py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[15px] inline-flex'>
-                <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight mb-5">Top Couriers</div>
-                {
-                  groupDetails?.top_couriers.map((item, idx) => <div className="w-full h-[38px] justify-start items-center gap-3 inline-flex">
-                    <img className="w-9 h-9 rounded-[100px] object-cover" src={item.profile_photo_link} />
-                    <div className="flex-col justify-start items-start gap-0.5 inline-flex">
-                        <div className="justify-start items-center gap-1.5 inline-flex">
-                            <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item.full_name}</div>
-                        </div>
-                        <div className="text-slate-500 text-xs font-normal font-['Rubik'] leading-none">${item.total_revenue}</div>
-                    </div>
-                  </div>)
-                }
-                {
-                  <div className='w-full'>
-                    {groupDetails?.top_couriers?.length === 0 && <img src={packageOngoing} className='w-[69px] h-[69px] mx-auto' /> }
-                    <h1 className="text-center text-gray-300 text-sm font-normal font-['Rubik'] leading-tight mt-[8px]">No couriers added yet</h1>
+          <div className="w-[50%] min-h-[212px] pl-4 pr-[49px] py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[33px] inline-flex">
+              <div className='flex flex-row gap-4 items-start'>
+                  <GroupProfile name={groupDetails?.name} />
+                  <div className='flex flex-col'>
+                      <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">{groupDetails?.name}</div> 
+                      <div className='flex flex-row items-center gap-1.5 mt-[6px]'>
+                          <div className="text-amber-500 text-sm font-semibold font-['Rubik'] leading-tight">4.0</div> 
+                          <img src={Star} className='w-3 h-3' />
+                          <img src={Star} className='w-3 h-3' />
+                          <img src={Star} className='w-3 h-3' />
+                          <img src={Star} className='w-3 h-3' />
+                          <img src={StarO} className='w-3 h-3' />
+                      </div>
                   </div>
-                }
-            </div>
+              </div>
+              <div className="w-full justify-start items-start gap-[42px] inline-flex">
+                  <div className="flex-col justify-start items-start gap-[17px] inline-flex">
+                      <div className="flex-col justify-start items-start gap-1.5 flex">
+                          <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Status</div>
+                          <div className={`h-[19px] px-3 py-1.5 ${groupDetails?.is_active ? 'bg-green-100' : 'bg-rose-100'} rounded justify-start items-center gap-2.5 inline-flex`}>
+                              <div className={`${groupDetails?.is_active ? 'text-green-700' : 'text-red-700'} text-xs font-normal font-['Rubik'] leading-none`}>{groupDetails?.is_active ? 'Active' : 'Offline'}</div>
+                          </div>
+                      </div>
+                      <div className="flex-col justify-start items-start gap-2 flex">
+                          <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Created on</div>
+                          <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{moment(groupDetails?.created_at).format('DD MMM. YYYY')}</div>
+                      </div>
+                  </div>
+                  <div className="justify-start items-start gap-[74px] flex">
+                      <div className="flex-col justify-start items-start gap-[19px] inline-flex">
+                          <div className="flex-col justify-start items-start gap-[5px] flex">
+                              <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Owner/Admin</div>
+                              <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{groupDetails?.owner_name}</div>
+                          </div>
+                          <div className="flex-col justify-start items-start gap-[5px] flex">
+                              <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Country</div>
+                              <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{groupDetails?.country?.name}</div>
+                          </div>
+                      </div>
+                      <div className="flex-col justify-start items-start gap-[19px] inline-flex">
+                          <div className="flex-col justify-start items-start gap-[5px] flex">
+                              <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Phone</div>
+                              <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{groupDetails?.owner_phone}</div>
+                          </div>
+                          <div className="flex-col justify-start items-start gap-[5px] flex">
+                              <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Email</div>
+                              <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{groupDetails?.owner_email}</div>
+                          </div>
+                      </div>
+                      {/* <div className="flex-col justify-start items-start gap-[19px] inline-flex">
+                          <div className="flex-col justify-start items-start gap-[5px] flex">
+                              <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Vehicle Type</div>
+                              <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{courierDetals?.vehicle_name}</div>
+                          </div>
+                          <div className="flex-col justify-start items-start gap-[5px] flex">
+                              <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Total Deliveries</div>
+                              <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{courierDetals?.deliveries_count}</div>
+                          </div>
+                      </div> */}
+                      {/* <div className="flex-col justify-start items-start gap-[19px] inline-flex">
+                          <div className="flex-col justify-start items-start gap-[5px] flex">
+                              <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Capacity</div>
+                              <div><span className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">40kg/400 m</span><span className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">3</span></div>
+                          </div>
+                          <div className="flex-col justify-start items-start gap-[5px] flex">
+                              <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Packages</div>
+                              <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Standard</div>
+                          </div>
+                      </div> */}
+                  </div>
+              </div>
+          </div>
+          <div className='w-[25%] min-h-[212px] px-4 py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[13px] inline-flex'>
+              <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">Deliveries</div>
+              <div
+                  style={{
+                      width: "100px",
+                      height: "100px",
+                      alignSelf: "center",
+                      position: 'relative',
+                  }}
+              >
+                  <Doughnut data={data} options={options} />
+                  <div className="text-center text-zinc-800 text-xs font-normal font-['Rubik'] leading-none absolute top-[44px] left-8">Orders</div>
+              </div>
+              <div className="w-full flex justify-between">
+              <div className="flex flex-row gap-[8px]">
+                  <div className="relative">
+                      <img src={Oval} className="w-4 h-4" />
+                      <img
+                      src={Dot}
+                      className="w-2 h-2 absolute top-[4px] left-[4px]"
+                      />
+                  </div>
+                  <span className="text-green-500 text-xs font-normal font-rubik">
+                      Completed
+                  </span>
+                  </div>
+                  <div className="flex flex-row gap-1">
+                  <div className="text-zinc-800 text-xs font-normal font-rubik">
+                      {groupDetails?.completed_deliveries?.total_rate}%{" "}
+                  </div>
+                  <div className="text-slate-500 text-xs font-normal font-rubik">
+                      • {groupDetails?.completed_deliveries?.total_count?.toLocaleString()}
+                  </div>
+              </div>
+              </div>
+              <div className="w-full flex justify-between">
+              <div className="flex flex-row gap-[8px]">
+                  <div className="relative">
+                      <img src={Oval} className="w-4 h-4" />
+                      <img
+                      src={Dot}
+                      className="w-2 h-2 absolute top-[4px] left-[4px]"
+                      />
+                  </div>
+                  <span className="text-rose-400 text-xs font-normal font-rubik">
+                      Canceled
+                  </span>
+                  </div>
+                  <div className="flex flex-row gap-1">
+                  <div className="text-zinc-800 text-xs font-normal font-rubik">
+                      {groupDetails?.canceled_deliveries?.total_rate}%{" "}
+                  </div>
+                  <div className="text-slate-500 text-xs font-normal font-rubik">
+                      • {groupDetails?.canceled_deliveries?.total_count?.toLocaleString()}
+                  </div>
+              </div>
+              </div>
+          </div>
+          <div className='w-[25%] min-h-[212px] pl-4 pr-[49px] py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[15px] inline-flex'>
+              <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight mb-5">Top Couriers</div>
+              {
+                groupDetails?.top_couriers?.map((item, idx) => <div className="w-full h-[38px] justify-start items-center gap-3 inline-flex">
+                  <img className="w-9 h-9 rounded-[100px] object-cover" src={item.profile_photo_link} />
+                  <div className="flex-col justify-start items-start gap-0.5 inline-flex">
+                      <div className="justify-start items-center gap-1.5 inline-flex">
+                          <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item.full_name}</div>
+                      </div>
+                      <div className="text-slate-500 text-xs font-normal font-['Rubik'] leading-none">${item.total_revenue}</div>
+                  </div>
+                </div>)
+              }
+              {
+                <div className='w-full'>
+                  {groupDetails?.top_couriers?.length === 0 && <img src={packageOngoing} className='w-[69px] h-[69px] mx-auto' /> }
+                  <h1 className="text-center text-gray-300 text-sm font-normal font-['Rubik'] leading-tight mt-[8px]">No couriers added yet</h1>
+                </div>
+              }
+          </div>
         </div>
         <div className="w-full mx-auto mt-[24px] gap-5 flex flex-row">
         <Dashcard
           icon={Money}
-          number={groupDetails?.total_revenue?.total_count?.toFixed() || 0}
-          percentage={groupDetails?.total_revenue?.total_rate?.toFixed(3) ||0}
+          number={groupDetails?.total_revenue?.toFixed()}
+          percentage={groupDetails?.total_revenue?.toFixed(3)}
           text={"Total Revenue"}
           iconBgColor={"bg-[#F4E7E7]"}
         />
         <Dashcard
           icon={Millage}
-          number={groupDetails.total_mileage?.total_count?.toFixed() || 0}
-          percentage={groupDetails.total_mileage?.total_rate?.toFixed(3) || 0}
+          number={groupDetails.total_mileage?.toFixed()}
+          percentage={groupDetails.total_mileage?.toFixed(3)}
           text={"Total Milleage"}
           iconBgColor={"bg-[#cce8f6]"}
         />
         <Dashcard
           icon={Profile2}
-          number={groupDetails.courier_count?.toFixed() || 0}
-          percentage={groupDetails.courier_count?.toFixed(3) || 0}
+          number={groupDetails.courier_count?.toFixed()}
+          percentage={groupDetails.courier_count?.toFixed(3)}
           text={"Total Couriers"}
           iconBgColor={"bg-rose-100"}
         />
         <Dashcard
           icon={Box}
-          number={groupDetails.total_orders?.total_count?.toFixed() || 0}
-          percentage={groupDetails.total_orders?.total_rate?.toFixed(3) || 0}
+          number={groupDetails.total_orders?.total_count?.toFixed()}
+          percentage={groupDetails.total_orders?.total_rate?.toFixed(3)}
           text={"Total Orders"}
           iconBgColor={"bg-yellow-400 bg-opacity-20"}
         />
