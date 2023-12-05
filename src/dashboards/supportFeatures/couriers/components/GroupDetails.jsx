@@ -286,15 +286,15 @@ const GroupDetails = () => {
         <div className="w-full mx-auto mt-[24px] gap-5 flex flex-row">
         <Dashcard
           icon={Money}
-          number={groupDetails?.total_revenue?.toFixed()}
-          percentage={groupDetails?.total_revenue?.toFixed(3)}
+          number={groupDetails?.total_revenue?.total_count?.toFixed()}
+          percentage={groupDetails?.total_revenue?.total_count?.toFixed()}
           text={"Total Revenue"}
           iconBgColor={"bg-[#F4E7E7]"}
         />
         <Dashcard
           icon={Millage}
-          number={groupDetails.total_mileage?.toFixed()}
-          percentage={groupDetails.total_mileage?.toFixed(3)}
+          number={groupDetails.total_mileage?.total_count?.toFixed()}
+          percentage={groupDetails.total_mileage?.total_count?.toFixed(3)}
           text={"Total Milleage"}
           iconBgColor={"bg-[#cce8f6]"}
         />
