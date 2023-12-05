@@ -89,6 +89,8 @@ export default function SecuritySection() {
               id="currentPassword"
               name="currentPassword"
               value={currentPassword}
+              // avoid auto-fill
+              autoComplete="new-password"
               onChange={handleCurrentPasswordChange}
               className="self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-between items-center inline-flex w-[371px]"
               placeholder="Your password"

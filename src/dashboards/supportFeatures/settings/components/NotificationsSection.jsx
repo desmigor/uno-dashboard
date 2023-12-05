@@ -150,10 +150,7 @@ export default function NotificationsSection() {
                 checked={pendingPackagesEnabled}
                 onChange={
                   () => {
-                    setPendingPackagesEnabled(!pendingPackagesEnabled);
-                    handleUpdateAccountNotifications({
-                      email_pending_packages: !pendingPackagesEnabled,
-                    });
+                    // do nothing on pending packages
                   }
                 }
                 className={`${
