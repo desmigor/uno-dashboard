@@ -8,13 +8,19 @@ import AddIcon from "../../../../assets/images/dashboard/icon/add-circle.svg";
 import AddVehicleType from "./UI/AddVehicleTypeModal";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchVehicleTypesAction } from "../../../../redux/actions/fetchVehicleTypes";
+import CouriersIcon from "../../../../assets/images/dashboard/icon/profile-2user4.svg";
+import Edit from "../../../../assets/images/dashboard/icon/edit-black.svg";
+import Delete from "../../../../assets/images/dashboard/icon/trash.svg";
+import callAPI from "../../../../utils/api";
 
 export default function CouriersConfigurations() {
   const [paginations, setPaginations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [selectedEditItem, setselectedEditItem] = useState(null);
+
   const dispatch = useDispatch();
-  const { vehicleTypes} = useSelector((state) => state.vehicleTypes);
+  const { vehicleTypes } = useSelector((state) => state.vehicleTypes);
 
   useEffect(() => {
     dispatch(fetchVehicleTypesAction());
@@ -67,12 +73,22 @@ export default function CouriersConfigurations() {
     },
   ];
 
+  const handleDeleteVehicleType = async (id) => {
+    try {
+      const response = await callAPI(`/api/admin/vehicle-type/${id}`, "DELETE", true);
+      console.log(response);
+      dispatch(fetchVehicleTypesAction());
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="w-[100%] min-h-[400px] mt-6 relative bg-white rounded-[10px] pb-20 py-[22px] px-[16px]">
       <AddVehicleType
         show={showCreateModal}
         onClose={() => setShowCreateModal(false)}
         onConfirm={() => setShowCreateModal(false)}
+        editData={selectedEditItem}
       />
       <div className="flex flex-row justify-between items-center">
         <div class="text-zinc-800 text-lg font-semibold font-rubik">
@@ -81,17 +97,6 @@ export default function CouriersConfigurations() {
         <div className="flex flex-row gap-4">
           <div className="flex flex-row gap-[10px] items-center">
             {/* <Dropdown /> */}
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search courier ..."
-                className="placeholder:text-gray-300 text-sm font-normal font-rubik leading-tight w-[328px] h-10 pr-4 pl-10 py-[13px] rounded-xl border border-gray-100 justify-start items-center inline-flex"
-              />
-              <img
-                src={Search}
-                className="w-4 h-4 absolute top-[12px] left-[16px]"
-              />
-            </div>
           </div>
           <div
             class=" h-10 px-[60px] py-[15px] bg-red-800 rounded-lg justify-center items-center gap-2.5 inline-flex cursor-pointer"
@@ -109,7 +114,7 @@ export default function CouriersConfigurations() {
         </div>
       </div>
       <div className="relative w-full overflow-x-auto border border-gray-100 sm:rounded-lg mt-6">
-        <table class="w-full table-auto">
+        <table class="w-full table-auto mb-24">
           <thead class="w-full h-8 relative bg-gray-50 rounded-tl-md rounded-tr-md border border-gray-100">
             <tr>
               <th scope="col" class="px-6 py-3 text-left">
@@ -119,7 +124,7 @@ export default function CouriersConfigurations() {
               </th>
               <th scope="col" class="px-6 py-3 text-left">
                 <span className="text-slate-500 text-xs font-normal font-rubik">
-                  Size capacity
+                  Size capacity (H x W x L)
                 </span>
               </th>
               <th scope="col" class="px-6 py-3 text-left">
@@ -129,7 +134,7 @@ export default function CouriersConfigurations() {
               </th>
               <th scope="col" class="px-6 py-3 text-left">
                 <span className="text-slate-500 text-xs font-normal font-rubik">
-                  Date created
+                  Average speed
                 </span>
               </th>
               <th scope="col" class="px-6 py-3 text-left">
@@ -146,7 +151,7 @@ export default function CouriersConfigurations() {
             </tr>
           </thead>
           <tbody>
-            {vehicle_types?.map((item, idx) => (
+            {vehicleTypes?.map((item, idx) => (
               <tr
                 key={idx}
                 onClick={() => {}}
@@ -162,196 +167,93 @@ export default function CouriersConfigurations() {
                     </div>
                   </div>
                 </th>
-                <td className="px-6 py-3 text-left">
+                <td className="px-3 py-3 text-left">
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
-                    {item.size}
-                  </div>
-                </td>
-                <td className="px-6 py-3 text-left">
-                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
-                    {item.capacit}
+                    {item.max_height}cm x {item.max_width}cm x {item.max_length}
+                    cm
                   </div>
                 </td>
                 <td className="px-6 py-3 text-left">
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
-                    {item?.date}
+                    {item.max_weight} kg
                   </div>
                 </td>
                 <td className="px-6 py-3 text-left">
-                  <div className="text-zinc-800 text-sm font-semibold font-rubik leading-tight">
-                    {item.couriers}
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
+                    {item?.average_speed} km/h
                   </div>
                 </td>
-                <td className="px-6 py-3 text-left font-bold text-xl">...</td>
+                <td className="px-6 py-3 text-left flex flex-row gap-1">
+                  <div class="w-5 h-5 justify-center items-center inline-flex">
+                    <div class="w-5 h-5 relative">
+                      <img src={CouriersIcon} />
+                    </div>
+                  </div>
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
+                    {item.courier_count}
+                  </div>
+                </td>
+                <td className="px-6 py-3 text-left font-bold text-xl">
+                  <Menu>
+                    <div className="">
+                      <Menu.Button>. . .</Menu.Button>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="absolute right-[120px] top-[38px] w-[158px] h-30 p-4 bg-white rounded-xl shadow flex-col justify-start items-start gap-2 inline-flex z-10">
+                          <Menu.Item>
+                            <button
+                              className="w-full h-6 justify-start items-center gap-2.5 inline-flex"
+                              onClick={() => {
+                                setselectedEditItem(item);
+                                setShowCreateModal(true);
+                              }}
+                            >
+                              <div className="w-6 h-6 bg-gray-100 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex">
+                                <img src={Edit} className="w-4 h-4" />
+                              </div>
+                              <div className="text-zinc-800 text-xs font-normal font-['Rubik'] leading-none">
+                                Edit
+                              </div>
+                            </button>
+                          </Menu.Item>
+                          <div className="w-full h-[1px] bg-[#D0D4D9]" />
+
+                          <Menu.Item>
+                            <button
+                              onClick={() => handleDeleteVehicleType(item.id)}
+                              className="w-full h-6 justify-start items-center gap-2.5 inline-flex"
+                            >
+                              <div
+                                className={`w-6 h-6  bg-rose-100
+                                 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex`}
+                              >
+                                <img src={Delete} className="w-4 h-4" />
+                              </div>
+                              <div
+                                className={`
+                                   "text-red-700"
+                                 text-xs font-normal font-['Rubik'] leading-none`}
+                              >
+                                Delete
+                              </div>
+                            </button>
+                          </Menu.Item>
+                        </Menu.Items>
+                      </Transition>
+                    </div>
+                  </Menu>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
-      {vehicle_types?.length === 0 && <div></div>}
-      <div className="mt-[20px] absolute bottom-3  w-[97.5%] flex items-center justify-between">
-        <div className="w-[155px] h-[25px] justify-start items-center gap-2.5 inline-flex">
-          <div className="text-gray-400 text-sm font-normal font-rubik leading-tight">
-            Rows per page
-          </div>
-          <Menu as="div">
-            <Menu.Button className="w-[49px] h-[25px] cursor-pointer px-[9px] bg-white rounded-[20px] border border-gray-100 justify-start items-center gap-1 flex">
-              <div className="text-center text-zinc-800 text-xs font-normal font-rubik leading-none">
-                {/* {count} */}
-              </div>
-              <img src={ArrowDownSmall} className="w-3 h-3" />
-            </Menu.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0 scale-95"
-              enterTo="transform opacity-100 scale-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-            >
-              <Menu.Items className="absolute left-[121px] mt-2 w-20 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
-                <div
-                  //   onClick={() => handleChangePage(5)}
-                  className="px-1 py-1 cursor-pointer"
-                >
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-none">
-                        5
-                      </div>
-                    )}
-                  </Menu.Item>
-                </div>
-                <div
-                  //   onClick={() => handleChangePage(10)}
-                  className="px-1 py-1 cursor-pointer"
-                >
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-none">
-                        10
-                      </div>
-                    )}
-                  </Menu.Item>
-                </div>
-                <div
-                  //   onClick={() => handleChangePage(15)}
-                  className="px-1 py-1 cursor-pointer"
-                >
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-none">
-                        15
-                      </div>
-                    )}
-                  </Menu.Item>
-                </div>
-                <div
-                  //   onClick={() => handleChangePage(20)}
-                  className="px-1 py-1 cursor-pointer"
-                >
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-none">
-                        20
-                      </div>
-                    )}
-                  </Menu.Item>
-                </div>
-                <div
-                  //   onClick={() => handleChangePage(25)}
-                  className="px-1 py-1 cursor-pointer"
-                >
-                  <Menu.Item>
-                    {({ active }) => (
-                      <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-none">
-                        25
-                      </div>
-                    )}
-                  </Menu.Item>
-                </div>
-              </Menu.Items>
-            </Transition>
-          </Menu>
-        </div>
-        <div className="min-w-[415px] h-6 justify-end items-center gap-2.5 flex">
-          <div className="text-gray-400 text-sm font-normal font-rubik leading-tight">
-            Results per page
-          </div>
-          <div className="flex flex-row gap-2.5">
-            <button
-              disabled={currentPage === 1 ? true : false}
-              onClick={() => {
-                // setCurrentPage(currentPage - 1);
-                // if (table === "available") {
-                //   dispatch(fetchAvailableCouriers(count, currentPage - 1));
-                // } else if (table === "at-work") {
-                //   dispatch(fetchAtWorkCouriers(count, currentPage - 1));
-                // } else if (table === "paused") {
-                //   dispatch(fetchPausedCouriers(count, currentPage - 1));
-                // } else {
-                //   dispatch(fetchOfflineCouriers(count, currentPage - 1));
-                // }
-              }}
-              className="w-6 h-6 cursor-pointer bg-white rounded-[100px] border border-gray-100 justify-center items-center gap-1 inline-flex"
-            >
-              <img src={ArrowLeftSmall} className="w-3 h-3" />
-            </button>
-            <div className="flex flex-row gap-2.5">
-              {paginations.map((item, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => {
-                    // setCurrentPage(item);
-                    // if (table === "available") {
-                    //   dispatch(fetchAvailableCouriers(count, item));
-                    // } else if (table === "at-work") {
-                    //   dispatch(fetchAtWorkCouriers(count, item));
-                    // } else if (table === "paused") {
-                    //   dispatch(fetchPausedCouriers(count, item));
-                    // } else {
-                    //   dispatch(fetchOfflineCouriers(count, item));
-                    // }
-                  }}
-                  className={`w-6 h-6 px-[9px] ${
-                    item === currentPage ? "bg-red-800" : "bg-white"
-                  } rounded-[100px] cursor-pointer justify-center items-center gap-1 inline-flex`}
-                >
-                  <div
-                    className={`${
-                      item === currentPage ? "text-white" : "text-zinc-800"
-                    } text-xs font-normal font-rubik leading-none`}
-                  >
-                    {item}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <button
-              disabled={
-                currentPage === paginations[paginations.length - 1]
-                  ? true
-                  : false
-              }
-              onClick={() => {
-                // setCurrentPage(currentPage + 1);
-                // if (table === "available") {
-                //   dispatch(fetchAvailableCouriers(count, currentPage + 1));
-                // } else if (table === "at-work") {
-                //   dispatch(fetchAtWorkCouriers(count, currentPage + 1));
-                // } else if (table === "paused") {
-                //   dispatch(fetchPausedCouriers(count, currentPage + 1));
-                // } else {
-                //   dispatch(fetchOfflineCouriers(count, currentPage + 1));
-                // }
-              }}
-              className="w-6 h-6 cursor-pointer bg-white rounded-[100px] border border-gray-100 justify-center items-center gap-1 inline-flex"
-            >
-              <img src={ArrowLeftSmall} className="w-3 h-3 rotate-180" />
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
