@@ -69,7 +69,7 @@ function EditProfileModal({
             style={{ display: 'none' }}
             onChange={handleFileChange}
           />
-          <button class="w-[200px] h-[50px] px-[20px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 inline-flex cursor-pointer"
+          <button class="w-[200px] h-[50px] px-[20px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 inline-flex cursor-pointer mb-4" 
             onClick={openFileDialog}
           >
             <div class="w-6 h-6 justify-center items-center flex">
