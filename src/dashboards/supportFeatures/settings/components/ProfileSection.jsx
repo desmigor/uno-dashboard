@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "../../../../assets/images/dashboard/icon/edit-3.svg";
 import EditIcon2 from "../../../../assets/images/dashboard/icon/edit-2.svg";
 import noProfile from "../../../../assets/images/dashboard/image/image.png";
 import EditProfileModal from "../components/UI/EditProfileModal";
 import SuccessToast from "../../../../components/ui/SuccessToast";
 import Spinner from "../../../../components/ui/spinner";
+import { fetchProfileAction } from "../../../../redux/actions/fetchProfileAction";
 
 export default function ProfileSection() {
   const [ShowEditProfileModal, setShowEditProfileModal] = useState(false);
@@ -12,6 +14,10 @@ export default function ProfileSection() {
   const [editInformations, setEditInformations] = useState(false);
   const [editAddress, setEditAddress] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { userInfo } = useSelector((state) => state.auth);
+  const { profile } = useSelector((state) => state.fetchProfile);
+
+  const dispatch = useDispatch();
 
   const handleModalConfirm = (isConfirmed) => {
     if (isConfirmed) {
@@ -28,33 +34,59 @@ export default function ProfileSection() {
     }, 30);
   };
 
-  const data = {
-    firstName: "Michael",
-    lastName: "James",
-    emailAddress: "james@test.com",
-    phoneNumber: "+233 245 678 900",
-    role: "Support Team",
-    supportGroup: "Ghana Team",
-    country: "Ghana",
-    region: "Asunafo North",
-    city: "Accra",
-    postalCode: "12345",
-  };
+  useEffect(() => {
+    dispatch(fetchProfileAction());
+  }, [dispatch]);
 
-  const [firstName, setFirstName] = useState(data.firstName);
-  const [lastName, setLastName] = useState(data.lastName);
-  const [emailAddress, setEmailAddress] = useState(data.emailAddress);
-  const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber);
-  const [role, setRole] = useState(data.role);
-  const [supportGroup, setSupportGroup] = useState(data.supportGroup);
-  const [country, setCountry] = useState(data.country);
-  const [region, setRegion] = useState(data.region);
-  const [city, setCity] = useState(data.city);
-  const [postalCode, setPostalCode] = useState(data.postalCode);
+  useEffect(() => {
+    if (Object.keys(profile).length > 0) {
+      setFirstName(profile.full_name?.split(" ")[0]);
+      setLastName(profile.full_name?.split(" ")[1]);
+      setEmailAddress(profile.email);
+      setPhoneNumber(profile.phone_number);
+      setRole(profile.role);
+      setSupportGroup(profile.groups[0]?.name);
+      setCountry(profile.address[0]?.country?.name);
+      setRegion(profile.address[0]?.region);
+      setCity(profile.address[0]?.city);
+      setPostalCode(profile.address[0]?.postal_code);
+    }
+  }, [profile]);
+
+  console.log("profile", profile);
+
+  const [firstName, setFirstName] = useState(
+    profile && profile.full_name?.split(" ")[0]
+  );
+  const [lastName, setLastName] = useState(
+    Object.keys(profile).length > 0 ? profile.full_name?.split(" ")[1] : ""
+  );
+  const [emailAddress, setEmailAddress] = useState(
+    Object.keys(profile).length > 0 ? profile.email : ""
+  );
+  const [phoneNumber, setPhoneNumber] = useState(
+    Object.keys(profile).length > 0 ? profile.phone_number : ""
+  );
+  const [role, setRole] = useState();
+  const [supportGroup, setSupportGroup] = useState(
+    Object.keys(profile).length > 0 ? profile.groups[0]?.name : ""
+  );
+  const [country, setCountry] = useState(
+    Object.keys(profile).length > 0 ? profile.address[0]?.country?.name : ""
+  );
+  const [region, setRegion] = useState(
+    Object.keys(profile).length > 0 ? profile.address[0]?.region : ""
+  );
+  const [city, setCity] = useState(
+    Object.keys(profile).length > 0 ? profile.address[0]?.city : ""
+  );
+  const [postalCode, setPostalCode] = useState(
+    Object.keys(profile).length > 0 ? profile.address[0]?.postal_code : ""
+  );
 
   const handleEdit = (address = false) => {
     setLoading(true);
-    const data = {
+    const profile = {
       firstName: firstName,
       lastName: lastName,
       emailAddress: emailAddress,
@@ -67,7 +99,7 @@ export default function ProfileSection() {
       postalCode: postalCode,
     };
     try {
-      const result = data;
+      const result = profile;
       console.log(result);
       setLoading(false);
       address ? setEditAddress(false) : setEditInformations(false);
@@ -76,6 +108,8 @@ export default function ProfileSection() {
       console.log(err.message);
     }
   };
+
+  console.log(userInfo);
 
   return (
     <div className="w-[100%] h-[100%] p-5 bg-white rounded-lg flex-col justify-start items-start gap-6 inline-flex overflow-auto">
@@ -320,9 +354,7 @@ export default function ProfileSection() {
                 </div>
                 <button
                   className={`w-[168px] h-[50px] py-[15px]  rounded-xl justify-center items-center gap-2.5 flex cursor-pointer text-white bg-red-800`}
-                  onClick={() => handleEdit(
-                    true
-                  )}
+                  onClick={() => handleEdit(true)}
                 >
                   {loading ? (
                     <Spinner className={"fill-white"} />

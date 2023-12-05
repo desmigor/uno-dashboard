@@ -11,6 +11,7 @@ import oneCustomerReducer from './slices/oneCustomerSlice'
 import matchedCouriers from "./slices/matchedCouriersSlice";
 import packageSizesReducer from "./slices/packageSizesSlice";
 import accountActionReducer from "./slices/accountNotificationsSlice";
+import ProfileReducer from "./slices/userProfileSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
@@ -37,6 +38,7 @@ export const store = configureStore({
         fetchPackageSizes: packageSizesReducer,
         fetchAccountNotifications: accountActionReducer,
         packages: persistedReducerPackage,
+        fetchProfile:ProfileReducer
     },
     middleware: [thunk]
 });
