@@ -20,7 +20,8 @@ import ArrowDownSmall from '../../../../assets/images/dashboard/icon/arrow-down-
 import ArrowLeftSmall from '../../../../assets/images/dashboard/icon/arrow-left-small.svg';
 import PlaceHolderImage from '../../../../assets/images/dashboard/image/image.png';
 import { fetchAtWorkCouriers, fetchAvailableCouriers, fetchCouriersAction, fetchOfflineCouriers, fetchPausedCouriers } from '../../../../redux/actions/fetchCouriersAction';
-import { fetchCustomersActiveAction, fetchCustomersSuspendedAction } from '../../../../redux/actions/fetchCustomersAction';
+import { fetchCustomersActiveAction, fetchCustomersSuspendedAction, searchCustomersActiveAction, searchCustomersSuspendedAction } from '../../../../redux/actions/fetchCustomersAction';
+import SuspendCustomerModal from './SuspendCustomerModal';
 
 function Customers() {
   const [selected, setSelected] = useState(null);
@@ -31,6 +32,11 @@ function Customers() {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const { customersActive, customersActiveCounts, customersSuspended, customersSuspendedCounts } = useSelector((state) => state.fetchCustomers);
+  const [searchText, setSearchText] = useState('');
+  const [id, setId] = useState();
+  const [isOpen, setIsOpen] = useState(false);
+  const [text, setText] = useState('');
+  const [item, setItem] = useState({});
 
   useEffect(() => {
     dispatch(fetchCustomersActiveAction(currentPage, count));
@@ -51,7 +57,11 @@ function Customers() {
     setCount(countNumber);
     dispatch(fetchCustomersActiveAction(1, countNumber));
     dispatch(fetchCustomersSuspendedAction(1, countNumber));
+  }
 
+  const handleSearch = (text) => {  
+    setSearchText(text);
+    dispatch(table === 'active' ? searchCustomersActiveAction(1, 5, text) : searchCustomersSuspendedAction(1, 5, text) );
   }
 
   function generatePagination(count, currentPage, rowsPerPage) {
@@ -102,6 +112,8 @@ function Customers() {
     return pages;
   }
 
+
+
   return (
     <div className='bg-[#F8F9FA] h-[93%] w-full px-10 py-6 overflow-y-auto pb-32'>
       <div>
@@ -120,7 +132,7 @@ function Customers() {
           <div className='flex flex-row gap-[10px] items-center'>
             {/* <Dropdown /> */}
             <div className='relative'>
-              <input type='text' placeholder='Search courier ...' className='placeholder:text-gray-300 text-sm font-normal font-rubik leading-tight w-[328px] h-10 pr-4 pl-10 py-[13px] rounded-xl border border-gray-100 justify-start items-center inline-flex' />
+              <input type='text' value={searchText} onChange={(e) => handleSearch(e.target.value)} placeholder='Search courier ...' className='placeholder:text-gray-300 text-sm font-normal font-rubik leading-tight w-[328px] h-10 pr-4 pl-10 py-[13px] rounded-xl border border-gray-100 justify-start items-center inline-flex' />
               <img src={Search} className='w-4 h-4 absolute top-[12px] left-[16px]' />
             </div>
           </div>
@@ -195,16 +207,20 @@ function Customers() {
                     >
                       <Menu.Items className="absolute z-50 right-[37px] top-[15px] w-[158px] h-30 p-4 bg-white rounded-xl shadow flex-col justify-start items-start gap-2 inline-flex">
                           <Menu.Item>
-                          <button className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
+                          <Link to={`/admin/dashboard/customers/update/${item.id}`} className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
                             <div className="w-6 h-6 bg-gray-100 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex">
                               <img src={Edit} className='w-4 h-4' />
                             </div>
                             <div className="text-zinc-800 text-xs font-normal font-['Rubik'] leading-none">Edit</div>
-                          </button>
+                          </Link>
                           </Menu.Item>
                           <div className='w-full h-[1px] bg-[#D0D4D9]' />
                           <Menu.Item>
-                          {table === 'active' ? <button className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
+                          {table === 'active' ? <button onClick={() => {
+                            setIsOpen(true);
+                            setItem(item);
+                            setText(`After confirmation, ${item.full_name} will be automatically suspended and they won’t be able to log in their account`)
+                          }} className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
                             <div className="w-6 h-6 bg-rose-100 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex">
                               <img src={Close} className='w-10 h-10' />
                             </div>
@@ -330,6 +346,8 @@ function Customers() {
         </div>
       </div>
       {/* <CancelModal isOpen={isOpen} setIsOpen={setIsOpen} id={selectedPackage?.id} /> */}
+      <SuspendCustomerModal id={id} isOpen={isOpen} setIsOpen={setIsOpen} text={text} item={item} />
+
     </div>
   )
 }

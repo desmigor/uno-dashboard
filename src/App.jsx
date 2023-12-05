@@ -25,6 +25,8 @@ import { fetchCountriesActions } from './redux/actions/fetchCouriersAction';
 import GroupDetails from './dashboards/supportFeatures/couriers/components/GroupDetails';
 import Customers from './dashboards/adminFeatures/customers/components';
 import CreateCustomer from './dashboards/adminFeatures/customers/components/CreateCustomer';
+import UpdateGroup from './dashboards/supportFeatures/couriers/components/UpdateGroup';
+import EditCustomer from './dashboards/adminFeatures/customers/components/EditCustomer';
 
 function App() {
   const { type, userInfo } = useSelector((state) => state.auth);
@@ -69,11 +71,13 @@ function App() {
             <Route path='/admin/dashboard/courier/groups/:id' element={<GroupDetails />} />
             <Route path='/admin/dashboard/courier/groups' element={<Groups />} />
             <Route path='/admin/dashboard/courier/groups/new' element={<CreateGroup />} />
+            <Route path='/admin/dashboard/courier/groups/update/:id' element={<UpdateGroup />} />
             <Route path='/admin/dashboard/courier/new' element={<CreateCourier />} />
+            <Route path='/admin/dashboard/courier/update/:id' element={<CreateCourier />} />
             <Route path='/admin/dashboard/courier/:id' element={<CouriersView />} />
             <Route path='/admin/dashboard/customers' element={<Customers />} />
             <Route path='/admin/dashboard/customers/new' element={<CreateCustomer />} />
-            <Route path='/admin/dashboard/customers/:id' element={<CreateCustomer />} />
+            <Route path='/admin/dashboard/customers/update/:id' element={<EditCustomer />} />
             <Route path='/admin/dashboard/settings' element={<Settings />} />
           </Route>
           <Route path='/admin/dashboard/package/choose-address' element={<PrivateRoute isAllowed={userInfo?.type?.id === 3} redirectTo='/support/dashboard/'><ChooseAddress /></PrivateRoute>} />
