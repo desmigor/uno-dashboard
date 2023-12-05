@@ -7,6 +7,7 @@ import EditProfileModal from "../components/UI/EditProfileModal";
 import SuccessToast from "../../../../components/ui/SuccessToast";
 import Spinner from "../../../../components/ui/spinner";
 import { fetchProfileAction } from "../../../../redux/actions/fetchProfileAction";
+import callAPI from "../../../../utils/api";
 
 export default function ProfileSection() {
   const [ShowEditProfileModal, setShowEditProfileModal] = useState(false);
@@ -39,7 +40,7 @@ export default function ProfileSection() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (Object.keys(profile).length > 0) {
+    if (Object.keys(profile).length > 0 && Object.keys(userInfo).length > 0) {
       setFirstName(profile.full_name?.split(" ")[0]);
       setLastName(profile.full_name?.split(" ")[1]);
       setEmailAddress(profile.email);
@@ -50,10 +51,9 @@ export default function ProfileSection() {
       setRegion(profile.address[0]?.region);
       setCity(profile.address[0]?.city);
       setPostalCode(profile.address[0]?.postal_code);
+      setRole(userInfo?.type?.id === 3 ? "Admin" : "Support");
     }
   }, [profile]);
-
-  console.log("profile", profile);
 
   const [firstName, setFirstName] = useState(
     profile && profile.full_name?.split(" ")[0]
@@ -84,29 +84,37 @@ export default function ProfileSection() {
     Object.keys(profile).length > 0 ? profile.address[0]?.postal_code : ""
   );
 
-  const handleEdit = (address = false) => {
+  const handleEdit = async (address = false) => {
     setLoading(true);
-    const profile = {
-      firstName: firstName,
-      lastName: lastName,
-      emailAddress: emailAddress,
-      phoneNumber: phoneNumber,
-      role: role,
-      supportGroup: supportGroup,
-      country: country,
-      region: region,
-      city: city,
-      postalCode: postalCode,
-    };
+    const data = address
+      ? {
+          city: city,
+          country: profile?.country,
+          postal_code: postalCode,
+          region: region,
+        }
+      : {
+          full_name: `${firstName} ${lastName}`,
+          email: emailAddress,
+          country: profile?.country,
+          phone_number: phoneNumber,
+        };
+    console.log(data);
     try {
-      const result = profile;
+      const result = await callAPI(
+        address ? "/api/address/profile-address/" : "/api/auth/web/profile/",
+        "PUT",
+        true,
+        data
+      );
       console.log(result);
+      dispatch(fetchProfileAction());
       setLoading(false);
-      address ? setEditAddress(false) : setEditInformations(false);
     } catch (err) {
       setLoading(false);
-      console.log(err.message);
+      console.log(err);
     }
+    address ? setEditAddress(false) : setEditInformations(false);
   };
 
   console.log(userInfo);
@@ -246,7 +254,7 @@ export default function ProfileSection() {
                 />
               ) : (
                 <div class="text-zinc-800 text-base font-normal font-rubik leading-tight">
-                  {lastName}
+                  {emailAddress}
                 </div>
               )}
             </div>
@@ -390,12 +398,12 @@ export default function ProfileSection() {
               </div>
               {editAddress ? (
                 <input
+                  editable={false}
                   type="text"
                   id="country"
                   name="country"
                   value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className="text-zinc-800 text-base font-normal font-rubik leading-tight self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex"
+                  className="text-zinc-800 text-base font-normal font-rubik leading-tight self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex bg-neutral-100 cursor-not-allowed "
                   placeholder="Enter country"
                 />
               ) : (
