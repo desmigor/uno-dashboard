@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Search from "../../../../assets/images/dashboard/icon/search-normal2.svg";
 import { Menu, Transition } from "@headlessui/react";
@@ -6,11 +6,21 @@ import ArrowDownSmall from "../../../../assets/images/dashboard/icon/arrow-down-
 import ArrowLeftSmall from "../../../../assets/images/dashboard/icon/arrow-left-small.svg";
 import AddIcon from "../../../../assets/images/dashboard/icon/add-circle.svg";
 import AddVehicleType from "./UI/AddVehicleTypeModal";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchVehicleTypesAction } from "../../../../redux/actions/fetchVehicleTypes";
 
 export default function CouriersConfigurations() {
   const [paginations, setPaginations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const dispatch = useDispatch();
+  const { vehicleTypes} = useSelector((state) => state.vehicleTypes);
+
+  useEffect(() => {
+    dispatch(fetchVehicleTypesAction());
+  }, []);
+
+  console.log(vehicleTypes);
 
   const vehicle_types = [
     {
