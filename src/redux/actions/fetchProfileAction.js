@@ -1,5 +1,5 @@
 import callAPI from "../../utils/api";
-import { fetchProfile, fetchProfileSuccess } from "../slices/userProfileSlice";
+import { fetchProfile, fetchProfileSuccess, fetchCountriesSuccess } from "../slices/userProfileSlice";
 
 export const fetchProfileAction = () => async (dispatch, getState) => {
   try {
@@ -13,3 +13,15 @@ export const fetchProfileAction = () => async (dispatch, getState) => {
   } catch (error) {
   }
 };
+
+export const fetchCountriesAction = () => async (dispatch, getState) => {
+  try {
+    const result = await callAPI(
+      "/api/country/",
+      "GET",
+      true
+    );
+    dispatch(fetchCountriesSuccess(result));
+  } catch (error) {
+  }
+}

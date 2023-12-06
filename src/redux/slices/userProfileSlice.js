@@ -5,6 +5,7 @@ const initialState = {
     error: null,
     success: false,
     profile: {},
+    countries: []
 }
 
 const fetchProfileSlice = createSlice({
@@ -26,9 +27,16 @@ const fetchProfileSlice = createSlice({
             state.loading = false;
             state.error = payload;
             state.success = false;
-        }
+        },
+        fetchCountriesSuccess: (state, { payload }) => {
+            state.loading = false;
+            state.error = null;
+            state.success = true;
+            state.countries = payload.data;
+        },
+
     }
 })
 
-export const { fetchProfile, fetchProfileSuccess, fetchProfileError } = fetchProfileSlice.actions;
+export const { fetchProfile, fetchProfileSuccess, fetchProfileError,fetchCountriesSuccess } = fetchProfileSlice.actions;
 export default fetchProfileSlice.reducer;

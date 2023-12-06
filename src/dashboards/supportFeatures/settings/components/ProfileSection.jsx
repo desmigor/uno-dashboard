@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Menu } from "@headlessui/react";
 import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "../../../../assets/images/dashboard/icon/edit-3.svg";
 import EditIcon2 from "../../../../assets/images/dashboard/icon/edit-2.svg";
@@ -6,7 +7,7 @@ import noProfile from "../../../../assets/images/dashboard/image/image.png";
 import EditProfileModal from "../components/UI/EditProfileModal";
 import SuccessToast from "../../../../components/ui/SuccessToast";
 import Spinner from "../../../../components/ui/spinner";
-import { fetchProfileAction } from "../../../../redux/actions/fetchProfileAction";
+import { fetchProfileAction, fetchCountriesAction } from "../../../../redux/actions/fetchProfileAction";
 import callAPI from "../../../../utils/api";
 
 export default function ProfileSection() {
@@ -17,6 +18,10 @@ export default function ProfileSection() {
   const [loading, setLoading] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
   const { profile } = useSelector((state) => state.fetchProfile);
+  const { countries } = useSelector((state) => state.fetchProfile);
+  const [selectedCoutryId, setSelectedCountryId] = useState();
+
+  console.log(countries);
 
   const dispatch = useDispatch();
 
@@ -37,6 +42,7 @@ export default function ProfileSection() {
 
   useEffect(() => {
     dispatch(fetchProfileAction());
+    dispatch(fetchCountriesAction());
   }, [dispatch]);
 
   useEffect(() => {
@@ -52,6 +58,7 @@ export default function ProfileSection() {
       setCity(profile.address[0]?.city);
       setPostalCode(profile.address[0]?.postal_code);
       setRole(userInfo?.type?.id === 3 ? "Admin" : "Support");
+      setSelectedCountryId(profile.country);
     }
   }, [profile]);
 
@@ -84,19 +91,20 @@ export default function ProfileSection() {
     Object.keys(profile).length > 0 ? profile.address[0]?.postal_code : ""
   );
 
+  console.log(profile);
   const handleEdit = async (address = false) => {
     setLoading(true);
     const data = address
       ? {
           city: city,
-          country: profile?.country,
+          country: selectedCoutryId,
           postal_code: postalCode,
           region: region,
         }
       : {
           full_name: `${firstName} ${lastName}`,
           email: emailAddress,
-          country: profile?.country,
+          country: selectedCoutryId,
           phone_number: phoneNumber,
         };
     console.log(data);
@@ -125,7 +133,11 @@ export default function ProfileSection() {
         show={ShowEditProfileModal}
         onremove={() => setShowEditProfileModal(false)}
         title="Profile Picture"
-        image={noProfile}
+        image={
+          profile?.profile_photo_link
+            ? profile?.profile_photo_link
+            : noProfile
+        }
         content="A picture helps people recognize you and lets you know when you’re signed in to your account."
         onConfirm={handleModalConfirm}
       />
@@ -142,7 +154,11 @@ export default function ProfileSection() {
             <div className="w-[100px] h-[100px] left-0 top-0 absolute rounded-full border-2 border-red-800"></div>
             <img
               className="w-[90px] h-[90px] left-[5px] top-[5px] absolute rounded-full"
-              src={noProfile}
+              src={
+                profile?.profile_photo_link
+                  ? profile?.profile_photo_link
+                  : noProfile
+              }
             />
           </div>
           <div
@@ -176,7 +192,7 @@ export default function ProfileSection() {
             Personal Information
           </div>
           {editInformations ? (
-            <div className=" py-1 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex ">
+            <div className=" py-1 bg-white rounded-bl-2xl rounded-br-2xl justify-center items-center inline-flex ">
               <div className="self-stretch justify-center items-start gap-5 inline-flex">
                 <div
                   className="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex cursor-pointer"
@@ -216,7 +232,9 @@ export default function ProfileSection() {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-3 gap-5 w-[100%]">
+        <div className={`grid grid-cols-3  w-[100% 
+        ${editInformations ? "gap-[50%]" : "gap-[73px]"}`
+      }>
           <div className="flex-col justify-start items-start gap-5 flex">
             <div class="flex-col justify-start items-start gap-[5px] inline-flex">
               <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
@@ -350,7 +368,7 @@ export default function ProfileSection() {
             Address
           </div>
           {editAddress ? (
-            <div className=" py-1 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex ">
+            <div className=" py-1 bg-white rounded-bl-2xl rounded-br-2xl justify-center items-center inline-flex ">
               <div className="self-stretch justify-center items-start gap-5 inline-flex">
                 <div
                   className="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex cursor-pointer"
@@ -390,22 +408,44 @@ export default function ProfileSection() {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-3 gap-5 w-[100%]">
+        <div className={`grid grid-cols-3  w-[100% 
+        ${editInformations ? "gap-[50%]" : "gap-[182px] "}`
+      }>
           <div className="flex-col justify-start items-start gap-5 flex">
             <div class=" flex-col justify-start items-start gap-[5px] inline-flex">
               <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
                 Country
               </div>
               {editAddress ? (
-                <input
-                  editable={false}
-                  type="text"
-                  id="country"
-                  name="country"
-                  value={country}
-                  className="text-zinc-800 text-base font-normal font-rubik leading-tight self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex bg-neutral-100 cursor-not-allowed "
-                  placeholder="Enter country"
-                />
+                // add dropDown menu for countries
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="inline-flex justify-start items-center w-[252px] h-12 px-4 py-[13px] rounded-xl border border-zinc-200 gap-2.5 text-zinc-800 text-base font-normal font-rubik leading-tight">
+                      {country}
+                    </Menu.Button>
+                  </div>
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-[260px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                      {countries?.map((country) => (
+                        <Menu.Item key={country.id}>
+                          {({ active }) => (
+                            <div
+                              className={`${
+                                active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                              } flex justify-start items-center w-full px-4 py-2 text-sm`}
+                              onClick={() => {
+                                setSelectedCountryId(country.id);
+                                setCountry(country.name);
+                              }}
+                            >
+                              {country.name}
+                            </div>
+                          )}
+                        </Menu.Item>
+                      ))}
+                    </div>
+                  </Menu.Items>
+                </Menu>
               ) : (
                 <div class="text-zinc-800 text-base font-normal font-rubik leading-tight">
                   {country}
