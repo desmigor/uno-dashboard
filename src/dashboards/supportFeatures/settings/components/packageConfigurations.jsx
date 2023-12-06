@@ -194,7 +194,7 @@ export default function PackageConfigurations() {
                         Base Price
                       </div>
                       <div className="text-right text-red-800 text-xs font-semibold font-rubik] leading-none">
-                        {item.price}
+                        {item.price} {item.currency_display}
                       </div>
                     </div>
                     {
@@ -204,7 +204,7 @@ export default function PackageConfigurations() {
                       {item.km} {item.title}
                       </div>
                       <div className="text-right text-zinc-800 text-xs font-normal font-rubik] leading-none">
-                        {(item.price_control).toFixed(2)}
+                        {(item.price_control).toFixed(2)} {item.currency_display}
                       </div>
                     </div>
                       ))
@@ -315,7 +315,7 @@ export default function PackageConfigurations() {
                     </div>
                   </div>
                   <div className="text-red-800 text-sm font-semibold font-rubik leading-tight">
-                    {item.price}
+                    {item.price} {item.currency_display}
                   </div>
                 </div>
               </div>
