@@ -7,7 +7,7 @@ function Layout() {
   return (
     <div className='w-full flex flex-row h-screen overflow-hidden'>
       <Sidebar />
-      <div className='w-[94%] 2xl:w-[90%] '>
+      <div className='w-[94%] xl:w-[90%]'>
         <Navbar />
         <Outlet />
       </div>

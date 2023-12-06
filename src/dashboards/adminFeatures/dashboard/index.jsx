@@ -19,6 +19,7 @@ import ProfileNone from "../../../assets/images/dashboard/image/image.png";
 import { fetchTotalsAction } from "../../../redux/actions/fetchTotalsAction";
 import { fetchCouriersAction } from "../../../redux/actions/fetchCouriersAction";
 import { fetchCustomersAction } from "../../../redux/actions/fetchCustomersAction";
+import { Link } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -53,6 +54,7 @@ function AdminDashboard() {
   const { totals } = useSelector((state) => state.fetchTotals);
   const { couriers } = useSelector((state) => state.fetchCouriers);
   const { customers } = useSelector((state) => state.fetchCustomers);
+  const [couriersSorted, setCouriersSorted] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -61,6 +63,11 @@ function AdminDashboard() {
     dispatch(fetchCouriersAction({ top: true }));
     dispatch(fetchCustomersAction());
   }, []);
+
+  useEffect(() => {
+    const sortedCouriers = [...couriers].sort((a, b) => b.total_cost - a.total_cost);
+    setCouriersSorted(sortedCouriers);
+  }, []); 
 
   return (
     <div className="bg-[#F8F9FA] h-screen w-full pb-20 px-10 p-6 overflow-auto">
@@ -111,26 +118,26 @@ function AdminDashboard() {
           canceled={false}
           completed={true}
         />
-        <div className="w-[270px] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
+        <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex w-full flex-row justify-between items-center">
             <h1
               className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}
             >
               Top Couriers
             </h1>
-            <button className="w-[73px] flex flex-row gap-[12px]">
+            <Link to={'/admin/dashboard/courier'} className="w-[73px] flex flex-row gap-[12px]">
               <h1
                 className={`text-red-800 text-xs font-normal font-rubik leading-none`}
               >
                 Show All
               </h1>
               <img src={ArrowLeft} className="w-[13px] h-[13px]" />
-            </button>
+            </Link>
           </div>
           <div className="flex flex-col gap-[15px] mt-[16px]">
-            {couriers?.length < 1
+            {couriersSorted?.length < 1
               ? null
-              : couriers?.map((item, idx) => (
+              : couriersSorted?.map((item, idx) => (
                   <div
                     key={idx}
                     className="flex flex-row gap-[12px] items-center"
@@ -155,21 +162,21 @@ function AdminDashboard() {
                 ))}
           </div>
         </div>
-        <div className="w-[270px] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
+        <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex flex-row w-full justify-between items-center">
             <h1
               className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}
             >
               Groups Revenue
             </h1>
-            <button className="w-[73px] flex flex-row gap-[12px]">
+            <Link to={'/admin/dashboard/courier/groups'} className="w-[73px] flex flex-row gap-[12px]">
               <h1
                 className={`text-red-800 text-xs font-normal font-rubik leading-none`}
               >
                 Show All
               </h1>
               <img src={ArrowLeft} className="w-[13px] h-[13px]" />
-            </button>
+            </Link>
           </div>
           <div
             style={{
@@ -184,7 +191,7 @@ function AdminDashboard() {
           <div className="w-full flex justify-between">
             <div className="flex flex-row gap-[8px]">
               <div className="relative">
-                <img src={Oval} className="w-4 h-4" />
+                <div className="w-4 h-4 bg-[#33b5e5] rounded-full" />
                 <img
                   src={Dot}
                   className="w-2 h-2 absolute top-[4px] left-[4px]"
@@ -206,7 +213,7 @@ function AdminDashboard() {
           <div className="w-full flex justify-between">
             <div className="flex flex-row gap-[8px]">
               <div className="relative">
-                <img src={Oval} className="w-4 h-4" />
+                <div className="w-4 h-4 bg-[#ff5734] rounded-full" />
                 <img
                   src={Dot}
                   className="w-2 h-2 absolute top-[4px] left-[4px]"
@@ -228,7 +235,7 @@ function AdminDashboard() {
           <div className="w-full flex justify-between">
             <div className="flex flex-row gap-[8px]">
               <div className="relative">
-                <img src={Oval} className="w-4 h-4" />
+                <div className="w-4 h-4 bg-[#f18f00] rounded-full" />
                 <img
                   src={Dot}
                   className="w-2 h-2 absolute top-[4px] left-[4px]"
@@ -250,7 +257,7 @@ function AdminDashboard() {
           <div className="w-full flex justify-between">
             <div className="flex flex-row gap-[8px]">
               <div className="relative">
-                <img src={Oval} className="w-4 h-4" />
+                <div className="w-4 h-4 bg-[#d0d4d9] rounded-full" />
                 <img
                   src={Dot}
                   className="w-2 h-2 absolute top-[4px] left-[4px]"
@@ -277,21 +284,21 @@ function AdminDashboard() {
           canceled={true}
           completed={true}
         />
-        <div className="w-[270px] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
+        <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex w-full flex-row justify-between items-center">
             <h1
               className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}
             >
               New Customers
             </h1>
-            <button className="w-[73px] flex flex-row gap-[12px]">
+            <Link to={`/admin/dashboard/customers`} className="w-[73px] flex flex-row gap-[12px]">
               <h1
                 className={`text-red-800 text-xs font-normal font-rubik leading-none`}
               >
                 Show All
               </h1>
               <img src={ArrowLeft} className="w-[13px] h-[13px]" />
-            </button>
+            </Link>
           </div>
           <div className="flex flex-col gap-[15px] mt-[16px]">
             {customers?.length < 1
@@ -324,21 +331,21 @@ function AdminDashboard() {
                 ))}
           </div>
         </div>
-        <div className="w-[270px] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
+        <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex flex-row w-full justify-between items-center">
             <h1
               className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}
             >
               Groups Mileage
             </h1>
-            <button className="w-[73px] flex flex-row gap-[12px]">
+            <Link to={`/admin/dashboard/courier/groups`}  className="w-[73px] flex flex-row gap-[12px]">
               <h1
                 className={`text-red-800 text-xs font-normal font-rubik leading-none`}
               >
                 Show All
               </h1>
               <img src={ArrowLeft} className="w-[13px] h-[13px]" />
-            </button>
+            </Link>
           </div>
           <div
             style={{
@@ -353,7 +360,7 @@ function AdminDashboard() {
           <div className="w-full flex justify-between">
             <div className="flex flex-row gap-[8px]">
               <div className="relative">
-                <img src={Oval} className="w-4 h-4" />
+                <div className="w-4 h-4 bg-[#33b5e5] rounded-full" />
                 <img
                   src={Dot}
                   className="w-2 h-2 absolute top-[4px] left-[4px]"
@@ -375,7 +382,7 @@ function AdminDashboard() {
           <div className="w-full flex justify-between">
             <div className="flex flex-row gap-[8px]">
               <div className="relative">
-                <img src={Oval} className="w-4 h-4" />
+                <div className="w-4 h-4 bg-[#ff5734] rounded-full" />
                 <img
                   src={Dot}
                   className="w-2 h-2 absolute top-[4px] left-[4px]"
@@ -397,7 +404,7 @@ function AdminDashboard() {
           <div className="w-full flex justify-between">
             <div className="flex flex-row gap-[8px]">
               <div className="relative">
-                <img src={Oval} className="w-4 h-4" />
+                <div className="w-4 h-4 bg-[#f18f00] rounded-full" />
                 <img
                   src={Dot}
                   className="w-2 h-2 absolute top-[4px] left-[4px]"
@@ -419,7 +426,7 @@ function AdminDashboard() {
           <div className="w-full flex justify-between">
             <div className="flex flex-row gap-[8px]">
               <div className="relative">
-                <img src={Oval} className="w-4 h-4" />
+                <div className="w-4 h-4 bg-[#d0d4d9] rounded-full" />
                 <img
                   src={Dot}
                   className="w-2 h-2 absolute top-[4px] left-[4px]"

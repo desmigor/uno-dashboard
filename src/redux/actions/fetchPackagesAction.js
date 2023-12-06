@@ -1,5 +1,7 @@
 import callAPI from "../../utils/api";
 import { fetchCanceledPackages, fetchCompletedPackages, fetchOngoingPackages, fetchPackageDetail, fetchPackages, fetchPackagesSuccess, fetchSuccess } from "../slices/packagesSlice";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const fetchPackagesAction = () => async (dispatch, getState) => {
   try {
@@ -84,7 +86,15 @@ export const cancelPackage = (id) => async (dispatch, getState) => {
     dispatch(fetchPackagesOngoingAction(1, 5));
   } catch (error) {
     dispatch(fetchSuccess());
-    console.log(error, 'KKKKK');
+    toast.error(error.response.data.message, {
+      position: "top-right",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 }
 

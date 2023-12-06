@@ -43,6 +43,7 @@ const CouriersView = () => {
     const dispatch = useDispatch();
     const { courierDetals, courierPackages, courierPackagesCount } = useSelector((state) => state.fetchCouriers);
     const { selectedPackage } = useSelector((state) => state.fetchPackages);
+    const { userInfo } = useSelector((state) => state.auth);
     const [count, setCount] = useState(5);
     const [paginations, setPaginations] = useState([]);
     const [selected, setSelected] = useState(null);
@@ -165,7 +166,7 @@ const CouriersView = () => {
                           </div>
                       </div>
                     </div>
-                    <div className='flex flex-row items-center gap-4'>
+                    {userInfo?.type?.id === 3 && <div className='flex flex-row items-center gap-4'>
                       <Link to={`/admin/dashboard/courier/update/${id}`} className="w-[140px] h-[42px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 inline-flex">
                         <div className="text-center text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Edit Details</div>
                         <img src={EditBlack} className='h-4 w-4' />
@@ -178,7 +179,7 @@ const CouriersView = () => {
                         <div className="text-center text-white text-base font-normal font-['Rubik'] leading-tight">Reactivate</div>
                       </div>
                       }
-                    </div>
+                    </div>}
                 </div>
                 <div className="w-full h-[101px] justify-start items-start gap-[42px] inline-flex mt-[21px]">
                     <div className="flex-col justify-start items-start gap-[17px] inline-flex">
@@ -331,8 +332,8 @@ const CouriersView = () => {
             {selected === idx && <tr className='w-full min-h-[239px] border-b border-gray-100'>
               <td colSpan={9} className='px-[18px]'>
                 <div className='flex flex-row gap-4 w-full items-center'>
-                  <img className="2xl:w-[16%] w-[10%] hidden 2xl:block h-[10%] 2xl:h-[190px] rounded-md mt-[-12px]" src={Map1} />
-                  <div className='flex flex-row w-full 2xl:w-[84%]'>
+                  <img className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]" src={Map1} />
+                  <div className='flex flex-row w-full xl:w-[84%]'>
                   <div class="w-4 h-[10px] relative mt-16">
                     <div class="w-4 h-4 left-0 top-0 absolute justify-start items-center gap-2 inline-flex">
                       <img src={pickup_point} alt="" />
@@ -433,7 +434,7 @@ const CouriersView = () => {
                         </tr>
                       </tbody>
                     </table>
-                    <div className='px-4 mt-[12px] flex flex-row gap-4 pb-[22px]'>
+                   <div className='px-4 mt-[12px] flex flex-row gap-4 pb-[22px]'>
                       <button className='w-40 h-[42px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex'>
                         <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-tight">Edit Package</div> 
                         <img src={Edit} className='w-[17px] h-4' />

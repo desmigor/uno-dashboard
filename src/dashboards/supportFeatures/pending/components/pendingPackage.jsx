@@ -11,9 +11,9 @@ export default function PendingPackage({
   onClick,
 }) {
   return (
-    <div class="group 2xl:w-[520px] w-[90%]">
+    <div class="group xl:w-[520px] w-[90%]">
       <div
-        class={`2xl:w-[520px] w-[100%] h-[220px] relative bg-white rounded-xl border my-2 ${
+        class={`xl:w-[520px] w-[100%] h-[220px] relative bg-white rounded-xl border my-2 ${
           selected ? "border-red-800" : ""
         }`
       }

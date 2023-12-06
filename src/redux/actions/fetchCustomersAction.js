@@ -58,7 +58,7 @@ export const createCustomerAction = (payload, navigate) => async (dispatch, getS
 
 export const searchCustomersActiveAction = (page=1, count=5, search) => async (dispatch, getState) => {
   try {
-    const results = await callAPI(`/api/customer/active/?page=${page}&count=${count}&search=${search}`);
+    const results = await callAPI(`/api/customer/active/?search=${search}`);
     dispatch(fetchCustomersActive(results));
   } catch (error) {
     
@@ -67,7 +67,7 @@ export const searchCustomersActiveAction = (page=1, count=5, search) => async (d
 
 export const searchCustomersSuspendedAction = (page=1, count=5, search) => async (dispatch, getState) => {
   try {
-    const results = await callAPI(`/api/customer/suspended/?page=${page}&count=${count}&search=${search}`);
+    const results = await callAPI(`/api/customer/suspended/?search=${search}`);
     dispatch(fetchCustomersSuspended(results));
   } catch (error) {
     
