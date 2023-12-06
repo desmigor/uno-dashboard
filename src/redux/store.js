@@ -13,6 +13,7 @@ import packageSizesReducer from "./slices/packageSizesSlice";
 import accountActionReducer from "./slices/accountNotificationsSlice";
 import ProfileReducer from "./slices/userProfileSlice";
 import vehicleTypesReducer from "./slices/vehicleTypesSlice";
+import notificationsReducer from "./slices/notificationsSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
@@ -40,7 +41,8 @@ export const store = configureStore({
         fetchAccountNotifications: accountActionReducer,
         packages: persistedReducerPackage,
         fetchProfile:ProfileReducer,
-        vehicleTypes: vehicleTypesReducer
+        vehicleTypes: vehicleTypesReducer,
+        notifications: notificationsReducer,
     },
     middleware: [thunk]
 });
