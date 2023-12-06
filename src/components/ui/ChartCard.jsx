@@ -49,27 +49,29 @@ const data = {
         grid: {
             color: 'rgba(0,0,0,0.1)', // Set color of the horizontal dashed lines
             borderColor: 'rgba(0,0,0,0.1)', // Set border color of the horizontal dashed lines
-            borderDash: [10, 5], // Set the dash pattern (10 units of line, 5 units of gap)
+            borderDash: [10, 1], // Set the dash pattern (10 units of line, 5 units of gap)
             drawBorder: true, // Remove the axis border line
             zeroLineColor: 'transparent',// Remove x-axis grid lines
         },
         ticks: {
-            stepSize: 10, // Set the step size to 10
-          },
+          stepSize: 10, // Set the step size to 10
+        },
       },
     },
     cubicInterpolationMode: 'monotone',
+    responsive: true,
     plugins: {
       legend: {
         display: false,
       },
     },
+    maintainAspectRatio: false,
   };
 
 function ChartCard({ name, canceled, completed }) {
   return (
     <div className='w-[60%] min-h-[325px] p-5 bg-white rounded-lg'>
-        <div className="h-5 justify-between items-center flex">
+        <div className="h-5 w-full justify-between items-center flex">
             <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">{name}</div>
             <div className="justify-start items-start gap-[15px] flex">
                 {completed && <div className="justify-start items-center gap-1.5 flex">
@@ -82,7 +84,7 @@ function ChartCard({ name, canceled, completed }) {
                 </div>}
             </div>
         </div>
-        <div style={{ height: '300px', marginTop: 34,  }}>
+        <div className='h-[300px] mt-[34px] w-full'>
             <Line data={data} options={options} />
         </div>
     </div>

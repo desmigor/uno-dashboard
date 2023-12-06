@@ -115,25 +115,25 @@ const CreateCourier = () => {
         <div className="mt-6 w-full min-h-[645px] p-6 bg-white rounded-[10px] flex-col justify-start items-start inline-flex">
             <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Contacts</div>
             <div className='flex flex-row mt-[16px] w-full items-center justify-between'>
-                <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+                <div className="xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
                     <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Full Name</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
                     <input value={data.fullName} onChange={(e) => setData({...data, fullName: e.target.value })} type='text' placeholder='James Marrko' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
                 </div>
-                <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+                <div className="xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
                     <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Phone Number</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
                     <input value={data.phone} onChange={(e) => setData({...data, phone: e.target.value })} type='text' placeholder='+233-998-345-345' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
                 </div>
             </div>
-            <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+            <div className="xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
                 <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Email</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
                 <input value={data.email} onChange={(e) => setData({...data, email: e.target.value })} type='text' placeholder='markojemeru@gmail.com' className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
             </div>
 
             <div className="text-zinc-800 text-lg font-semibold font-['Rubik'] mt-8">Courier Group</div>
             <div className='flex flex-row mt-[16px] w-full items-center justify-between'>
-                <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+                <div className="xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
                     <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Group</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-                    <div className="2xl:w-[460px] w-[48%]">
+                    <div className="xl:w-[460px] w-[48%]">
                     <Listbox value={data.group} onChange={(item) => setData({ ...data, group: item })}>
                         <div className="relative">
                         <Listbox.Button className="self-stretch w-full h-12 px-4 py-[13px] bg-white placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex">
@@ -191,9 +191,9 @@ const CreateCourier = () => {
             </div>
             <div className="text-zinc-800 text-lg font-semibold font-['Rubik'] mt-8">Vehicle Details </div>
             <div className='flex flex-row mt-[16px] w-full items-center justify-between z-0'>
-                <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+                <div className="xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
                     <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Vehicle Type</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-                    <div className="2xl:w-[460px] w-[48%]">
+                    <div className="xl:w-[460px] w-[48%]">
                     <Listbox value={data.vehicle} onChange={(item) => setData({ ...data, vehicle: item })}>
                         <div className="relative">
                         <Listbox.Button className="self-stretch w-full h-12 px-4 py-[13px] bg-white placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex">
@@ -246,9 +246,9 @@ const CreateCourier = () => {
                     </Listbox>
                     </div>
                 </div>
-                <div className="2xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+                <div className="xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
                     <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Country</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
-                    <div className="2xl:w-[460px] w-[48%]">
+                    <div className="xl:w-[460px] w-[48%]">
                     <Listbox value={data.group} onChange={(item) => setData({ ...data, country: item })}>
                         <div className="relative">
                         <Listbox.Button className="self-stretch w-full h-12 px-4 py-[13px] bg-white placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex">

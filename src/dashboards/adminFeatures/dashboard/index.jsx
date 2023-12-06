@@ -111,7 +111,7 @@ function AdminDashboard() {
           canceled={false}
           completed={true}
         />
-        <div className="w-[270px] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
+        <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex w-full flex-row justify-between items-center">
             <h1
               className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}
@@ -155,7 +155,7 @@ function AdminDashboard() {
                 ))}
           </div>
         </div>
-        <div className="w-[270px] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
+        <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex flex-row w-full justify-between items-center">
             <h1
               className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}
@@ -277,7 +277,7 @@ function AdminDashboard() {
           canceled={true}
           completed={true}
         />
-        <div className="w-[270px] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
+        <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex w-full flex-row justify-between items-center">
             <h1
               className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}
@@ -324,7 +324,7 @@ function AdminDashboard() {
                 ))}
           </div>
         </div>
-        <div className="w-[270px] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
+        <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex flex-row w-full justify-between items-center">
             <h1
               className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}

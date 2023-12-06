@@ -185,10 +185,10 @@ function Packages() {
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight text-left">{item?.customer}</div>
                 </td>
                 <td class="px-6 py-4">
-                  <div className='flex flex-row gap-[6px]'>
+                  <Link to={userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.id}` : `/support/dashboard/courier/${item.id}`} className='flex flex-row gap-[6px]'>
                     <span className={`${item.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{item.courier ? item.courier.full_name : 'Not mentioned'}</span> 
                     {item.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
-                  </div>
+                  </Link>
                 </td>
                 <td class="px-6 py-4">
                   <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
@@ -211,8 +211,8 @@ function Packages() {
             {selected === idx && <tr className='w-full min-h-[239px] border-b border-gray-100'>
               <td colSpan={9} className='px-[18px]'>
                 <div className='flex flex-row gap-4 w-full items-center'>
-                  <img className="2xl:w-[16%] w-[10%] hidden 2xl:block h-[10%] 2xl:h-[190px] rounded-md mt-[-12px]" src={Map1} />
-                  <div className='flex flex-row w-full 2xl:w-[84%]'>
+                  <img className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]" src={Map1} />
+                  <div className='flex flex-row w-full xl:w-[84%]'>
                   <div class="w-4 h-[10px] relative mt-16">
                     <div class="w-4 h-4 left-0 top-0 absolute justify-start items-center gap-2 inline-flex">
                       <img src={pickup_point} alt="" />
@@ -391,10 +391,10 @@ function Packages() {
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.customer}</div>
                 </td>
                 <td class="px-6 py-4">
-                  <div className='flex flex-row gap-[6px]'>
+                  <Link to={userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.id}` : `/support/dashboard/courier/${item.id}`} className='flex flex-row gap-[6px]'>
                     <span className={`${item.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{item.courier ? item.courier.full_name : 'Not mentioned'}</span> 
                     {item.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
-                  </div>
+                  </Link>
                 </td>
                 <td class="px-6 py-4">
                 <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
@@ -591,10 +591,10 @@ function Packages() {
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.customer}</div>
                 </td>
                 <td class="px-6 py-4">
-                  <div className='flex flex-row gap-[6px]'>
+                  <Link to={userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.id}` : `/support/dashboard/courier/${item.id}`} className='flex flex-row gap-[6px]'>
                     <span className={`${item.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{item.courier ? item.courier.full_name : 'Not mentioned'}</span> 
                     {item.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
-                  </div>
+                  </Link>
                 </td>
                 <td class="px-6 py-4">
                 <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 

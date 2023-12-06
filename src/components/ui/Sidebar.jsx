@@ -26,42 +26,71 @@ import { Link } from 'react-router-dom';
 import AppContext from '../../context';
 import { useSelector } from 'react-redux';
 
+
 function Sidebar() {
     const { userInfo } = useSelector((state) => state.auth);
     const [selected, setSelcted] = useState('Dashboard');
     const [selectedSubCourier, setSelectedSubCourier] = useState('All Couriers');
     const [expanded, setExpanded] = useState(false);
+    const path = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1]
+    
+    useEffect(() => {
+        if(path === 'dashboard'){
+            setSelcted('Dashboard');
+        }else if(path === 'pending'){
+            setSelcted('Pending');
+        }else if(path === 'package'){
+            setSelcted('Packages');
+        }else if(path === 'courier'){
+            setSelcted('Couriers');
+        }else if(path === 'settings'){
+            setSelcted('Settings');
+        }else if(path === 'customers'){
+            setSelcted('Customers');
+        }else{
+            setSelcted('Couriers');
+        }
+    }, []);
+
 
     const sidebarLinksSupport = [
         {
             name: "Dashboard",
             activeIcon: DashIcon,
             inactiveIcon: DashIconInactive,
-            path: '/support/dashboard'
+            path: '/support/dashboard',
+            pathName: "dashboard"
         },
         {
             name: "Pending",
             activeIcon: InfoIcon,
             inactiveIcon: InfoIconInactive,
-            path: '/support/dashboard/pending'
+            path: '/support/dashboard/pending',
+            pathName: "pending"
+
         },
         {
             name: "Packages",
             activeIcon: PackageIcon,
             inactiveIcon: PackageIconInactive,
-            path: '/support/dashboard/package'
+            path: '/support/dashboard/package',
+            pathName: "package"
+
         },
         {
             name: "Couriers",
             activeIcon: ProfileIcon,
             inactiveIcon: ProfileIconInactive,
-            path: '/support/dashboard/courier'
+            path: '/support/dashboard/courier',
+            pathName: "courier"
+
         },
         {
             name: "Settings",
             activeIcon: SettingsIcon,
             inactiveIcon: SettingsIconInactive,
-            path: '/support/dashboard/settings'
+            path: '/support/dashboard/settings',
+            pathName: "settings",
         },
         
     ]
@@ -71,37 +100,44 @@ function Sidebar() {
             name: "Dashboard",
             activeIcon: DashIconAdmin,
             inactiveIcon: DashIconInactive,
-            path: '/admin/dashboard'
+            path: '/admin/dashboard',
+            pathName: "dashboard"
         },
         {
             name: "Pending",
             activeIcon: InfoIcon2,
             inactiveIcon: InfoIconInactive,
-            path: '/admin/dashboard/pending'
+            path: '/admin/dashboard/pending',
+            pathName: "pending",
         },
         {
             name: "Packages",
             activeIcon: PackageIcon2,
             inactiveIcon: PackageIconInactive,
-            path: '/admin/dashboard/package'
+            path: '/admin/dashboard/package',
+            pathName: "package"
         },
         {
             name: "Couriers",
             activeIcon: ProfileIcon2,
             inactiveIcon: ProfileIconInactive,
-            path: '/admin/dashboard/courier'
+            path: '/admin/dashboard/courier',
+            pathName: "courier"
         },
         {
             name: "Customers",
             activeIcon: CustomerIcon,
             inactiveIcon: CustomerIconInactive,
-            path: '/admin/dashboard/customers'
+            path: '/admin/dashboard/customers',
+            pathName: "customers"
+
         },
         {
             name: "Settings",
             activeIcon: SettingsIcon2,
             inactiveIcon: SettingsIconInactive,
-            path: '/admin/dashboard/settings'
+            path: '/admin/dashboard/settings',
+            pathName: 'settings'
         },
         
     ]
@@ -109,7 +145,7 @@ function Sidebar() {
     const sidebarLinks = userInfo?.type?.id === 3 ? adminSidelinks : sidebarLinksSupport
 
   return (
-    <div className={`2xl:w-[228px] w-[80px] h-screen ${userInfo?.type?.id === 3 ? 'bg-[#23292E]' : 'bg-white' } relative flex flex-col items-center overflow-hidden`}>
+    <div className={`xl:w-[228px] w-[80px] h-screen ${userInfo?.type?.id === 3 ? 'bg-[#23292E]' : 'bg-white' } relative flex flex-col items-center overflow-hidden`}>
         <img src={UnoIcon} alt='UNOSVG' className='w-10 h-10 mt-5 mx-auto' />
         <div className='mt-[30px] w-full flex flex-col items-center gap-[8px] justify-center'>
             {
@@ -119,22 +155,22 @@ function Sidebar() {
                             <Link onClick={() => {
                                 setSelcted(item.name)
                                 setExpanded(userInfo?.type?.id === 3 && item.name === 'Couriers' ? !expanded : false);
-                            }} to={item.path} className={`cursor-pointer group ${userInfo?.type?.id !== 3 && selected === item.name && 'bg-rose-100'}  2xl:w-[196px] w-[90%] h-[54px] px-4 py-[17px] ${userInfo?.type?.id === 3 ? 'hover:bg-[#3F4449]' : 'hover:bg-[#F2f2f2]'} ${selected === item.name && 'bg-rose-100' } rounded-xl ${selected === item.name && userInfo?.type?.id === 3 ? 'bg-gradient-to-br from-red-900 to-red-700' : userInfo?.type?.id !== 3 && 'border-0 border-red-900'}  2xl:gap-[16px] 2xl:flex 2xl:flex-row 2xl:items-center`}>
-                                <img src={selected === item.name ? item.activeIcon : item.inactiveIcon} className='w-5 h-5 mx-auto 2xl:mx-0' alt='DASHSVG' />
-                                <span className={`${selected === item.name ? userInfo?.type?.id === 3 ? 'text-white' : 'text-red-800' : 'text-gray-400'} text-base hidden 2xl:flex font-normal font-rubik leading-tight`}>{item.name}</span>
+                            }} to={item.path} className={`cursor-pointer group ${userInfo?.type?.id !== 3 && selected === item.name && 'bg-rose-100'}  xl:w-[196px] w-[90%] h-[54px] px-4 py-[17px] ${userInfo?.type?.id === 3 ? 'hover:bg-[#3F4449]' : 'hover:bg-[#F2f2f2]'} ${selected === item.name && 'bg-rose-100' } rounded-xl ${selected === item.name && userInfo?.type?.id === 3 ? 'bg-gradient-to-br from-red-900 to-red-700' : userInfo?.type?.id !== 3 && 'border-0 border-red-900'}  xl:gap-[16px] xl:flex xl:flex-row xl:items-center`}>
+                                <img src={selected === item.name ? item.activeIcon : item.inactiveIcon} className='w-5 h-5 mx-auto xl:mx-0' alt='DASHSVG' />
+                                <span className={`${selected === item.name ? userInfo?.type?.id === 3 ? 'text-white' : 'text-red-800' : 'text-gray-400'} text-base hidden xl:flex font-normal font-rubik leading-tight`}>{item.name}</span>
                                 <img src={ArrowDown} className={`${userInfo?.type?.id === 3 && item.name === 'Couriers' ? 'block' : 'hidden'} ${expanded ? 'rotate-0' : 'rotate-180'} w-5 h-5 ml-auto`} />
                             </Link>
                             {expanded && userInfo?.type?.id === 3 && item.name === 'Couriers' && <Link onClick={() => {
                                 setSelectedSubCourier('All Couriers')
                             }} to={item.path} className={`w-[196px] h-[54px] px-4 py-[17px] ${selectedSubCourier === 'All Couriers' && 'bg-opacity-20 bg-white border-white border'} gap-4 flex rounded-[10px] flex-row justify-start items-center`}>
-                                <img src={selectedSubCourier === 'All Couriers' ? Sort : SortO} className='w-5 h-5 mx-auto 2xl:mx-0' alt='DASHSVG' />
-                                <span className={`${selectedSubCourier === 'All Couriers' ? 'text-white' : 'text-[#b5b7b9]'} text-base hidden 2xl:flex font-normal font-rubik leading-tight`}>All Couriers</span>
+                                <img src={selectedSubCourier === 'All Couriers' ? Sort : SortO} className='w-5 h-5 mx-auto xl:mx-0' alt='DASHSVG' />
+                                <span className={`${selectedSubCourier === 'All Couriers' ? 'text-white' : 'text-[#b5b7b9]'} text-base hidden xl:flex font-normal font-rubik leading-tight`}>All Couriers</span>
                             </Link>}
                             {expanded && userInfo?.type?.id === 3 && item.name === 'Couriers' && <Link onClick={() => {
                                 setSelectedSubCourier('Groups')
                             }} to={`/admin/dashboard/courier/groups`} className={`w-[196px] h-[54px] px-4 py-[17px] ${selectedSubCourier === 'Groups' && 'bg-opacity-20 bg-white border-white border'} gap-4 flex rounded-[10px] flex-row justify-start items-center`}>
-                                <img src={selectedSubCourier === 'Groups' ? LayerO : Layer } className='w-5 h-5 mx-auto 2xl:mx-0' alt='DASHSVG' />
-                                <span className={`${selectedSubCourier === 'Groups' ? 'text-white' : 'text-[#b5b7b9]'} text-base hidden 2xl:flex font-normal font-rubik leading-tight`}>Groups</span>
+                                <img src={selectedSubCourier === 'Groups' ? LayerO : Layer } className='w-5 h-5 mx-auto xl:mx-0' alt='DASHSVG' />
+                                <span className={`${selectedSubCourier === 'Groups' ? 'text-white' : 'text-[#b5b7b9]'} text-base hidden xl:flex font-normal font-rubik leading-tight`}>Groups</span>
                             </Link>}
                         </div>
                     )

@@ -3,7 +3,7 @@ import EmptyPackage from "../../../../../assets/images/dashboard/icon/clipboard-
 
 export default function NoPendingEmpty() {
   return (
-    <div class="w-[690px] h-[162px] pl-[184px] pr-[183px] py-[38px] bg-white rounded-xl shadow border border-gray-100 justify-center items-center inline-flex">
+    <div class="w-[100%] h-[162px] py-[38px] bg-white rounded-xl shadow border border-gray-100 justify-center items-center inline-flex">
     <div class="self-stretch flex-col justify-start items-center gap-1.5 inline-flex">
         <div class="w-[60px] h-[60px] justify-center items-center inline-flex">
             <div class="w-[60px] h-[60px] relative">
