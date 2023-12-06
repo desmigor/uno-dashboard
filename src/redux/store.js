@@ -39,6 +39,7 @@ export const store = configureStore({
         fetchPackageSizes: packageSizesReducer,
         fetchAccountNotifications: accountActionReducer,
         packages: persistedReducerPackage,
+        fetchProfile:ProfileReducer,
         vehicleTypes: vehicleTypesReducer
     },
     middleware: [thunk]
