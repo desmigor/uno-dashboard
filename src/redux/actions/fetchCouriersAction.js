@@ -1,6 +1,8 @@
 import callAPI from "../../utils/api";
 import { fetchCourierDetails, fetchCourierPackages, fetchCouriers, fetchCouriersAtWork, fetchCouriersAvailable, fetchCouriersError, fetchCouriersLocations, fetchCouriersOffline, fetchCouriersPaused, fetchCouriersSuccess, fetchCoutries, fetchGroupCouriers, fetchGroupDetails, fetchGroups, fetchVehicle } from "../slices/couriersSlice";
 import { fetchCustomersError } from "../slices/customersSlice";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const fetchCouriersAction =
   (top = false, count = 5, page = 1) =>

@@ -18,13 +18,25 @@ import packageCompleted from "../../../../assets/images/dashboard/icon/package-c
 import packageOngoing from "../../../../assets/images/dashboard/icon/package-ongoing.svg";
 import star from "../../../../assets/images/dashboard/icon/star.svg";
 import starOut from "../../../../assets/images/dashboard/icon/star-o.svg";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { fetchPackageDetails, fetchPackagesCanceledAction, fetchPackagesCompletedAction, fetchPackagesOngoingAction } from '../../../../redux/actions/fetchPackagesAction';
 import { Menu, Transition } from '@headlessui/react'
 import CancelModal from './CancelModal';
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import SuccessToast from '../../../../components/ui/SuccessToast';
+
+const mapContainerStyle = {
+  width: '100%',
+  height: '100%',
+};
+const center = {
+  lat: 5.614818, // default latitude
+  lng: -0.205874, // default longitude
+};
+
+const libraries = ['places'];
 
 function Packages() {
   const [selected, setSelected] = useState(null);
@@ -38,6 +50,7 @@ function Packages() {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const { ongoings, canceled, completed, ongoingCounts, completedCounts, canceledCounts, selectedPackage } = useSelector((state) => state.fetchPackages);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchPackagesOngoingAction(1, 5));
@@ -109,6 +122,11 @@ function Packages() {
   
     return pages;
   }
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+    libraries,
+  });
 
   return (
     <div className='bg-[#F8F9FA] h-[93%] w-full px-10 py-6 overflow-y-auto pb-32'>
@@ -185,10 +203,12 @@ function Packages() {
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight text-left">{item?.customer}</div>
                 </td>
                 <td class="px-6 py-4">
-                  <div className='flex flex-row gap-[6px]'>
+                  <button disabled={item.courier ? false : true} onClick={() => {
+                    navigate(userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.courier?.id}` : `/support/dashboard/courier/${item.courier?.id}`)
+                  }} className='flex flex-row gap-[6px]'>
                     <span className={`${item.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{item.courier ? item.courier.full_name : 'Not mentioned'}</span> 
                     {item.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
-                  </div>
+                  </button>
                 </td>
                 <td class="px-6 py-4">
                   <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
@@ -211,8 +231,26 @@ function Packages() {
             {selected === idx && <tr className='w-full min-h-[239px] border-b border-gray-100'>
               <td colSpan={9} className='px-[18px]'>
                 <div className='flex flex-row gap-4 w-full items-center'>
-                  <img className="2xl:w-[16%] w-[10%] hidden 2xl:block h-[10%] 2xl:h-[190px] rounded-md mt-[-12px]" src={Map1} />
-                  <div className='flex flex-row w-full 2xl:w-[84%]'>
+                  {/* <img className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]" src={Map1} /> */}
+                  <div className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]">
+                      {loadError && <div>Error loading maps</div>}
+                      {!isLoaded ? <div>Loading maps</div> :
+                          <GoogleMap
+                              mapContainerStyle={mapContainerStyle}
+                              zoom={10}
+                              center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                              options={{
+                                  zoomControl: false,
+                                  mapTypeControl: false,
+                                  fullscreenControl: false,
+                                  streetViewControl: false,
+                              }}
+                          >
+                              <Marker position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}  />
+                          </GoogleMap>
+                      }
+                  </div>
+                  <div className='flex flex-row w-full xl:w-[84%]'>
                   <div class="w-4 h-[10px] relative mt-16">
                     <div class="w-4 h-4 left-0 top-0 absolute justify-start items-center gap-2 inline-flex">
                       <img src={pickup_point} alt="" />
@@ -272,10 +310,12 @@ function Packages() {
                           <td class="px-4 py-2 text-left">
                             <div className="min-w-[100px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
                               <div className="text-gray-400 text-xs font-normal font-rubik leading-none">Name</div>
-                              <div className='flex flex-row gap-[6px]'>
+                              <button disabled={item.courier ? false : true} onClick={() => {
+                                navigate(userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.courier?.id}` : `/support/dashboard/courier/${item.courier?.id}`)
+                              }} className='flex flex-row gap-[6px]'>
                                 <span className={`${selectedPackage?.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{selectedPackage?.courier ? selectedPackage?.courier.full_name : 'Not mentioned'}</span> 
                                 {selectedPackage.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
-                              </div>
+                              </button>
                             </div> 
                           </td>
                         </tr>
@@ -314,10 +354,10 @@ function Packages() {
                       </tbody>
                     </table>
                     <div className='px-4 mt-[12px] flex flex-row gap-4 pb-[22px]'>
-                      <button className='w-40 h-[42px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex'>
+                      <Link to={userInfo?.type?.id === 3 ? `/admin/dashboard/package/update/${item.id}` : `/admin/dashboard/package/update/${item.id}`} className='w-40 h-[42px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex'>
                         <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-tight">Edit Package</div> 
                         <img src={Edit} className='w-[17px] h-4' />
-                      </button>
+                      </Link>
                       <button onClick={() => {
                         setIsOpen(true)
                       }} className='w-40 h-[42px] py-[15px] rounded-[10px] border border-red-700 justify-center items-center gap-2.5 flex'>
@@ -391,10 +431,12 @@ function Packages() {
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.customer}</div>
                 </td>
                 <td class="px-6 py-4">
-                  <div className='flex flex-row gap-[6px]'>
+                <button disabled={item.courier ? false : true} onClick={() => {
+                    navigate(userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.courier?.id}` : `/support/dashboard/courier/${item.courier?.id}`)
+                  }} className='flex flex-row gap-[6px]'>
                     <span className={`${item.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{item.courier ? item.courier.full_name : 'Not mentioned'}</span> 
                     {item.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
-                  </div>
+                </button>
                 </td>
                 <td class="px-6 py-4">
                 <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
@@ -423,7 +465,25 @@ function Packages() {
             {selected === idx && <tr className='w-full h-[239px] border-b border-gray-100'>
               <td colSpan={9} className='px-[18px]'>
                 <div className='flex flex-row gap-4 w-full items-center'>
-                  <img className="w-[16%] h-[190px] rounded-md mt-[-12px]" src={Map1} />
+                  {/* <img className="w-[16%] h-[190px] rounded-md mt-[-12px]" src={Map1} /> */}
+                  <div className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]">
+                      {loadError && <div>Error loading maps</div>}
+                      {!isLoaded ? <div>Loading maps</div> :
+                          <GoogleMap
+                              mapContainerStyle={mapContainerStyle}
+                              zoom={10}
+                              center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                              options={{
+                                  zoomControl: false,
+                                  mapTypeControl: false,
+                                  fullscreenControl: false,
+                                  streetViewControl: false,
+                              }}
+                          >
+                              <Marker position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}  />
+                          </GoogleMap>
+                      }
+                  </div>
                   <div className='flex flex-row w-[84%]'>
                   <div class="w-4 h-[10px] relative mt-16">
                     <div class="w-4 h-4 left-0 top-0 absolute justify-start items-center gap-2 inline-flex">
@@ -484,10 +544,12 @@ function Packages() {
                           <td class="px-4 py-2 text-left">
                             <div className="min-w-[100px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
                               <div className="text-gray-400 text-xs font-normal font-rubik leading-none">Name</div>
-                              <div className='flex flex-row gap-[6px]'>
+                              <button disabled={item.courier ? false : true} onClick={() => {
+                                  navigate(userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.courier?.id}` : `/support/dashboard/courier/${item.courier?.id}`)
+                                }} className='flex flex-row gap-[6px]'>
                                 <span className={`${selectedPackage?.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{selectedPackage?.courier ? selectedPackage?.courier.full_name : 'Not mentioned'}</span> 
                                 {selectedPackage.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
-                              </div>
+                              </button>
                             </div> 
                           </td>
                         </tr>
@@ -591,10 +653,12 @@ function Packages() {
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.customer}</div>
                 </td>
                 <td class="px-6 py-4">
-                  <div className='flex flex-row gap-[6px]'>
+                <button disabled={item.courier ? false : true} onClick={() => {
+                    navigate(userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.courier?.id}` : `/support/dashboard/courier/${item.courier?.id}`)
+                  }} className='flex flex-row gap-[6px]'>
                     <span className={`${item.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{item.courier ? item.courier.full_name : 'Not mentioned'}</span> 
                     {item.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
-                  </div>
+                  </button>
                 </td>
                 <td class="px-6 py-4">
                 <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
@@ -617,7 +681,25 @@ function Packages() {
             {selected === idx && <tr className='w-full h-[239px] border-b border-gray-100'>
               <td colSpan={9} className='px-[18px]'>
                 <div className='flex flex-row gap-4 w-full items-center'>
-                  <img className="w-[16%] h-[190px] rounded-md mt-[-12px]" src={Map1} />
+                  {/* <img className="w-[16%] h-[190px] rounded-md mt-[-12px]" src={Map1} /> */}
+                  <div className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]">
+                      {loadError && <div>Error loading maps</div>}
+                      {!isLoaded ? <div>Loading maps</div> :
+                          <GoogleMap
+                              mapContainerStyle={mapContainerStyle}
+                              zoom={10}
+                              center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                              options={{
+                                  zoomControl: false,
+                                  mapTypeControl: false,
+                                  fullscreenControl: false,
+                                  streetViewControl: false,
+                              }}
+                          >
+                              <Marker position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}  />
+                          </GoogleMap>
+                      }
+                  </div>
                   <div className='flex flex-row w-[84%]'>
                   <div class="w-4 h-[10px] relative mt-16">
                     <div class="w-4 h-4 left-0 top-0 absolute justify-start items-center gap-2 inline-flex">
@@ -678,10 +760,12 @@ function Packages() {
                           <td class="px-4 py-2 text-left">
                             <div className="min-w-[100px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
                               <div className="text-gray-400 text-xs font-normal font-rubik leading-none">Name</div>
-                              <div className='flex flex-row gap-[6px]'>
+                              <button disabled={item.courier ? false : true} onClick={() => {
+                                navigate(userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.courier?.id}` : `/support/dashboard/courier/${item.courier?.id}`)
+                              }} className='flex flex-row gap-[6px]'>
                                 <span className={`${selectedPackage?.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{selectedPackage?.courier ? selectedPackage?.courier.full_name : 'Not mentioned'}</span> 
                                 {selectedPackage.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
-                              </div>
+                              </button>
                             </div> 
                           </td>
                         </tr>

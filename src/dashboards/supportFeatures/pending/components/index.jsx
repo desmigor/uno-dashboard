@@ -67,7 +67,7 @@ function Pending() {
     <div className="bg-[#F8F9FA] h-screen w-full overflow-hidden">
       <div className="w-full h-[100%] mx-auto flex flex-row gap-0 relative">
         {/* Left Column */}
-        <div className="2xl:w-[55%] w-full h-[100%] content-center">
+        <div className="xl:w-[50%] w-full h-[100%] content-center">
           <div className="p-4 w-full min-h-[125px] pl-[41px] pr-5 pt-5 pb-0 bg-white border-b border-gray-100 flex-col justify-end items-start gap-[18px] inline-flex">
             <div>
               <span className="text-zinc-800 text-2xl font-bold font-rubik">
@@ -124,7 +124,7 @@ function Pending() {
         </div>
         {/* Right Column */}
         {/* <div className="flex flex-col md:flex-row justify-center items-center"> */}
-        <div class={`2xl:w-[45%] w-[70%] 2xl:flex ${selectedItem ? 'flex absolute top-0 right-0 shadow-lg' : 'hidden'} px-10 h-full pb-32 bg-white border-l border-gray-100 flex-col items-center pt-5 overflow-y-auto`}>
+        <div class={`xl:w-[50%] w-[70%] xl:flex ${selectedItem ? 'flex absolute top-0 right-0 shadow-lg' : 'hidden'} px-10 h-full pb-32 bg-white border-l border-gray-100 flex-col items-center pt-5 overflow-y-auto`}>
           <div class="self-stretch justify-center items-center gap-1 inline-flex"></div>
           <div class="self-stretch flex-col justify-start items-start gap-6 inline-flex">
             <div>
@@ -245,7 +245,7 @@ function Pending() {
               <OrderResolution item={selectedItem} />
             )}
           </div>
-          <img onClick={() => setSelectedItem()} className="absolute cursor-pointer 2xl:hidden block top-5 right-5 w-10 h-10" src={Close} />
+          <img onClick={() => setSelectedItem()} className="absolute cursor-pointer xl:hidden block top-5 right-5 w-10 h-10" src={Close} />
         </div>
       </div>
     </div>

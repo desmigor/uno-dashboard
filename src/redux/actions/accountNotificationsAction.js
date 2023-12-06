@@ -22,8 +22,6 @@ export const updateAccountNotificationsActionAction = (data) => async (dispatch,
       true,
       data
     );
-    console.log(data);
-    console.log(result);
     dispatch(fetchAccountNotificationsAction());
     dispatch(fetchAccountNotificationsActionSuccess(result));
   } catch (error) {

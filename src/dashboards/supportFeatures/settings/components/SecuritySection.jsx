@@ -70,7 +70,10 @@ export default function SecuritySection() {
         onClose={() => setShowToast(false)}
         success={toastSuccess}
       />
-      <div className="self-stretch h-[333px] flex-col justify-start items-start gap-5 flex">
+      <form
+        className="self-stretch h-[333px] flex-col justify-start items-start gap-5 flex"
+        utocomplete="off"
+      >
         <div className="flex-col justify-start items-start gap-2.5 flex">
           <div className="text-gray-900 text-lg font-semibold font-rubik">
             Password
@@ -90,7 +93,7 @@ export default function SecuritySection() {
               name="currentPassword"
               value={currentPassword}
               // avoid auto-fill
-              autoComplete="new-password"
+              autocomplete="new-password"
               onChange={handleCurrentPasswordChange}
               className="self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-between items-center inline-flex w-[371px]"
               placeholder="Your password"
@@ -150,7 +153,7 @@ export default function SecuritySection() {
             </button>
           </div>
         </div>
-      </div>
+      </form>
       <button
         disabled={!(currentPassword && newPassword && confirmPassword)}
         className={`w-[199px] h-[50px] px-[60px] py-[15px] rounded-xl justify-center items-center gap-2.5 inline-flex cursor-pointer

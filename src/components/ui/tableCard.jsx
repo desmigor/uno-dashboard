@@ -8,7 +8,7 @@ import Cube from "../../assets/images/dashboard/icon/cube.png";
 import MapImage from "../../assets/images/dashboard/image/map.png";
 import Truck from "../../assets/images/dashboard/icon/truck-fast.svg";
 import UserSearch from "../../assets/images/dashboard/icon/user-search.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GoogleMap, InfoWindow, InfoWindowF, Marker, useLoadScript } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
 import LocationPin from '../../assets/images/dashboard/icon/location-pin.svg';
@@ -27,6 +27,7 @@ const libraries = ['places'];
 function TableCard({ type, name, data }) {
   const { locations } = useSelector((state) => state.fetchCouriers);
   const [selectedMarker, setSelectedMarker] = useState(null)
+  const navigate = useNavigate();
 
   console.log(selectedMarker);
   const { isLoaded, loadError } = useLoadScript({
@@ -44,7 +45,7 @@ function TableCard({ type, name, data }) {
         </h1>
         {type === "map" ? null : (
           <Link
-            to={"/support/dashboard/pending"}
+            to={type === "pending" ? "/support/dashboard/pending" : type === "courier" ? "/support/dashboard/courier" :   "/support/dashboard/package"   }
             className="w-[73px] flex flex-row gap-[12px]"
           >
             <h1
@@ -266,11 +267,11 @@ function TableCard({ type, name, data }) {
                             </div>
                           </td>
                           <td class="py-4">
-                            <button className="w-[93px] group hover:bg-red-800 h-7 px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex">
+                            <Link to={`/support/dashboard/package/`} className="w-[93px] group hover:bg-red-800 h-7 px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex">
                               <span className="text-center text-red-800 group-hover:text-white text-sm font-normal font-rubik leading-tight">
                                 View
                               </span>
-                            </button>
+                            </Link>
                           </td>
                         </tr>
                       ))
@@ -322,7 +323,8 @@ function TableCard({ type, name, data }) {
                     ? data.map((item, idx) => (
                         <tr
                           key={idx}
-                          class="bg-white border-b hover:bg-gray-50"
+                          className="bg-white border-b hover:bg-gray-50 cursor-pointer"
+                          onClick={() => navigate(`/support/dashboard/courier/${item.id}`)}
                         >
                           <th
                             scope="row"
@@ -395,10 +397,10 @@ function TableCard({ type, name, data }) {
                           <img className="w-9 h-9" src={selectedMarker?.profile_photo_link} />
                           <div className="w-[154px] h-9 flex-col justify-start items-start gap-1 inline-flex">
                             <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Name</div>
-                            <div className="w-[100px] justify-start items gap-1.5 inline-flex">
+                            <Link to={`/support/dashboard/courier/${selectedMarker?.id}`} className="w-[100px]  justify-start items gap-1.5 inline-flex">
                               <div className="text-red-800 text-xs font-normal font-['Rubik'] underline leading-none">{selectedMarker?.full_name}</div>
                               <img src={Export} alt="SVGEXPORT" className="" />
-                            </div>
+                            </Link>
                           </div> 
                         </div>
                     </InfoWindowF>
