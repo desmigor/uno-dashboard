@@ -38,6 +38,15 @@ const authSlice = createSlice({
         update_token: (state, { payload }) => {
             state.userToken = payload;
         },
+        update_user_info: (state, { payload }) => {
+            // update user info for given data (payload) and ones not given, keep the old data
+            state.userInfo = { 
+                full_name: payload.full_name ? payload.full_name : state.userInfo.full_name,
+                email: payload.email ? payload.email : state.userInfo.email,
+                profile_photo_link: payload.profile_photo_link ? payload.profile_photo_link : state.userInfo.profile_photo_link,
+                type: payload.type ? payload.type : state.userInfo.type,
+            };
+        },
         errorLogin: (state, { payload }) => {
             state.error = payload.message;
             state.isPassword = payload.isPassword;
@@ -48,5 +57,5 @@ const authSlice = createSlice({
 
 })
 
-export const { logout, login, errorLogin, update_token, startLoading } = authSlice.actions;
+export const { logout, login, errorLogin, update_token, startLoading, update_user_info } = authSlice.actions;
 export default authSlice.reducer;
