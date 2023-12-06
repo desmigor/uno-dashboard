@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Menu } from "@headlessui/react";
+import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "../../../../assets/images/dashboard/icon/edit-3.svg";
 import EditIcon2 from "../../../../assets/images/dashboard/icon/edit-2.svg";
 import noProfile from "../../../../assets/images/dashboard/image/image.png";
 import EditProfileModal from "../components/UI/EditProfileModal";
 import SuccessToast from "../../../../components/ui/SuccessToast";
 import Spinner from "../../../../components/ui/spinner";
+import { fetchProfileAction, fetchCountriesAction } from "../../../../redux/actions/fetchProfileAction";
+import callAPI from "../../../../utils/api";
 
 export default function ProfileSection() {
   const [ShowEditProfileModal, setShowEditProfileModal] = useState(false);
@@ -12,6 +16,14 @@ export default function ProfileSection() {
   const [editInformations, setEditInformations] = useState(false);
   const [editAddress, setEditAddress] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { userInfo } = useSelector((state) => state.auth);
+  const { profile } = useSelector((state) => state.fetchProfile);
+  const { countries } = useSelector((state) => state.fetchProfile);
+  const [selectedCoutryId, setSelectedCountryId] = useState();
+
+  console.log(countries);
+
+  const dispatch = useDispatch();
 
   const handleModalConfirm = (isConfirmed) => {
     if (isConfirmed) {
@@ -28,54 +40,92 @@ export default function ProfileSection() {
     }, 30);
   };
 
-  const data = {
-    firstName: "Michael",
-    lastName: "James",
-    emailAddress: "james@test.com",
-    phoneNumber: "+233 245 678 900",
-    role: "Support Team",
-    supportGroup: "Ghana Team",
-    country: "Ghana",
-    region: "Asunafo North",
-    city: "Accra",
-    postalCode: "12345",
-  };
+  useEffect(() => {
+    dispatch(fetchProfileAction());
+    dispatch(fetchCountriesAction());
+  }, [dispatch]);
 
-  const [firstName, setFirstName] = useState(data.firstName);
-  const [lastName, setLastName] = useState(data.lastName);
-  const [emailAddress, setEmailAddress] = useState(data.emailAddress);
-  const [phoneNumber, setPhoneNumber] = useState(data.phoneNumber);
-  const [role, setRole] = useState(data.role);
-  const [supportGroup, setSupportGroup] = useState(data.supportGroup);
-  const [country, setCountry] = useState(data.country);
-  const [region, setRegion] = useState(data.region);
-  const [city, setCity] = useState(data.city);
-  const [postalCode, setPostalCode] = useState(data.postalCode);
+  useEffect(() => {
+    if (Object.keys(profile).length > 0 && Object.keys(userInfo).length > 0) {
+      setFirstName(profile.full_name?.split(" ")[0]);
+      setLastName(profile.full_name?.split(" ")[1]);
+      setEmailAddress(profile.email);
+      setPhoneNumber(profile.phone_number);
+      setRole(profile.role);
+      setSupportGroup(profile.groups[0]?.name);
+      setCountry(profile.address[0]?.country?.name);
+      setRegion(profile.address[0]?.region);
+      setCity(profile.address[0]?.city);
+      setPostalCode(profile.address[0]?.postal_code);
+      setRole(userInfo?.type?.id === 3 ? "Admin" : "Support");
+      setSelectedCountryId(profile.country);
+    }
+  }, [profile]);
 
-  const handleEdit = (address = false) => {
+  const [firstName, setFirstName] = useState(
+    profile && profile.full_name?.split(" ")[0]
+  );
+  const [lastName, setLastName] = useState(
+    Object.keys(profile).length > 0 ? profile.full_name?.split(" ")[1] : ""
+  );
+  const [emailAddress, setEmailAddress] = useState(
+    Object.keys(profile).length > 0 ? profile.email : ""
+  );
+  const [phoneNumber, setPhoneNumber] = useState(
+    Object.keys(profile).length > 0 ? profile.phone_number : ""
+  );
+  const [role, setRole] = useState();
+  const [supportGroup, setSupportGroup] = useState(
+    Object.keys(profile).length > 0 ? profile.groups[0]?.name : ""
+  );
+  const [country, setCountry] = useState(
+    Object.keys(profile).length > 0 ? profile.address[0]?.country?.name : ""
+  );
+  const [region, setRegion] = useState(
+    Object.keys(profile).length > 0 ? profile.address[0]?.region : ""
+  );
+  const [city, setCity] = useState(
+    Object.keys(profile).length > 0 ? profile.address[0]?.city : ""
+  );
+  const [postalCode, setPostalCode] = useState(
+    Object.keys(profile).length > 0 ? profile.address[0]?.postal_code : ""
+  );
+
+  console.log(profile);
+  const handleEdit = async (address = false) => {
     setLoading(true);
-    const data = {
-      firstName: firstName,
-      lastName: lastName,
-      emailAddress: emailAddress,
-      phoneNumber: phoneNumber,
-      role: role,
-      supportGroup: supportGroup,
-      country: country,
-      region: region,
-      city: city,
-      postalCode: postalCode,
-    };
+    const data = address
+      ? {
+          city: city,
+          country: selectedCoutryId,
+          postal_code: postalCode,
+          region: region,
+        }
+      : {
+          full_name: `${firstName} ${lastName}`,
+          email: emailAddress,
+          country: selectedCoutryId,
+          phone_number: phoneNumber,
+        };
+    console.log(data);
     try {
-      const result = data;
+      const result = await callAPI(
+        address ? "/api/address/profile-address/" : "/api/auth/web/profile/",
+        "PUT",
+        true,
+        data
+      );
       console.log(result);
+      dispatch(fetchProfileAction());
       setLoading(false);
-      address ? setEditAddress(false) : setEditInformations(false);
     } catch (err) {
       setLoading(false);
-      console.log(err.message);
+      console.log(err);
     }
+    address ? setEditAddress(false) : setEditInformations(false);
   };
+
+  console.log(userInfo);
 
   return (
     <div className="w-[100%] h-[100%] p-5 bg-white rounded-lg flex-col justify-start items-start gap-6 inline-flex overflow-auto">
@@ -83,7 +133,11 @@ export default function ProfileSection() {
         show={ShowEditProfileModal}
         onremove={() => setShowEditProfileModal(false)}
         title="Profile Picture"
-        image={noProfile}
+        image={
+          profile?.profile_photo_link
+            ? profile?.profile_photo_link
+            : noProfile
+        }
         content="A picture helps people recognize you and lets you know when you’re signed in to your account."
         onConfirm={handleModalConfirm}
       />
@@ -100,7 +154,11 @@ export default function ProfileSection() {
             <div className="w-[100px] h-[100px] left-0 top-0 absolute rounded-full border-2 border-red-800"></div>
             <img
               className="w-[90px] h-[90px] left-[5px] top-[5px] absolute rounded-full"
-              src={noProfile}
+              src={
+                profile?.profile_photo_link
+                  ? profile?.profile_photo_link
+                  : noProfile
+              }
             />
           </div>
           <div
@@ -134,7 +192,7 @@ export default function ProfileSection() {
             Personal Information
           </div>
           {editInformations ? (
-            <div className=" py-1 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex ">
+            <div className=" py-1 bg-white rounded-bl-2xl rounded-br-2xl justify-center items-center inline-flex ">
               <div className="self-stretch justify-center items-start gap-5 inline-flex">
                 <div
                   className="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex cursor-pointer"
@@ -174,7 +232,9 @@ export default function ProfileSection() {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-3 gap-5 w-[100%]">
+        <div className={`grid grid-cols-3  w-[100% 
+        ${editInformations ? "gap-[50%]" : "gap-[73px]"}`
+      }>
           <div className="flex-col justify-start items-start gap-5 flex">
             <div class="flex-col justify-start items-start gap-[5px] inline-flex">
               <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
@@ -212,7 +272,7 @@ export default function ProfileSection() {
                 />
               ) : (
                 <div class="text-zinc-800 text-base font-normal font-rubik leading-tight">
-                  {lastName}
+                  {emailAddress}
                 </div>
               )}
             </div>
@@ -308,7 +368,7 @@ export default function ProfileSection() {
             Address
           </div>
           {editAddress ? (
-            <div className=" py-1 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex ">
+            <div className=" py-1 bg-white rounded-bl-2xl rounded-br-2xl justify-center items-center inline-flex ">
               <div className="self-stretch justify-center items-start gap-5 inline-flex">
                 <div
                   className="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex cursor-pointer"
@@ -320,9 +380,7 @@ export default function ProfileSection() {
                 </div>
                 <button
                   className={`w-[168px] h-[50px] py-[15px]  rounded-xl justify-center items-center gap-2.5 flex cursor-pointer text-white bg-red-800`}
-                  onClick={() => handleEdit(
-                    true
-                  )}
+                  onClick={() => handleEdit(true)}
                 >
                   {loading ? (
                     <Spinner className={"fill-white"} />
@@ -350,22 +408,44 @@ export default function ProfileSection() {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-3 gap-5 w-[100%]">
+        <div className={`grid grid-cols-3  w-[100% 
+        ${editInformations ? "gap-[50%]" : "gap-[182px] "}`
+      }>
           <div className="flex-col justify-start items-start gap-5 flex">
             <div class=" flex-col justify-start items-start gap-[5px] inline-flex">
               <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
                 Country
               </div>
               {editAddress ? (
-                <input
-                  type="text"
-                  id="country"
-                  name="country"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  className="text-zinc-800 text-base font-normal font-rubik leading-tight self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex"
-                  placeholder="Enter country"
-                />
+                // add dropDown menu for countries
+                <Menu as="div" className="relative inline-block text-left">
+                  <div>
+                    <Menu.Button className="inline-flex justify-start items-center w-[252px] h-12 px-4 py-[13px] rounded-xl border border-zinc-200 gap-2.5 text-zinc-800 text-base font-normal font-rubik leading-tight">
+                      {country}
+                    </Menu.Button>
+                  </div>
+                  <Menu.Items className="origin-top-right absolute right-0 mt-2 w-[260px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div className="py-1">
+                      {countries?.map((country) => (
+                        <Menu.Item key={country.id}>
+                          {({ active }) => (
+                            <div
+                              className={`${
+                                active ? "bg-gray-100 text-gray-900" : "text-gray-700"
+                              } flex justify-start items-center w-full px-4 py-2 text-sm`}
+                              onClick={() => {
+                                setSelectedCountryId(country.id);
+                                setCountry(country.name);
+                              }}
+                            >
+                              {country.name}
+                            </div>
+                          )}
+                        </Menu.Item>
+                      ))}
+                    </div>
+                  </Menu.Items>
+                </Menu>
               ) : (
                 <div class="text-zinc-800 text-base font-normal font-rubik leading-tight">
                   {country}

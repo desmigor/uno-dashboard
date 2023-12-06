@@ -29,7 +29,6 @@ function Settings() {
   }
 
   const [selected, setSelected] = useState(tabs[0]);
-  console.log(tabs);
 
   return (
     <div className="bg-neutral-50 h-[100%] overflow-auto">
