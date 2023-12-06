@@ -12,6 +12,7 @@ const CancelModal = ({ isOpen, setIsOpen, id  }) => {
     const dispatch = useDispatch();
     const handleCancel = () => {
         dispatch(cancelPackage(id));
+        setIsOpen(false);
     }
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -43,7 +44,7 @@ const CancelModal = ({ isOpen, setIsOpen, id  }) => {
               <div className="w-full p-5">
                 <div className='w-full flex flex-row justify-between items-center'>
                     <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Package Cancelling</div>
-                    <img src={CloseIcon} className='w-6 h-6' />
+                    <img onClick={() => setIsOpen(false)} src={CloseIcon} className='w-6 h-6 cursor-pointer' />
                 </div>
                 <img src={CancelIcon} className='w-[136px] h-[136px] mx-auto mt-[20px]' />
                 <div className="w-[400px] text-center text-slate-500 text-sm font-normal font-['Rubik'] mt-5 leading-tight">After confirmation, this package will immediately be canceled. This action can’t be revoked.</div> 

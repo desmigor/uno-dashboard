@@ -57,6 +57,7 @@ function App() {
             <Route path='/support/dashboard/pending' element={<Pending />} />
             <Route path='/support/dashboard/package' element={<Packages />} />
             <Route path='/support/dashboard/package/new' element={<CreatePackages />} />
+            <Route path='/support/dashboard/package/update/:id' element={<CreatePackages />} />
             <Route path='/support/dashboard/courier' element={<Couriers />} />
             <Route path='/support/dashboard/courier/:id' element={<CouriersView />} />
             <Route path='/support/dashboard/settings' element={<Settings />} />
@@ -67,6 +68,7 @@ function App() {
             <Route path='/admin/dashboard/pending' element={<Pending />} />
             <Route path='/admin/dashboard/package' element={<Packages />} />
             <Route path='/admin/dashboard/package/new' element={<CreatePackages />} />
+            <Route path='/admin/dashboard/package/update/:id' element={<CreatePackages />} />
             <Route path='/admin/dashboard/courier' element={<Couriers />} />
             <Route path='/admin/dashboard/courier/groups/:id' element={<GroupDetails />} />
             <Route path='/admin/dashboard/courier/groups' element={<Groups />} />

@@ -47,6 +47,8 @@ function Sidebar() {
             setSelcted('Settings');
         }else if(path === 'customers'){
             setSelcted('Customers');
+        }else if(path.length === 0){
+            setSelcted('Dashboard');
         }else{
             setSelcted('Couriers');
         }
