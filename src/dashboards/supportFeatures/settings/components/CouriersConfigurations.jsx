@@ -151,7 +151,9 @@ export default function CouriersConfigurations() {
             </tr>
           </thead>
           <tbody>
-            {vehicleTypes?.map((item, idx) => (
+            {
+              vehicleTypes?.length > 0 && (
+            vehicleTypes?.map((item, idx) => (
               <tr
                 key={idx}
                 onClick={() => {}}
@@ -251,7 +253,7 @@ export default function CouriersConfigurations() {
                   </Menu>
                 </td>
               </tr>
-            ))}
+            )))}
           </tbody>
         </table>
       </div>
