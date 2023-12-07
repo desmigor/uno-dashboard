@@ -8,8 +8,6 @@ export const fetchNotificationsAction = () => async (dispatch, getState) => {
       "GET",
       true
     );
-    console.log("fetchNotificationsAction");
-    console.log(result.data);
     dispatch(fetchNotifications());
     dispatch(fetchNotificationsSuccess(result));
     return result.data;

@@ -43,7 +43,7 @@ const authSlice = createSlice({
             state.userInfo = { 
                 full_name: payload.full_name ? payload.full_name : state.userInfo.full_name,
                 email: payload.email ? payload.email : state.userInfo.email,
-                profile_photo_link: payload.profile_photo_link ? payload.profile_photo_link : state.userInfo.profile_photo_link,
+                profile_photo_link: payload.profile_photo_link,
                 type: payload.type ? payload.type : state.userInfo.type,
             };
         },

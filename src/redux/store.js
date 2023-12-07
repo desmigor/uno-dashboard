@@ -14,6 +14,7 @@ import accountActionReducer from "./slices/accountNotificationsSlice";
 import ProfileReducer from "./slices/userProfileSlice";
 import vehicleTypesReducer from "./slices/vehicleTypesSlice";
 import notificationsReducer from "./slices/notificationsSlice";
+import dashboardAnalyticsReducer from "./slices/dashboardAnalyticsSlice";
 import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
@@ -43,6 +44,7 @@ export const store = configureStore({
         fetchProfile:ProfileReducer,
         vehicleTypes: vehicleTypesReducer,
         notifications: notificationsReducer,
+        analytics: dashboardAnalyticsReducer
     },
     middleware: [thunk]
 });

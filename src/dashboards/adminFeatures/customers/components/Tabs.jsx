@@ -12,13 +12,13 @@ function Tabs({ setTable, activeCounts, suspendedCounts, table, paginate }) {
                     setTable('active')
                     paginate()
                 }}
-                class={
+                className={
                     "min-w-[124px] h-9 px-4 py-2 rounded-md justify-start items-center gap-2.5 inline-flex  cursor-pointer" +
                     (selected ? " bg-white shadow" : "")
                 }
                 >
                 <div
-                    class={
+                    className={
                     "text-center text-sm font-normal font-rubik leading-tight cursor-pointer" +
                     (selected ? " text-zinc-800" : " text-slate-500")
                     }
@@ -39,13 +39,13 @@ function Tabs({ setTable, activeCounts, suspendedCounts, table, paginate }) {
                     setTable('suspended')
                     paginate()
                 }}
-                class={
+                className={
                     "min-w-[124px] h-9 px-4 py-2 rounded-md justify-start items-center gap-2.5 inline-flex  cursor-pointer" +
                     (selected ? " bg-white shadow " : "")
                 }
                 >
                 <div
-                    class={
+                    className={
                     "text-center text-sm font-normal font-rubik leading-tight" +
                     (selected ? " text-zinc-800" : " text-slate-500")
                     }
