@@ -23,28 +23,21 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import ProfileNone from "../../../assets/images/dashboard/image/image.png";
+import NoCouriersIcon from "../../../assets/images/dashboard/image/profile-2user.png";
 
 import { fetchTotalsAction } from "../../../redux/actions/fetchTotalsAction";
 import { fetchCouriersAction } from "../../../redux/actions/fetchCouriersAction";
 import { fetchCustomersAction } from "../../../redux/actions/fetchCustomersAction";
-import { fetchDeliveryAnalyticsAction } from "../../../redux/actions/fetchAnalyticsAction";
-import { fetchRevenueAnalyticsAction } from "../../../redux/actions/fetchAnalyticsAction";
+import {
+  fetchDeliveryAnalyticsAction,
+  fetchRevenueAnalyticsAction,
+  fetchGroupRevenueAnalyticsAction,
+  fetchGroupMileageAnalyticsAction,
+} from "../../../redux/actions/fetchAnalyticsAction";
 import { Link } from "react-router-dom";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const data = {
-  labels: ["Blue", "Yellow", "Green", "Red"],
-  datasets: [
-    {
-      data: [60, 20, 10, 10],
-      backgroundColor: ["#FF5733", "#33B5E5", "#F18F01", "#D0D4D9"],
-      hoverBackgroundColor: ["#FF5733", "#33B5E5", "#F18F01", "#D0D4D9"],
-      borderWidth: 1,
-      borderColor: ["#FF5733", "#33B5E5", "#F18F01", "#D0D4D9"],
-    },
-  ],
-};
 
 const options = {
   cutout: "80%", // Adjust the size of the hole in the center (e.g., '70%' for a larger hole)
@@ -67,226 +60,10 @@ function AdminDashboard() {
   const [couriersSorted, setCouriersSorted] = useState([]);
   const {
     revenueAnalytics,
-    deliveryAnalytics
+    deliveryAnalytics,
+    groupRevenueAnalytics,
+    groupMileageAnalytics,
   } = useSelector((state) => state.analytics);
-  const [filteredRevenueAnalytics, setFilteredRevenueAnalytics] =
-    useState();
-  // const deliveryAnalytics = [
-  //   {
-  //     total_delivery: 4,
-  //     package_status: 6,
-  //     date: "2023-12-07 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-06 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 13,
-  //     package_status: 7,
-  //     date: "2023-12-06 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-05 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-03 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-02 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-01 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-05 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-03 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-02 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-01 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-05 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-03 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-02 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-01 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-05 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-03 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-02 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 7,
-  //     date: "2023-12-01 00:00:00+00:00",
-  //   },
-
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-05 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 10,
-  //     package_status: 6,
-  //     date: "2023-12-03 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-02 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-01 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-05 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-03 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-02 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-01 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-05 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-03 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-02 00:00:00+00:00",
-  //   },
-  //   {
-  //     total_delivery: 1,
-  //     package_status: 6,
-  //     date: "2023-12-01 00:00:00+00:00",
-  //   },
-  // ];
-
-  // const groupByWeek = (data, revenue = true) => {
-  //   const groupedData = {};
-  //   console.log("inside group week");
-
-  //   data.forEach((item) => {
-  //     const date = new Date(item.date);
-  //     const weekStart = startOfWeek(date);
-  //     const weekKey = format(weekStart, "yyyy-MM-dd");
-
-  //     if (!groupedData[weekKey]) {
-  //       groupedData[weekKey] = {
-  //         date_from: weekStart.toISOString(),
-  //         date_to: addWeeks(weekStart, 1).toISOString(),
-  //         total_delivery: 0,
-  //         package_status: item.package_status,
-  //       };
-  //     }
-
-  //     groupedData[weekKey].total_delivery += item.total_delivery;
-  //   });
-  //   // Convert the object back to an array
-  //   const result = Object.values(groupedData);
-  //   console.log("Grouped by week:", result);
-  //   revenue ? setFilteredRevenueAnalytics(groupedData) : null;
-  // };
-
-  // const groupByMonth = (data) => {
-  //   const groupedData = {};
-
-  //   data.forEach((item) => {
-  //     const date = new Date(item.date);
-  //     const monthStart = startOfMonth(date);
-  //     const monthKey = format(monthStart, "yyyy-MM-dd");
-
-  //     if (!groupedData[monthKey]) {
-  //       groupedData[monthKey] = {
-  //         date_from: monthStart.toISOString(),
-  //         date_to: addMonths(monthStart, 1).toISOString(),
-  //         total_delivery: 0,
-  //         package_status: item.package_status ? item.package_status : null,
-  //       };
-  //     }
-
-  //     groupedData[monthKey].total_delivery += item.total_delivery;
-  //   });
-
-  //   // Convert the object back to an array
-  //   const result = Object.values(groupedData);
-  //   console.log("Grouped by month:", result);
-  // };
-
-  const status6Data = deliveryAnalytics.filter(
-    (item) => item.package_status === 6
-  );
-  const status7Data = deliveryAnalytics.filter(
-    (item) => item.package_status === 7
-  );
 
   const dispatch = useDispatch();
 
@@ -296,6 +73,8 @@ function AdminDashboard() {
     dispatch(fetchCustomersAction());
     dispatch(fetchDeliveryAnalyticsAction());
     dispatch(fetchRevenueAnalyticsAction());
+    dispatch(fetchGroupRevenueAnalyticsAction());
+    dispatch(fetchGroupMileageAnalyticsAction());
   }, []);
 
   useEffect(() => {
@@ -303,12 +82,18 @@ function AdminDashboard() {
       (a, b) => b.total_cost - a.total_cost
     );
     setCouriersSorted(sortedCouriers);
-    // groupByWeek(deliveryAnalytics);
-    // groupByMonth(deliveryAnalytics);
-  }, []);
+  }, [dispatch, couriers]);
+
+  const generateConsistentColor = (index) => {
+    const predefinedColors = ["#FF5733", "#33B5E5", "#F18F01", "#D0D4D9"];
+    const colorIndex = index % predefinedColors.length;
+    return predefinedColors[colorIndex];
+  };
+
+  console.log(Object.keys(groupRevenueAnalytics).length > 0);
 
   return (
-    <div className="bg-[#F8F9FA] h-screen w-full pb-20 px-10 p-6 overflow-auto">
+    <div className="bg-[#F8F9FA] h-[100%] w-full pb-20 px-10 p-6 overflow-auto">
       <NameComponent
         name={userInfo?.full_name?.split(" ")[0]}
         date={`Today, ${moment().format("DD MMMM YYYY")}`}
@@ -359,11 +144,16 @@ function AdminDashboard() {
             data={{
               labels:
                 Object.keys(revenueAnalytics).length > 0
-                  ? revenueAnalytics?.map((item) => item.date.slice(0, 10))
+                  ? revenueAnalytics?.map(
+                      (item) =>
+                        item.date_from.slice(0, 10) +
+                        " - " +
+                        item.date_to.slice(0, 10)
+                    )
                   : [],
               datasets: [
                 {
-                  label: "Curved Line Chart",
+                  label: "Revenue",
                   fill: true,
                   lineTension: 0.4,
                   backgroundColor: "rgba(75,192,192,0.2)",
@@ -375,8 +165,7 @@ function AdminDashboard() {
                 },
               ],
             }}
-            // filterByMonth={groupByMonth(revenueAnalytics)}
-            // filterByWeek={groupByWeek(revenueAnalytics)}
+            delivery={false}
           />
         )}
         <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
@@ -399,31 +188,48 @@ function AdminDashboard() {
             </Link>
           </div>
           <div className="flex flex-col gap-[15px] mt-[16px]">
-            {couriersSorted?.length < 1
-              ? null
-              : couriersSorted?.map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="flex flex-row gap-[12px] items-center"
-                  >
-                    <img
-                      className="w-9 h-9 rounded-[100px] object-cover"
-                      src={
-                        item.profile_photo_link
-                          ? item.profile_photo_link
-                          : ProfileNone
-                      }
-                    />
-                    <div className="flex flex-col">
-                      <span className="text-zinc-800 text-sm font-normal font-rubik">
-                        {item.full_name}
-                      </span>
-                      <span className="text-slate-500 text-xs font-normal font-rubik">
-                        {item.total_cost.toFixed(2)}
-                      </span>
+            {couriersSorted?.length < 1 ? (
+              <div>
+                <div class="w-[100px] h-32 flex-col justify-start items-center gap-2 inline-flex">
+                  <div class="w-[100px] h-[100px] justify-center items-center inline-flex">
+                    <div class="w-[100px] h-[100px] relative">
+                      <image
+                        src={NoCouriersIcon}
+                        class="w-[100px] h-[100px] rounded-[100px] object-cover"
+                        alt="No Couriers"
+                      />
                     </div>
                   </div>
-                ))}
+                  <div class="text-center text-gray-300 text-sm font-normal font-['Rubik'] leading-tight">
+                    No couriers yet
+                  </div>
+                </div>
+              </div>
+            ) : (
+              couriersSorted?.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex flex-row gap-[12px] items-center"
+                >
+                  <img
+                    className="w-9 h-9 rounded-[100px] object-cover"
+                    src={
+                      item.profile_photo_link
+                        ? item.profile_photo_link
+                        : ProfileNone
+                    }
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-zinc-800 text-sm font-normal font-rubik">
+                      {item.full_name}
+                    </span>
+                    <span className="text-slate-500 text-xs font-normal font-rubik">
+                      {item.total_cost.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
         <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
@@ -453,96 +259,67 @@ function AdminDashboard() {
               alignSelf: "center",
             }}
           >
-            <Doughnut data={data} options={options} />
+            <Doughnut
+              data={{
+                labels: Object.keys(groupRevenueAnalytics),
+                datasets: [
+                  {
+                    data: Object.values(groupRevenueAnalytics).map(
+                      (item) => item.revenue
+                    ),
+                    backgroundColor: Object.keys(groupRevenueAnalytics).map(
+                      (key, index) => generateConsistentColor(index)
+                    ),
+                    hoverBackgroundColor: Object.keys(
+                      groupRevenueAnalytics
+                    ).map((key, index) => generateConsistentColor(index)),
+                    borderWidth: 1,
+                    borderColor: Object.keys(groupRevenueAnalytics).map(
+                      (key, index) => generateConsistentColor(index)
+                    ),
+                  },
+                ],
+              }}
+              options={options}
+            />
           </div>
-          <div className="w-full flex justify-between">
-            <div className="flex flex-row gap-[8px]">
-              <div className="relative">
-                <div className="w-4 h-4 bg-[#33b5e5] rounded-full" />
-                <img
-                  src={Dot}
-                  className="w-2 h-2 absolute top-[4px] left-[4px]"
-                />
-              </div>
-              <span className="text-slate-500 text-xs font-normal font-rubik">
-                Accra Group
-              </span>
-            </div>
-            <div className="flex flex-row gap-1">
-              <div className="text-zinc-800 text-xs font-normal font-rubik">
-                60%{" "}
-              </div>
-              <div className="text-slate-500 text-xs font-normal font-rubik">
-                • 6,000
-              </div>
-            </div>
-          </div>
-          <div className="w-full flex justify-between">
-            <div className="flex flex-row gap-[8px]">
-              <div className="relative">
-                <div className="w-4 h-4 bg-[#ff5734] rounded-full" />
-                <img
-                  src={Dot}
-                  className="w-2 h-2 absolute top-[4px] left-[4px]"
-                />
-              </div>
-              <span className="text-slate-500 text-xs font-normal font-rubik">
-                New Delhi Group
-              </span>
-            </div>
-            <div className="flex flex-row gap-1">
-              <div className="text-zinc-800 text-xs font-normal font-rubik">
-                20%{" "}
-              </div>
-              <div className="text-slate-500 text-xs font-normal font-rubik">
-                • 6,000
-              </div>
-            </div>
-          </div>
-          <div className="w-full flex justify-between">
-            <div className="flex flex-row gap-[8px]">
-              <div className="relative">
-                <div className="w-4 h-4 bg-[#f18f00] rounded-full" />
-                <img
-                  src={Dot}
-                  className="w-2 h-2 absolute top-[4px] left-[4px]"
-                />
-              </div>
-              <span className="text-slate-500 text-xs font-normal font-rubik">
-                Dubai
-              </span>
-            </div>
-            <div className="flex flex-row gap-1">
-              <div className="text-zinc-800 text-xs font-normal font-rubik">
-                10%{" "}
-              </div>
-              <div className="text-slate-500 text-xs font-normal font-rubik">
-                • 6,000
-              </div>
-            </div>
-          </div>
-          <div className="w-full flex justify-between">
-            <div className="flex flex-row gap-[8px]">
-              <div className="relative">
-                <div className="w-4 h-4 bg-[#d0d4d9] rounded-full" />
-                <img
-                  src={Dot}
-                  className="w-2 h-2 absolute top-[4px] left-[4px]"
-                />
-              </div>
-              <span className="text-slate-500 text-xs font-normal font-rubik">
-                Other
-              </span>
-            </div>
-            <div className="flex flex-row gap-1">
-              <div className="text-zinc-800 text-xs font-normal font-rubik">
-                10%{" "}
-              </div>
-              <div className="text-slate-500 text-xs font-normal font-rubik">
-                • 6,000
-              </div>
-            </div>
-          </div>
+          {Object.keys(groupRevenueAnalytics).length > 0 ? (
+            Object.keys(groupRevenueAnalytics).map((key, index) => {
+              const item = groupRevenueAnalytics[key];
+              return (
+                <div className="w-full flex justify-between" key={key}>
+                  <div className="flex flex-row gap-[8px]">
+                    <div className="relative">
+                      <div
+                        className={`w-4 h-4 rounded-full`}
+                        style={{
+                          backgroundColor: generateConsistentColor(index),
+                        }}
+                      />
+                      <img
+                        src={Dot}
+                        className="w-2 h-2 absolute top-[4px] left-[4px]"
+                      />
+                    </div>
+                    <span className="text-slate-500 text-xs font-normal font-rubik">
+                      {key}
+                    </span>
+                  </div>
+                  <div className="flex flex-row gap-1">
+                    <div className="text-zinc-800 text-xs font-normal font-rubik">
+                      {item.percent.toFixed()}
+                      {"%"}
+                    </div>
+                    <div className="text-slate-500 text-xs font-normal font-rubik">
+                      {item.revenue.toFixed()}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <p>No data</p>
+          )}
         </div>
       </div>
       <div className="w-full mt-[20px] mx-auto flex flex-row gap-5">
@@ -553,7 +330,12 @@ function AdminDashboard() {
           data={{
             labels:
               Object.keys(deliveryAnalytics).length > 0
-                ? deliveryAnalytics?.map((item) => item.date.slice(0, 10))
+                ? deliveryAnalytics?.map(
+                    (item) =>
+                      item.date_from.slice(0, 10) +
+                      " - " +
+                      item.date_to.slice(0, 10)
+                  )
                 : [],
             datasets: [
               {
@@ -585,6 +367,7 @@ function AdminDashboard() {
               },
             ],
           }}
+          delivery={true}
         />
         <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex w-full flex-row justify-between items-center">
@@ -660,96 +443,67 @@ function AdminDashboard() {
               alignSelf: "center",
             }}
           >
-            <Doughnut data={data} options={options} />
+            <Doughnut
+              data={{
+                labels: Object.keys(groupMileageAnalytics),
+                datasets: [
+                  {
+                    data: Object.values(groupMileageAnalytics).map(
+                      (item) => item.mileage
+                    ),
+                    backgroundColor: Object.keys(groupMileageAnalytics).map(
+                      (key, index) => generateConsistentColor(index)
+                    ),
+                    hoverBackgroundColor: Object.keys(
+                      groupMileageAnalytics
+                    ).map((key, index) => generateConsistentColor(index)),
+                    borderWidth: 1,
+                    borderColor: Object.keys(groupMileageAnalytics).map(
+                      (key, index) => generateConsistentColor(index)
+                    ),
+                  },
+                ],
+              }}
+              options={options}
+            />
           </div>
-          <div className="w-full flex justify-between">
-            <div className="flex flex-row gap-[8px]">
-              <div className="relative">
-                <div className="w-4 h-4 bg-[#33b5e5] rounded-full" />
-                <img
-                  src={Dot}
-                  className="w-2 h-2 absolute top-[4px] left-[4px]"
-                />
-              </div>
-              <span className="text-slate-500 text-xs font-normal font-rubik">
-                Accra Group
-              </span>
-            </div>
-            <div className="flex flex-row gap-1">
-              <div className="text-zinc-800 text-xs font-normal font-rubik">
-                60%{" "}
-              </div>
-              <div className="text-slate-500 text-xs font-normal font-rubik">
-                • 6,000
-              </div>
-            </div>
-          </div>
-          <div className="w-full flex justify-between">
-            <div className="flex flex-row gap-[8px]">
-              <div className="relative">
-                <div className="w-4 h-4 bg-[#ff5734] rounded-full" />
-                <img
-                  src={Dot}
-                  className="w-2 h-2 absolute top-[4px] left-[4px]"
-                />
-              </div>
-              <span className="text-slate-500 text-xs font-normal font-rubik">
-                New Delhi Group
-              </span>
-            </div>
-            <div className="flex flex-row gap-1">
-              <div className="text-zinc-800 text-xs font-normal font-rubik">
-                20%{" "}
-              </div>
-              <div className="text-slate-500 text-xs font-normal font-rubik">
-                • 6,000
-              </div>
-            </div>
-          </div>
-          <div className="w-full flex justify-between">
-            <div className="flex flex-row gap-[8px]">
-              <div className="relative">
-                <div className="w-4 h-4 bg-[#f18f00] rounded-full" />
-                <img
-                  src={Dot}
-                  className="w-2 h-2 absolute top-[4px] left-[4px]"
-                />
-              </div>
-              <span className="text-slate-500 text-xs font-normal font-rubik">
-                Dubai
-              </span>
-            </div>
-            <div className="flex flex-row gap-1">
-              <div className="text-zinc-800 text-xs font-normal font-rubik">
-                10%{" "}
-              </div>
-              <div className="text-slate-500 text-xs font-normal font-rubik">
-                • 6,000
-              </div>
-            </div>
-          </div>
-          <div className="w-full flex justify-between">
-            <div className="flex flex-row gap-[8px]">
-              <div className="relative">
-                <div className="w-4 h-4 bg-[#d0d4d9] rounded-full" />
-                <img
-                  src={Dot}
-                  className="w-2 h-2 absolute top-[4px] left-[4px]"
-                />
-              </div>
-              <span className="text-slate-500 text-xs font-normal font-rubik">
-                Other
-              </span>
-            </div>
-            <div className="flex flex-row gap-1">
-              <div className="text-zinc-800 text-xs font-normal font-rubik">
-                10%{" "}
-              </div>
-              <div className="text-slate-500 text-xs font-normal font-rubik">
-                • 6,000
-              </div>
-            </div>
-          </div>
+          {Object.keys(groupMileageAnalytics).length > 0 ? (
+            Object.keys(groupMileageAnalytics).map((key, index) => {
+              const item = groupMileageAnalytics[key];
+              return (
+                <div className="w-full flex justify-between" key={key}>
+                  <div className="flex flex-row gap-[8px]">
+                    <div className="relative">
+                      <div
+                        className={`w-4 h-4 rounded-full`}
+                        style={{
+                          backgroundColor: generateConsistentColor(index),
+                        }}
+                      />
+                      <img
+                        src={Dot}
+                        className="w-2 h-2 absolute top-[4px] left-[4px]"
+                      />
+                    </div>
+                    <span className="text-slate-500 text-xs font-normal font-rubik">
+                      {key}
+                    </span>
+                  </div>
+                  <div className="flex flex-row gap-1">
+                    <div className="text-zinc-800 text-xs font-normal font-rubik">
+                      {item.percent.toFixed()}
+                      {"%"}
+                    </div>
+                    <div className="text-slate-500 text-xs font-normal font-rubik">
+                      {item.mileage.toFixed()}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <p>No data</p>
+          )}
         </div>
       </div>
     </div>
