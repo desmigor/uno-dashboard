@@ -113,7 +113,7 @@ function ChartCard({
         </div>
       </div>
       <div className="h-[300px] mt-[34px] w-full">
-      <div className="justify-end items-center gap-8 flex">
+      <div className="justify-end items-center gap-3 flex">
           <div className="flex flex-row gap-2 justify-center items-center">
             <div className="w-2 h-2 bg-zinc-800 rounded-[100px]" />
             <div className="text-zinc-800 font-normal font-rubik leading-none">

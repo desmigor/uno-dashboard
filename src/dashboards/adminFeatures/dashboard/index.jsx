@@ -90,8 +90,6 @@ function AdminDashboard() {
     return predefinedColors[colorIndex];
   };
 
-  console.log(Object.keys(groupRevenueAnalytics).length > 0);
-
   return (
     <div className="bg-[#F8F9FA] h-[100%] w-full pb-20 px-10 p-6 overflow-auto">
       <NameComponent
