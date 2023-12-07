@@ -8,7 +8,7 @@ import { createGroupAction } from '../../../../redux/actions/fetchCouriersAction
 import { useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../../../../components/ui/spinner';
 import * as Yup from 'yup';
-import { createCustomerAction, handleupdateCustomer } from '../../../../redux/actions/fetchCustomersAction';
+import { createCustomerAction, fetchCustomersDetailsAction, handleupdateCustomer } from '../../../../redux/actions/fetchCustomersAction';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -33,8 +33,14 @@ const EditCustomer = () => {
     const navigate = useNavigate()
     const [validated, setValidated] = useState(false);
     const { countries } = useSelector(state => state.fetchCouriers);
-    const { loading } = useSelector(state => state.fetchCustomers);
+    const { loading, customerDetails } = useSelector(state => state.fetchCustomers);
     const { id } = useParams();
+
+    useEffect(() => {
+        dispatch(fetchCustomersDetailsAction(id)).then((res) => {
+            setData({ ...data, fullName: res.data.full_name, phone: res.data.phone_number, country: { id: res.data.country.id, name: res.data.country.name }, email: res.data.email })
+        })
+    }, [])
 
     useEffect(() => {
         checkValidations();

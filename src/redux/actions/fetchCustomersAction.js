@@ -1,5 +1,5 @@
 import callAPI from "../../utils/api";
-import { fetchCustomers, fetchCustomersActive, fetchCustomersError, fetchCustomersSuccess, fetchCustomersSuspended } from "../slices/customersSlice";
+import { fetchCustomers, fetchCustomersActive, fetchCustomersDetails, fetchCustomersError, fetchCustomersSuccess, fetchCustomersSuspended } from "../slices/customersSlice";
 import { toast } from 'react-toastify';
 
 export const fetchCustomersAction =
@@ -89,5 +89,15 @@ export const handleupdateCustomer = (id, payload, navigate) => async (dispatch, 
       progress: undefined,
       theme: "colored",
     });
+  }
+}
+
+export const fetchCustomersDetailsAction = (id) => async (dispatch, getState) => {
+  try {
+    const results = await callAPI(`/api/customer/${id}/`, 'GET');
+    return results;
+    dispatch(fetchCustomersDetails(results));
+  } catch (error) {
+    
   }
 }
