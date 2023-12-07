@@ -42,8 +42,11 @@ const fetchCustomersSlice = createSlice({
             state.customersSuspendedCounts = payload.count;
             state.loading = false;
         },
+        fetchCustomersDetails: (state, { payload }) => {
+            state.customerDetails = payload.data;
+        }
     }
 })
 
-export const { fetchCustomers, fetchCustomersSuccess, fetchCustomersError, fetchCustomersActive, fetchCustomersSuspended } = fetchCustomersSlice.actions;
+export const { fetchCustomers, fetchCustomersSuccess, fetchCustomersError, fetchCustomersActive, fetchCustomersSuspended, fetchCustomersDetails } = fetchCustomersSlice.actions;
 export default fetchCustomersSlice.reducer;
