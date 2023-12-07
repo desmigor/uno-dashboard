@@ -267,15 +267,13 @@ export const Step2 = ({ next }) => {
                     <div className="text-slate-500 text-base font-semibold font-['Rubik'] leading-tight">Package Addons</div> 
                     <div className='flex flex-row gap-6'>
                         <div onClick={() => { 
-                            setFragile(true);
-                            setInsulated(false);
+                            setFragile(!fragile);
                         }} className={`w-[165px] cursor-pointer h-[52px] rounded-[10px] border ${fragile ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
                             <img src={fragile ? TickChecked : TickOutile} />
                             <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Fragile Package</div>
                         </div>
                         <div onClick={() => {
-                            setInsulated(true);
-                            setFragile(false);
+                            setInsulated(!insulated);
                         }} className={`w-[222px] cursor-pointer h-[52px] rounded-[10px] border ${insulated ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
                             <img src={insulated ? TickChecked : TickOutile} />
                             <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Insulated food container</div>
@@ -291,17 +289,16 @@ export const Step2 = ({ next }) => {
     )
 }
 
-export const Step3 = () => {
+export const Step3 = ({setStep}) => {
     const [discountExpanded, setDiscountExpanded] = useState(false);
-    const { packages } = useSelector(state => state.packages);
-
+    const { addressDetails, packageDetailsPayment } = useSelector(state => state.packages);
     return (
         <div className='w-full flex flex-row justify-between items-start mt-6 mb-24'>
             <div className='xl:w-[70%] w-[60%] h-[789px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
                 <div className="w-full h-[117px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
                     <div className='flex flex-row justify-between items-center w-full'>
                         <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Addresses</div> 
-                        <button className='flex flex-row gap-1.5'>
+                        <button onClick={() => { setStep(0); }} className='flex flex-row gap-1.5'>
                             <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Back to Edit</div> 
                             <img src={ArrowLeft2} className='w-4 h-4' />
                         </button>
@@ -310,22 +307,22 @@ export const Step3 = () => {
                         <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Pickup Address</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{packages?.addressDetails?.pickup?.formatted_address}</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{addressDetails?.pickup?.formatted_address}</div>
                             </div>
                         </div>
                         <div className="flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Delivery Address</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{packages?.addressDetails?.delivery?.formatted_address}</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{addressDetails?.delivery?.formatted_address}</div>
                             </div>
-                        </div>r
+                        </div>
                     </div>
 
                 </div>
                 <div className="w-full h-[188px] p-5 rounded-lg border border-gray-100 flex-col justify-start items-start gap-5 inline-flex"> 
                     <div className='flex flex-row justify-between items-center w-full'>
                         <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Package Details & Payment</div> 
-                        <button className='flex flex-row gap-1.5'>
+                        <button onClick={() => { setStep(1); }} className='flex flex-row gap-1.5'>
                             <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Back to Edit</div> 
                             <img src={ArrowLeft2} className='w-4 h-4' />
                         </button>
@@ -334,13 +331,13 @@ export const Step3 = () => {
                         <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Package Size</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Medium</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{packageDetailsPayment?.size === 1 ? 'Small' : packageDetailsPayment?.size === 2 ? 'Medium' : 'Large'}</div>
                             </div>
                         </div>
                         <div className="flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Package Addons</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Fragile, Insulated food container</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{packageDetailsPayment?.fragile && 'Fragile'}{(packageDetailsPayment?.fragile && packageDetailsPayment?.insulated) && ", " }{packageDetailsPayment?.insulated && "Insulated food container"}</div>
                             </div>
                         </div>
                     </div>
@@ -349,7 +346,7 @@ export const Step3 = () => {
                             <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Payment Method</div>
                             <div className="flex flex-row gap-1.5">
                                 <img className="w-[34px] h-[17px]" src={Money} />
-                                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Cash on Delivery</div> 
+                                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{packageDetailsPayment?.choosenMethod === 3 ? "Cash on delivery" : "MoMo"}</div> 
                             </div>
                         </div>
                     </div>
@@ -357,7 +354,7 @@ export const Step3 = () => {
                 <div className="w-full h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
                     <div className='flex flex-row justify-between items-center w-full'>
                         <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Pickup Details</div> 
-                        <button className='flex flex-row gap-1.5'>
+                        <button onClick={() => { setStep(0); }} className='flex flex-row gap-1.5'>
                             <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Back to Edit</div> 
                             <img src={ArrowLeft2} className='w-4 h-4' />
                         </button>
@@ -366,25 +363,25 @@ export const Step3 = () => {
                         <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Full Name</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Michael Larson</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{addressDetails?.fullNamePickup}</div>
                             </div>
                         </div>
                         <div className="flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Phone Number</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">+233-4823-321-312</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{addressDetails?.phonePickup}</div>
                             </div>
                         </div>
                     </div>
                     <div className="w-full h-[65px] flex-col justify-start items-start gap-[5px] inline-flex">
                         <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Comment</div>
-                        <div className="xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">When you arrive, leave the package at the door if you won’t find anyone at the entrance.</div>
+                        <div className="xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{addressDetails?.commentPickup}</div>
                     </div> 
                 </div>
                 <div className="w-full h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
                     <div className='flex flex-row justify-between items-center w-full'>
                         <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Delivery Details</div> 
-                        <button className='flex flex-row gap-1.5'>
+                        <button onClick={() => { setStep(0); }} className='flex flex-row gap-1.5'>
                             <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Back to Edit</div> 
                             <img src={ArrowLeft2} className='w-4 h-4' />
                         </button>
@@ -393,19 +390,19 @@ export const Step3 = () => {
                         <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Full Name</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Michael Larson</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{addressDetails?.fullNameDelivery}</div>
                             </div>
                         </div>
                         <div className="flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Phone Number</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">+233-4823-321-312</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{addressDetails?.phoneDelivery}</div>
                             </div>
                         </div>
                     </div>
                     <div className="w-full h-[65px] flex-col justify-start items-start gap-[5px] inline-flex">
                         <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Comment</div>
-                        <div className="xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">When you arrive, leave the package at the door if you won’t find anyone at the entrance.</div>
+                        <div className="xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{addressDetails?.commentDelivery}</div>
                     </div> 
                 </div>
             </div>

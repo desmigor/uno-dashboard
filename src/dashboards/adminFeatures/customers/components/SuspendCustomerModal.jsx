@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { cancelPackage } from '../../../../redux/actions/fetchPackagesAction';
 import Spinner from '../../../../components/ui/spinner';
 import { fetchGroupDetailsAction, updateGroupAction } from '../../../../redux/actions/fetchCouriersAction';
+import { handleupdateCustomer } from '../../../../redux/actions/fetchCustomersAction';
 
 const SuspendCustomerModal = ({ isOpen, setIsOpen, id, text, item }) => {
     const [loading, setLoading] = useState(false);
@@ -16,7 +17,16 @@ const SuspendCustomerModal = ({ isOpen, setIsOpen, id, text, item }) => {
     const navigate = useNavigate();
 
     const handleAction = () => {
-
+        const payload = {
+            country: item.country.id,
+            full_name: item.full_name,
+            phone_number: item.phone_number,
+            email: item.email,
+            language: item.language,
+            is_active: !item.is_active,
+        }
+        dispatch(handleupdateCustomer(item.id, payload, navigate));
+        setIsOpen(false);
     }
     
   return (
@@ -48,7 +58,7 @@ const SuspendCustomerModal = ({ isOpen, setIsOpen, id, text, item }) => {
             <Dialog.Panel className="w-[440px] h-[370px] flex-col justify-start bg-white rounded-2xl items-start inline-flex">
               <div className="w-full p-5">
                 <div className='w-full flex flex-row justify-between items-center'>
-                    <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Package Cancelling</div>
+                    <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Customer Suspension</div>
                     <img onClick={() => setIsOpen(false)} src={CloseIcon} className='w-6 h-6 cursor-pointer' />
                 </div>
                 <img src={DeleteIcon} className='w-[136px] h-[136px] mx-auto mt-[20px]' />

@@ -21,7 +21,7 @@ function CreatePackages() {
     const steps = [
         <Step1 next={next} />,
         <Step2 next={next} />,
-        <Step3 />
+        <Step3 setStep={setCurrent} />
     ]
   return (
     <div className='bg-neutral-50 h-screen w-full py-6 px-10 overflow-auto'>

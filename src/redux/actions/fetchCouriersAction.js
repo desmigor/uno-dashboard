@@ -1,7 +1,8 @@
-import callAPI from "../../utils/api";
+import callAPI, { API_URL } from "../../utils/api";
 import { fetchCourierDetails, fetchCourierPackages, fetchCouriers, fetchCouriersAtWork, fetchCouriersAvailable, fetchCouriersError, fetchCouriersLocations, fetchCouriersOffline, fetchCouriersPaused, fetchCouriersSuccess, fetchCoutries, fetchGroupCouriers, fetchGroupDetails, fetchGroups, fetchVehicle } from "../slices/couriersSlice";
 import { fetchCustomersError } from "../slices/customersSlice";
 import { toast } from 'react-toastify';
+import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const fetchCouriersAction =
@@ -151,7 +152,7 @@ export const addCourierAction = (payload, navigate) => async (dispatch, getState
     dispatch(fetchAvailableCouriers());
     navigate('/admin/dashboard/courier');
   } catch (error) {
-    dispatch(fetchCustomersError(error.response.data.message));
+    dispatch(fetchCouriersError(error.response.data.message));
     toast.error(error.response.data.message, {
       position: "top-right",
       hideProgressBar: false,
@@ -172,6 +173,15 @@ export const updateGroupAction = (payload, id, navigate) => async (dispatch, get
     navigate('/admin/dashboard/courier/groups/');
   } catch (error) {
     dispatch(fetchCouriersError(error));
+    toast.error(error.response.data.message, {
+      position: "top-right",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 }
 
@@ -183,6 +193,67 @@ export const updateCourierAction = (payload, navigate) => async (dispatch, getSt
     navigate('/admin/dashboard/courier');
   } catch (error) {
     dispatch(fetchCustomersError(error.response.data.message));
+    toast.error(error.response.data.message, {
+      position: "top-right",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  }
+}
+
+export const generateReport = (payload, id) => async (dispatch, getState) => {
+  try {
+    // const results = await axios.get(`${API_URL}/api/courier/courier-groups/${id}/report/`, {
+    //   params: payload,
+    //   headers: {
+    //     Authorization: `Bearer ${getState().auth.userToken}`,
+    //   }
+    // }).data;
+    const results = {
+      "status": true,
+      "message": "Report listed successful.",
+      "code": 200,
+      "data": {
+          "group_details": [
+              {
+                  "name": "Dubai Group Test",
+                  "country__name": "United Arab Emirates",
+                  "owner_name": "James Marquess",
+                  "created_at": "2023-11-22T09:57:31.877Z",
+                  "owner_phone": "4823321312",
+                  "owner_email": "jamesmarquess123@gmail.com"
+              }
+          ],
+          "couriers": [
+              {
+                  "courier_id": 160,
+                  "total_revenue": 183.35999999999999,
+                  "total_distance_as_km": 17852.0,
+                  "total_deliveries": 4,
+                  "completed_deliveries": 4,
+                  "cancelled_deliveries": 0,
+                  "courier_full_name": "Jody Wolff"
+              }
+          ],
+          "total": {
+              "all_total_revenue": 183.35999999999999,
+              "all_total_distance_as_km": 17852.0,
+              "all_total_deliveries": 4,
+              "all_completed_deliveries": 4,
+              "all_cancelled_deliveries": 0
+          },
+          "report_period": "monthly",
+          "report_start_date": "2023-12-01T00:00:00Z",
+          "report_end_date": "2024-01-01T00:00:00Z"
+      }
+  }
+    return results;
+  } catch (error) {
+    console.log(error.request);
     toast.error(error.response.data.message, {
       position: "top-right",
       hideProgressBar: false,
