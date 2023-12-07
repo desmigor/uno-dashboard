@@ -63,18 +63,18 @@ function Modal({
                 </div>
               </div>
               <div
-                class={
+                className={
                   "w-[136px] h-[136px] p-[23px] rounded-[30px] shadow-inner justify-center items-center inline-flex" +
                   (cancel ? " bg-red-700" : " bg-green-600")
                 }
               >
-                <div class="grow shrink basis-0 self-stretch justify-center items-center inline-flex">
-                  <div class="w-[90px] h-[90px] relative">
+                <div className="grow shrink basis-0 self-stretch justify-center items-center inline-flex">
+                  <div className="w-[90px] h-[90px] relative">
                     <img src={image} alt="" />
                   </div>
                 </div>
               </div>
-              <div class="w-[400px] text-center text-slate-500 text-sm font-normal font-rubik leading-tight">
+              <div className="w-[400px] text-center text-slate-500 text-sm font-normal font-rubik leading-tight">
                 {content}
               </div>
             </div>

@@ -29,38 +29,38 @@ function SuccessToast({ text, show, onClose,
     //     isVisible ? 'block' : 'hidden'
     //   } fixed top-0 right-0 m-4 p-4 bg-green-500 text-white rounded-md`}
     // >
-    <div class={`${
+    <div className={`${
             isVisible ? 'block' : 'hidden'
           }
      h-11 p-2 m-4 fixed top-0 right-0   rounded-lg border  justify-start items-center gap-16 inline-flex
      ${success ? 'bg-green-100 border-green-200' : 'bg-rose-100 border-red-200'}
      `}>
-      <div class="justify-start items-center gap-3 flex">
-        <div class={`w-8 h-7 px-1 py-0.5 bg-green-500 rounded-lg shadow-inner justify-center items-center flex
+      <div className="justify-start items-center gap-3 flex">
+        <div className={`w-8 h-7 px-1 py-0.5 bg-green-500 rounded-lg shadow-inner justify-center items-center flex
       ${
         success ? 'bg-green-500' : 'bg-red-500'
       }
         `
       }>
-          <div class="grow shrink basis-0 self-stretch justify-center items-center inline-flex">
-            <div class="w-6 h-6 relative">
+          <div className="grow shrink basis-0 self-stretch justify-center items-center inline-flex">
+            <div className="w-6 h-6 relative">
                 <img src={
                   success ? Tick : CloseIcon
                 } alt="" />
             </div>
           </div>
         </div>
-        <div class="text-gray-700 text-sm font-normal font-rubik leading-tight">
+        <div className="text-gray-700 text-sm font-normal font-rubik leading-tight">
           {text}
         </div>
       </div>
-      <div class="justify-center items-center flex" onClick={
+      <div className="justify-center items-center flex" onClick={
         () => {
           setIsVisible(false);
           onClose();
         }
       }>
-        <div class="relative">
+        <div className="relative">
             <img src={Close} alt="" />
         </div>
       </div>

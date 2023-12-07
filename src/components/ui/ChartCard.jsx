@@ -126,7 +126,7 @@ function ChartCard({
                 
                 {({ selected }) => (
                   <div
-                    class={
+                    className={
                       " h-9 px-[18px] py-1 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
                       (selected ? " bg-white" : "")
                     }
@@ -139,7 +139,7 @@ function ChartCard({
                     }}
                   >
                     <div
-                      class={
+                      className={
                         "text-center text-sm font-normal font-rubik leading-tight cursor-pointer" +
                         (selected ? " text-zinc-800" : " text-slate-500")
                       }
@@ -152,7 +152,7 @@ function ChartCard({
               <Tab as={Fragment}>
                 {({ selected }) => (
                   <div
-                    class={
+                    className={
                       " h-9 px-[18px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
                       (selected ? " bg-white" : "")
                     }
@@ -165,7 +165,7 @@ function ChartCard({
                     }}
                   >
                     <div
-                      class={
+                      className={
                         "text-center text-sm font-normal font-rubik leading-tight cursor-pointer" +
                         (selected ? " text-zinc-800" : " text-slate-500")
                       }
@@ -178,7 +178,7 @@ function ChartCard({
               <Tab as={Fragment}>
                 {({ selected }) => (
                   <div
-                    class={
+                    className={
                       " h-9 px-[8px] py-2 rounded-md justify-start items-center gap-2.5 inline-flex cursor-pointer" +
                       (selected ? " bg-white" : "")
                     }
@@ -193,7 +193,7 @@ function ChartCard({
                     }}
                   >
                     <div
-                      class={
+                      className={
                         "text-center text-sm font-normal font-rubik leading-tight cursor-pointer" +
                         (selected ? " text-zinc-800" : " text-slate-500")
                       }
