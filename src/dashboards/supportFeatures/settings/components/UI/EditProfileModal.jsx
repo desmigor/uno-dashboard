@@ -3,7 +3,10 @@ import { useDispatch } from "react-redux";
 import trashIcon from "../../../../../assets/images/dashboard/icon/trash.svg";
 import uploadIcon from "../../../../../assets/images/dashboard/icon/send-square.svg";
 import callAPI from "../../../../../utils/api";
-import { fetchProfileAction,fetchCountriesAction } from "../../../../../redux/actions/fetchProfileAction";
+import {
+  fetchProfileAction,
+  fetchCountriesAction,
+} from "../../../../../redux/actions/fetchProfileAction";
 import Spinner from "../../../../../components/ui/spinner";
 
 function EditProfileModal({
@@ -32,7 +35,24 @@ function EditProfileModal({
     });
   };
 
-  const handleRemove = () => {
+  const handleRemove = async () => {
+    try {
+      const data = {
+        image_base64: null,
+      };
+      console.log(data);
+      // upload image to server
+      const res = await callAPI(
+        "/api/auth/user/profile/profile-photo/",
+        "PUT",
+        true,
+        data
+      );
+      console.log(res);
+      dispatch(fetchProfileAction());
+    } catch (err) {
+      console.log(err);
+    }
     onremove(true);
   };
 
@@ -122,16 +142,20 @@ function EditProfileModal({
         </div>
         <div className="pl-[22px] pr-[23px] py-5 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex">
           <div className="self-stretch justify-start items-start gap-[27px] inline-flex">
-          <div
-                className="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex cursor-pointer"
-                onClick={
-                  handleRemove
-                }
-              >
-                <div className="text-center text-zinc-800 text-base font-normal font-rubik leading-tight">
-                  Cancel
+            
+            <div
+              class="w-[168px] h-[50px] px-[60px] py-[15px] rounded-[10px] border border-red-700 justify-center items-center gap-2.5 inline-flex cursor-pointer"
+              onClick={handleRemove}
+            >
+              <div class="w-5 h-5 justify-center items-center flex">
+                <div class="w-5 h-5 relative">
+                  <img src={trashIcon} />
                 </div>
               </div>
+              <div class="text-center text-red-700 text-base font-normal font-['Rubik'] leading-tight">
+                Remove
+              </div>
+            </div>
             <div
               className="w-[180px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[10px] justify-center items-center gap-2.5 flex cursor-pointer"
               onClick={handleConfirm}
