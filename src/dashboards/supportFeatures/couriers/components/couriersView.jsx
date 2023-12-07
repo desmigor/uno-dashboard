@@ -316,8 +316,8 @@ const CouriersView = () => {
                   <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight text-left">{item.currency_value} {item.total_cost}</div> 
                 </td>
                 <td class="px-6 py-4 h-[75px]">
-                  <div className={`min-w-[106px] h-[19px] px-3 py-1.5 ${item.package_status === 4 ? 'bg-yellow-50' : item.package_status === 5 ? 'bg-green-100' : 'bg-rose-100'} rounded justify-center items-center gap-2.5 inline-flex`}>
-                      <span className={`${item.package_status === 4 ? 'text-amber-500' : item.package_status === 5 ? 'text-green-700' : 'text-red-700'} text-xs text-center font-normal font-rubik leading-none`}>{item.package_status_value}</span> 
+                  <div className={`min-w-[106px] h-[19px] px-3 py-1.5 ${item.package_status === 4 || item.package_status === 5 ? 'bg-blue-50' : item.package_status === 3 ? 'bg-gray-100' : item.package_status === 6 ? 'bg-green-100' : item.package_status === 7 ? 'bg-rose-100' : 'bg-yellow-50'} rounded justify-start items-center gap-2.5 inline-flex`}>
+                      <span className={`${item.package_status === 4 || item.package_status === 5 ? 'text-sky-600' : item.package_status === 3 ? 'text-slate-500' : item.package_status === 6 ? 'text-green-700' : item.package_status === 7 ? 'text-red-700' : 'text-amber-500'} text-xs font-normal font-rubik leading-none`}>{item.package_status_value}</span> 
                   </div>
                 </td>
                 <td class="px-6 py-4">

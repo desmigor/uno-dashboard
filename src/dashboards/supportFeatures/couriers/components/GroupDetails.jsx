@@ -6,7 +6,7 @@ import Box from "../../../../assets/images/dashboard/icon/box2.svg";
 import Export from '../../../../assets/images/dashboard/icon/export.svg';
 import Profile2 from "../../../../assets/images/dashboard/icon/profile-2user2.svg";
 import Search from '../../../../assets/images/dashboard/icon/search-normal2.svg';
-import Profile from '../../../../assets/images/dashboard//image/profilep.jpg';
+import ExportWhite from '../../../../assets/images/dashboard/icon/export-white.svg';
 import GroupProfile from './GroupProfile';
 import packageOngoing from "../../../../assets/images/dashboard/icon/user-search2.svg";
 import ArrowDownSmall from '../../../../assets/images/dashboard/icon/arrow-down-small.svg';
@@ -22,6 +22,9 @@ import { Link, useParams } from 'react-router-dom';
 import Dashcard from '../../../../components/ui/dashcard';
 import { Menu, Transition } from '@headlessui/react';
 import moment from 'moment';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import ReportPDF from '../../../../components/ui/ReportPDF';
+import GenerateReport from './GenerateReport';
   
 const GroupDetails = () => {
     const { groupCouriers, groupDetails } = useSelector(state => state.fetchCouriers);
@@ -30,17 +33,17 @@ const GroupDetails = () => {
     const [paginations, setPaginations] = useState([]);
     const dispatch = useDispatch();
     const { id } = useParams();
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         dispatch(fetchGroupsCouriersActions(id, currentPage, count));
         dispatch(fetchGroupDetailsAction(id));
     }, []);
-
     const data = {
-        labels: ["Blue", "Yellow"],
+        labels: ["Completed", "Canceled"],
         datasets: [
           {
-            data: [groupDetails?.completed_deliveries?.total_rate, groupDetails?.canceled_deliveries?.total_rate],
+            data: [groupDetails?.completed_deliveries?.total_count, groupDetails?.canceled_deliveries?.total_count],
             backgroundColor: ["#63C576", "#CF3434"],
             hoverBackgroundColor: ["#63C576", "#CF3434"],
             borderWidth: 1,
@@ -125,12 +128,22 @@ const GroupDetails = () => {
 
   return (
     <div className='bg-[#F8F9FA] h-[93%] w-full px-10 py-6 overflow-y-auto pb-32'>
-        <div className="text-zinc-800 text-2xl font-bold font-['Rubik']">Courier Groups</div>
-        <div className="w-[166px] h-5 justify-start items-center gap-[9px] inline-flex mt-4">
-            <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Couriers</div>
-            <img src={RightArrow} alt='SVG' className='w-3 h-3' />
-            <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">View Group</div>
-        </div> 
+        <div className='flex flex-row items-center justify-between'>
+          <div>
+            <div className="text-zinc-800 text-2xl font-bold font-['Rubik']">Courier Groups</div>
+            <div className="w-[166px] h-5 justify-start items-center gap-[9px] inline-flex mt-4">
+                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Couriers</div>
+                <img src={RightArrow} alt='SVG' className='w-3 h-3' />
+                <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">View Group</div>
+            </div> 
+          </div>
+          {/* <PDFDownloadLink document={<ReportPDF />}> */}
+          <button onClick={() => setIsOpen(true)} className="w-[183px] h-12 py-[15px] bg-red-800 rounded-[10px] justify-center items-center gap-2.5 inline-flex">
+              <div className="text-center text-white text-base font-normal font-['Rubik'] leading-tight">Generate Report</div>
+              <img src={ExportWhite} className='w-5 h-5' />
+          </button>
+          {/* </PDFDownloadLink> */}
+        </div>
         <div className='flex w-full gap-5 mt-[23px] flex-row'>
           <div className="w-[50%] min-h-[212px] pl-4 pr-[49px] py-4 bg-white rounded-[10px] flex-col justify-start items-start gap-[33px] inline-flex">
               <div className='flex flex-row gap-4 items-start'>
@@ -219,12 +232,12 @@ const GroupDetails = () => {
               </div>
               <div className="w-full flex justify-between">
               <div className="flex flex-row gap-[8px]">
-                  <div className="relative">
-                      <img src={Oval} className="w-4 h-4" />
-                      <img
+              <div className="relative">
+                  <div className="w-4 h-4 bg-green-500 rounded-full" />
+                    <img
                       src={Dot}
                       className="w-2 h-2 absolute top-[4px] left-[4px]"
-                      />
+                    />
                   </div>
                   <span className="text-green-500 text-xs font-normal font-rubik">
                       Completed
@@ -232,7 +245,7 @@ const GroupDetails = () => {
                   </div>
                   <div className="flex flex-row gap-1">
                   <div className="text-zinc-800 text-xs font-normal font-rubik">
-                      {groupDetails?.completed_deliveries?.total_rate}%{" "}
+                      {groupDetails?.completed_deliveries?.total_count?.toLocaleString()}%{" "}
                   </div>
                   <div className="text-slate-500 text-xs font-normal font-rubik">
                       • {groupDetails?.completed_deliveries?.total_count?.toLocaleString()}
@@ -242,11 +255,11 @@ const GroupDetails = () => {
               <div className="w-full flex justify-between">
               <div className="flex flex-row gap-[8px]">
                   <div className="relative">
-                      <img src={Oval} className="w-4 h-4" />
-                      <img
+                    <div className="w-4 h-4 bg-rose-400 rounded-full" />
+                    <img
                       src={Dot}
                       className="w-2 h-2 absolute top-[4px] left-[4px]"
-                      />
+                    />
                   </div>
                   <span className="text-rose-400 text-xs font-normal font-rubik">
                       Canceled
@@ -254,7 +267,7 @@ const GroupDetails = () => {
                   </div>
                   <div className="flex flex-row gap-1">
                   <div className="text-zinc-800 text-xs font-normal font-rubik">
-                      {groupDetails?.canceled_deliveries?.total_rate}%{" "}
+                      {groupDetails?.canceled_deliveries?.total_count}%{" "}
                   </div>
                   <div className="text-slate-500 text-xs font-normal font-rubik">
                       • {groupDetails?.canceled_deliveries?.total_count?.toLocaleString()}
@@ -275,9 +288,9 @@ const GroupDetails = () => {
                   </div>
                 </div>)
               }
-              {
+              {groupDetails?.top_couriers?.length === 0 && 
                 <div className='w-full'>
-                  {groupDetails?.top_couriers?.length === 0 && <img src={packageOngoing} className='w-[69px] h-[69px] mx-auto' /> }
+                  <img src={packageOngoing} className='w-[69px] h-[69px] mx-auto' /> 
                   <h1 className="text-center text-gray-300 text-sm font-normal font-['Rubik'] leading-tight mt-[8px]">No couriers added yet</h1>
                 </div>
               }
@@ -479,6 +492,7 @@ const GroupDetails = () => {
           </div> 
         </div>
       </div>
+      <GenerateReport isOpen={isOpen} setIsOpen={setIsOpen} id={id} />
     </div>
   )
 }

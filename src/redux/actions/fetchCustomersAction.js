@@ -70,7 +70,6 @@ export const searchCustomersSuspendedAction = (page=1, count=5, search) => async
     const results = await callAPI(`/api/customer/suspended/?search=${search}`);
     dispatch(fetchCustomersSuspended(results));
   } catch (error) {
-    
   }
 }
 
@@ -81,6 +80,14 @@ export const handleupdateCustomer = (id, payload, navigate) => async (dispatch, 
     dispatch(fetchCustomersSuspendedAction(1, 5));
     navigate('/admin/dashboard/customers');
   } catch (error) {
-    
+    toast.error(error.response.data.message, {
+      position: "top-right",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   }
 }

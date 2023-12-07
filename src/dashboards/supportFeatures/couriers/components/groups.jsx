@@ -70,7 +70,7 @@ const Groups = () => {
                       leaveFrom="transform opacity-100 scale-100"
                       leaveTo="transform opacity-0 scale-95"
                     >
-                      <Menu.Items className="absolute right-[37px] top-[15px] w-[158px] h-40 p-4 bg-white rounded-xl shadow flex-col justify-start items-start gap-2 inline-flex">
+                      <Menu.Items className="absolute right-[37px] top-[15px] w-[158px] min-h-40 p-4 bg-white rounded-xl shadow flex-col justify-start items-start gap-2 inline-flex">
                           <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Group Actions</div>
                           <Menu.Item>
                           <Link to={`/admin/dashboard/courier/groups/update/${item.id}`} className="w-full h-6 justify-start items-center gap-2.5 inline-flex">
@@ -81,7 +81,20 @@ const Groups = () => {
                           </Link>
                           </Menu.Item>
                           <div className='w-full h-[1px] bg-[#D0D4D9]' />
+                          {!item.is_active ? 
                           <Menu.Item>
+                          <button onClick={() => {
+                            setId(item.id);
+                            setIsOpen(true);
+                            setAction('reactivate');
+                            setItem(item);
+                            setText(`After confirmation, ${item.name} will be automatically be reactivated with all the couriers that belong to the group.`)
+                          }} className="w-full h-11 border bg-red-800 justify-center items-center gap-2.5 rounded-xl inline-flex">
+                            <div className="text-white text-xs font-normal font-['Rubik'] leading-none">Reactivate</div>
+                          </button>
+                          </Menu.Item>
+                          :
+                         <Menu.Item>
                           <button onClick={() => {
                             setId(item.id);
                             setIsOpen(true);
@@ -94,7 +107,7 @@ const Groups = () => {
                             </div>
                             <div className="text-amber-500 text-xs font-normal font-['Rubik'] leading-none">Deactivate</div>
                           </button>
-                          </Menu.Item>
+                          </Menu.Item>}
                           <div className='w-full h-[1px] bg-[#D0D4D9]' />
                           <Menu.Item>
                           <button onClick={() => {

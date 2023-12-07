@@ -217,8 +217,8 @@ function Packages() {
                   <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight text-left">{item.currency_value} {item.total_cost}</div> 
                 </td>
                 <td class="px-6 py-4 h-[75px]">
-                  <div className={`min-w-[106px] h-[19px] px-3 py-1.5 bg-yellow-50 rounded justify-start items-center gap-2.5 inline-flex`}>
-                      <span className={`text-amber-500 text-xs font-normal font-rubik leading-none`}>{item.package_status_value}</span> 
+                  <div className={`min-w-[106px] h-[19px] px-3 py-1.5 ${item.package_status === 4 || item.package_status === 5 ? 'bg-blue-50' : item.package_status === 3 ? 'bg-gray-100' : 'bg-yellow-50'} rounded justify-start items-center gap-2.5 inline-flex`}>
+                      <span className={`${item.package_status === 4 || item.package_status === 5 ? 'text-sky-600' : item.package_status === 3 ? 'text-slate-500' : 'text-amber-500'} text-xs font-normal font-rubik leading-none`}>{item.package_status_value}</span> 
                   </div>
                 </td>
                 <td class="px-6 py-4">
@@ -451,11 +451,11 @@ function Packages() {
                 </td>
                 <td class="px-6 py-4">
                   {item.customer_rating ? <div className='flex flex-row gap-[6px]'>
-                    <img src={star} className='w-4 h-4' />
-                    <img src={star} className='w-4 h-4' />
-                    <img src={star} className='w-4 h-4' />
-                    <img src={star} className='w-4 h-4' />
-                    <img src={starOut} className='w-4 h-4' />
+                    <img src={item.customer_rating >= 1 ? star : starOut} className='w-4 h-4' />
+                    <img src={item.customer_rating >= 2 ? star : starOut} className='w-4 h-4' />
+                    <img src={item.customer_rating >= 3 ? star : starOut} className='w-4 h-4' />
+                    <img src={item.customer_rating >= 4 ? star : starOut} className='w-4 h-4' />
+                    <img src={item.customer_rating === 5 ? star : starOut} className='w-4 h-4' />
                   </div> : <div className='text-zinc-800 text-xs font-normal font-rubik leading-none'>No ratings</div>}
                 </td>
                 <td class="px-6 py-4">

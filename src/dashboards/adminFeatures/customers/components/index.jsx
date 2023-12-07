@@ -226,7 +226,11 @@ function Customers() {
                             </div>
                             <div className="text-red-700 text-xs font-normal font-['Rubik'] leading-none">Suspend</div>
                           </button> :
-                           <button className="w-[132px] h-[42px] px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex">
+                           <button onClick={() => {
+                            setIsOpen(true);
+                            setItem(item);
+                            setText(`After confirmation, ${item.full_name} will be automatically activated and they will be able to log in their account again`)
+                           }} className="w-[132px] h-[42px] px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex">
                             <div className="text-center text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Reactivate</div>
                            </button>
                           }

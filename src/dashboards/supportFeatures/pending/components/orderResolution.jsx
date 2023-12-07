@@ -25,9 +25,10 @@ export default function OrderResolution({ item }) {
   };
 
   const handleModalConfirm = (isConfirmed) => async () => {
-    if (isConfirmed) {
+    console.log(here)
       handleShowToast();
-    }
+      setshowReturnModal(false);
+      setshowCancelModal(false);
   };
 
   return (
@@ -39,8 +40,15 @@ export default function OrderResolution({ item }) {
         image={ReturnIconModal}
         content="After confirmation, this package will immediately be returned to the pickup address by the current courier. This action can’t be revoked."
         cancel={false}
-        onConfirm={() => handleModalConfirm()}
+        onConfirm={
+          () => {
+            handleShowToast();
+            setshowReturnModal(false);
+          }
+        }
         issue_id={item.id}
+        resolution_status={5}
+        resolution_text={"Order Return"}
       />
 
       <Modal
@@ -50,8 +58,15 @@ export default function OrderResolution({ item }) {
         image={CancelIconModal}
         content="After confirmation, this package will immediately be canceled. This action can’t be revoked."
         cancel={true}
-        onConfirm={handleModalConfirm}
+        onConfirm={
+          () => {
+            handleShowToast();
+            setshowCancelModal(false);
+          }
+        }
         issue_id={item.id}
+        resolution_status={2}
+        resolution_text={"Cancel"}
       />
 
       <ReassignModal
@@ -78,10 +93,10 @@ export default function OrderResolution({ item }) {
       <div class="w-[100%]  p-4 bg-white rounded-xl shadow border border-gray-100 flex-col justify-center items-start gap-3 flex mb-[16px]">
         <div class="self-stretch flex-col justify-start items-start gap-[5px] inline-flex">
           <div class="text-gray-400 text-sm font-normal font-rubik leading-tight">
-            Cancellation reason
+            {item.issue_type_value} Reason
           </div>
           <div class="text-zinc-800 text-sm font-normal font-rubik leading-tight">
-            {item.subject}
+            {item.title}
           </div>
         </div>
         <div class="self-stretch flex-col justify-start items-start gap-[7px] inline-flex">
@@ -90,6 +105,7 @@ export default function OrderResolution({ item }) {
           </div>
           <div class="justify-between w-full items-start gap-3.5 inline-flex">
             <button
+            disabled={item.issue_type_value == "Order Reassignation"}
               className="group w-[33%]"
               onClick={() => setSelectedAction("return")}
             >
