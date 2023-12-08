@@ -21,7 +21,7 @@ import starOut from "../../../../assets/images/dashboard/icon/star-o.svg";
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { fetchPackageDetails, fetchPackagesCanceledAction, fetchPackagesCompletedAction, fetchPackagesOngoingAction } from '../../../../redux/actions/fetchPackagesAction';
+import { fetchPackageDetails, fetchPackagesCanceledAction, fetchPackagesCanceledActionSearch, fetchPackagesCompletedAction, fetchPackagesCompletedActionSearch, fetchPackagesOngoingAction, fetchPackagesOngoingActionSearch } from '../../../../redux/actions/fetchPackagesAction';
 import { Menu, Transition } from '@headlessui/react'
 import CancelModal from './CancelModal';
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
@@ -46,6 +46,7 @@ function Packages() {
   const [paginations, setPaginations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+  const [filterValue, setFilterValue] = useState({ name: "Time", value: "created_at" });
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
@@ -62,6 +63,10 @@ function Packages() {
     console.log(generatePagination(table === 'ongoing' ? ongoingCounts : table === 'completed' ? completedCounts : canceledCounts, currentPage, count), 'KLL::')
     setPaginations(generatePagination(table === 'ongoing' ? ongoingCounts : table === 'completed' ? completedCounts : canceledCounts, currentPage, count));
   }, [table, currentPage, count])
+
+  useEffect(() => {
+    dispatch(table === 'ongoing' ? fetchPackagesOngoingActionSearch('', filterValue.value) : table === 'completed' ? fetchPackagesCompletedActionSearch('', filterValue.value) : fetchPackagesCanceledActionSearch('', filterValue.value))
+  }, [filterValue])
 
   useEffect(() => {
     setPaginations(generatePagination(table === 'ongoing' ? ongoingCounts : table === 'completed' ? completedCounts : canceledCounts, currentPage, count));
@@ -145,9 +150,9 @@ function Packages() {
           <div className="text-zinc-800 text-lg font-semibold font-rubik">{table === 'ongoing' ? 'Ongoing Packages' : table === 'completed' ? 'Completed packages' : 'Canceled Packages'}</div> 
           <div className='flex flex-row gap-[10px] items-center w-[528px]'>
             <div className="text-gray-400 text-sm font-normal font-rubik leading-tight">Sort by</div>
-            <Dropdown />
+            <Dropdown setDropdownValue={setFilterValue} />
             <div className='relative'>
-              <input type='text' placeholder='Search package ...' className='placeholder:text-gray-300 text-sm font-normal font-rubik leading-tight w-[328px] h-10 pr-4 pl-10 py-[13px] rounded-xl border border-gray-100 justify-start items-center inline-flex' />
+              <input type='text' onChange={(e) => dispatch(table === 'ongoing' ? fetchPackagesOngoingActionSearch(e.target.value, filterValue.value) : table === 'completed' ? fetchPackagesCompletedActionSearch(e.target.value, filterValue.value) : fetchPackagesCanceledActionSearch(e.target.value, filterValue.value))} placeholder='Search package ...' className='placeholder:text-gray-300 text-sm font-normal font-rubik leading-tight w-[328px] h-10 pr-4 pl-10 py-[13px] rounded-xl border border-gray-100 justify-start items-center inline-flex' />
               <img src={Search} className='w-4 h-4 absolute top-[12px] left-[16px]' />
             </div>
           </div>

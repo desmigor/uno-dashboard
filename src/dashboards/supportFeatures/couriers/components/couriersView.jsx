@@ -25,6 +25,7 @@ import Dropdown from '../../packages/components/Dropdown';
 import { fetchPackageDetails } from '../../../../redux/actions/fetchPackagesAction';
 import moment from 'moment';
 import { Menu, Transition } from '@headlessui/react';
+import DeactivateCourierModal from './DeativateCourier';
 
 
 const mapContainerStyle = {
@@ -48,6 +49,7 @@ const CouriersView = () => {
     const [paginations, setPaginations] = useState([]);
     const [selected, setSelected] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isOpen, setIsOpen] = useState(false);
     const { id } = useParams();
 
     useEffect(() => {
@@ -158,11 +160,11 @@ const CouriersView = () => {
                           <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">{courierDetals?.full_name}</div> 
                           <div className='flex flex-row items-center gap-1.5 mt-[6px]'>
                               <div className="text-amber-500 text-sm font-semibold font-['Rubik'] leading-tight">{courierDetals?.rating}.0</div> 
-                              <img src={Star} className='w-3 h-3' />
-                              <img src={Star} className='w-3 h-3' />
-                              <img src={Star} className='w-3 h-3' />
-                              <img src={Star} className='w-3 h-3' />
-                              <img src={StarO} className='w-3 h-3' />
+                              <img src={courierDetals?.rating >= 1 ? Star : StarO} className='w-3 h-3' />
+                              <img src={courierDetals?.rating >= 2 ? Star : StarO} className='w-3 h-3' />
+                              <img src={courierDetals?.rating >= 3 ? Star : StarO} className='w-3 h-3' />
+                              <img src={courierDetals?.rating >= 4 ? Star : StarO} className='w-3 h-3' />
+                              <img src={courierDetals?.rating === 5 ? Star : StarO} className='w-3 h-3' />
                           </div>
                       </div>
                     </div>
@@ -171,10 +173,10 @@ const CouriersView = () => {
                         <div className="text-center text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Edit Details</div>
                         <img src={EditBlack} className='h-4 w-4' />
                       </Link>
-                      {courierDetals?.is_active === true ? <div className="w-[140px] h-[42px] px-[60px] py-[15px] rounded-[10px] border border-red-700 justify-center items-center gap-1.5 inline-flex">
+                      {courierDetals?.is_active === true ? <button onClick={() => setIsOpen(true)} className="w-[140px] h-[42px] px-[60px] py-[15px] rounded-[10px] border border-red-700 justify-center items-center gap-1.5 inline-flex">
                         <div className="text-center text-red-700 text-sm font-normal font-['Rubik'] leading-tight">Deactivate</div>
                         <img src={Close} className='h-4 w-4' />
-                      </div> : 
+                      </button> : 
                       <div className="w-[140px] h-[42px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex">
                         <div className="text-center text-white text-base font-normal font-['Rubik'] leading-tight">Reactivate</div>
                       </div>
@@ -545,7 +547,7 @@ const CouriersView = () => {
           </div> 
         </div>
         </div>
-
+            <DeactivateCourierModal id={id} isOpen={isOpen} setIsOpen={setIsOpen} text={`After confirmation, ${courierDetals?.full_name} will be automatically deactivated and no orders will be assigned to them again.`} />
     </div>
   )
 }
