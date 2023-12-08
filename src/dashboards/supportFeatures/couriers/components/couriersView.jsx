@@ -18,8 +18,8 @@ import startingPoint from "../../../../assets/images/dashboard/icon/starting_poi
 import Search from '../../../../assets/images/dashboard/icon/search-normal2.svg';
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCouriersPackagesAction, fetchDetailsCouriers } from '../../../../redux/actions/fetchCouriersAction';
-import { Link, useParams } from 'react-router-dom';
+import { fetchCouriersPackagesAction, fetchDetailsCouriers, updateCourierAction } from '../../../../redux/actions/fetchCouriersAction';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import PlaceHolderImage from '../../../../assets/images/dashboard/image/image.png';
 import Dropdown from '../../packages/components/Dropdown';
 import { fetchPackageDetails } from '../../../../redux/actions/fetchPackagesAction';
@@ -51,6 +51,7 @@ const CouriersView = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [isOpen, setIsOpen] = useState(false);
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         setPaginations(generatePagination(courierPackagesCount, currentPage, count));
@@ -177,9 +178,15 @@ const CouriersView = () => {
                         <div className="text-center text-red-700 text-sm font-normal font-['Rubik'] leading-tight">Deactivate</div>
                         <img src={Close} className='h-4 w-4' />
                       </button> : 
-                      <div className="w-[140px] h-[42px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex">
+                      <button onClick={() => {
+                        const payload = {
+                            courier_id: id,
+                            is_active : true,
+                        }
+                        dispatch(updateCourierAction(payload, navigate));
+                      }} className="w-[140px] h-[42px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex">
                         <div className="text-center text-white text-base font-normal font-['Rubik'] leading-tight">Reactivate</div>
-                      </div>
+                      </button>
                       }
                     </div>}
                 </div>
