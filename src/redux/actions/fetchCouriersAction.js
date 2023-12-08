@@ -265,3 +265,41 @@ export const generateReport = (payload, id) => async (dispatch, getState) => {
     });
   }
 }
+
+export const fetchAvailableCouriersSearch = (count=5, page = 1, search) => async (dispatch, getState) => {
+  try {
+    const results = await callAPI(`/api/courier/couriers/available/?page=${page}&count=${count}&search=${search}`, 'GET');
+    dispatch(fetchCouriersAvailable(results));
+  } catch (error) {
+    
+  }
+} 
+
+export const fetchAtWorkCouriersSearch = (count=5, page = 1, search) => async (dispatch, getState) => {
+  try {
+    const results = await callAPI(`/api/courier/couriers/at-work/?page=${page}&count=${count}&search=${search}`);
+    dispatch(fetchCouriersAtWork(results));
+  } catch (error) {
+    
+  }
+}
+
+export const fetchPausedCouriersSearch = (count=5, page = 1, search) => async (dispatch, getState) => {
+  try {
+    const results = await callAPI(`/api/courier/couriers/paused/?page=${page}&count=${count}&search=${search}`);
+    dispatch(fetchCouriersPaused(results));
+  } catch (error) {
+    
+  }
+}
+
+export const fetchOfflineCouriersSearch = (count=5, page = 1, search) => async (dispatch, getState) => {
+  try {
+    const results = await callAPI(`/api/courier/couriers/offline/?page=${page}&count=${count}&search=${search}`);
+    dispatch(fetchCouriersOffline(results));
+  } catch (error) {
+    
+  }
+}
+
+

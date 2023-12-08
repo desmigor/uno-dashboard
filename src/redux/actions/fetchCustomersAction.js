@@ -20,7 +20,7 @@ export const fetchCustomersAction =
 
 export const fetchCustomersActiveAction = (page=1, count=5) => async (dispatch, getState) => {
   try {
-    const results = await callAPI(`/api/customer/active/?page=${page}&count=${count}`);
+    const results = await callAPI(`/api/customer/active/?page=1&count=5`, 'GET');
     dispatch(fetchCustomersActive(results));
   } catch (error) {
     
@@ -29,7 +29,7 @@ export const fetchCustomersActiveAction = (page=1, count=5) => async (dispatch, 
 
 export const fetchCustomersSuspendedAction = (page=1, count=5) => async (dispatch, getState) => {
   try {
-    const results = await callAPI(`/api/customer/suspended/?page=${page}&count=${count}`);
+    const results = await callAPI(`/api/customer/suspended/?page=1&count=5`, 'GET');
     dispatch(fetchCustomersSuspended(results));
   } catch (error) {
     
@@ -58,7 +58,7 @@ export const createCustomerAction = (payload, navigate) => async (dispatch, getS
 
 export const searchCustomersActiveAction = (page=1, count=5, search) => async (dispatch, getState) => {
   try {
-    const results = await callAPI(`/api/customer/active/?search=${search}`);
+    const results = await callAPI(`/api/customer/active/?search=${search}&count=${count}`, 'GET');
     dispatch(fetchCustomersActive(results));
   } catch (error) {
     
@@ -67,7 +67,7 @@ export const searchCustomersActiveAction = (page=1, count=5, search) => async (d
 
 export const searchCustomersSuspendedAction = (page=1, count=5, search) => async (dispatch, getState) => {
   try {
-    const results = await callAPI(`/api/customer/suspended/?search=${search}`);
+    const results = await callAPI(`/api/customer/suspended/?search=${search}&count=${count}`, 'GET');
     dispatch(fetchCustomersSuspended(results));
   } catch (error) {
   }
@@ -95,8 +95,8 @@ export const handleupdateCustomer = (id, payload, navigate) => async (dispatch, 
 export const fetchCustomersDetailsAction = (id) => async (dispatch, getState) => {
   try {
     const results = await callAPI(`/api/customer/${id}/`, 'GET');
-    return results;
     dispatch(fetchCustomersDetails(results));
+    return results;
   } catch (error) {
     
   }

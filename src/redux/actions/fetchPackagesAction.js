@@ -117,3 +117,39 @@ export const addPackagesPickupAddress = (item) => async (dispatch, getState) => 
     
   }
 }
+
+export const fetchPackagesOngoingActionSearch = (search, order) => async (dispatch, getState) => {
+  try {
+    const result = await callAPI(
+      `/api/packages/ongoing/?search=${search}&ordering=${order}`,
+      "GET",
+      true
+    );
+    dispatch(fetchOngoingPackages(result));
+  } catch (error) {
+  }
+};
+
+export const fetchPackagesCompletedActionSearch = (search, order) => async (dispatch, getState) => {
+  try {
+    const result = await callAPI(
+      `/api/packages/completed/?search=${search}&ordering=${order}`,
+      "GET",
+      true
+    );
+    dispatch(fetchCompletedPackages(result));
+  } catch (error) {
+  }
+};
+
+export const fetchPackagesCanceledActionSearch= (search, order) => async (dispatch, getState) => {
+  try {
+    const result = await callAPI(
+      `/api/packages/cancelled/?search=${search}&ordering=${order}`,
+      "GET",
+      true
+    );
+    dispatch(fetchCanceledPackages(result));
+  } catch (error) {
+  }
+};
