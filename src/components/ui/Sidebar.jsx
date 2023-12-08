@@ -32,8 +32,12 @@ function Sidebar() {
     const [selected, setSelcted] = useState('Dashboard');
     const [selectedSubCourier, setSelectedSubCourier] = useState('All Couriers');
     const [expanded, setExpanded] = useState(false);
-    const path = window.location.pathname.split("/")[window.location.pathname.split("/").length - 1]
+    const [path, setPath] = useState(false);
     
+    useEffect(() => {
+        setPath(window.location.pathname.split("/")[window.location.pathname.split("/").length - 1]);
+    }, []);
+
     useEffect(() => {
         if(path === 'dashboard'){
             setSelcted('Dashboard');
@@ -52,7 +56,7 @@ function Sidebar() {
         }else{
             setSelcted('Couriers');
         }
-    }, []);
+    }, [path]);
 
 
     const sidebarLinksSupport = [
