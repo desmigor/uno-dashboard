@@ -22,7 +22,6 @@ Font.register({
 });
 
 const ReportPDF = ({ item }) => {
-
   return (
     <Document>
         <Page size="A4" style={{ fontFamily: 'Rubik' }}>
@@ -41,7 +40,7 @@ const ReportPDF = ({ item }) => {
                         <Text style={styles.text}>Ghana</Text>
                     </View>
                     <View>
-                        <Text style={styles.text}><Text style={{ fontWeight: 'semibold' }}>Report Period:</Text> {item?.report_period === "monthly" ? "Monthly" : item.report_period === "daily" ? "Daily" : "Custom Date" }</Text> 
+                        <Text style={styles.text}><Text style={{ fontWeight: 'semibold' }}>Report Period:</Text> {item?.report_period === "monthly" ? "Monthly" : item?.report_period === "daily" ? "Daily" : "Custom Date" }</Text> 
                         <Text style={styles.text}><Text style={{ fontWeight: 'semibold' }}>Report Dates:</Text> {moment(item?.report_start_date).format("MMMM DD, YYYY")} - {moment(item?.report_end_date).format("MMMM DD, YYYY")}</Text> 
                     </View>
                 </View>

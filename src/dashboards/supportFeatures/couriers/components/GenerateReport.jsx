@@ -38,6 +38,7 @@ const GenerateReport = ({ isOpen, setIsOpen, id }) => {
         }
         dispatch(generateReport(payload, id)).then((res) => {
             setData(res.data);
+            console.log(res.data);
         });
     }
 
