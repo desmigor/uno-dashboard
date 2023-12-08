@@ -190,7 +190,12 @@ function PendingTabs({ item }) {
         <Tab.Panel>
           {item ? (
             <LocationPointContent
-              location={new google.maps.LatLng(item?.package?.pickup_latitude, item?.package?.pickup_longitude)}
+              location={
+                window.google?
+                new google.maps.LatLng(item?.package?.pickup_latitude, item?.package?.pickup_longitude)
+                :
+                null
+              }
               image={map}
               prop1={{
                 title: "Name",
@@ -219,7 +224,12 @@ function PendingTabs({ item }) {
                 value: item.package.drop_landmark,
               }}
               prop3={{ title: "Phone", value: item.package.drop_contact_phone }}
-              location={new google.maps.LatLng(item?.package?.drop_latitude, item?.package?.drop_longitude)}
+              location={
+                window.google?
+                new google.maps.LatLng(item?.package?.drop_latitude, item?.package?.drop_longitude)
+                :
+                null
+              }
             />
           ) : (
             <NoOrderDetails />
