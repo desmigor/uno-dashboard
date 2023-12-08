@@ -25,7 +25,6 @@ const persistConfig = {
 }
 
 const persistedReducer = persistReducer(persistConfig, authReducer);
-const persistedReducerPackage = persistReducer(persistConfig, packageInputReducer);
 
 export const store = configureStore({
     reducer: {
@@ -40,7 +39,7 @@ export const store = configureStore({
         fetchMatchCouriers: matchedCouriers,
         fetchPackageSizes: packageSizesReducer,
         fetchAccountNotifications: accountActionReducer,
-        packages: persistedReducerPackage,
+        packages: packageInputReducer,
         fetchProfile:ProfileReducer,
         vehicleTypes: vehicleTypesReducer,
         notifications: notificationsReducer,

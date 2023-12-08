@@ -207,50 +207,7 @@ export const updateCourierAction = (payload, navigate) => async (dispatch, getSt
 
 export const generateReport = (payload, id) => async (dispatch, getState) => {
   try {
-    // const results = await axios.get(`${API_URL}/api/courier/courier-groups/${id}/report/`, {
-    //   params: payload,
-    //   headers: {
-    //     Authorization: `Bearer ${getState().auth.userToken}`,
-    //   }
-    // }).data;
-    const results = {
-      "status": true,
-      "message": "Report listed successful.",
-      "code": 200,
-      "data": {
-          "group_details": [
-              {
-                  "name": "Dubai Group Test",
-                  "country__name": "United Arab Emirates",
-                  "owner_name": "James Marquess",
-                  "created_at": "2023-11-22T09:57:31.877Z",
-                  "owner_phone": "4823321312",
-                  "owner_email": "jamesmarquess123@gmail.com"
-              }
-          ],
-          "couriers": [
-              {
-                  "courier_id": 160,
-                  "total_revenue": 183.35999999999999,
-                  "total_distance_as_km": 17852.0,
-                  "total_deliveries": 4,
-                  "completed_deliveries": 4,
-                  "cancelled_deliveries": 0,
-                  "courier_full_name": "Jody Wolff"
-              }
-          ],
-          "total": {
-              "all_total_revenue": 183.35999999999999,
-              "all_total_distance_as_km": 17852.0,
-              "all_total_deliveries": 4,
-              "all_completed_deliveries": 4,
-              "all_cancelled_deliveries": 0
-          },
-          "report_period": "monthly",
-          "report_start_date": "2023-12-01T00:00:00Z",
-          "report_end_date": "2024-01-01T00:00:00Z"
-      }
-  }
+    const results = await callAPI(`/api/courier/courier-groups/${id}/report/`, 'POST', true, payload);
     return results;
   } catch (error) {
     console.log(error.request);
