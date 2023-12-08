@@ -3,17 +3,20 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
 const people = [
-    { name: 'Time' },
-    { name: 'Name' },
-    { name: 'Amount' },
+    { name: 'Time', value: 'created_at' },
+    { name: 'Name', value: 'customer' },
+    { name: 'Amount', value: 'total_cost' },
 ]
 
-function Dropdown() {
+function Dropdown({ setDropdownValue }) {
     const [selected, setSelected] = useState(people[0])
 
   return (
     <div className="w-[131px]">
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox value={selected} onChange={(item) => {
+        setSelected(item);
+        setDropdownValue(item);
+      }}>
         <div className="relative mt-1">
           <Listbox.Button className="relative w-[131px] h-10 px-3 bg-white rounded-xl border border-gray-100 justify-between items-center inline-flex">
             <span className="text-center text-zinc-800 text-sm font-normal leading-tight font-rubik">{selected.name}</span>

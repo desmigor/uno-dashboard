@@ -14,7 +14,7 @@ import SuccessToast from '../../../../components/ui/SuccessToast';
 import ArrowDownSmall from '../../../../assets/images/dashboard/icon/arrow-down-small.svg';
 import ArrowLeftSmall from '../../../../assets/images/dashboard/icon/arrow-left-small.svg';
 import PlaceHolderImage from '../../../../assets/images/dashboard/image/image.png';
-import { fetchAtWorkCouriers, fetchAvailableCouriers, fetchCouriersAction, fetchOfflineCouriers, fetchPausedCouriers } from '../../../../redux/actions/fetchCouriersAction';
+import { fetchAtWorkCouriers, fetchAtWorkCouriersSearch, fetchAvailableCouriers, fetchAvailableCouriersSearch, fetchCouriersAction, fetchOfflineCouriers, fetchOfflineCouriersSearch, fetchPausedCouriers, fetchPausedCouriersSearch } from '../../../../redux/actions/fetchCouriersAction';
 import SuspendCustomerModal from '../../../adminFeatures/customers/components/SuspendCustomerModal';
 
 function Couriers() {
@@ -121,7 +121,9 @@ function Couriers() {
           <div className='flex flex-row gap-[10px] items-center'>
             {/* <Dropdown /> */}
             <div className='relative'>
-              <input type='text' placeholder='Search courier ...' className='placeholder:text-gray-300 text-sm font-normal font-rubik leading-tight w-[328px] h-10 pr-4 pl-10 py-[13px] rounded-xl border border-gray-100 justify-start items-center inline-flex' />
+              <input onChange={(e) => {
+                dispatch(table === 'available' ? fetchAvailableCouriersSearch(count, currentPage, e.target.value) : table === "at-work" ? fetchAtWorkCouriersSearch(count, currentPage, e.target.value) : table === 'paused' ? fetchPausedCouriersSearch(count, currentPage, e.target.value) : fetchOfflineCouriersSearch(count, currentPage, e.target.value));
+              }} type='text' placeholder='Search courier ...' className='placeholder:text-gray-300 text-sm font-normal font-rubik leading-tight w-[328px] h-10 pr-4 pl-10 py-[13px] rounded-xl border border-gray-100 justify-start items-center inline-flex' />
               <img src={Search} className='w-4 h-4 absolute top-[12px] left-[16px]' />
             </div>
           </div>
@@ -306,7 +308,6 @@ function Couriers() {
           </div> 
         </div>
       </div>
-      {/* <CancelModal isOpen={isOpen} setIsOpen={setIsOpen} id={selectedPackage?.id} /> */}
     </div>
   )
 }
