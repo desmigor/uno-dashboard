@@ -17,6 +17,7 @@ function CreatePackages() {
         setCurrent(nbr);
         dispatch(nbr === 1 ? addAddresses(data) : nbr === 2 ? addPackageDetails(data) : addSummary(data));
     }
+    console.log("current", current);
     
     const steps = [
         <Step1 next={next} />,

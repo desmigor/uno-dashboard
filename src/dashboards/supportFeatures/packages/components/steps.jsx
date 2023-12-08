@@ -19,9 +19,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { addPackagesPickupAddressAction } from '../../../../redux/actions/fetchPackagesAction'
 import { fetchPackageAddOnsAction, fetchPackageSizesAction } from '../../../../redux/actions/fetchPackageSizesAction'
+import callAPI from '../../../../utils/api'
 
 export const Step1 = ({ next }) => {
     const { userInfo } = useSelector((state) => state.auth);
+    const { addressDetails, packageDetailsPayment } = useSelector(state => state.packages);
     const [data, setData] = useState({
         pickup: {},
         delivery: {},
@@ -32,8 +34,12 @@ export const Step1 = ({ next }) => {
         phoneDelivery: '',
         commentDelivery: '',
     });
-    const [searchTextPickup, setSearchTextPickup] = useState('');
-    const [searchTextDelivery, setSearchTextDelivery] = useState('');
+    const [searchTextPickup, setSearchTextPickup] = useState(
+        addressDetails? addressDetails?.pickup?.formatted_address : ''
+    );
+    const [searchTextDelivery, setSearchTextDelivery] = useState(
+        addressDetails? addressDetails?.delivery?.formatted_address : ''
+    );
     const [pickupSearch, setPickupSearch] = useState([]);
     const [deliverySearch, setDeliverySearch] = useState([]);
     const [validated, setValidated] = useState(false);
@@ -42,6 +48,21 @@ export const Step1 = ({ next }) => {
     useEffect(() => {
         checkValidations()
     }, [data])
+
+    useEffect(() => {
+        if (addressDetails) {
+            setData({
+                pickup: addressDetails?.pickup,
+                delivery: addressDetails?.delivery,
+                fullNamePickup: addressDetails?.fullNamePickup,
+                phonePickup: addressDetails?.phonePickup,
+                commentPickup: addressDetails?.commentPickup,
+                fullNameDelivery: addressDetails?.fullNameDelivery,
+                phoneDelivery: addressDetails?.phoneDelivery,
+                commentDelivery: addressDetails?.commentDelivery,
+            })
+        }
+    }, [addressDetails])
 
     const validationSchema = Yup.object().shape({
         pickup: Yup.object().shape({}).required(),
@@ -234,6 +255,16 @@ export const Step2 = ({ next }) => {
         dispatch(fetchPackageAddOnsAction());
     }, [])
 
+    useEffect(() => {
+        if(packageSizes) {
+            setSize(packageSizes[0]);
+        }
+        if (packageAddOns) {
+            setChosenAddons(packageAddOns);
+        }
+    }, [packageSizes])
+
+
     console.log(chosenAddons);
 
     const data = {
@@ -274,7 +305,7 @@ export const Step2 = ({ next }) => {
                 <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Delivery: Package 1</div> 
                 <div className="text-slate-500 text-base font-semibold font-['Rubik'] leading-tight">Package Size</div> 
                 <div className='flex flex-row flex-wrap gap-6 w-full'>
-                    {packageSizes?.map((item, idx) => <div key={idx} onClick={() => setSize(item.id)} className={`xl:w-[345px] w-[35%] min-h-[106px] p-5 ${size === item.id ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
+                    {packageSizes?.map((item, idx) => <div key={idx} onClick={() => setSize(item)} className={`xl:w-[345px] w-[35%] min-h-[106px] p-5 ${size.id === item.id ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
                         <div className="self-stretch min-h-[66px]">
                             <div className='flex flex-row justify-between items-center'>
                                 <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{item.name}</div>
@@ -297,13 +328,13 @@ export const Step2 = ({ next }) => {
                             if (addonIndex !== -1) {
                                 updatedAddons.splice(addonIndex, 1);
                             } else {
-                                updatedAddons.push(item.id);
+                                updatedAddons.push(item);
                             }
         
                             // Update the state with the modified array
                             setChosenAddons(updatedAddons);
-                        }} className={`min-w-[165px] px-5 cursor-pointer h-[52px] rounded-[10px] border ${chosenAddons.includes(item.id) ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
-                            <img src={chosenAddons.includes(item.id) ? TickChecked : TickOutile} />
+                        }} className={`min-w-[165px] px-5 cursor-pointer h-[52px] rounded-[10px] border ${chosenAddons.includes(item) ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
+                            <img src={chosenAddons.includes(item) ? TickChecked : TickOutile} />
                             <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item.description}</div>
                         </div>)}
                     </div> 
@@ -320,11 +351,156 @@ export const Step2 = ({ next }) => {
 export const Step3 = ({setStep}) => {
     const [discountExpanded, setDiscountExpanded] = useState(false);
     const { addressDetails, packageDetailsPayment } = useSelector(state => state.packages);
-    const [calculations, setCalculations] = useState();
+    const [calculations, setCalculations] = useState({});
+    const [discountCode, setDiscountCode] = useState(null);
 
-    const handleCalculations = () => {
-        // handle the calculations here.
+    useEffect(() => {
+        handleCalculations(addressDetails?.pickup?.geometry?.location?.lat, addressDetails?.pickup?.geometry?.location?.lng, addressDetails?.delivery?.geometry?.location?.lat, addressDetails?.delivery?.geometry?.location?.lng);
+    }, [])
+
+    function calculateTotalCost(distance, base_price) {
+        const pricingStructure = packageDetailsPayment?.size?.price_per_km;
+        let totalCost = 0;
+        let remainingDistance = distance;
+      
+        pricingStructure.forEach((segment, index) => {
+          const segmentDistance = segment.km === "n" ? remainingDistance : Math.min(segment.km, remainingDistance);
+          totalCost += segmentDistance * segment.price_control  * base_price;
+          remainingDistance -= segmentDistance;
+      
+          if (remainingDistance <= 0) {
+            return;
+          }
+        });
+      
+        return totalCost;
+      }
+
+    const handleCalculations = (lat1, lon1, lat2, lon2) => {
+        console.log(lat1, lon1, lat2, lon2);
+        const R = 6371; // Radius of the earth in km
+        const deg2rad = (deg) => {
+            return deg * (Math.PI/180)
+        }
+        const dLat = deg2rad(lat2-lat1);  // deg2rad below
+        const dLon = deg2rad(lon2-lon1); 
+        const a = 
+          Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+          Math.sin(dLon/2) * Math.sin(dLon/2)
+          ; 
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        const d = R * c; // Distance in km
+        console.log(d);
+        var totalCost = calculateTotalCost(d, packageDetailsPayment?.size?.price);
+
+        setCalculations(
+            {
+                distance: d,
+                price: d * packageDetailsPayment?.size?.price,
+                discount: 0,
+                total: totalCost,
+
+            }
+        )
     }
+
+    const saveAddress = async (
+        pickup_address = true,
+    ) => {
+        const pick_up_data = {
+            title: "Address",
+            open_address: addressDetails?.pickup?.formatted_address,
+            landmark : "",
+            location : addressDetails?.pickup?.formatted_address,
+            latitude : addressDetails?.pickup?.geometry?.location?.lat,
+            longitude : addressDetails?.pickup?.geometry?.location?.lng,
+            contact_person : addressDetails?.fullNamePickup,
+            contact_phone : addressDetails?.phonePickup,
+            contact_country : 1,
+            address_type : 1,
+            temporary : true
+        }
+        const delivery_data = {
+            title: "Address",
+            open_address: addressDetails?.delivery?.formatted_address,
+            landmark : "",
+            location : addressDetails?.delivery?.formatted_address,
+            latitude : addressDetails?.delivery?.geometry?.location?.lat,
+            longitude : addressDetails?.delivery?.geometry?.location?.lng,
+            contact_person : addressDetails?.fullNameDelivery,
+            contact_phone : addressDetails?.phoneDelivery,
+            contact_country : 1,
+            address_type : 1,
+            temporary : true
+        }
+        const response = await callAPI(
+            "/api/address/user-address/",
+            "POST",
+            true,
+            pickup_address ? pick_up_data : delivery_data
+        );
+        console.log(response);
+        console.log(response.data.id);
+        return response.data.id;
+    }
+
+
+    const handleSendRequest = async () => {
+        const data = [ {
+            delivery_mode: null,
+            relative_size: null,
+            relative_weight: null,
+            payment_type: 1,
+            height: 10,
+            length: 10,
+            width: 10,
+            weight: 10,
+            distance_as_km: calculations?.distance,
+            total_cost:  calculations?.total,
+            frangible: true,
+            package_details: "",
+            pickup_contact_person: addressDetails?.fullNamePickup,
+            pickup_contact_phone: addressDetails?.phonePickup,
+            pickup_contact_country: 1,
+            pickup_latitude: addressDetails?.pickup?.geometry?.location?.lat,
+            pickup_longitude: addressDetails?.pickup?.geometry?.location?.lng,
+            pickup_open_address: addressDetails?.pickup?.formatted_address,
+            drop_contact_person: addressDetails?.fullNameDelivery,
+            drop_contact_phone: addressDetails?.phoneDelivery,
+            drop_contact_country: 1,
+            drop_latitude: addressDetails?.delivery?.geometry?.location?.lat,
+            drop_longitude: addressDetails?.delivery?.geometry?.location?.lng,
+            drop_open_address: addressDetails?.delivery?.formatted_address,
+            pickup_location_id: await saveAddress(true),
+            drop_location_id: await saveAddress(false),
+            insulated_food_container: false,
+            payer_phone_no: null, //Payer phone number required for MTN MoMo payment
+            payer_phone_country: null, //Payer phone number required for MTN MoMo payment
+            price_per_km: calculations?.total / calculations?.distance,
+            currency: 1,
+            discount_code: discountCode,
+            created_by_employee: true,
+            package_size: packageDetailsPayment?.size?.id,
+            package_addons: packageDetailsPayment?.chosenAddons?.map(item => item.id),
+        }]
+
+        console.log(data);
+       try {
+        result = await callAPI(
+            "/api/delivery/package-delivery/",
+            "POST",
+            true,
+            data
+        );
+        console.log(result);   
+       } catch (error) {
+        console.log(error)
+       }
+
+    }    
+    
+    console.log(addressDetails, packageDetailsPayment)
 
     return (
         <div className='w-full flex flex-row justify-between items-start mt-6 mb-24'>
@@ -365,13 +541,15 @@ export const Step3 = ({setStep}) => {
                         <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Package Size</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{packageDetailsPayment?.size === 1 ? 'Small' : packageDetailsPayment?.size === 2 ? 'Medium' : 'Large'}</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{packageDetailsPayment?.size.name}</div>
                             </div>
                         </div>
                         <div className="flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Package Addons</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Fragile</div>
+                                {
+                                    packageDetailsPayment?.chosenAddons?.map((item, idx) => <div key={idx} className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item.name}</div>)
+                                }
                             </div>
                         </div>
                     </div>
@@ -450,31 +628,80 @@ export const Step3 = ({setStep}) => {
                             </div>
                             <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Package</div>
                         </div>
-                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$13.00</div>
+                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
+                            {
+                                packageDetailsPayment?.size?.price
+                            }
+                            {
+                                packageDetailsPayment?.size?.currency_display
+                            }
+                        </div>
                     </div>
                     <div className="w-full h-5 justify-between items-start inline-flex">
-                        <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Medium size</div>
-                        <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">$11.70</div>
+                        <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">{
+                            packageDetailsPayment?.size?.name
+                        }</div>
+                        <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                            {
+                                packageDetailsPayment?.size?.price
+                            }
+                            {
+                                packageDetailsPayment?.size?.currency_display
+                            }
+                        </div>
                     </div>
                     <div className="w-full h-5 justify-between items-start inline-flex">
                         <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Add-ons</div>
-                        <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">$1.30</div>
+                        <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                            {
+                                packageDetailsPayment?.chosenAddons?.map((item, idx) => item.price).reduce((a, b) => a + b, 0)
+                            }
+                            {
+                                packageDetailsPayment?.chosenAddons[0]?.currency_display
+                            }
+                        </div>
+                    </div>
+                    <div className="w-full h-5 justify-between items-start inline-flex">
+                        <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Distance</div>
+                        <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                            {
+                                calculations?.distance?.toFixed(3)
+                            } KM
+                        </div>
                     </div>
                     <div className='border border-b-[#D0D4D9] w-full' />
                     <div className="w-full h-5 justify-between items-start inline-flex">
                         <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Subtotal</div>
-                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$13.00</div>
+                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
+                            {
+                                calculations?.total?.toFixed(1)
+                            } 
+                            {
+                                packageDetailsPayment?.size?.currency_display
+                            }
+                        </div>
                     </div> 
                     <div className="w-full h-5 justify-between items-start inline-flex">
                         <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Taxes & Other fees</div>
-                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$1.00</div>
+                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">0</div>
                     </div>
                     <div className='border border-b-[#D0D4D9] w-full' />
                     <div className="w-full h-5 justify-between items-start inline-flex">
                         <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">Total</div>
-                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$14.00</div>
+                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
+                            {
+                               calculations?.total?.toFixed(1)
+                            }
+                        </div>
                     </div>
-                    <button className="xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex">
+                    <button className="xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex"
+                    onClick={
+                        () => {
+                            handleSendRequest();
+                        }
+                    }
+                    >
+                        
                         <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">Request Delivery</div>
                     </button>
                 </div>
@@ -488,7 +715,11 @@ export const Step3 = ({setStep}) => {
                     </div>
                     {discountExpanded && <div className="xl:w-[348px] w-full h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
                         <div className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Discount Code</div>
-                        <input type='text' placeholder='SUPPORT@133' className="placeholder:text-zinc-300 text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" />
+                        <input type='text' placeholder='SUPPORT@133' className="placeholder:text-zinc-300 text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" 
+                        value={discountCode}
+                        onChange = {(e) => setDiscountCode(e.target.value)
+                        }
+                        />
                     </div>}
                     {discountExpanded && <button className="xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex">
                         <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">Apply Code</div>
