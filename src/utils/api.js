@@ -19,7 +19,8 @@ const callAPI = async (
   try {
     var config = {
       method,
-      url: `${API_URL}${endpoint}`, // Treat all requests as new to prevent caching
+      // url: `${API_URL}${endpoint}`, // Treat all requests as new to prevent caching
+      url : `${API_URL}${endpoint}?_=${new Date().getTime()}`,
       data,
       cache: 'no-cache',
     };
