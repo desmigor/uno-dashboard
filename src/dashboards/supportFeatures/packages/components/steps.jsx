@@ -15,8 +15,10 @@ import * as Yup from 'yup';
 
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
+import { addPackagesPickupAddressAction } from '../../../../redux/actions/fetchPackagesAction'
+import { fetchPackageAddOnsAction, fetchPackageSizesAction } from '../../../../redux/actions/fetchPackageSizesAction'
 
 export const Step1 = ({ next }) => {
     const { userInfo } = useSelector((state) => state.auth);
@@ -35,6 +37,7 @@ export const Step1 = ({ next }) => {
     const [pickupSearch, setPickupSearch] = useState([]);
     const [deliverySearch, setDeliverySearch] = useState([]);
     const [validated, setValidated] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         checkValidations()
@@ -93,6 +96,33 @@ export const Step1 = ({ next }) => {
             console.error(errors);
             return setValidated(false);
           }
+    }
+
+    const handleSaveAddress = async () => {
+        try {
+            const pickup = {
+                formatted_address: data.pickup.formatted_address,
+                coment: data.commentPickup,
+                country: "Ghana",
+                name: data.fullNamePickup,
+                phone: data.phonePickup,
+                latitude: data.pickup.geometry.location.lat,
+                longitude: data.pickup.geometry.location.lng,
+            }
+            const drop = {
+                formatted_address: data.delivery.formatted_address,
+                coment: data.commentDelivery,
+                country: "Ghana",
+                name: data.fullNameDelivery,
+                phone: data.phoneDelivery,
+                latitude: data.delivery.geometry.location.lat,
+                longitude: data.delivery.geometry.location.lng,
+            }
+            dispatch(addPackagesPickupAddressAction(pickup, drop));
+            next(1, data)
+        } catch (error) {
+            
+        }
     }
 
 
@@ -181,7 +211,7 @@ export const Step1 = ({ next }) => {
      </div>
 </div>
 <div className='w-[80%] mx-auto'>
-    <button disabled={!validated} onClick={() => next(1, data)} className={`w-[312px] h-[50px] ${validated ? 'bg-red-800' : 'bg-gray-100'} rounded-xl justify-center items-center gap-2.5 flex flex-row`}>
+    <button disabled={!validated} onClick={handleSaveAddress} className={`w-[312px] h-[50px] ${validated ? 'bg-red-800' : 'bg-gray-100'} rounded-xl justify-center items-center gap-2.5 flex flex-row`}>
         <div className={`text-center ${validated ? 'text-white' : 'text-gray-400'} text-base font-normal font-['Rubik'] leading-tight"`}>Continue</div> 
         <img src={validated ? ArrowLeft4 : ArrowLeft3} className='w-4 h-4' />
     </button>
@@ -194,18 +224,27 @@ export const Step1 = ({ next }) => {
 export const Step2 = ({ next }) => {
     const [choosenMethod, setChoosenMethod] = useState(0);
     const [size, setSize] = useState(0);
-    const [fragile, setFragile] = useState(false);
+    const [chosenAddons, setChosenAddons] = useState([]);
     const [insulated, setInsulated] = useState(false);
+    const { packageSizes, packageAddOns } = useSelector(state => state.fetchPackageSizes);
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(fetchPackageSizesAction());
+        dispatch(fetchPackageAddOnsAction());
+    }, [])
+
+    console.log(chosenAddons);
 
     const data = {
-        fragile,
         insulated,
         size,
         choosenMethod,
+        chosenAddons
     }
 
     return (
-        <div className="w-full min-h-[584px] p-6 bg-white rounded-[10px] mt-6 flex-col justify-start items-start gap-8 inline-flex mb-24"> 
+        <div className="w-full min-h-[884px] p-6 bg-white rounded-[10px] mt-6 flex-col justify-start overflow-y-auto items-start gap-8 inline-flex mb-24"> 
             <div className="w-full h-[91px] flex-col justify-start items-start gap-4 inline-flex">
                 <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Payment Method</div> 
                 <div className='w-full mt-4 flex flex-row gap-3.5'>
@@ -234,50 +273,39 @@ export const Step2 = ({ next }) => {
             <div className="w-full h-[91px] flex-col justify-start items-start gap-4 inline-flex mt-8">
                 <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Delivery: Package 1</div> 
                 <div className="text-slate-500 text-base font-semibold font-['Rubik'] leading-tight">Package Size</div> 
-                <div className='flex flex-row gap-6 w-full'>
-                    <div onClick={() => setSize(1)} className={`xl:w-[345px] w-[35%] min-h-[106px] p-5 ${size === 1 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
+                <div className='flex flex-row flex-wrap gap-6 w-full'>
+                    {packageSizes?.map((item, idx) => <div key={idx} onClick={() => setSize(item.id)} className={`xl:w-[345px] w-[35%] min-h-[106px] p-5 ${size === item.id ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
                         <div className="self-stretch min-h-[66px]">
                             <div className='flex flex-row justify-between items-center'>
-                                <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Small Package</div>
-                                <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$6.00</div>
+                                <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{item.name}</div>
+                                <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">{item.currency_display} {item.price}</div>
                             </div>
-                            <div className="mt-[9px] text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
+                            <div className="mt-[9px] text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">{item.description}</div>
                         </div>
-                    </div> 
-                    <div onClick={() => setSize(2)} className={`xl:w-[345px] w-[35%] min-h-[106px] p-5 ${size === 2 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
-                        <div className="self-stretch min-h-[66px]">
-                            <div className='flex flex-row justify-between items-center'>
-                                <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Small Package</div>
-                                <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$11.70</div>
-                            </div>
-                            <div className="mt-[9px] text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
-                        </div>
-                    </div> 
-                    <div onClick={() => setSize(3)} className={`xl:w-[345px] w-[35%] min-h-[106px] p-5 ${size === 3 ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
-                        <div className="self-stretch min-h-[66px]">
-                            <div className='flex flex-row justify-between items-center'>
-                                <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">Large Package</div>
-                                <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">$29.20</div>
-                            </div>
-                            <div className="mt-[9px] text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Maximum size should be 20X20 and maximum weight should be 5 kg.</div>
-                        </div>
-                    </div> 
+                    </div>)}
                 </div>
-                <div className="w-[411px] h-[88px] flex-col justify-start items-start gap-4 inline-flex">
+                <div className="w-full h-[88px] flex-col justify-start items-start gap-4 inline-flex">
                     <div className="text-slate-500 text-base font-semibold font-['Rubik'] leading-tight">Package Addons</div> 
-                    <div className='flex flex-row gap-6'>
-                        <div onClick={() => { 
-                            setFragile(!fragile);
-                        }} className={`w-[165px] cursor-pointer h-[52px] rounded-[10px] border ${fragile ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
-                            <img src={fragile ? TickChecked : TickOutile} />
-                            <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Fragile Package</div>
-                        </div>
-                        <div onClick={() => {
-                            setInsulated(!insulated);
-                        }} className={`w-[222px] cursor-pointer h-[52px] rounded-[10px] border ${insulated ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
-                            <img src={insulated ? TickChecked : TickOutile} />
-                            <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Insulated food container</div>
-                        </div>
+                    <div className='flex flex-row flex-wrap gap-6'>
+                        {packageAddOns?.map((item, idx) => <div onClick={() => {
+                            const updatedAddons = [...chosenAddons];
+
+                            // Check if the clicked addon ID exists in the array
+                            const addonIndex = updatedAddons.indexOf(item.id);
+        
+                            // If the addon is already selected, remove it; otherwise, add it
+                            if (addonIndex !== -1) {
+                                updatedAddons.splice(addonIndex, 1);
+                            } else {
+                                updatedAddons.push(item.id);
+                            }
+        
+                            // Update the state with the modified array
+                            setChosenAddons(updatedAddons);
+                        }} className={`min-w-[165px] px-5 cursor-pointer h-[52px] rounded-[10px] border ${chosenAddons.includes(item.id) ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
+                            <img src={chosenAddons.includes(item.id) ? TickChecked : TickOutile} />
+                            <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item.description}</div>
+                        </div>)}
                     </div> 
                 </div>
                 <button onClick={() => next(2, data)}  className="w-[312px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-xl justify-center items-center gap-2.5 inline-flex mt-4">
@@ -292,6 +320,12 @@ export const Step2 = ({ next }) => {
 export const Step3 = ({setStep}) => {
     const [discountExpanded, setDiscountExpanded] = useState(false);
     const { addressDetails, packageDetailsPayment } = useSelector(state => state.packages);
+    const [calculations, setCalculations] = useState();
+
+    const handleCalculations = () => {
+        // handle the calculations here.
+    }
+
     return (
         <div className='w-full flex flex-row justify-between items-start mt-6 mb-24'>
             <div className='xl:w-[70%] w-[60%] h-[789px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
@@ -337,7 +371,7 @@ export const Step3 = ({setStep}) => {
                         <div className="flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Package Addons</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{packageDetailsPayment?.fragile && 'Fragile'}{(packageDetailsPayment?.fragile && packageDetailsPayment?.insulated) && ", " }{packageDetailsPayment?.insulated && "Insulated food container"}</div>
+                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Fragile</div>
                             </div>
                         </div>
                     </div>
