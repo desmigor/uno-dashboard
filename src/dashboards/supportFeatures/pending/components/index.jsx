@@ -204,7 +204,7 @@ function Pending() {
                   className="text-zinc-800 text-sm font-normal font-rubik leading-tight border-transparent focus:border-transparent focus:ring-0 "
                   onChange={(e) => {
                     setSearchId(e.target.value);
-                    dispatch(fetchPendingAction(e.target.value));
+                    dispatch(fetchPendingAction(e.target.value,));
                   }}
                 />
               </div>

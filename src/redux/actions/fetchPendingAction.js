@@ -18,7 +18,7 @@ export const fetchPendingAction =
       );
       console.log("/api/resolution/packages/?all=true&status=1&search=" +
       search +
-      "&sort=" +
+      "&ordering=" +
       sort);
       console.log(result);
       dispatch(fetchPending());
