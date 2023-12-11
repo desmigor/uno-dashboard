@@ -13,6 +13,7 @@ function Modal({
   show,
   onClose,
   cancel,
+  restore=false,
   onConfirm,
   issue_id,
   resolution_status,
@@ -51,6 +52,8 @@ function Modal({
     onClose();
   };
 
+  console.log("restore : " + restore);
+
   return (
     <Dialog open={true} onClose={onClose}>
       <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50 bg-black">
@@ -65,7 +68,7 @@ function Modal({
               <div
                 className={
                   "w-[136px] h-[136px] p-[23px] rounded-[30px] shadow-inner justify-center items-center inline-flex" +
-                  (cancel ? " bg-red-700" : " bg-green-600")
+                  (cancel ? " bg-red-700" : restore ? " bg-sky-500"  : " bg-green-600")
                 }
               >
                 <div className="grow shrink basis-0 self-stretch justify-center items-center inline-flex">

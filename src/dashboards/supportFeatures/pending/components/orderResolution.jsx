@@ -4,6 +4,8 @@ import reassignIcon from "../../../../assets/images/dashboard/icon/arrow-swap-ho
 import closeIcon from "../../../../assets/images/dashboard/icon/close-square.svg";
 import Modal from "../../../../components/ui/Modal";
 import ReassignModal from "./ui/PackageReassignModal";
+import restoreIcon from "../../../../assets/images/dashboard/icon/receive-square.svg";
+import restoreIconBig from "../../../../assets/images/dashboard/icon/receive-square(2).svg";
 
 import ReturnIconModal from "../../../../assets/images/dashboard/icon/refresh-circle.svg";
 import CancelIconModal from "../../../../assets/images/dashboard/icon/close-circle.svg";
@@ -13,6 +15,7 @@ export default function OrderResolution({ item }) {
   const [showReturnModal, setshowReturnModal] = useState(false);
   const [showCancelModal, setshowCancelModal] = useState(false);
   const [showReassignModal, setshowReassignModal] = useState(false);
+  const [showRestoreModal, setshowRestoreModal] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [SelectedAction, setSelectedAction] = useState("");
 
@@ -80,6 +83,26 @@ export default function OrderResolution({ item }) {
         id={item.id}
       />
 
+      <Modal
+        show={showRestoreModal}
+        onClose={() => setshowRestoreModal(false)}
+        title="Package Restore"
+        image={restoreIconBig}
+        content="After confirmation, this package will immediately be restored to the previous stage. This action can’t be revoked."
+        restore={true}
+        onConfirm={
+          () => {
+            handleShowToast();
+            setshowRestoreModal(false);
+          }
+        }
+        id={item.id}
+        issue_id={item.id}
+        resolution_status={3}
+        resolution_text={"Order Restored"}
+      />
+        
+
       <SuccessToast
         text="The pending package has been successfully resolved"
         show={showToast}
@@ -106,7 +129,7 @@ export default function OrderResolution({ item }) {
           <div class="justify-between w-full items-start gap-3.5 inline-flex">
             <button
             disabled={item.issue_type_value == "Order Reassignation"}
-              className="group w-[33%]"
+              className="group w-[24%]"
               onClick={() => setSelectedAction("return")}
             >
               <div
@@ -129,14 +152,14 @@ export default function OrderResolution({ item }) {
                         : "text-zinc-800 "
                     }
                   >
-                    Return package
+                    Return
                   </text>
                 </div>
               </div>
             </button>
 
             <button
-              className="group w-[33%]"
+              className="group w-[24%]"
               onClick={() => setSelectedAction("reassign")}
             >
               <div
@@ -159,13 +182,42 @@ export default function OrderResolution({ item }) {
                         : "text-zinc-800 "
                     }
                   >
-                    Reassign package
+                    Reassign
                   </span>
                 </div>
               </div>
             </button>
             <button
-              className="group w-[33%]"
+              className="group w-[24%]"
+              onClick={() => setSelectedAction("restore")}
+            >
+              <div
+                class={
+                  SelectedAction == "restore"
+                    ? "h-14 px-4 py-3.5 rounded-[10px] bg-stone-100 border border-red-800 justify-start items-center gap-1.5 flex"
+                    : "h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100  justify-start items-center gap-1.5 flex"
+                }
+              >
+                <div class="w-7 h-7 justify-center items-center inline-flex">
+                  <div class="w-7 h-7 mt-2 relative">
+                    <img src={restoreIcon} alt="" />
+                  </div>
+                </div>
+                <div class="text-zinc-800 text-sm font-normal font-rubik leading-tight group-hover:text-red-800">
+                  <span
+                    className={
+                      SelectedAction == "restore"
+                        ? " text-red-800"
+                        : "text-zinc-800 "
+                    }
+                  >
+                    Restore
+                  </span>
+                </div>
+              </div>
+            </button>
+            <button
+              className="group w-[24%]"
               onClick={() => setSelectedAction("cancel")}
             >
               <div
@@ -188,7 +240,7 @@ export default function OrderResolution({ item }) {
                         : "text-zinc-800 "
                     }
                   >
-                    Cancel package
+                    Cancel
                   </span>
                 </div>
               </div>
@@ -208,8 +260,10 @@ export default function OrderResolution({ item }) {
             ? () => console.log("No action selected")
             : SelectedAction == "return"
             ? () => setshowReturnModal(true)
-            : SelectedAction == "reassign"
+            : SelectedAction == "reassign" 
             ? () => setshowReassignModal(true)
+            : SelectedAction == "restore"
+            ? () => setshowRestoreModal(true)
             : () => setshowCancelModal(true)
         }
       >
