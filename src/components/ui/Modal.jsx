@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { fetchPendingAction } from "../../redux/actions/fetchPendingAction";
 import Spinner from "../../components/ui/spinner.jsx";
 import { set } from "date-fns";
+import TickIcon from "../../assets/images/dashboard/icon/tick-circle3.svg";
+import NoTickIcon from "../../assets/images/dashboard/icon/tick-circle-no.svg";
 
 function Modal({
   title,
@@ -13,7 +15,7 @@ function Modal({
   show,
   onClose,
   cancel,
-  restore=false,
+  restore = false,
   onConfirm,
   issue_id,
   resolution_status,
@@ -23,10 +25,31 @@ function Modal({
     return null;
   }
   const [loading, setLoading] = useState(false);
+  const [selectedPenalty, setSelectedPenalty] = useState(0);
 
   const dispatch = useDispatch();
 
+  const penalties = [
+    {
+      id: 1,
+      name: "30% Fee",
+      value: 30,
+    },
+    {
+      id: 2,
+      name: "50% Fee",
+      value: 50,
+    },
+    {
+      id: 3,
+      name: "100% Fee",
+      value: 100,
+    },
+  ];
+
   const handleConfirm = async () => {
+    console.log("confirm" + issue_id)
+    console.log("confirm" + resolution_status)
     try {
       setLoading(true);
       console.log(resolution_status);
@@ -68,7 +91,11 @@ function Modal({
               <div
                 className={
                   "w-[136px] h-[136px] p-[23px] rounded-[30px] shadow-inner justify-center items-center inline-flex" +
-                  (cancel ? " bg-red-700" : restore ? " bg-sky-500"  : " bg-green-600")
+                  (cancel
+                    ? " bg-red-700"
+                    : restore
+                    ? " bg-sky-500"
+                    : " bg-green-600")
                 }
               >
                 <div className="grow shrink basis-0 self-stretch justify-center items-center inline-flex">
@@ -82,6 +109,46 @@ function Modal({
               </div>
             </div>
           </div>
+          {cancel ? (
+            <div className="flex-col justify-center items-center gap-3 inline-flex px-4 py-2">
+              <div className="text-center text-red-800 text-sm font-semibold font-rubik leading-tight">
+                Cancellation Penalty
+              </div>
+              <div className="justify-center items-start gap-5 inline-flex">
+                {
+                  penalties?.map((penalty) => {
+                    return (
+                      <div
+                        className={
+                          "h-[52px] p-3.5 bg-white rounded-[10px] border border-gray-100 justify-start items-center gap-1.5 flex" +
+                          (selectedPenalty === penalty.id
+                            ? " bg-stone-100 border-red-800"
+                            : "")
+                        }
+                        onClick={() => setSelectedPenalty(penalty.id)}
+                      >
+                        <div className="w-6 h-6 justify-center items-center flex">
+                          <div className="w-6 h-6 relative">
+                            {selectedPenalty === penalty.id ? (
+                              <img src={TickIcon} />
+                            ) : (
+                              <img src={NoTickIcon} />
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
+                          {penalty.name}
+                        </div>
+                      </div>
+                    );
+                  }
+                  )
+
+                }
+                
+              </div>
+            </div>
+          ) : null}
           <div className="pl-[38px] pr-[39px] py-5 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex">
             <div className="self-stretch justify-start items-start gap-[27px] inline-flex">
               <div
