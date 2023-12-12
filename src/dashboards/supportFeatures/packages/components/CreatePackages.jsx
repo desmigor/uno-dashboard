@@ -9,11 +9,20 @@ import { fetchPackageDetails } from '../../../../redux/actions/fetchPackagesActi
 function CreatePackages() {
     const [current, setCurrent] = useState(0);
     const [inputs, setInputs] = useState([{ pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 }]);
-    const { step } = useSelector(state => state.packages);
+    const { step, index, pickupLocation, dropLocation } = useSelector(state => state.packages);
     const dispatch = useDispatch()
     const { id } = useParams();
     
     useEffect(() => {
+        if(parseInt(index) > 0 ){
+            for (let index = 0; index < parseInt(index) ; index++) {
+                const newInput = [
+                    ...inputs,
+                    { pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 },
+                ]
+                setInputs(newInput);
+            }
+        }
         if(typeof id === 'undefined'){
             console.log('');
         }else{
@@ -32,6 +41,15 @@ function CreatePackages() {
         }
         }, []);
 
+        useEffect(() => {
+            if(index && pickupLocation && dropLocation){
+                handleInputChange(parseInt(index), 'pickupAddress', pickupLocation?.formatted_address);
+                handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
+                handleInputChange(parseInt(index), 'pickup', typeof id === 'undefined' ? pickupLocation : { lat: pickupLocation?.geometry?.location?.lat, lng: pickupLocation?.geometry?.location?.lng, formatted_address: pickupLocation?.formatted_address });
+                handleInputChange(parseInt(index), 'drop', typeof id === 'undefined' ? dropLocation : { lat: dropLocation?.geometry?.location?.lat, lng: dropLocation?.geometry?.location?.lng, formatted_address: dropLocation?.formatted_address });
+            }
+        }, [inputs, index]);
+
     const next = (nbr, data) => {
         setCurrent(nbr);
         dispatch(nbr === 1 || nbr === 2 ? addAddresses(data) : addSummary(data));
@@ -39,6 +57,7 @@ function CreatePackages() {
 
     const handleInputChange = (index, field, value) => {
         const newInputs = [...inputs];
+        console.log(newInputs, 'PPPPPp');
         newInputs[index][field] = value;
         setInputs(newInputs);
     }

@@ -147,7 +147,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
         if(inputs.length < 10){
             const newInput = [
                 ...inputs,
-                { pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name: '', phone_number: '', comment: '' },
+                { pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 },
             ]
             setInputs(newInput);
         }else{
@@ -185,10 +185,10 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
                 handleInputChange(index, 'pickupAddress', e.target.value);
                 getPlaces(e.target.value, index, 'pickupSearch')
             }} placeholder='Amasaman KG124'  className="self-stretch h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
-            <Link to={userInfo?.type?.id === 3 ? '/admin/dashboard/package/choose-address' : '/support/dashboard/package/choose-address' } className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
+            {index === 0 && <Link to={userInfo?.type?.id === 3 ? `/admin/dashboard/package/choose-address/${index}` : `/support/dashboard/package/choose-address/${index}` } className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
                 <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight ">Choose address on map</div> 
                 <img src={ArrowLeft2} className='w-4 h-4' />
-            </Link>
+            </Link>}
             {item.pickupSearch.length > 0 && <div className={`w-full min-h-[52px] p-4 bg-white rounded-xl shadow border border-zinc-200 flex-col justify-start items-end gap-4 inline-flex absolute top-[89px] z-[99]`}> 
                    {item.pickupSearch.map((itm, idx) => <div key={idx} onClick={() => {
                     //    setData({ ...data, pickup: item });
@@ -210,10 +210,10 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
                     }} className="self-stretch w-[90%] h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
                 <img onClick={() => index === 0 ? addInput() : removeInput(index)} src={index === 0 ? AddCircle : CloseCircle} className='w-8 h-8 cursor-pointer' />
             </div>
-            <Link to={userInfo?.type?.id === 3 ? '/admin/dashboard/package/choose-address' : '/support/dashboard/package/choose-address' } className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
+            {index === 0 && <Link to={userInfo?.type?.id === 3 ? `/admin/dashboard/package/choose-address/${index}` : `/support/dashboard/package/choose-address/${index}` }  className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
                 <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Choose address on map</div> 
                 <img src={ArrowLeft2} className='w-4 h-4' />
-            </Link>  
+            </Link>  }
             {item.deliverySearch.length > 0 && <div className={`w-full min-h-[52px] p-4 bg-white rounded-xl shadow border border-zinc-200 flex-col justify-start items-end gap-4 inline-flex absolute top-[89px] z-[99]`}> 
                    {item.deliverySearch.map((itm, idx) => <div key={idx} onClick={() => {
                     //    setData({ ...data, delivery: item });

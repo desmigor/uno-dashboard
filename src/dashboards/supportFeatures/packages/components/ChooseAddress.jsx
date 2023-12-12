@@ -3,6 +3,9 @@ import Navbar from '../../../../components/ui/Navbar'
 import { GoogleMap, useLoadScript, InfoBox, DirectionsRenderer } from '@react-google-maps/api';
 import LocationIcon from '../../../../assets/images/dashboard/icon/location.svg';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { storeLocation } from '../../../../redux/slices/packageInputs';
+import { useNavigate, useParams } from 'react-router-dom'; 
 
 const libraries = ['places'];
 
@@ -26,6 +29,10 @@ function ChooseAddress() {
     const [duration, setDuration] = useState('');
     const originRef = useRef();
     const destiantionRef = useRef();
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const { index } = useParams();
+    const { userInfo } = useSelector(state => state.auth);
 
     const { isLoaded, loadError } = useLoadScript({
         googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
@@ -83,6 +90,16 @@ function ChooseAddress() {
         });
     }
 
+    const handleLocationConfirm = () => {
+        const payload = {
+            pickup,
+            drop: delivery,
+            index,
+        }
+        dispatch(storeLocation(payload));
+        navigate(-1);
+    }
+
     if (loadError) {
         return <div>Error loading maps</div>;
     }
@@ -90,6 +107,7 @@ function ChooseAddress() {
     if (!isLoaded) {
         return <div>Loading maps</div>;
     }
+
     
 
   return (
@@ -132,8 +150,8 @@ function ChooseAddress() {
                     <div className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Search on the map</div>
                     <input ref={destiantionRef} value={searchTextDelivery}  onChange={(e) => getPlacesDelivery(e.target.value)} type='text' placeholder='Amasaman KG124' className="placeholder:text-gray-300 focus:outline-none focus:border focus:border-red-800 focus:ring-0 text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" />
                 </div>
-                <button className="w-[364px] h-[50px] px-[60px] py-[15px] bg-zinc-200 rounded-xl justify-center items-center gap-2.5 inline-flex absolute bottom-8 left-8">
-                    <div className="text-center text-gray-400 text-base font-normal font-['Rubik'] leading-tight">Confirm Addresses</div>
+                <button onClick={handleLocationConfirm} className={`w-[364px] h-[50px] px-[60px] py-[15px] ${pickup && delivery ? 'bg-red-800' : 'bg-zinc-200'} rounded-xl justify-center items-center gap-2.5 inline-flex absolute bottom-8 left-8`}>
+                    <div className={`text-center ${pickup && delivery ? 'text-white' : 'text-gray-400'} text-base font-normal font-['Rubik'] leading-tight`}>Confirm Addresses</div>
                 </button>
                 {pickupSearch.length > 0 && <div className={`w-[364px] min-h-[52px] p-4 bg-white rounded-xl shadow border border-zinc-200 flex-col justify-start items-end gap-4 inline-flex absolute top-[269px] left-8`}> 
                     {pickupSearch.map((item, idx) => <div key={idx} onClick={() => {
