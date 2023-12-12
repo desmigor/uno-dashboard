@@ -4,6 +4,8 @@ import { Dialog } from "@headlessui/react";
 import callAPI from "../../../../../utils/api";
 import { fetchPackageSizesAction } from "../../../../../redux/actions/fetchPackageSizesAction";
 import Spinner from "../../../../../components/ui/spinner";
+import TickIcon from "../../../../../assets/images/dashboard/icon/tick-circle3.svg";
+import NoTickIcon from "../../../../../assets/images/dashboard/icon/tick-circle-no.svg";
 
 export default function AddPackageSizeModal({
   show,
@@ -55,6 +57,9 @@ export default function AddPackageSizeModal({
     editData ? editData.price_per_km[3].id : null
   );
   const [loading, setLoading] = useState(false);
+  const [boxFit, setBoxFit] = useState(
+    editData ? editData.type == 1 : true
+  );
 
   const handleSave = async () => {
     setLoading(true);
@@ -63,7 +68,7 @@ export default function AddPackageSizeModal({
       description: description,
       price: basePrice,
       currency: 1,
-      type: 1,
+      type: boxFit ? 1 : 2,
       price_per_km: [
         {
           title: "First KM",
@@ -117,7 +122,7 @@ export default function AddPackageSizeModal({
       description: description,
       price: basePrice,
       currency: 1,
-      type: 1,
+      type: boxFit ? 1 : 2,
       price_per_km: [
         {
           data_id: dataId1,
@@ -210,19 +215,57 @@ export default function AddPackageSizeModal({
                   placeholder="Add description ..."
                 />
               </div>
-              <div className=" flex-col justify-start items-start gap-1.5 flex">
-                <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
-                  Base Price
+              <div className="justify-between items-center gap-4 inline-flex w-[100%]">
+                <div className=" flex-col justify-start items-start gap-1.5 flex">
+                  <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
+                    Base Price
+                  </div>
+                  <input
+                    type="text"
+                    id="basePrice"
+                    name="basePrice"
+                    value={basePrice}
+                    onChange={(e) => setBasePrice(e.target.value)}
+                    className="self-stretch h-12 px-4 py-[13px] w-[110px] rounded-xl border border-zinc-200 justify-start items-start gap-2.5 inline-flex"
+                    placeholder="$6.00"
+                  />
                 </div>
-                <input
-                  type="text"
-                  id="basePrice"
-                  name="basePrice"
-                  value={basePrice}
-                  onChange={(e) => setBasePrice(e.target.value)}
-                  className="self-stretch h-12 px-4 py-[13px] w-[80px] rounded-xl border border-zinc-200 justify-start items-start gap-2.5 inline-flex"
-                  placeholder="$6.00"
-                />
+                {/* Box fit checkbox */}
+                <div className="flex flex-row gap-2 h-12 px-4 py-[13px]">
+                  <div className="flex-col justify-start items-start gap-1.5 flex">
+                    <div
+                      className={`self-stretch h-12 px-4 py-[13px] w-[110px] rounded-xl border justify-start items-start gap-2.5 inline-flex ${
+                        boxFit ? " border-red-800" : " border-zinc-200"
+                      }`}
+                      onClick={() => setBoxFit(true)}
+                    >
+                      <div className="w-6 h-6 relative">
+                        <img src={boxFit ? TickIcon : NoTickIcon} />
+                      </div>
+                      <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
+                        Box fit
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-col justify-start items-start gap-1.5 flex">
+                    <div
+                      className={`self-stretch h-12 px-4 py-[13px] w-[110px] rounded-xl border justify-start items-start gap-2.5 inline-flex ${
+                        !boxFit ? " border-red-800" : " border-zinc-200"
+                      }`}
+                      onClick={() => setBoxFit(false)}
+                    >
+                      <div className="w-6 h-6 relative">
+                        <img
+                          src={boxFit ? NoTickIcon : TickIcon}
+                          
+                        />
+                      </div>
+                      <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
+                        Van fit
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="justify-start items-start gap-4 inline-flex">
                 <div className="w-[196px] flex-col justify-start items-start gap-1.5 inline-flex">
@@ -358,10 +401,30 @@ export default function AddPackageSizeModal({
                 </div>
               </div>
               <button
-                disabled={ loading || !sizeName || !description || !basePrice || !firstKM || !priceControl || !nextKM || !priceControl2 || !nextKM2 || !priceControl3 || !nKM
+                disabled={
+                  loading ||
+                  !sizeName ||
+                  !description ||
+                  !basePrice ||
+                  !firstKM ||
+                  !priceControl ||
+                  !nextKM ||
+                  !priceControl2 ||
+                  !nextKM2 ||
+                  !priceControl3 ||
+                  !nKM
                 }
                 className={`w-[168px] h-[50px] px-[60px] py-[15px]  rounded-xl justify-center items-center gap-2.5 flex cursor-pointer ${
-                  !sizeName || !description || !basePrice || !firstKM || !priceControl || !nextKM || !priceControl2 || !nextKM2 || !priceControl3 || !nKM
+                  !sizeName ||
+                  !description ||
+                  !basePrice ||
+                  !firstKM ||
+                  !priceControl ||
+                  !nextKM ||
+                  !priceControl2 ||
+                  !nextKM2 ||
+                  !priceControl3 ||
+                  !nKM
                     ? "text-gray-400 bg-zinc-200"
                     : "text-white bg-red-800 enabled"
                 }`}

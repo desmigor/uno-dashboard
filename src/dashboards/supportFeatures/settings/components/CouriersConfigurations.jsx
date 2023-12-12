@@ -7,7 +7,7 @@ import ArrowLeftSmall from "../../../../assets/images/dashboard/icon/arrow-left-
 import AddIcon from "../../../../assets/images/dashboard/icon/add-circle.svg";
 import AddVehicleType from "./UI/AddVehicleTypeModal";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchVehicleTypesAction } from "../../../../redux/actions/fetchVehicleTypes";
+import { fetchVehicleTypesAction, fetchVehicleTypeDetailAction } from "../../../../redux/actions/fetchVehicleTypes";
 import CouriersIcon from "../../../../assets/images/dashboard/icon/profile-2user4.svg";
 import Edit from "../../../../assets/images/dashboard/icon/edit-black.svg";
 import Delete from "../../../../assets/images/dashboard/icon/trash.svg";
@@ -26,53 +26,6 @@ export default function CouriersConfigurations() {
     dispatch(fetchVehicleTypesAction());
   }, []);
 
-  console.log(vehicleTypes);
-
-  const vehicle_types = [
-    {
-      name: "Bicycle",
-      size: "20X20",
-      capacit: "5kg",
-      date: "Dec, 23m 2023",
-      couriers: "12",
-    },
-    {
-      name: "Motorcycle",
-      size: "20X20",
-      capacit: "5kg",
-      date: "Dec, 23m 2023",
-      couriers: "12",
-    },
-    {
-      name: "Car",
-      size: "20X20",
-      capacit: "5kg",
-      date: "Dec, 23m 2023",
-      couriers: "12",
-    },
-    {
-      name: "Van",
-      size: "20X20",
-      capacit: "5kg",
-      date: "Dec, 23m 2023",
-      couriers: "12",
-    },
-    {
-      name: "Truck",
-      size: "20X20",
-      capacit: "5kg",
-      date: "Dec, 23m 2023",
-      couriers: "12",
-    },
-    {
-      name: "Hoho",
-      size: "20X20",
-      capacit: "5kg",
-      date: "Dec, 23m 2023",
-      couriers: "12",
-    },
-  ];
-
   const handleDeleteVehicleType = async (id) => {
     try {
       const response = await callAPI(`/api/admin/vehicle-type/${id}`, "DELETE", true);
@@ -86,7 +39,12 @@ export default function CouriersConfigurations() {
     <div className="w-[100%] min-h-[400px] mt-6 relative bg-white rounded-[10px] pb-20 py-[22px] px-[16px]">
       <AddVehicleType
         show={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
+        onClose={() => 
+          {
+            setShowCreateModal(false);
+            setselectedEditItem(null);
+          }
+        }
         onConfirm={() => setShowCreateModal(false)}
         editData={selectedEditItem}
       />
@@ -212,9 +170,15 @@ export default function CouriersConfigurations() {
                           <Menu.Item>
                             <button
                               className="w-full h-6 justify-start items-center gap-2.5 inline-flex"
-                              onClick={() => {
-                                setselectedEditItem(item);
-                                setShowCreateModal(true);
+                              onClick={async () => {
+                                try {
+                                  const itemDetails = await dispatch(fetchVehicleTypeDetailAction(item.id));
+                                  setselectedEditItem(itemDetails.data);
+                                  // Show the modal
+                                  setShowCreateModal(true);
+                                } catch (error) {
+                                  console.error('Error fetching vehicle type detail:', error);
+                                }
                               }}
                             >
                               <div className="w-6 h-6 bg-gray-100 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex">

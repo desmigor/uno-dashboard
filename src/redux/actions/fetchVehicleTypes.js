@@ -13,3 +13,16 @@ export const fetchVehicleTypesAction = () => async (dispatch, getState) => {
   } catch (error) {
   }
 };
+
+
+export const fetchVehicleTypeDetailAction = (id) => async (dispatch, getState) => {
+  try {
+    const result = await callAPI(
+      `/api/admin/vehicle-type/${id}`,
+      "GET",
+      true
+    );
+    return result;
+  } catch (error) {
+  }
+}

@@ -68,7 +68,9 @@ export default function OrderResolution({ item }) {
           }
         }
         issue_id={item.id}
-        resolution_status={2}
+        resolution_status={
+          item.title == "can't pick up" ? 4 : 2
+        }
         resolution_text={"Cancel"}
       />
 
@@ -135,12 +137,12 @@ export default function OrderResolution({ item }) {
               <div
                 class={
                   SelectedAction == "return"
-                    ? "h-14 px-4 py-3.5 rounded-[10px] bg-stone-100 border border-red-800 justify-start items-center gap-1.5 flex"
-                    : "h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100  justify-start items-center gap-1.5 flex"
+                    ? "h-14 px-2 py-3.5 rounded-[10px] bg-stone-100 border border-red-800 justify-center items-center gap-1.5 flex"
+                    : "h-14 px-2 py-3.5 bg-white rounded-[10px] border border-gray-100  justify-center items-center gap-1.5 flex"
                 }
               >
-                <div class="w-7 h-7 justify-center items-center flex">
-                  <div class="w-7 h-7 relative">
+                <div class="w-5 h-5 justify-center items-center flex">
+                  <div class="w-5 h-5 relative">
                     <img src={ReturnIcon} />
                   </div>
                 </div>
@@ -159,18 +161,19 @@ export default function OrderResolution({ item }) {
             </button>
 
             <button
+              disabled={item.issue_type_value == "Delivery Issues"}
               className="group w-[24%]"
               onClick={() => setSelectedAction("reassign")}
             >
               <div
                 class={
                   SelectedAction == "reassign"
-                    ? "h-14 px-4 py-3.5 rounded-[10px] bg-stone-100 border border-red-800 justify-start items-center gap-1.5 flex"
-                    : "h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100  justify-start items-center gap-1.5 flex"
+                    ? "h-14 px-2 py-3.5 rounded-[10px] bg-stone-100 border border-red-800 justify-center items-center gap-1.5 flex"
+                    : "h-14 px-2 py-3.5 bg-white rounded-[10px] border border-gray-100  justify-center items-center gap-1.5 flex"
                 }
               >
-                <div class="w-7 h-7 justify-center items-center flex">
-                  <div class="w-7 h-7 relative">
+                <div class="w-5 h-5 justify-center items-center flex">
+                  <div class="w-5 h-5 relative">
                     <img src={reassignIcon} alt="" />
                   </div>
                 </div>
@@ -194,8 +197,8 @@ export default function OrderResolution({ item }) {
               <div
                 class={
                   SelectedAction == "restore"
-                    ? "h-14 px-4 py-3.5 rounded-[10px] bg-stone-100 border border-red-800 justify-start items-center gap-1.5 flex"
-                    : "h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100  justify-start items-center gap-1.5 flex"
+                    ? "h-14 px-2 py-3.5 rounded-[10px] bg-stone-100 border border-red-800 justify-center items-center gap-1.5 flex"
+                    : "h-14 px-2 py-3.5 bg-white rounded-[10px] border border-gray-100  justify-center items-center gap-1.5 flex"
                 }
               >
                 <div class="w-7 h-7 justify-center items-center inline-flex">
@@ -217,18 +220,19 @@ export default function OrderResolution({ item }) {
               </div>
             </button>
             <button
+              disabled={item.issue_type_value == "Delivery Issues"}
               className="group w-[24%]"
               onClick={() => setSelectedAction("cancel")}
             >
               <div
                 class={
                   SelectedAction == "cancel"
-                    ? "h-14 px-4 py-3.5 rounded-[10px] bg-stone-100 border border-red-800 justify-start items-center gap-1.5 flex"
-                    : "h-14 px-4 py-3.5 bg-white rounded-[10px] border border-gray-100  justify-start items-center gap-1.5 flex"
+                    ? "h-14 px-2 py-3.5 rounded-[10px] bg-stone-100 border border-red-800 justify-center items-center gap-1.5 flex"
+                    : "h-14 px-2 py-3.5 bg-white rounded-[10px] border border-gray-100  justify-center items-center gap-1.5 flex"
                 }
               >
-                <div class="w-7 h-7 justify-center items-center flex">
-                  <div class="w-7 h-7 relative">
+                <div class="w-5 h-5 justify-center items-center flex">
+                  <div class="w-5 h-5 relative">
                     <img src={closeIcon} alt="" />
                   </div>
                 </div>
