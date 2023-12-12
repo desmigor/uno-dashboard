@@ -3,26 +3,50 @@ import ArrowLeft from '../../../../assets/images/dashboard/icon/arrow-left-black
 import { Step1, Step2, Step3 } from './steps'
 import { useDispatch, useSelector } from 'react-redux';
 import { addAddresses, addPackageDetails, addSummary } from '../../../../redux/slices/packageInputs';
+import { useParams } from 'react-router-dom';
+import { fetchPackageDetails } from '../../../../redux/actions/fetchPackagesAction';
 
 function CreatePackages() {
     const [current, setCurrent] = useState(0);
+    const [inputs, setInputs] = useState([{ pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 }]);
     const { step } = useSelector(state => state.packages);
     const dispatch = useDispatch()
+    const { id } = useParams();
     
     useEffect(() => {
-        setCurrent(step);
-    }, []);
+        if(typeof id === 'undefined'){
+            console.log('');
+        }else{
+            dispatch(fetchPackageDetails(id)).then((res) => {
+                handleInputChange(0, 'pickupAddress', res.pickup_open_address);
+                handleInputChange(0, 'dropAddress', res.drop_open_address);
+                handleInputChange(0, 'pickup', { lat: res.pickup_latitude, lng: res.pickup_longitude, formatted_address: res.pickup_open_address });
+                handleInputChange(0, 'drop', { lat: res.drop_latitude, lng: res.drop_longitude, formatted_address: res.drop_open_address });
+                handleInputChange(0, 'full_name_pickup', res.pickup_contact_person);
+                handleInputChange(0, 'full_name_drop', res.drop_contact_person);
+                handleInputChange(0, 'phone_number_pickup', res.pickup_contact_phone);
+                handleInputChange(0, 'phone_number_drop', res.drop_contact_phone);
+                handleInputChange(0, 'comment_pickup', 'None');
+                handleInputChange(0, 'comment_drop', 'None');
+            })
+        }
+        }, []);
 
     const next = (nbr, data) => {
         setCurrent(nbr);
-        dispatch(nbr === 1 ? addAddresses(data) : nbr === 2 ? addPackageDetails(data) : addSummary(data));
+        dispatch(nbr === 1 || nbr === 2 ? addAddresses(data) : addSummary(data));
     }
-    console.log("current", current);
+
+    const handleInputChange = (index, field, value) => {
+        const newInputs = [...inputs];
+        newInputs[index][field] = value;
+        setInputs(newInputs);
+    }
     
     const steps = [
-        <Step1 next={next} />,
-        <Step2 next={next} />,
-        <Step3 setStep={setCurrent} />
+        <Step1 next={next} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} id={id} />,
+        <Step2 next={next} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} />,
+        <Step3 setStep={setCurrent} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} id={id} />
     ]
   return (
     <div className='bg-neutral-50 h-screen w-full py-6 px-10 overflow-auto'>

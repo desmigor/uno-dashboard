@@ -61,6 +61,7 @@ export const fetchPackageDetails = (id) => async (dispatch, getState) => {
       true
     );
     dispatch(fetchPackageDetail(result.data));
+    return result.data;
   } catch (error) {
   }
 }
