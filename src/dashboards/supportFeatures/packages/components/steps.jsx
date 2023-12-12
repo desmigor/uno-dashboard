@@ -207,8 +207,8 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
                 <input value={item.dropAddress} type='text' placeholder='Amasaman KG124' onChange={(e) => { 
                     handleInputChange(index, 'dropAddress', e.target.value);
                     getPlacesDelivery(e.target.value, index, 'deliverySearch');
-                    }} className="self-stretch w-[90%] h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" /> 
-                <img onClick={() => index === 0 ? addInput() : removeInput(index)} src={index === 0 ? AddCircle : CloseCircle} className='w-8 h-8 cursor-pointer' />
+                    }} className={`self-stretch ${ typeof id !== 'undefined' ? 'w-full' : 'w-[90%]'} h-12 px-4 py-[13px] placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex`} /> 
+                { typeof id === 'undefined' && <img onClick={() => index === 0 ? addInput() : removeInput(index)} src={index === 0 ? AddCircle : CloseCircle} className='w-8 h-8 cursor-pointer' />}
             </div>
             {index === 0 && <Link to={userInfo?.type?.id === 3 ? `/admin/dashboard/package/choose-address/${index}` : `/support/dashboard/package/choose-address/${index}` }  className='flex flex-row items-center gap-[6px] mt-3 cursor-pointer'>
                 <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Choose address on map</div> 
@@ -344,23 +344,23 @@ export const Step2 = ({ next, inputs, setInputs }) => {
             <div className="w-full h-[91px] flex-col justify-start items-start gap-4 inline-flex">
                 <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Payment Method</div> 
                 <div className='w-full mt-4 flex flex-row gap-3.5'>
-                    <div onClick={() => updateMethodForAll(1)} className={`w-[198px] h-[54px] rounded-[10px] border ${inputs[0].choosenMethod === 1 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
+                    <button disabled={true} onClick={() => updateMethodForAll(3)} className={`w-[198px] h-[54px] rounded-[10px] border ${inputs[0].choosenMethod === 3 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
                         <div className="w-[44px] h-[26px] relative rounded-[3px] bg-[#FFCB05] flex items-center justify-center">
                             <img className="w-8 h-[26px]" src={Mtn} />
                         </div>
                         <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">MTN Mobile Money</div>
-                    </div> 
-                    <div onClick={() => updateMethodForAll(2)} className={`w-[231px] h-[54px] bg-white rounded-[10px] border ${inputs[0].choosenMethod === 2 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
+                    </button> 
+                    {/* <div onClick={() => updateMethodForAll(2)} className={`w-[231px] h-[54px] bg-white rounded-[10px] border ${inputs[0].choosenMethod === 2 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
                         <div className="w-[39px] h-[26px] pl-2.5 pr-[9px] py-[3px] bg-neutral-100 rounded-[3px] justify-center items-center inline-flex">
                             <img className="w-5 h-5" src={Voda} />
                         </div>
                         <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Vodafone Mobile Money</div>
-                    </div>
-                    <div onClick={() => updateMethodForAll(3)} className={`w-[177px] h-[54px] bg-white rounded-[10px] border ${inputs[0].choosenMethod === 3 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
+                    </div> */}
+                    <div onClick={() => updateMethodForAll(1)} className={`w-[177px] h-[54px] bg-white rounded-[10px] border ${inputs[0].choosenMethod === 1 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
                         <img className="w-[34px] h-[17px]" src={Money} />
                         <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Cash on Pickup</div>
                     </div> 
-                    <div onClick={() => updateMethodForAll(4)} className={`w-[186px] h-[54px] bg-white rounded-[10px] border ${inputs[0].choosenMethod === 4 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
+                    <div onClick={() => updateMethodForAll(2)} className={`w-[186px] h-[54px] bg-white rounded-[10px] border ${inputs[0].choosenMethod === 2 ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center cursor-pointer items-center gap-1.5 inline-flex`}>
                         <img className="w-[34px] h-[17px]" src={Money} />
                         <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Cash on Delivery</div>
                     </div> 
@@ -387,18 +387,18 @@ export const Step2 = ({ next, inputs, setInputs }) => {
                             const updatedAddons = [...item.chosenAddons]; // Create a copy
 
                             // Check if the clicked addon ID exists in the array
-                            const addonIndex = updatedAddons.indexOf(itemz);
-                            // If the addon is already selected, remove it; otherwise, add it
+                            const addonIndex = updatedAddons.findIndex((i) => i.id === itemz.id);
+
                             if (addonIndex !== -1) {
                               updatedAddons.splice(addonIndex, 1);
                             } else {
                               updatedAddons.push(itemz);
                             }
                     
-                            // Update the state with the modified array
+                            // // Update the state with the modified array
                             handleChosenAddonsChange(index, updatedAddons);
-                        }} className={`min-w-[165px] px-5 cursor-pointer h-[52px] rounded-[10px] border ${item?.chosenAddons?.includes(itemz) ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
-                            <img src={item?.chosenAddons?.includes(itemz) ? TickChecked : TickOutile} />
+                        }} className={`min-w-[165px] px-5 cursor-pointer h-[52px] rounded-[10px] border ${item?.chosenAddons?.some(addon => addon['id'] === itemz.id) ? 'border-red-800 bg-[#f9f3f3]' : 'border-gray-100 bg-white'} justify-center items-center gap-1.5 inline-flex`}>
+                            <img src={item?.chosenAddons?.some(addon => addon['id'] === itemz.id) ? TickChecked : TickOutile} />
                             <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{itemz.description}</div>
                         </div>)}
                     </div> 
@@ -558,7 +558,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 width: 10,
                 weight: 10,
                 distance_as_km: item?.distance,
-                total_cost:  item?.total,
+                total_cost:  subTotal,
                 frangible: true,
                 package_details: "",
                 pickup_contact_person: item?.full_name_pickup,
@@ -645,7 +645,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 width: 10,
                 weight: 10,
                 distance_as_km: item?.distance,
-                total_cost:  item?.total,
+                total_cost: subTotal,
                 frangible: true,
                 package_details: "",
                 pickup_contact_person: item?.full_name_pickup,
@@ -697,15 +697,15 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
 
     const handleSaveEdit = async () => {
         try {
-        const result = await callAPI(
-            "/api/delivery/package-delivery/",
-            "PUT",
-            true,
-            data[0]
-        );
-        console.log(result);
-        navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
-        setStep(0);
+            const result = await callAPI(
+                "/api/delivery/package-delivery/",
+                "PUT",
+                true,
+                data[0]
+            );
+            console.log(result);
+            navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
+            setStep(0);
        } catch (error) {
         console.log(error)
        }
@@ -767,7 +767,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                             <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Payment Method</div>
                             <div className="flex flex-row gap-1.5">
                                 <img className="w-[34px] h-[17px]" src={Money} />
-                                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item?.choosenMethod === 3 ? "Cash on delivery" : "MoMo"}</div> 
+                                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item?.choosenMethod === 1 ? "Cash on pickup" : item?.choosenMethod === 2 ? "Cash on delivery" : "MoMo"}</div> 
                             </div>
                         </div>
                     </div>
