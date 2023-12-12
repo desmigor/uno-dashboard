@@ -69,7 +69,7 @@ export default function OrderResolution({ item }) {
         }
         issue_id={item.id}
         resolution_status={
-          item.title == "can't pick up" ? 2 : 4
+          item.title == "can't pick up" ? 4 : 2
         }
         resolution_text={"Cancel"}
       />

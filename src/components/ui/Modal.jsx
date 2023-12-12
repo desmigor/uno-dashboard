@@ -48,8 +48,6 @@ function Modal({
   ];
 
   const handleConfirm = async () => {
-    console.log("confirm" + issue_id)
-    console.log("confirm" + resolution_status)
     try {
       setLoading(true);
       console.log(resolution_status);
@@ -58,8 +56,6 @@ function Modal({
         status: resolution_status,
         resolution: resolution_text,
       });
-      console.log("result : ");
-      console.log(result);
       dispatch(fetchPendingAction());
       setLoading(false);
       onConfirm(true);
