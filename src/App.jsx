@@ -62,7 +62,7 @@ function App() {
             <Route path='/support/dashboard/courier/:id' element={<CouriersView />} />
             <Route path='/support/dashboard/settings' element={<Settings />} />
           </Route>
-          <Route path='/support/dashboard/package/choose-address' element={<PrivateRoute isAllowed={userInfo?.type?.id !== 3} redirectTo='/admin/dashboard/'><ChooseAddress /></PrivateRoute>} />
+          <Route path='/support/dashboard/package/choose-address/:index' element={<PrivateRoute isAllowed={userInfo?.type?.id !== 3} redirectTo='/admin/dashboard/'><ChooseAddress /></PrivateRoute>} />
           <Route path='/admin/dashboard' element={<PrivateRoute isAllowed={userInfo?.type?.id === 3} redirectTo='/support/dashboard/'><Layout /></PrivateRoute>} >
             <Route index element={<AdminDashboard />} />
             <Route path='/admin/dashboard/pending' element={<Pending />} />
@@ -82,7 +82,7 @@ function App() {
             <Route path='/admin/dashboard/customers/update/:id' element={<EditCustomer />} />
             <Route path='/admin/dashboard/settings' element={<Settings />} />
           </Route>
-          <Route path='/admin/dashboard/package/choose-address' element={<PrivateRoute isAllowed={userInfo?.type?.id === 3} redirectTo='/support/dashboard/'><ChooseAddress /></PrivateRoute>} />
+          <Route path='/admin/dashboard/package/choose-address/:index' element={<PrivateRoute isAllowed={userInfo?.type?.id === 3} redirectTo='/support/dashboard/'><ChooseAddress /></PrivateRoute>} />
         </Routes>
       </Router>
     </AppContext.Provider>

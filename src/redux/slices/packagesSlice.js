@@ -12,6 +12,8 @@ const initialState = {
     completedCounts: 0,
     canceledCounts: 0,
     selectedPackage: {},
+    pickupLocationItem: {},
+    dropLocationItem: {},
 }
 
 const fetchPackagesSlice = createSlice({
@@ -57,9 +59,13 @@ const fetchPackagesSlice = createSlice({
         fetchPackageDetail: (state, { payload }) => {
             state.selectedPackage = payload;
             state.loading = false;
+        },
+        fetchAddPackageAddresses: (state, { payload }) => {
+            state.pickupLocationItem = payload.pickup;
+            state.dropLocationItem = payload.drop;
         }
     }
 })
 
-export const { fetchPackages, fetchPackagesSuccess, fetchPackagesError, fetchOngoingPackages, fetchCompletedPackages, fetchCanceledPackages, fetchPackageDetail, fetchSuccess } = fetchPackagesSlice.actions;
+export const { fetchPackages, fetchPackagesSuccess, fetchPackagesError, fetchOngoingPackages, fetchCompletedPackages, fetchCanceledPackages, fetchPackageDetail, fetchSuccess, fetchAddPackageAddresses } = fetchPackagesSlice.actions;
 export default fetchPackagesSlice.reducer;

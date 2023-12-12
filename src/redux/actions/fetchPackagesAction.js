@@ -1,5 +1,5 @@
 import callAPI from "../../utils/api";
-import { fetchCanceledPackages, fetchCompletedPackages, fetchOngoingPackages, fetchPackageDetail, fetchPackages, fetchPackagesSuccess, fetchSuccess } from "../slices/packagesSlice";
+import { fetchAddPackageAddresses, fetchCanceledPackages, fetchCompletedPackages, fetchOngoingPackages, fetchPackageDetail, fetchPackages, fetchPackagesSuccess, fetchSuccess } from "../slices/packagesSlice";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -61,6 +61,7 @@ export const fetchPackageDetails = (id) => async (dispatch, getState) => {
       true
     );
     dispatch(fetchPackageDetail(result.data));
+    return result.data;
   } catch (error) {
   }
 }
@@ -98,21 +99,46 @@ export const cancelPackage = (id) => async (dispatch, getState) => {
   }
 }
 
-export const addPackagesPickupAddress = (item) => async (dispatch, getState) => {
+export const addPackagesPickupAddressAction = (pickup, drop) => async (dispatch, getState) => {
   try {
-    const payload = {
+    const payloadPickup = {
       "title" : "Pickup Address",
-      "open_address" : item?.formatted_address,
-      "landmark": "",
-      "location": item?.country,
-      "contact_person": item?.name,
-      "contact_phone" : item?.phone,
+      "open_address" : pickup?.formatted_address,
+      "landmark": pickup?.coment,
+      "location": pickup?.country,
+      "contact_person": pickup?.name,
+      "contact_phone" : pickup?.phone,
       "contact_country": 1,
-      "latitude": item?.latitude,
-      "longitude" : item?.longitude,
+      "latitude": pickup?.latitude,
+      "longitude" : pickup?.longitude,
       "address_type" : 1,
       "temporary" : true
     }
+
+    const payloadDrop = {
+      "title" : "Drop Address",
+      "open_address" : drop?.formatted_address,
+      "landmark": drop?.coment,
+      "location": drop?.country,
+      "contact_person": drop?.name,
+      "contact_phone" : drop?.phone,
+      "contact_country": 1,
+      "latitude": drop?.latitude,
+      "longitude" : drop?.longitude,
+      "address_type" : 1,
+      "temporary" : true
+    }
+
+    const resultsPickup = await callAPI('/api/address/user-address/', 'POST', true, payloadPickup);
+    const resultsDrop = await callAPI('/api/address/user-address/', 'POST', true, payloadDrop);
+
+    const payloadToSendInRedux = {
+      pickup: resultsPickup,
+      drop: resultsDrop,
+    };
+
+    dispatch(fetchAddPackageAddresses(payloadToSendInRedux));
+
   } catch (error) {
     
   }
@@ -153,3 +179,5 @@ export const fetchPackagesCanceledActionSearch= (search, order) => async (dispat
   } catch (error) {
   }
 };
+
+
