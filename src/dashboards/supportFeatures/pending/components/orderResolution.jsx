@@ -161,6 +161,7 @@ export default function OrderResolution({ item }) {
             </button>
 
             <button
+              disabled={item.issue_type_value == "Delivery Issues"}
               className="group w-[24%]"
               onClick={() => setSelectedAction("reassign")}
             >
@@ -219,6 +220,7 @@ export default function OrderResolution({ item }) {
               </div>
             </button>
             <button
+              disabled={item.issue_type_value == "Delivery Issues"}
               className="group w-[24%]"
               onClick={() => setSelectedAction("cancel")}
             >
