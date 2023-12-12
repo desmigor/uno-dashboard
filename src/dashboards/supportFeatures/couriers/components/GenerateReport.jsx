@@ -10,9 +10,9 @@ import { cancelPackage } from '../../../../redux/actions/fetchPackagesAction';
 import Spinner from '../../../../components/ui/spinner';
 import { fetchGroupDetailsAction, generateReport, updateGroupAction } from '../../../../redux/actions/fetchCouriersAction';
 import moment from 'moment';
-import Datepicker from "react-tailwindcss-datepicker"; 
 import ReportPDF from '../../../../components/ui/ReportPDF';
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import { Datepicker } from 'flowbite-react';
 
 
 const GenerateReport = ({ isOpen, setIsOpen, id }) => {
@@ -28,7 +28,7 @@ const GenerateReport = ({ isOpen, setIsOpen, id }) => {
 
     useEffect(() => {
         handleAction(value);
-    }, []);
+    }, [value, period]);
 
     const handleAction = (value) => {
         const payload = {
@@ -36,6 +36,7 @@ const GenerateReport = ({ isOpen, setIsOpen, id }) => {
             start_date: value.startDate,
             end_date: value.endDate
         }
+        console.log(payload, 'klkll')
         dispatch(generateReport(payload, id)).then((res) => {
             setData(res.data);
             console.log(res.data);
@@ -120,7 +121,7 @@ const GenerateReport = ({ isOpen, setIsOpen, id }) => {
                                         selected ? 'font-medium' : 'font-normal'
                                         }`}
                                     >
-                                        Monthly
+                                        Daily
                                     </span>
                                     {selected ? (
                                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
@@ -191,12 +192,237 @@ const GenerateReport = ({ isOpen, setIsOpen, id }) => {
                         <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">12-09-2023</div>
                     </div> */}
                     <Datepicker 
-                        primaryColor='red'
-                        popoverDirection='down'
-                        value={value} 
-                        onChange={handleValueChange} 
-                    /> 
+                        className="w-full h-12 bg-white"
+                        maxDate={new Date()}
+                        color={"red"}
+                        icon={undefined}
+                        value={period === "Monthly" ? moment(value.startDate).format("MM-YYYY") : moment(value.startDate).format("DD-MM-YYYY")}
+                        height={70}
+                        onSelectedDateChanged={(val) => {
+                            if(period === 'Monthly'){
+                                setValue({
+                                    startDate: moment(val).startOf("month").format("YYYY-MM-DD"),
+                                    endDate: moment(val).endOf("month").format("YYYY-MM-DD"),
+                                })
+                            }else if (period === "Daily"){
+                                setValue({
+                                    endDate: moment(val).format("YYYY-MM-DD"),
+                                    startDate: moment(val).format("YYYY-MM-DD"),
+                                })
+                            }else{
+                                setValue({
+                                    ...value,
+                                    startDate: moment(val).startOf("month").format("YYYY-MM-DD"),
+                                })
+                            }
+                        }}
+                        theme={{
+                            "root": {
+                              "base": "relative",
+                              "input": {
+                                base: "h-12",
+                                field: {
+                                    base: "h-12",
+                                    input: {
+                                        base: "w-full h-12 px-4 py-[13px] bg-white placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-2xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex",
+                                    }
+                                }
+                              } 
+                            },
+                            "popup": {
+                              "root": {
+                                "base": "absolute top-10 z-50 block pt-2",
+                                "inline": "relative top-0 z-auto",
+                                "inner": "inline-block rounded-lg bg-white  p-4 shadow-lg dark:bg-gray-700"
+                              },
+                              "header": {
+                                "base": "",
+                                "title": "px-2 py-3 text-center font-semibold text-gray-900 dark:text-white",
+                                "selectors": {
+                                  "base": "flex justify-between mb-2",
+                                  "button": {
+                                    "base": "text-sm rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-700 font-semibold py-2.5 px-5 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 view-switch",
+                                    "prev": "",
+                                    "next": "",
+                                    "view": ""
+                                  }
+                                }
+                              },
+                              "view": {
+                                "base": "p-1"
+                              },
+                              "footer": {
+                                "base": "flex mt-2 space-x-2",
+                                "button": {
+                                  "base": "w-full rounded-lg px-5 py-2 text-center text-sm font-medium focus:ring-4 focus:ring-cyan-300",
+                                  "today": "bg-red-800 text-white hover:bg-red-700 dark:bg-red-800 dark:hover:bg-red-700",
+                                  "clear": "border border-gray-300 bg-white text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+                                }
+                              }
+                            },
+                            "views": {
+                              "days": {
+                                "header": {
+                                  "base": "grid grid-cols-7 mb-1",
+                                  "title": "dow h-6 text-center text-sm font-medium leading-6 text-gray-500 dark:text-gray-400"
+                                },
+                                "items": {
+                                  "base": "grid w-64 grid-cols-7",
+                                  "item": {
+                                    "base": "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 ",
+                                    "selected": "bg-red-800 text-white font-rubik",
+                                    "disabled": "text-gray-500"
+                                  }
+                                }
+                              },
+                              "months": {
+                                "items": {
+                                  "base": "grid w-64 grid-cols-4",
+                                  "item": {
+                                    "base": "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600",
+                                    "selected": "bg-red-800 text-white font-rubik",
+                                    "disabled": "text-gray-500"
+                                  }
+                                }
+                              },
+                              "years": {
+                                "items": {
+                                  "base": "grid w-64 grid-cols-4",
+                                  "item": {
+                                    "base": "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 text-gray-900",
+                                    "selected": "bg-red-800 text-white font-rubik",
+                                    "disabled": "text-gray-500"
+                                  }
+                                }
+                              },
+                              "decades": {
+                                "items": {
+                                  "base": "grid w-64 grid-cols-4",
+                                  "item": {
+                                    "base": "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9  hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 text-gray-900",
+                                    "selected": "bg-red-800 text-white font-rubik",
+                                    "disabled": "text-gray-500"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                          }
+                    />
                 </div>
+               {period === "Custom Date" && <div className="w-full h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+                    <div className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">End Date</div>
+                    {/* <div className="cursor-pointer self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex">
+                        <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">12-09-2023</div>
+                    </div> */}
+                    <Datepicker 
+                        className="w-full h-12 bg-white"
+                        color={"red"}
+                        icon={undefined}
+                        maxDate={new Date()}
+                        height={70}
+                        value={moment(value.endDate).format("DD-MM-YYYY")}
+                        onSelectedDateChanged={(val) => {
+                            console.log(val);
+                            setValue({
+                                ...value,
+                                endDate: moment(val).format("YYYY-MM-DD"),
+                            })
+                        }}
+                        theme={{
+                            "root": {
+                              "base": "relative",
+                              "input": {
+                                base: "h-12",
+                                field: {
+                                    base: "h-12",
+                                    input: {
+                                        base: "w-full h-12 px-4 py-[13px] bg-white placeholder:text-gray-300 text-sm font-normal font-['Rubik'] leading-tight text-zinc-800 rounded-2xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex",
+                                    }
+                                }
+                              } 
+                            },
+                            "popup": {
+                              "root": {
+                                "base": "absolute top-10 z-50 block pt-2",
+                                "inline": "relative top-0 z-auto",
+                                "inner": "inline-block rounded-lg bg-white  p-4 shadow-lg dark:bg-gray-700"
+                              },
+                              "header": {
+                                "base": "",
+                                "title": "px-2 py-3 text-center font-semibold text-gray-900 dark:text-white",
+                                "selectors": {
+                                  "base": "flex justify-between mb-2",
+                                  "button": {
+                                    "base": "text-sm rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-700 font-semibold py-2.5 px-5 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 view-switch",
+                                    "prev": "",
+                                    "next": "",
+                                    "view": ""
+                                  }
+                                }
+                              },
+                              "view": {
+                                "base": "p-1"
+                              },
+                              "footer": {
+                                "base": "flex mt-2 space-x-2",
+                                "button": {
+                                  "base": "w-full rounded-lg px-5 py-2 text-center text-sm font-medium focus:ring-4 focus:ring-cyan-300",
+                                  "today": "bg-red-800 text-white hover:bg-red-700 dark:bg-red-800 dark:hover:bg-red-700",
+                                  "clear": "border border-gray-300 bg-white text-gray-900 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
+                                }
+                              }
+                            },
+                            "views": {
+                              "days": {
+                                "header": {
+                                  "base": "grid grid-cols-7 mb-1",
+                                  "title": "dow h-6 text-center text-sm font-medium leading-6 text-gray-500 dark:text-gray-400"
+                                },
+                                "items": {
+                                  "base": "grid w-64 grid-cols-7",
+                                  "item": {
+                                    "base": "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 ",
+                                    "selected": "bg-red-800 text-white font-rubik",
+                                    "disabled": "text-gray-500"
+                                  }
+                                }
+                              },
+                              "months": {
+                                "items": {
+                                  "base": "grid w-64 grid-cols-4",
+                                  "item": {
+                                    "base": "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600",
+                                    "selected": "bg-red-800 text-white font-rubik",
+                                    "disabled": "text-gray-500"
+                                  }
+                                }
+                              },
+                              "years": {
+                                "items": {
+                                  "base": "grid w-64 grid-cols-4",
+                                  "item": {
+                                    "base": "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 text-gray-900",
+                                    "selected": "bg-red-800 text-white font-rubik",
+                                    "disabled": "text-gray-500"
+                                  }
+                                }
+                              },
+                              "decades": {
+                                "items": {
+                                  "base": "grid w-64 grid-cols-4",
+                                  "item": {
+                                    "base": "block flex-1 cursor-pointer rounded-lg border-0 text-center text-sm font-semibold leading-9  hover:bg-gray-100 dark:text-white dark:hover:bg-gray-600 text-gray-900",
+                                    "selected": "bg-red-800 text-white font-rubik",
+                                    "disabled": "text-gray-500"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                          }
+                    />
+                </div>}
               </div>
               <div className="w-full h-[90px] pl-[38px] pr-[39px] py-5 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex">
                 <div className="self-stretch justify-start items-start gap-[27px] inline-flex">
