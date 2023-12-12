@@ -7,6 +7,9 @@ const initialState = {
     step: 0,
     pickupAddresses: null,
     deliveryAddresses: null,
+    pickupLocation: null,
+    dropLocation: null,
+    index: null,
 }
 
 const packageInputsSlice = createSlice({
@@ -29,9 +32,14 @@ const packageInputsSlice = createSlice({
         },
         storeDeliveryAddresses: (state, { payload }) => {
             state.deliveryAddresses = payload;
+        },
+        storeLocation: (state, { payload }) => {
+            state.pickupLocation = payload.pickup;
+            state.dropLocation = payload.drop;
+            state.index = payload.index;
         }
     }
 })
 
-export const { addAddresses, addPackageDetails, addSummary } = packageInputsSlice.actions;
+export const { addAddresses, addPackageDetails, addSummary, storeLocation } = packageInputsSlice.actions;
 export default packageInputsSlice.reducer; 
