@@ -20,8 +20,7 @@ const callAPI = async (
     var config = {
       method,
       // url: `${API_URL}${endpoint}`, // Treat all requests as new to prevent caching
-      // add ?_=${new Date().getTime() to the end of the url if there is no query string otherwise add &_=new Date().getTime()
-      url : `${API_URL}${endpoint}${endpoint.includes('?') ? '&' : '?'}_=${new Date().getTime()}`,
+      url : `${API_URL}${endpoint}`,
       data,
       cache: 'no-cache',
     };
