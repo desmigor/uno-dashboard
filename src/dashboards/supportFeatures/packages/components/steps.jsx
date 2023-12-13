@@ -424,7 +424,11 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
     const { userInfo } = useSelector(state => state.auth);
     const [toastText, setToastText] = useState("");
     const [toastSuccess, setToastSuccess] = useState(false);
-    const [showToast, setShowToast] = useState(true);
+    const [showToast, setShowToast] = useState(false);
+    const [taxRate, setTaxRate] = useState(0);
+    const [discountRatio , setDiscountRatio] = useState(0);
+
+    const dispatch = useDispatch();
 
 
     useEffect(() => {
@@ -445,12 +449,27 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
 
     const subTotal = inputs.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
 
+    const getTaxes = async () => {
+        try{
+            const response = await callAPI(
+                "/api/app-settings/",
+                "GET",
+                true,
+            );
+            setTaxRate(response.data.tax_rate);
+            return response.data.tax_rate;
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+
     function calculateTotalCost(distance, base_price, price_per_km) {
         const pricingStructure = price_per_km;
         let totalCost = 0;
         let remainingDistance = distance;
       
-        pricingStructure.forEach((segment, index) => {
+        pricingStructure?.forEach((segment, index) => {
           const segmentDistance = segment.km === "n" ? remainingDistance : Math.min(segment.km, remainingDistance);
           totalCost += segmentDistance * segment.price_control  * base_price;
           remainingDistance -= segmentDistance;
@@ -477,7 +496,6 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
       };
 
     const handleCalculations = (lat1, lon1, lat2, lon2, index) => {
-        console.log(addressDetails);
         const R = 6371; // Radius of the earth in km
         const deg2rad = (deg) => {
             return deg * (Math.PI/180)
@@ -508,11 +526,10 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         //     }
         // )
     }
-
-    
-
-
     const handleSendRequest = async () => {
+        const taxesPromise = getTaxes();
+        const taxRate = await taxesPromise;
+
         const payload = [];
         inputs.map(async (item, idx) => {
             const saveAddress = async (
@@ -553,6 +570,10 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 return response.data.id;
             }
 
+            const calculatedCost = item.total - (item.total * (parseFloat(discountRatio)/ 100))
+            const calculatedTaxes = calculatedCost * taxRate;
+            const calculatedTotalCost = calculatedCost + calculatedTaxes;
+
             const input = {
                 delivery_mode: null,
                 relative_size: null,
@@ -563,7 +584,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 width: 10,
                 weight: 10,
                 distance_as_km: item?.distance,
-                total_cost:  subTotal,
+                total_cost:  calculatedTotalCost,
                 frangible: true,
                 package_details: "",
                 pickup_contact_person: item?.full_name_pickup,
@@ -590,7 +611,6 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 package_size: item?.size?.id,
                 package_addons: item?.chosenAddons?.map(itm => itm.id),
             }
-            console.log(input, 'JJJJJJJ')
             payload.push(input);
         });
 
@@ -599,6 +619,9 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
     }    
 
     const handleSendRequestEdit = async () => {
+        const taxesPromise = getTaxes();
+        const taxRate = await taxesPromise;
+
         const payload = [];
         inputs.map(async (item, idx) => {
             const saveAddress = async (
@@ -638,7 +661,9 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 );
                 return response.data.id;
             }
-            console.log(discountCode, 'JJJJJJJ');
+            const calculatedCost = item.total - (item.total * (parseFloat(discountRatio)/ 100))
+            const calculatedTaxes = calculatedCost * taxRate;
+            const calculatedTotalCost = calculatedCost + calculatedTaxes;
 
             const input = {
                 package_id: id,
@@ -651,7 +676,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 width: 10,
                 weight: 10,
                 distance_as_km: item?.distance,
-                total_cost: subTotal,
+                total_cost: calculatedTotalCost,
                 frangible: true,
                 package_details: "",
                 pickup_contact_person: item?.full_name_pickup,
@@ -710,7 +735,6 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 true,
                 data[0]
             );
-            console.log(result);
             navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
             setStep(0);
        } catch (error) {
@@ -720,19 +744,30 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
        }
     }
 
+    useEffect(() => {
+        // This code will run every time discountRatio is updated
+        if (discountRatio !== 0) {
+            // Call the function that depends on the updated state
+            if (typeof id === 'undefined') {
+                handleSendRequest();
+            } else {
+                handleSendRequestEdit();
+            }
+        }
+    }, [discountRatio, id]);
+
     const handleValidateDiscount = async () => {
         try {
             const result = await callAPI(
-                "/api/delivery/validate-code/",
+                "/api/discount/validate-code/",
                 "POST",
                 true,
                 { code: discountCode }
             );
-            console.log(result);
-            // setCalculations({
-            //     ...calculations,
-            //     discount: result.data.discount
-            // })
+            setToastText("Discount code applied successfully");
+            setToastSuccess(true);
+            setShowToast(true);
+            setDiscountRatio(result.data.discount_ratio);
             if(typeof id === 'undefined'){
                 handleSendRequest();
             }else{
@@ -740,6 +775,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             }
 
         } catch (error) {
+            console.log(error)
             setToastText("Invalid discount code, The code you entered is invalid or has expired");
             setToastSuccess(false);
             setShowToast(true);
@@ -748,249 +784,407 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
 
 
     return (
-        <div className='w-full flex flex-row justify-between items-start mt-6 mb-24'>
-            <SuccessToast
-                text={toastText}
-                show={showToast}
-                onClose={() => setShowToast(false)}
-                success={toastSuccess}
-            />
-            <div className='xl:w-[70%] w-[60%] min-h-[789px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
-                <div className="w-full min-h-[117px] p-5 rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
-                    <div className='flex flex-row justify-between items-center w-full'>
-                        <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Addresses</div> 
-                        <button onClick={() => { setStep(0); }} className='flex flex-row gap-1.5'>
-                            <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Back to Edit</div> 
-                            <img src={ArrowLeft2} className='w-4 h-4' />
-                        </button>
-                    </div>
-                    {addressDetails.map((item, idx) => <div key={idx} className="xl:w-[716px] w-full xl:justify-start items-start xl:gap-[73px] justify-between inline-flex">
-                        <div className="xl:w-[370px] flex-col justify-start items-start gap-6 inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Pickup Address {addressDetails.length > 1 ? `${idx + 1}` : ''}</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.pickup?.formatted_address}</div>
-                            </div>
-                        </div>
-                        <div className="flex-col justify-start items-start gap-6 inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Delivery Address {addressDetails.length > 1 ? `${idx + 1}` : ''}</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.drop?.formatted_address}</div>
-                            </div>
-                        </div>
-                    </div>)}
-
+      <div className="w-full flex flex-row justify-between items-start mt-6 mb-24">
+        <SuccessToast
+          text={toastText}
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          success={toastSuccess}
+        />
+        <div className="xl:w-[70%] w-[60%] min-h-[789px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex">
+          <div className="w-full min-h-[117px] p-5 rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
+            <div className="flex flex-row justify-between items-center w-full">
+              <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">
+                Addresses
+              </div>
+              <button
+                onClick={() => {
+                  setStep(0);
+                }}
+                className="flex flex-row gap-1.5"
+              >
+                <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">
+                  Back to Edit
                 </div>
-                {addressDetails.map((item, idx) => <div key={idx} className="w-full min-h-[188px] p-5 rounded-lg border border-gray-100 flex-col justify-start items-start gap-5 inline-flex"> 
-                    <div className='flex flex-row justify-between items-center w-full'>
-                        <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Package Details & Payment {addressDetails?.length > 1 ? `${idx + 1}` : ''}</div> 
-                        <button onClick={() => { setStep(1); }} className='flex flex-row gap-1.5'>
-                            <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Back to Edit</div> 
-                            <img src={ArrowLeft2} className='w-4 h-4' />
-                        </button>
-                    </div>
-                    <div className="xl:w-[716px] w-full h-[45px] xl:justify-start items-start xl:gap-[73px] justify-between inline-flex">
-                        <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Package Size</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.size.name}</div>
-                            </div>
-                        </div>
-                        <div className="flex-col justify-start items-start gap-6 inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Package Addons</div>
-                                {
-                                    item?.chosenAddons?.map((itm, idex) => <div key={idex} className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{itm.name}</div>)
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex-col justify-start items-start gap-6 inline-flex">
-                        <div className="flex-col justify-start items-start gap-[5px] flex">
-                            <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Payment Method</div>
-                            <div className="flex flex-row gap-1.5">
-                                <img className="w-[34px] h-[17px]" src={Money} />
-                                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item?.choosenMethod === 1 ? "Cash on pickup" : item?.choosenMethod === 2 ? "Cash on delivery" : "MoMo"}</div> 
-                            </div>
-                        </div>
-                    </div>
-                </div>)}
-                {addressDetails?.map((item, idx) => <div key={idx} className="w-full min-h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
-                    <div className='flex flex-row justify-between items-center w-full'>
-                        <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Pickup Details {addressDetails?.length > 1 ? `${idx + 1}` : ''}</div> 
-                        <button onClick={() => { setStep(0); }} className='flex flex-row gap-1.5'>
-                            <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Back to Edit</div> 
-                            <img src={ArrowLeft2} className='w-4 h-4' />
-                        </button>
-                    </div>
-                    <div className="xl:w-[716px] w-full h-[45px] xl:justify-start items-start xl:gap-[73px] justify-between inline-flex">
-                        <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Full Name</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.full_name_pickup}</div>
-                            </div>
-                        </div>
-                        <div className="flex-col justify-start items-start gap-6 inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Phone Number</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.phone_number_pickup}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="w-full h-[65px] flex-col justify-start items-start gap-[5px] inline-flex">
-                        <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Comment</div>
-                        <div className="xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.comment_pickup}</div>
-                    </div> 
-                </div>)}
-                {addressDetails?.map((item, idx) => <div key={idx} className="w-full min-h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
-                    <div className='flex flex-row justify-between items-center w-full'>
-                        <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Delivery Details {addressDetails?.length > 1 ? `${idx + 1}` : ''}</div> 
-                        <button onClick={() => { setStep(0); }} className='flex flex-row gap-1.5'>
-                            <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">Back to Edit</div> 
-                            <img src={ArrowLeft2} className='w-4 h-4' />
-                        </button>
-                    </div>
-                    <div className="xl:w-[716px] w-full h-[45px] xl:justify-start items-start xl:gap-[73px] justify-between inline-flex">
-                        <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Full Name</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.full_name_drop}</div>
-                            </div>
-                        </div>
-                        <div className="flex-col justify-start items-start gap-6 inline-flex">
-                            <div className="flex-col justify-start items-start gap-[5px] flex">
-                                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Phone Number</div>
-                                <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.phone_number_drop}</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="w-full h-[65px] flex-col justify-start items-start gap-[5px] inline-flex">
-                        <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Comment</div>
-                        <div className="xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.comment_drop}</div>
-                    </div> 
-                </div>)}
+                <img src={ArrowLeft2} className="w-4 h-4" />
+              </button>
             </div>
-            <div className='xl:w-[28%] w-[38%] flex flex-col gap-6'>
-                <div className='w-full min-h-[343px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
-                    <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Order Total</div>
-                    {inputs?.map((item, idx) => <div key={idx}>
-                    <div className="w-full h-[22px] justify-between items-start inline-flex">
-                        <div className="justify-start items-center gap-1.5 flex">
-                            <div className="h-[22px] w-[22px] py-[3px] bg-gray-100 rounded-md justify-center items-center flex">
-                                <div className="text-zinc-800 text-xs font-normal font-['Rubik'] leading-none">{idx + 1}</div>
-                            </div>
-                            <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Package</div>
-                        </div>
-                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
-                            {
-                                item?.total?.toFixed(2)
-                            }
-                            {
-                                item?.size?.currency_display
-                            }
-                        </div>
+            {addressDetails.map((item, idx) => (
+              <div
+                key={idx}
+                className="xl:w-[716px] w-full xl:justify-start items-start xl:gap-[73px] justify-between inline-flex"
+              >
+                <div className="xl:w-[370px] flex-col justify-start items-start gap-6 inline-flex">
+                  <div className="flex-col justify-start items-start gap-[5px] flex">
+                    <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                      Pickup Address{" "}
+                      {addressDetails.length > 1 ? `${idx + 1}` : ""}
                     </div>
-                    <div className="w-full h-5 justify-between items-start inline-flex">
-                        <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">{
-                            item?.size?.name
-                        }</div>
-                        <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
-                            {
-                                item?.size?.price
-                            }
-                            {
-                                item?.size?.currency_display
-                            }
-                        </div>
+                    <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                      {item?.pickup?.formatted_address}
                     </div>
-                    <div className="w-full h-5 justify-between items-start inline-flex">
-                        <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Add-ons</div>
-                        <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
-                            {
-                                item?.chosenAddons?.map((item, idx) => item.price).reduce((a, b) => a + b, 0)
-                            }
-                            {
-                                item?.chosenAddons[0]?.currency_display
-                            }
-                        </div>
-                    </div>
-                    <div className="w-full h-5 justify-between items-start inline-flex">
-                        <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Distance</div>
-                        <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
-                            {
-                                item?.distance?.toFixed(3)
-                            } KM
-                        </div>
-                    </div>
-                    </div>)}
-                    <div className='border border-b-[#D0D4D9] w-full' />
-                    <div className="w-full h-5 justify-between items-start inline-flex">
-                        <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Subtotal</div>
-                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
-                            {
-                                subTotal?.toFixed(1)
-                            } 
-                            {
-                                inputs[0]?.size?.currency_display
-                            }
-                        </div>
-                    </div> 
-                    <div className="w-full h-5 justify-between items-start inline-flex">
-                        <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Taxes & Other fees</div>
-                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">0</div>
-                    </div>
-                    <div className='border border-b-[#D0D4D9] w-full' />
-                    <div className="w-full h-5 justify-between items-start inline-flex">
-                        <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">Total</div>
-                        <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
-                            {
-                               subTotal?.toFixed(1)
-                            }
-                        </div>
-                    </div>
-                    <button className="xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex"
-                    onClick={
-                        () => {
-                            if(typeof id === 'undefined'){
-                                handleSave();
-                            }else{
-                                handleSaveEdit();
-                            }
-                        }
-                    }
-                    >
-                        
-                        <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">{typeof id === 'undefined' ? "Request Delivery" : "Edit Package"}</div>
-                    </button>
+                  </div>
                 </div>
-                <div className={`w-full ${discountExpanded ? 'h-[228px]' : 'h-[72px]'} p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex`}> 
-                    <div onClick={() => setDiscountExpanded(!discountExpanded)} className=' cursor-pointer flex flex-row w-full justify-between items-center'>
-                        <div className='flex flex-row gap-2.5 items-center'>
-                            <img src={CheckDiscount} className='w-6 h-6' />
-                            <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">Add discount code</div> 
-                        </div>
-                        <img src={ArrowDown} className={`w-6 h-6 ${discountExpanded && '-rotate-180' }`} />
+                <div className="flex-col justify-start items-start gap-6 inline-flex">
+                  <div className="flex-col justify-start items-start gap-[5px] flex">
+                    <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                      Delivery Address{" "}
+                      {addressDetails.length > 1 ? `${idx + 1}` : ""}
                     </div>
-                    {discountExpanded && <div className="xl:w-[348px] w-full h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
-                        <div className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Discount Code</div>
-                        <input type='text' placeholder='SUPPORT@133' className="placeholder:text-zinc-300 text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex" 
-                        value={discountCode}
-                        onChange = {(e) => setDiscountCode(e.target.value)
-                        }
-                        />
-                    </div>}
-                    {discountExpanded && 
-                    <button 
-                    disabled={!discountCode}
-                    onClick={
-                        () => {
-                            handleValidateDiscount();
-                        }
-                    }
-                    className={`xl:w-[348px] w-full h-[50px] px-[60px] py-[15px]  rounded-[18px] justify-center items-center gap-2.5 inline-flex ${discountCode? ' bg-red-800' : 'bg-zinc-200'}`}>
-                        <div className="text-centertext-base text-white font-semibold font-['Rubik'] leading-snug">Apply Code</div>
-                    </button>}
+                    <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                      {item?.drop?.formatted_address}
+                    </div>
+                  </div>
                 </div>
+              </div>
+            ))}
+          </div>
+          {addressDetails.map((item, idx) => (
+            <div
+              key={idx}
+              className="w-full min-h-[188px] p-5 rounded-lg border border-gray-100 flex-col justify-start items-start gap-5 inline-flex"
+            >
+              <div className="flex flex-row justify-between items-center w-full">
+                <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">
+                  Package Details & Payment{" "}
+                  {addressDetails?.length > 1 ? `${idx + 1}` : ""}
+                </div>
+                <button
+                  onClick={() => {
+                    setStep(1);
+                  }}
+                  className="flex flex-row gap-1.5"
+                >
+                  <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">
+                    Back to Edit
+                  </div>
+                  <img src={ArrowLeft2} className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="xl:w-[716px] w-full h-[45px] xl:justify-start items-start xl:gap-[73px] justify-between inline-flex">
+                <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
+                  <div className="flex-col justify-start items-start gap-[5px] flex">
+                    <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                      Package Size
+                    </div>
+                    <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                      {item?.size.name}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-col justify-start items-start gap-6 inline-flex">
+                  <div className="flex-col justify-start items-start gap-[5px] flex">
+                    <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                      Package Addons
+                    </div>
+                    {item?.chosenAddons?.map((itm, idex) => (
+                      <div
+                        key={idex}
+                        className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight"
+                      >
+                        {itm.name}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="flex-col justify-start items-start gap-6 inline-flex">
+                <div className="flex-col justify-start items-start gap-[5px] flex">
+                  <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                    Payment Method
+                  </div>
+                  <div className="flex flex-row gap-1.5">
+                    <img className="w-[34px] h-[17px]" src={Money} />
+                    <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">
+                      {item?.choosenMethod === 1
+                        ? "Cash on pickup"
+                        : item?.choosenMethod === 2
+                        ? "Cash on delivery"
+                        : "MoMo"}
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          ))}
+          {addressDetails?.map((item, idx) => (
+            <div
+              key={idx}
+              className="w-full min-h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex"
+            >
+              <div className="flex flex-row justify-between items-center w-full">
+                <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">
+                  Pickup Details{" "}
+                  {addressDetails?.length > 1 ? `${idx + 1}` : ""}
+                </div>
+                <button
+                  onClick={() => {
+                    setStep(0);
+                  }}
+                  className="flex flex-row gap-1.5"
+                >
+                  <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">
+                    Back to Edit
+                  </div>
+                  <img src={ArrowLeft2} className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="xl:w-[716px] w-full h-[45px] xl:justify-start items-start xl:gap-[73px] justify-between inline-flex">
+                <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
+                  <div className="flex-col justify-start items-start gap-[5px] flex">
+                    <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                      Full Name
+                    </div>
+                    <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                      {item?.full_name_pickup}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-col justify-start items-start gap-6 inline-flex">
+                  <div className="flex-col justify-start items-start gap-[5px] flex">
+                    <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                      Phone Number
+                    </div>
+                    <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                      {item?.phone_number_pickup}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full h-[65px] flex-col justify-start items-start gap-[5px] inline-flex">
+                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                  Comment
+                </div>
+                <div className="xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                  {item?.comment_pickup}
+                </div>
+              </div>
+            </div>
+          ))}
+          {addressDetails?.map((item, idx) => (
+            <div
+              key={idx}
+              className="w-full min-h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex"
+            >
+              <div className="flex flex-row justify-between items-center w-full">
+                <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">
+                  Delivery Details{" "}
+                  {addressDetails?.length > 1 ? `${idx + 1}` : ""}
+                </div>
+                <button
+                  onClick={() => {
+                    setStep(0);
+                  }}
+                  className="flex flex-row gap-1.5"
+                >
+                  <div className="text-red-800 text-sm font-normal font-['Rubik'] leading-tight">
+                    Back to Edit
+                  </div>
+                  <img src={ArrowLeft2} className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="xl:w-[716px] w-full h-[45px] xl:justify-start items-start xl:gap-[73px] justify-between inline-flex">
+                <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
+                  <div className="flex-col justify-start items-start gap-[5px] flex">
+                    <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                      Full Name
+                    </div>
+                    <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                      {item?.full_name_drop}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex-col justify-start items-start gap-6 inline-flex">
+                  <div className="flex-col justify-start items-start gap-[5px] flex">
+                    <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                      Phone Number
+                    </div>
+                    <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                      {item?.phone_number_drop}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full h-[65px] flex-col justify-start items-start gap-[5px] inline-flex">
+                <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                  Comment
+                </div>
+                <div className="xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                  {item?.comment_drop}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-    )
+        <div className="xl:w-[28%] w-[38%] flex flex-col gap-6">
+          <div className="w-full min-h-[343px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex">
+            <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">
+              Order Total
+            </div>
+            {inputs?.map((item, idx) => (
+              <div key={idx}>
+                <div className="w-full h-[22px] justify-between items-start inline-flex">
+                  <div className="justify-start items-center gap-1.5 flex">
+                    <div className="h-[22px] w-[22px] py-[3px] bg-gray-100 rounded-md justify-center items-center flex">
+                      <div className="text-zinc-800 text-xs font-normal font-['Rubik'] leading-none">
+                        {idx + 1}
+                      </div>
+                    </div>
+                    <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                      Package
+                    </div>
+                  </div>
+                  <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
+                    {item?.total?.toFixed(3)}
+                    {item?.size?.currency_display}
+                  </div>
+                </div>
+                <div className="w-full h-5 justify-between items-start inline-flex">
+                  <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                    {item?.size?.name}
+                  </div>
+                  <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                    {item?.size?.price}
+                    {item?.size?.currency_display}
+                  </div>
+                </div>
+                <div className="w-full h-5 justify-between items-start inline-flex">
+                  <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                    Add-ons
+                  </div>
+                  <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                    {item?.chosenAddons
+                      ?.map((item, idx) => item.price)
+                      .reduce((a, b) => a + b, 0)}
+                    {item?.chosenAddons[0]?.currency_display}
+                  </div>
+                </div>
+                <div className="w-full h-5 justify-between items-start inline-flex">
+                  <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                    Distance
+                  </div>
+                  <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                    {item?.distance?.toFixed(3)} KM
+                  </div>
+                </div>
+                <div className="w-full h-5 justify-between items-start inline-flex">
+                  <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                    Discount
+                  </div>
+                  <div className="text-right text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">
+                    {(item.total * (parseFloat(discountRatio) / 100)).toFixed(3)}{" "}
+                    {item?.size?.currency_display}
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="border border-b-[#D0D4D9] w-full" />
+            <div className="w-full h-5 justify-between items-start inline-flex">
+              <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                Subtotal
+              </div>
+              <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
+                {(
+                  subTotal -
+                  subTotal * (parseFloat(discountRatio) / 100)
+                ).toFixed(3)}
+                {inputs[0]?.size?.currency_display}
+              </div>
+            </div>
+            <div className="w-full h-5 justify-between items-start inline-flex">
+              <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
+                Taxes & Other fees
+              </div>
+              <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
+                {(
+                  ((subTotal - subTotal * (parseFloat(discountRatio) / 100)) *
+                    taxRate)
+                ).toFixed(3)}
+              </div>
+            </div>
+            <div className="border border-b-[#D0D4D9] w-full" />
+            <div className="w-full h-5 justify-between items-start inline-flex">
+              <div className="text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
+                Total
+              </div>
+              <div className="text-right text-zinc-800 text-base font-semibold font-['Rubik'] leading-tight">
+                {(
+                  subTotal -
+                  subTotal * (parseFloat(discountRatio) / 100) +
+                  ((subTotal - subTotal * (parseFloat(discountRatio) / 100)) *
+                    taxRate)
+                ).toFixed(3)}
+                {inputs[0]?.size?.currency_display}
+              </div>
+            </div>
+            <button
+              className="xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex"
+              onClick={() => {
+                if (typeof id === "undefined") {
+                  handleSave();
+                } else {
+                  handleSaveEdit();
+                }
+              }}
+            >
+              <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">
+                {typeof id === "undefined"
+                  ? "Request Delivery"
+                  : "Edit Package"}
+              </div>
+            </button>
+          </div>
+          <div
+            className={`w-full ${
+              discountExpanded ? "h-[228px]" : "h-[72px]"
+            } p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex`}
+          >
+            <div
+              onClick={() => setDiscountExpanded(!discountExpanded)}
+              className=" cursor-pointer flex flex-row w-full justify-between items-center"
+            >
+              <div className="flex flex-row gap-2.5 items-center">
+                <img src={CheckDiscount} className="w-6 h-6" />
+                <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">
+                  Add discount code
+                </div>
+              </div>
+              <img
+                src={ArrowDown}
+                className={`w-6 h-6 ${discountExpanded && "-rotate-180"}`}
+              />
+            </div>
+            {discountExpanded && (
+              <div className="xl:w-[348px] w-full h-[74px] flex-col justify-start items-start gap-1.5 inline-flex">
+                <div className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">
+                  Discount Code
+                </div>
+                <input
+                  type="text"
+                  placeholder="SUPPORT@133"
+                  className="placeholder:text-zinc-300 text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight self-stretch h-12 px-4 py-[13px] rounded-xl border border-zinc-200 justify-start items-center gap-2.5 inline-flex"
+                  value={discountCode}
+                  onChange={(e) => setDiscountCode(e.target.value)}
+                />
+              </div>
+            )}
+            {discountExpanded && (
+              <button
+                disabled={!discountCode}
+                onClick={() => {
+                  handleValidateDiscount();
+                }}
+                className={`xl:w-[348px] w-full h-[50px] px-[60px] py-[15px]  rounded-[18px] justify-center items-center gap-2.5 inline-flex ${
+                  discountCode ? " bg-red-800" : "bg-zinc-200"
+                }`}
+              >
+                <div className="text-centertext-base text-white font-semibold font-['Rubik'] leading-snug">
+                  Apply Code
+                </div>
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
 }
