@@ -21,7 +21,6 @@ export const fetchPackageAddOnsAction = () => async (dispatch, getState) => {
       "GET",
       true
     );
-    console.log(result, 'jijijijiji')
     dispatch(fetchPackageAddOns());
     dispatch(fetchPackageAddOnsSuccess(result));
   } catch (error) {

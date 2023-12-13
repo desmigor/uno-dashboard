@@ -4,6 +4,8 @@ import { Dialog } from "@headlessui/react";
 import Spinner from "../../../../../components/ui/spinner";
 import callAPI from "../../../../../utils/api";
 import { fetchVehicleTypesAction } from "../../../../../redux/actions/fetchVehicleTypes";
+import TickIcon from "../../../../../assets/images/dashboard/icon/tick-circle3.svg";
+import NoTickIcon from "../../../../../assets/images/dashboard/icon/tick-circle-no.svg";
 
 export default function AddVehicleType({ show, onClose, onConfirm, editData }) {
   if (!show) {
@@ -28,6 +30,9 @@ export default function AddVehicleType({ show, onClose, onConfirm, editData }) {
     editData ? editData.average_speed : ""
   );
   const [loading, setLoading] = useState(false);
+  const [boxFit, setBoxFit] = useState(
+    editData ? editData.box_fit : false
+  );
 
   const dispatch = useDispatch();
 
@@ -44,6 +49,7 @@ export default function AddVehicleType({ show, onClose, onConfirm, editData }) {
         max_length: maxLength,
         average_speed: averageSpeed,
         name: vehicleTypeName,
+        box_fit: boxFit,
       };
       console.log(data);
       const response = await callAPI(
@@ -74,7 +80,7 @@ export default function AddVehicleType({ show, onClose, onConfirm, editData }) {
       <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-opacity-50 bg-black">
         <div class="w-[280px] h-[760px] flex-col justify-start items-start inline-flex">
           <form class="h-[670px] p-5 bg-white rounded-tl-2xl rounded-tr-2xl flex-col justify-start items-start gap-5 flex">
-            <div class="flex-col justify-start items-start gap-5 flex">
+            <div class="flex-col justify-start items-start gap-2 flex">
               <div class="w-[409px] justify-between items-center inline-flex">
                 <div class="text-zinc-800 text-lg font-semibold font-rubik">
                   Add vehicle type
@@ -83,7 +89,7 @@ export default function AddVehicleType({ show, onClose, onConfirm, editData }) {
                   <div class="w-6 h-6 relative"></div>
                 </div>
               </div>
-              <div class="w-[409px] text-slate-500 text-sm font-normal font-rubik leading-tight">
+              <div class="w-[409px] my-2 text-slate-500 text-sm font-normal font-rubik leading-tight">
                 Add details about the vehicle type
               </div>
               <div class="h-[74px] flex-col justify-start items-start gap-1.5 flex">
@@ -170,6 +176,41 @@ export default function AddVehicleType({ show, onClose, onConfirm, editData }) {
                   placeholder="Enter maximum weight"
                 />
               </div>
+              <div className="flex flex-row gap-2 h-12 px-4 py-[13px]">
+                  <div className="flex-col justify-start items-start gap-1.5 flex">
+                    <div
+                      className={`self-stretch h-12 px-4 py-[13px] w-[110px] rounded-xl border justify-start items-start gap-2.5 inline-flex ${
+                        boxFit ? " border-red-800" : " border-zinc-200"
+                      }`}
+                      onClick={() => setBoxFit(true)}
+                    >
+                      <div className="w-6 h-6 relative">
+                        <img src={boxFit ? TickIcon : NoTickIcon} />
+                      </div>
+                      <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
+                        Box fit
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-col justify-start items-start gap-1.5 flex">
+                    <div
+                      className={`self-stretch h-12 px-4 py-[13px] w-[110px] rounded-xl border justify-start items-start gap-2.5 inline-flex ${
+                        !boxFit ? " border-red-800" : " border-zinc-200"
+                      }`}
+                      onClick={() => setBoxFit(false)}
+                    >
+                      <div className="w-6 h-6 relative">
+                        <img
+                          src={boxFit ? NoTickIcon : TickIcon}
+                          
+                        />
+                      </div>
+                      <div className="text-slate-500 text-sm font-normal font-rubik leading-tight">
+                        Van fit
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
           </form>
           <div class="px-[46.50px] py-5 bg-white rounded-bl-2xl rounded-br-2xl border-t border-gray-100 justify-center items-center inline-flex">

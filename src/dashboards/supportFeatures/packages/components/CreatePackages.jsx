@@ -3,25 +3,74 @@ import ArrowLeft from '../../../../assets/images/dashboard/icon/arrow-left-black
 import { Step1, Step2, Step3 } from './steps'
 import { useDispatch, useSelector } from 'react-redux';
 import { addAddresses, addPackageDetails, addSummary } from '../../../../redux/slices/packageInputs';
+import { useParams } from 'react-router-dom';
+import { fetchPackageDetails } from '../../../../redux/actions/fetchPackagesAction';
 
 function CreatePackages() {
     const [current, setCurrent] = useState(0);
-    const { step } = useSelector(state => state.packages);
+    const [inputs, setInputs] = useState([{ pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 }]);
+    const { step, index, pickupLocation, dropLocation } = useSelector(state => state.packages);
     const dispatch = useDispatch()
+    const { id } = useParams();
     
     useEffect(() => {
-        setCurrent(step);
-    }, []);
+        if(parseInt(index) > 0 ){
+            for (let index = 0; index < parseInt(index) ; index++) {
+                const newInput = [
+                    ...inputs,
+                    { pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 },
+                ]
+                setInputs(newInput);
+            }
+        }
+        if(typeof id === 'undefined'){
+            console.log('');
+        }else{
+            dispatch(fetchPackageDetails(id)).then((res) => {
+                handleInputChange(0, 'pickupAddress', res.pickup_open_address);
+                handleInputChange(0, 'dropAddress', res.drop_open_address);
+                handleInputChange(0, 'pickup', { lat: res.pickup_latitude, lng: res.pickup_longitude, formatted_address: res.pickup_open_address });
+                handleInputChange(0, 'drop', { lat: res.drop_latitude, lng: res.drop_longitude, formatted_address: res.drop_open_address });
+                handleInputChange(0, 'full_name_pickup', res.pickup_contact_person);
+                handleInputChange(0, 'full_name_drop', res.drop_contact_person);
+                handleInputChange(0, 'phone_number_pickup', res.pickup_contact_phone);
+                handleInputChange(0, 'phone_number_drop', res.drop_contact_phone);
+                handleInputChange(0, 'comment_pickup', 'None');
+                handleInputChange(0, 'comment_drop', 'None');
+                handleInputChange(0, 'choosenMethod', res.payment_type === "Cash Upon Pickup" ? 1 : res.payment_type === "Cash Upon Delivery" ? 2 : 3);
+                handleInputChange(0, 'size', res.package_size);
+                handleInputChange(0, 'total', res.total_cost);
+                handleInputChange(0, 'chosenAddons', res.package_addons);
+                handleInputChange(0, 'total', res.total_cost);
+            })
+        }
+        }, []);
+
+        useEffect(() => {
+            if(index && pickupLocation && dropLocation){
+                handleInputChange(parseInt(index), 'pickupAddress', pickupLocation?.formatted_address);
+                handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
+                handleInputChange(parseInt(index), 'pickup', typeof id === 'undefined' ? pickupLocation : { lat: pickupLocation?.geometry?.location?.lat, lng: pickupLocation?.geometry?.location?.lng, formatted_address: pickupLocation?.formatted_address });
+                handleInputChange(parseInt(index), 'drop', typeof id === 'undefined' ? dropLocation : { lat: dropLocation?.geometry?.location?.lat, lng: dropLocation?.geometry?.location?.lng, formatted_address: dropLocation?.formatted_address });
+            }
+        }, [inputs, index]);
 
     const next = (nbr, data) => {
         setCurrent(nbr);
-        dispatch(nbr === 1 ? addAddresses(data) : nbr === 2 ? addPackageDetails(data) : addSummary(data));
+        dispatch(nbr === 1 || nbr === 2 ? addAddresses(data) : addSummary(data));
+    }
+
+    const handleInputChange = (index, field, value) => {
+        const newInputs = [...inputs];
+        console.log(newInputs, 'PPPPPp');
+        newInputs[index][field] = value;
+        setInputs(newInputs);
     }
     
     const steps = [
-        <Step1 next={next} />,
-        <Step2 next={next} />,
-        <Step3 setStep={setCurrent} />
+        <Step1 next={next} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} id={id} />,
+        <Step2 next={next} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} />,
+        <Step3 setStep={setCurrent} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} id={id} />
     ]
   return (
     <div className='bg-neutral-50 h-screen w-full py-6 px-10 overflow-auto'>
