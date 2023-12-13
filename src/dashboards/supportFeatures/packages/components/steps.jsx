@@ -181,7 +181,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
         {index === 0 && <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">You can add up to 10 delivery addresses in one order.</div>}
     </div>
        <div className='flex flex-row justify-between flex-wrap mt-[16px] w-full'>
-        <div className="xl:w-[460px] w-[48%] h-[74px] flex-col justify-start relative items-start gap-1.5 inline-flex">
+        <div className="w-[48%] h-[74px] flex-col justify-start relative items-start gap-1.5 inline-flex ">
             <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Pickup Address</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
             <input value={item.pickupAddress} type='text' onChange={(e) => {
                 handleInputChange(index, 'pickupAddress', e.target.value);
@@ -203,7 +203,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
                    </div>)}
                </div>}                        
         </div>
-        <div className="xl:w-[460px] w-[48%] h-[74px] flex-col justify-start items-start relative gap-1.5 inline-flex">
+        <div className="w-[48%] h-[74px] flex-col justify-start items-start relative gap-1.5 inline-flex">
             <div><span className="text-slate-500 text-sm font-normal font-['Rubik'] leading-tight">Delivery Address</span><span className="text-red-700 text-sm font-normal font-['Rubik'] leading-tight">*</span></div>
             <div className='flex flex-row items-center gap-3 w-full'>
                 <input value={item.dropAddress} type='text' placeholder='Amasaman KG124' onChange={(e) => { 
