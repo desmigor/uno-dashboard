@@ -24,6 +24,8 @@ import axios from 'axios'
 import { addPackagesPickupAddressAction } from '../../../../redux/actions/fetchPackagesAction'
 import { fetchPackageAddOnsAction, fetchPackageSizesAction } from '../../../../redux/actions/fetchPackageSizesAction'
 import callAPI from '../../../../utils/api'
+import SuccessToast from '../../../../components/ui/SuccessToast'
+import { set } from 'date-fns'
 
 export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
     const { userInfo } = useSelector((state) => state.auth);
@@ -172,7 +174,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
 
     return (
 <div className="w-full min-h-[891px] p-6 bg-white rounded-[10px] mt-6 flex-col justify-start items-start gap-8 inline-flex mb-24"> 
-{
+{    
     inputs.map((item, index) => <div key={index} className='w-[80%] mx-auto'>   
     <div className={`w-[295px] ${ index === 0 ? 'h-[45px]' : 'h-[10px]'} flex-col justify-start items-start gap-2 inline-flex`}>
        { index === 0 && <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Addresses</div>}
@@ -370,7 +372,7 @@ export const Step2 = ({ next, inputs, setInputs }) => {
                 <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Delivery: Package {index + 1}</div> 
                 <div className="text-slate-500 text-base font-semibold font-['Rubik'] leading-tight">Package Size</div> 
                 <div className='flex flex-row flex-wrap gap-6 w-full'>
-                    {packageSizes?.map((itm, idx) => <div key={idx} onClick={() => handleSizeChange(index, itm)} className={`xl:w-[345px] w-[35%] min-h-[106px] p-5 ${item.size.id === itm.id ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
+                    {packageSizes?.map((itm, idx) => <div key={idx} onClick={() => handleSizeChange(index, itm)} className={`xl:w-[345px] w-[35%] min-h-[106px] p-5 ${item?.size?.id === itm?.id ? 'border-red-800 bg-[#f9f3f3]' : 'border-zinc-200 bg-white'} rounded-2xl border flex-col cursor-pointer justify-start items-start gap-2.5 inline-flex`}>
                         <div className="self-stretch min-h-[66px]">
                             <div className='flex flex-row justify-between items-center'>
                                 <div className="text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{itm.name}</div>
@@ -387,7 +389,7 @@ export const Step2 = ({ next, inputs, setInputs }) => {
                             const updatedAddons = [...item.chosenAddons]; // Create a copy
 
                             // Check if the clicked addon ID exists in the array
-                            const addonIndex = updatedAddons.findIndex((i) => i.id === itemz.id);
+                            const addonIndex = updatedAddons.findIndex((i) => i?.id === itemz?.id);
 
                             if (addonIndex !== -1) {
                               updatedAddons.splice(addonIndex, 1);
@@ -420,6 +422,9 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
     const [data, setData] = useState();
     const navigate = useNavigate()
     const { userInfo } = useSelector(state => state.auth);
+    const [toastText, setToastText] = useState("");
+    const [toastSuccess, setToastSuccess] = useState(false);
+    const [showToast, setShowToast] = useState(true);
 
 
     useEffect(() => {
@@ -633,6 +638,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 );
                 return response.data.id;
             }
+            console.log(discountCode, 'JJJJJJJ');
 
             const input = {
                 package_id: id,
@@ -676,7 +682,6 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         });
 
         setData(payload);
-
     }    
     
     const handleSave = async () => {
@@ -691,7 +696,9 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
         setStep(0);
        } catch (error) {
-        console.log(error)
+            setToastText(error?.response?.data?.message);
+            setToastSuccess(false);
+            setShowToast(true);
        }
     }
 
@@ -707,14 +714,49 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
             setStep(0);
        } catch (error) {
-        console.log(error)
+            setToastText(error?.response?.data?.message);
+            setToastSuccess(false);
+            setShowToast(true);
        }
     }
 
+    const handleValidateDiscount = async () => {
+        try {
+            const result = await callAPI(
+                "/api/delivery/validate-code/",
+                "POST",
+                true,
+                { code: discountCode }
+            );
+            console.log(result);
+            // setCalculations({
+            //     ...calculations,
+            //     discount: result.data.discount
+            // })
+            if(typeof id === 'undefined'){
+                handleSendRequest();
+            }else{
+                handleSendRequestEdit();
+            }
+
+        } catch (error) {
+            setToastText("Invalid discount code, The code you entered is invalid or has expired");
+            setToastSuccess(false);
+            setShowToast(true);
+        }
+    }
+
+
     return (
         <div className='w-full flex flex-row justify-between items-start mt-6 mb-24'>
-            <div className='xl:w-[70%] w-[60%] h-[789px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
-                <div className="w-full h-[117px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
+            <SuccessToast
+                text={toastText}
+                show={showToast}
+                onClose={() => setShowToast(false)}
+                success={toastSuccess}
+            />
+            <div className='xl:w-[70%] w-[60%] min-h-[789px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
+                <div className="w-full min-h-[117px] p-5 rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
                     <div className='flex flex-row justify-between items-center w-full'>
                         <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Addresses</div> 
                         <button onClick={() => { setStep(0); }} className='flex flex-row gap-1.5'>
@@ -722,8 +764,8 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                             <img src={ArrowLeft2} className='w-4 h-4' />
                         </button>
                     </div>
-                    {addressDetails.map((item, idx) => <div key={idx} className="xl:w-[716px] w-full h-[45px] xl:justify-start items-start xl:gap-[73px] justify-between inline-flex">
-                        <div className="xl:w-[370px] pr-[61px] flex-col justify-start items-start gap-6 inline-flex">
+                    {addressDetails.map((item, idx) => <div key={idx} className="xl:w-[716px] w-full xl:justify-start items-start xl:gap-[73px] justify-between inline-flex">
+                        <div className="xl:w-[370px] flex-col justify-start items-start gap-6 inline-flex">
                             <div className="flex-col justify-start items-start gap-[5px] flex">
                                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Pickup Address {addressDetails.length > 1 ? `${idx + 1}` : ''}</div>
                                 <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.pickup?.formatted_address}</div>
@@ -738,7 +780,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                     </div>)}
 
                 </div>
-                {addressDetails.map((item, idx) => <div key={idx} className="w-full h-[188px] p-5 rounded-lg border border-gray-100 flex-col justify-start items-start gap-5 inline-flex"> 
+                {addressDetails.map((item, idx) => <div key={idx} className="w-full min-h-[188px] p-5 rounded-lg border border-gray-100 flex-col justify-start items-start gap-5 inline-flex"> 
                     <div className='flex flex-row justify-between items-center w-full'>
                         <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Package Details & Payment {addressDetails?.length > 1 ? `${idx + 1}` : ''}</div> 
                         <button onClick={() => { setStep(1); }} className='flex flex-row gap-1.5'>
@@ -772,7 +814,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                         </div>
                     </div>
                 </div>)}
-                {addressDetails?.map((item, idx) => <div key={idx} className="w-full h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
+                {addressDetails?.map((item, idx) => <div key={idx} className="w-full min-h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
                     <div className='flex flex-row justify-between items-center w-full'>
                         <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Pickup Details {addressDetails?.length > 1 ? `${idx + 1}` : ''}</div> 
                         <button onClick={() => { setStep(0); }} className='flex flex-row gap-1.5'>
@@ -799,7 +841,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                         <div className="xl:w-[624px] w-full text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">{item?.comment_pickup}</div>
                     </div> 
                 </div>)}
-                {addressDetails?.map((item, idx) => <div key={idx} className="w-full h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
+                {addressDetails?.map((item, idx) => <div key={idx} className="w-full min-h-[194px] p-5 bg-white rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
                     <div className='flex flex-row justify-between items-center w-full'>
                         <div className="text-gray-900 text-base font-semibold font-['Rubik'] leading-tight">Delivery Details {addressDetails?.length > 1 ? `${idx + 1}` : ''}</div> 
                         <button onClick={() => { setStep(0); }} className='flex flex-row gap-1.5'>
@@ -917,7 +959,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                     }
                     >
                         
-                        <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">Request Delivery</div>
+                        <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">{typeof id === 'undefined' ? "Request Delivery" : "Edit Package"}</div>
                     </button>
                 </div>
                 <div className={`w-full ${discountExpanded ? 'h-[228px]' : 'h-[72px]'} p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex`}> 
@@ -936,8 +978,16 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                         }
                         />
                     </div>}
-                    {discountExpanded && <button className="xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex">
-                        <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">Apply Code</div>
+                    {discountExpanded && 
+                    <button 
+                    disabled={!discountCode}
+                    onClick={
+                        () => {
+                            handleValidateDiscount();
+                        }
+                    }
+                    className={`xl:w-[348px] w-full h-[50px] px-[60px] py-[15px]  rounded-[18px] justify-center items-center gap-2.5 inline-flex ${discountCode? ' bg-red-800' : 'bg-zinc-200'}`}>
+                        <div className="text-centertext-base text-white font-semibold font-['Rubik'] leading-snug">Apply Code</div>
                     </button>}
                 </div>
             </div>
