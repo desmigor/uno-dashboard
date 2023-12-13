@@ -24,6 +24,8 @@ import axios from 'axios'
 import { addPackagesPickupAddressAction } from '../../../../redux/actions/fetchPackagesAction'
 import { fetchPackageAddOnsAction, fetchPackageSizesAction } from '../../../../redux/actions/fetchPackageSizesAction'
 import callAPI from '../../../../utils/api'
+import SuccessToast from '../../../../components/ui/SuccessToast'
+import { set } from 'date-fns'
 
 export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
     const { userInfo } = useSelector((state) => state.auth);
@@ -172,7 +174,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
 
     return (
 <div className="w-full min-h-[891px] p-6 bg-white rounded-[10px] mt-6 flex-col justify-start items-start gap-8 inline-flex mb-24"> 
-{
+{    
     inputs.map((item, index) => <div key={index} className='w-[80%] mx-auto'>   
     <div className={`w-[295px] ${ index === 0 ? 'h-[45px]' : 'h-[10px]'} flex-col justify-start items-start gap-2 inline-flex`}>
        { index === 0 && <div className="text-zinc-800 text-lg font-semibold font-['Rubik']">Addresses</div>}
@@ -420,6 +422,9 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
     const [data, setData] = useState();
     const navigate = useNavigate()
     const { userInfo } = useSelector(state => state.auth);
+    const [toastText, setToastText] = useState("");
+    const [toastSuccess, setToastSuccess] = useState(false);
+    const [showToast, setShowToast] = useState(true);
 
 
     useEffect(() => {
@@ -633,6 +638,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 );
                 return response.data.id;
             }
+            console.log(discountCode, 'JJJJJJJ');
 
             const input = {
                 package_id: id,
@@ -676,7 +682,6 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         });
 
         setData(payload);
-
     }    
     
     const handleSave = async () => {
@@ -691,7 +696,9 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
         setStep(0);
        } catch (error) {
-        console.log(error)
+            setToastText(error?.response?.data?.message);
+            setToastSuccess(false);
+            setShowToast(true);
        }
     }
 
@@ -707,12 +714,47 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
             setStep(0);
        } catch (error) {
-        console.log(error)
+            setToastText(error?.response?.data?.message);
+            setToastSuccess(false);
+            setShowToast(true);
        }
     }
 
+    const handleValidateDiscount = async () => {
+        try {
+            const result = await callAPI(
+                "/api/delivery/validate-code/",
+                "POST",
+                true,
+                { code: discountCode }
+            );
+            console.log(result);
+            // setCalculations({
+            //     ...calculations,
+            //     discount: result.data.discount
+            // })
+            if(typeof id === 'undefined'){
+                handleSendRequest();
+            }else{
+                handleSendRequestEdit();
+            }
+
+        } catch (error) {
+            setToastText("Invalid discount code, The code you entered is invalid or has expired");
+            setToastSuccess(false);
+            setShowToast(true);
+        }
+    }
+
+
     return (
         <div className='w-full flex flex-row justify-between items-start mt-6 mb-24'>
+            <SuccessToast
+                text={toastText}
+                show={showToast}
+                onClose={() => setShowToast(false)}
+                success={toastSuccess}
+            />
             <div className='xl:w-[70%] w-[60%] min-h-[789px] p-6 bg-white rounded-[10px] flex-col justify-start items-start gap-4 inline-flex'>
                 <div className="w-full min-h-[117px] p-5 rounded-lg border border-gray-100 flex-col justify-start items-start gap-3 inline-flex">
                     <div className='flex flex-row justify-between items-center w-full'>
@@ -936,8 +978,16 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                         }
                         />
                     </div>}
-                    {discountExpanded && <button className="xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex">
-                        <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">Apply Code</div>
+                    {discountExpanded && 
+                    <button 
+                    disabled={!discountCode}
+                    onClick={
+                        () => {
+                            handleValidateDiscount();
+                        }
+                    }
+                    className={`xl:w-[348px] w-full h-[50px] px-[60px] py-[15px]  rounded-[18px] justify-center items-center gap-2.5 inline-flex ${discountCode? ' bg-red-800' : 'bg-zinc-200'}`}>
+                        <div className="text-centertext-base text-white font-semibold font-['Rubik'] leading-snug">Apply Code</div>
                     </button>}
                 </div>
             </div>
