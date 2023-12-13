@@ -134,7 +134,7 @@ function AdminDashboard() {
         />
       </div>
       <div className="w-full mt-[20px] mx-auto flex flex-row gap-5">
-        {Object.keys(revenueAnalytics).length > 0 && (
+        {/* {Object.keys(revenueAnalytics).length > 0 && ( */}
           <ChartCard
             name={"Revenue Analytics"}
             canceled={false}
@@ -165,7 +165,8 @@ function AdminDashboard() {
             }}
             delivery={false}
           />
-        )}
+        )
+        {/* } */}
         <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex w-full flex-row justify-between items-center">
             <h1
