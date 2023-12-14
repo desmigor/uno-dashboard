@@ -440,12 +440,18 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
     }, []);
 
     useEffect(() => {
+      const DistanceCalculationsDone = inputs.every(item => typeof item.distance !== 'undefined' && item.distance !== 0);
+      const totalCostCalculationsDone = inputs.every(item => typeof item.total !== 'undefined' && item.total !== 0);
+
+      if (DistanceCalculationsDone && totalCostCalculationsDone) {
+
         if(typeof id === 'undefined'){
             handleSendRequest();
         }else{
             handleSendRequestEdit();
         }
-    }, []);
+      }
+    }, [inputs, taxRate, discountRatio], id, addressDetails);
 
     const subTotal = inputs.reduce((accumulator, currentValue) => accumulator + currentValue.total, 0);
 
@@ -469,6 +475,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         let totalCost = 0;
         let remainingDistance = distance;
       
+
         pricingStructure?.forEach((segment, index) => {
           const segmentDistance = segment.km === "n" ? remainingDistance : Math.min(segment.km, remainingDistance);
           totalCost += segmentDistance * segment.price_control  * base_price;
