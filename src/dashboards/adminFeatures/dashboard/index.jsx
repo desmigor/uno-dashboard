@@ -165,7 +165,6 @@ function AdminDashboard() {
             }}
             delivery={false}
           />
-        )
         {/* } */}
         <div className="w-[20%] min-h-[326px] px-4 py-5 bg-white rounded-lg flex-col justify-start items-start gap-4 flex">
           <div className="flex w-full flex-row justify-between items-center">
