@@ -211,58 +211,46 @@ function TableCard({ type, name, data }) {
                               <img
                                 className="w-[34px] h-[34px] rounded-[100px] object-cover"
                                 src={
-                                  item.courier.profile_photo_link
+                                  item.courier?.profile_photo_link
                                     ? item.courier.profile_photo_link
                                     : Person
                                 }
                               />
                               <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
-                                {item.courier.full_name}
+                                {item.courier?.full_name}
                               </div>
                             </div>
                           </th>
                           <td class="px-6 py-4">
                             <div
-                              className={`min-w-[106px] h-[19px] px-3 py-1.5 ${
-                                item.status === 2
-                                  ? "bg-yellow-50"
+                              className={`min-w-[106px] px-3 py-1.5 ${
+                                item.package_status === 2 || item.package_status === 1 
+                                  ? "bg-gray-50":
+                                  item.package_status === 3
+                                  ? "bg-green-100"
                                   : "bg-gray-100"
                               } rounded justify-start items-center gap-2.5 inline-flex`}
                             >
                               <span
                                 className={`${
                                   item.package_status === 1
-                                    ? "text-amber-500"
+                                    ? "text-amber-600"
                                     : item.package_status === 2
                                     ? "text-yellow-500"
                                     : item.package_status === 3
-                                    ? "text-blue-500"
+                                    ? "text-green-500"
                                     : item.package_status === 4
-                                    ? "text-green-300"
+                                    ? "text-yellow-800"
                                     : item.package_status === 5
                                     ? "text-green-400"
                                     : item.package_status === 6
-                                    ? "text-green-500"
+                                    ? "text-blue-500"
                                     : item.package_status === 7
                                     ? "text-red-500"
                                     : "text-red-500"
                                 } text-xs font-normal font-rubik leading-none`}
                               >
-                                {item.package_status === 1
-                                  ? "Pending courier assignment"
-                                  : item.package_status === 2
-                                  ? "Pending pickup"
-                                  : item.package_status === 3
-                                  ? "On the way for pickUp"
-                                  : item.package_status === 4
-                                  ? "On it's way"
-                                  : item.package_status === 5
-                                  ? "On the way for delivery"
-                                  : item.package_status === 6
-                                  ? "Delivered"
-                                  : item.package_status === 7
-                                  ? "Cancelled"
-                                  : "Unknwon"}
+                                {item.package_status_value}
                               </span>
                             </div>
                           </td>
