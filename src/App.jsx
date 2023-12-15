@@ -54,7 +54,7 @@ function App() {
           </Route>
           <Route path='/support/dashboard/' element={<PrivateRoute isAllowed={userInfo?.type?.id === 4} redirectTo='/admin/dashboard/'><Layout /></PrivateRoute>} >
             <Route index element={<Dashboard />} />
-            <Route path='/support/dashboard/pending' element={<Pending />} />
+            <Route path='/support/dashboard/pending/:id?' element={<Pending />} />
             <Route path='/support/dashboard/package' element={<Packages />} />
             <Route path='/support/dashboard/package/new' element={<CreatePackages />} />
             <Route path='/support/dashboard/package/update/:id' element={<CreatePackages />} />

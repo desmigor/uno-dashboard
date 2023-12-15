@@ -219,7 +219,7 @@ async function calculateRoute() {
                   </div>
                 </th>
                 <td class="px-6 py-4 ">
-                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight text-left">{item.sr_number}</div> 
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight text-left">{item.id}</div> 
                 </td>
                 <td class="px-6 py-4">
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight text-left">{item?.customer}</div>

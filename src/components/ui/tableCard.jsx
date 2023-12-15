@@ -45,7 +45,13 @@ function TableCard({ type, name, data }) {
         </h1>
         {type === "map" ? null : (
           <Link
-            to={type === "pending" ? "/support/dashboard/pending" : type === "courier" ? "/support/dashboard/courier" :   "/support/dashboard/package"   }
+            to={
+              type === "pending"
+                ? "/support/dashboard/pending"
+                : type === "courier"
+                ? "/support/dashboard/courier"
+                : "/support/dashboard/package"
+            }
             className="w-[73px] flex flex-row gap-[12px]"
           >
             <h1
@@ -134,8 +140,12 @@ function TableCard({ type, name, data }) {
                               <img src={Export} alt="SVGEXPORT" className="" />
                             </div>
                           </td>
-                          <td class="py-4">
-                            <Link to={"/support/dashboard/pending"} className="w-[93px] group hover:bg-red-800 h-7 px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex">
+                          <td className="py-4">
+                            <Link
+                              to={`/support/dashboard/pending/${item.id}`}
+                              state={{ id: item.id }} 
+                              className="w-[93px] group hover:bg-red-800 h-7 px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex"
+                            >
                               <span className="text-center text-red-800 group-hover:text-white text-sm font-normal font-rubik leading-tight">
                                 View
                               </span>
@@ -224,9 +234,10 @@ function TableCard({ type, name, data }) {
                           <td class="px-6 py-4">
                             <div
                               className={`min-w-[106px] px-3 py-1.5 ${
-                                item.package_status === 2 || item.package_status === 1 
-                                  ? "bg-gray-50":
-                                  item.package_status === 3
+                                item.package_status === 2 ||
+                                item.package_status === 1
+                                  ? "bg-gray-50"
+                                  : item.package_status === 3
                                   ? "bg-green-100"
                                   : "bg-gray-100"
                               } rounded justify-start items-center gap-2.5 inline-flex`}
@@ -255,7 +266,10 @@ function TableCard({ type, name, data }) {
                             </div>
                           </td>
                           <td class="py-4">
-                            <Link to={`/support/dashboard/package/`} className="w-[93px] group hover:bg-red-800 h-7 px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex">
+                            <Link
+                              to={`/support/dashboard/package/`}
+                              className="w-[93px] group hover:bg-red-800 h-7 px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex"
+                            >
                               <span className="text-center text-red-800 group-hover:text-white text-sm font-normal font-rubik leading-tight">
                                 View
                               </span>
@@ -312,7 +326,9 @@ function TableCard({ type, name, data }) {
                         <tr
                           key={idx}
                           className="bg-white border-b hover:bg-gray-50 cursor-pointer"
-                          onClick={() => navigate(`/support/dashboard/courier/${item.id}`)}
+                          onClick={() =>
+                            navigate(`/support/dashboard/courier/${item.id}`)
+                          }
                         >
                           <th
                             scope="row"
@@ -359,42 +375,69 @@ function TableCard({ type, name, data }) {
         ) : (
           <div class="relative w-full h-full overflow-x-auto shadow-sm sm:rounded-lg">
             {loadError && <div>Error loading maps</div>}
-            {!isLoaded ? <div>Loading maps</div> :
-                <GoogleMap
-                  mapContainerStyle={mapContainerStyle}
-                  zoom={2}
-                  center={locations?.length > 0 ? new google.maps.LatLng(locations[0]?.latitude,locations[0]?.longitude) : center}
-                  options={{
-                    zoomControl: false,
-                    mapTypeControl: false,
-                    fullscreenControl: false,
-                    streetViewControl: false,
-                  }}
-                >
-                  {
-                    locations?.map((item, idx) => <Marker key={idx} onClick={() => setSelectedMarker(item)} icon={LocationPin} position={{ lat: item.latitude, lng: item.longitude }}  />)
-                  }
-                  {selectedMarker && (
-                    <InfoWindowF
-                      position={{ lat: selectedMarker?.latitude, lng: selectedMarker?.longitude }}
-                      onCloseClick={() => {
-                        setSelectedMarker(null);
-                      }}
-                    >
-                       <div className="w-[156px] h-12 px-2 py-1.5 bg-white rounded-md shadow justify-start items-center gap-2.5 inline-flex"> 
-                          <img className="w-9 h-9" src={selectedMarker?.profile_photo_link} />
-                          <div className="w-[154px] h-9 flex-col justify-start items-start gap-1 inline-flex">
-                            <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Name</div>
-                            <Link to={`/support/dashboard/courier/${selectedMarker?.id}`} className="w-[100px]  justify-start items gap-1.5 inline-flex">
-                              <div className="text-red-800 text-xs font-normal font-['Rubik'] underline leading-none">{selectedMarker?.full_name}</div>
-                              <img src={Export} alt="SVGEXPORT" className="" />
-                            </Link>
-                          </div> 
+            {!isLoaded ? (
+              <div>Loading maps</div>
+            ) : (
+              <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                zoom={2}
+                center={
+                  locations?.length > 0
+                    ? new google.maps.LatLng(
+                        locations[0]?.latitude,
+                        locations[0]?.longitude
+                      )
+                    : center
+                }
+                options={{
+                  zoomControl: false,
+                  mapTypeControl: false,
+                  fullscreenControl: false,
+                  streetViewControl: false,
+                }}
+              >
+                {locations?.map((item, idx) => (
+                  <Marker
+                    key={idx}
+                    onClick={() => setSelectedMarker(item)}
+                    icon={LocationPin}
+                    position={{ lat: item.latitude, lng: item.longitude }}
+                  />
+                ))}
+                {selectedMarker && (
+                  <InfoWindowF
+                    position={{
+                      lat: selectedMarker?.latitude,
+                      lng: selectedMarker?.longitude,
+                    }}
+                    onCloseClick={() => {
+                      setSelectedMarker(null);
+                    }}
+                  >
+                    <div className="w-[156px] h-12 px-2 py-1.5 bg-white rounded-md shadow justify-start items-center gap-2.5 inline-flex">
+                      <img
+                        className="w-9 h-9"
+                        src={selectedMarker?.profile_photo_link}
+                      />
+                      <div className="w-[154px] h-9 flex-col justify-start items-start gap-1 inline-flex">
+                        <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">
+                          Name
                         </div>
-                    </InfoWindowF>
-                  )}
-                </GoogleMap>
-              }
+                        <Link
+                          to={`/support/dashboard/courier/${selectedMarker?.id}`}
+                          className="w-[100px]  justify-start items gap-1.5 inline-flex"
+                        >
+                          <div className="text-red-800 text-xs font-normal font-['Rubik'] underline leading-none">
+                            {selectedMarker?.full_name}
+                          </div>
+                          <img src={Export} alt="SVGEXPORT" className="" />
+                        </Link>
+                      </div>
+                    </div>
+                  </InfoWindowF>
+                )}
+              </GoogleMap>
+            )}
           </div>
         )}
       </div>

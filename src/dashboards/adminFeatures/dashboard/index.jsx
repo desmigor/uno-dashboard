@@ -222,7 +222,7 @@ function AdminDashboard() {
                       {item?.full_name}
                     </span>
                     <span className="text-slate-500 text-xs font-normal font-rubik">
-                      {item?.total_cost?.toFixed(2)}
+                      {item.total_cost?.toFixed(2)}
                     </span>
                   </div>
                 </div>
