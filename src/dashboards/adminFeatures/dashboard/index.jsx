@@ -142,7 +142,7 @@ function AdminDashboard() {
             data={{
               labels:
                 Object.keys(revenueAnalytics).length > 0
-                  ? revenueAnalytics?.map(
+                  ? [...revenueAnalytics].reverse()?.map(
                       (item) =>
                         item.date_from.slice(0, 10) +
                         " - " +
@@ -158,7 +158,7 @@ function AdminDashboard() {
                   borderColor: "#981D1D",
                   data:
                     Object.keys(revenueAnalytics).length > 0
-                      ? revenueAnalytics?.map((item) => item.total_revenue)
+                      ? [...revenueAnalytics].reverse()?.map((item) => item.total_revenue)
                       : [],
                 },
               ],
@@ -328,7 +328,7 @@ function AdminDashboard() {
           data={{
             labels:
               Object.keys(deliveryAnalytics).length > 0
-                ? deliveryAnalytics?.map(
+                ? [...deliveryAnalytics].reverse()?.map(
                     (item) =>
                       item.date_from.slice(0, 10) +
                       " - " +
@@ -344,7 +344,7 @@ function AdminDashboard() {
                 borderColor: "#981D1D",
                 data:
                   Object.keys(deliveryAnalytics).length > 0
-                    ? deliveryAnalytics?.map(
+                    ? [...deliveryAnalytics].reverse()?.map(
                         (item) =>
                           item.package_status == 6 && item.total_delivery
                       )
@@ -358,7 +358,7 @@ function AdminDashboard() {
                 borderColor: "#98A5AF",
                 data:
                   Object.keys(deliveryAnalytics).length > 0
-                    ? deliveryAnalytics?.map((item) =>
+                    ? [...deliveryAnalytics].reverse()?.map((item) =>
                         item.package_status == 7 ? item.total_delivery : 0
                       )
                     : [],
