@@ -725,6 +725,17 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             data
         );
         console.log(result);
+        // add package to queue
+        const queueResult = await callAPI(
+            "/api/delivery/package-add-queue/",
+            "POST",
+            true,
+              // package id for every created package result passing it as {package_id: 1}
+              result.data.map((item) => ({ package_id: item.id })),
+            
+        );
+        console.log(queueResult);
+
         navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
         setStep(0);
        } catch (error) {
