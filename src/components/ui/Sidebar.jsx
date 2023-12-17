@@ -22,7 +22,7 @@ import CustomerIcon  from '../../assets/images/dashboard/icon/people3Active.svg'
 import CustomerIconInactive  from '../../assets/images/dashboard/icon/people3.svg';
 import SettingsIconInactive  from '../../assets/images/dashboard/icon/setting0.svg';
 import SettingsIcon2  from '../../assets/images/dashboard/icon/setting-3.svg';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import AppContext from '../../context';
 import { useSelector } from 'react-redux';
 
@@ -34,6 +34,13 @@ function Sidebar() {
     const [expanded, setExpanded] = useState(false);
     const [path, setPath] = useState(false);
     
+    const location = useLocation();
+
+    useEffect(() => {
+        setPath(window.location.pathname.split("/")[window.location.pathname.split("/").length - 1]);
+        window.location.pathname.split("/")[window.location.pathname.split("/").length - 1] === 'groups' || window.location.pathname.split("/")[window.location.pathname.split("/").length - 1] === 'courier' && setExpanded(true)
+    }, [location]);
+
     useEffect(() => {
         setPath(window.location.pathname.split("/")[window.location.pathname.split("/").length - 1]);
     }, []);

@@ -84,11 +84,6 @@ function Dashboard() {
         <TableCard data={packages} type={"ongoing"} name={"Ongoing Packages"} />
       </div>
       <div className="w-full mt-[20px] mx-auto flex flex-row gap-5">
-        <TableCard
-          data={couriers}
-          type={"courier"}
-          name={"Available Courier"}
-        />
         <TableCard type={"map"} name={"Availability Map"} />
       </div>
     </div>

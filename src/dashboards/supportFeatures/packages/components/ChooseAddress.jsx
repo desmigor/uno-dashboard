@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Navbar from '../../../../components/ui/Navbar'
 import { GoogleMap, useLoadScript, InfoBox, DirectionsRenderer } from '@react-google-maps/api';
 import LocationIcon from '../../../../assets/images/dashboard/icon/location.svg';
@@ -12,6 +12,7 @@ const libraries = ['places'];
 const mapContainerStyle = {
     width: '100%',
     height: '100%',
+    cursor: 'crosshair'
 };
 const center = {
     lat: -1.9347657, // default latitude
@@ -20,6 +21,7 @@ const center = {
 
 function ChooseAddress() {
     const [pickup, setPickup] = useState();
+    const [firstClick, setFirstClick] = useState(true);
     const [delivery, setDelivery] = useState();
     const [searchTextPickup, setSearchTextPickup] = useState('');
     const [searchTextDelivery, setSearchTextDelivery] = useState('');
@@ -38,6 +40,10 @@ function ChooseAddress() {
         googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
         libraries,
     });
+
+    useEffect(() => {
+        calculateRoute();
+    }, [delivery]);
 
     const getPlaces = (addressToSearch) => {
         setSearchTextPickup(addressToSearch);
@@ -98,6 +104,33 @@ function ChooseAddress() {
         }
         dispatch(storeLocation(payload));
         navigate(-1);
+    }
+
+    const handleClick = async (e) => {
+        const lat = e.latLng.lat();
+        const lng = e.latLng.lng();
+
+        try {
+            const response = await fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY`
+              );
+              const data = await response.json();
+        
+              if (data.results && data.results.length > 0) {
+                const address = data.results[0];
+                if(firstClick === true) {
+                    setPickup(address);
+                    setSearchTextPickup(address.formatted_address);
+                    setFirstClick(false)
+                }else{
+                    setDelivery(address);
+                    setSearchTextDelivery(address.formatted_address);
+                }
+                // Do something with the address, like displaying it
+              }
+        } catch (error) {
+            
+        }
     }
 
     if (loadError) {
@@ -178,6 +211,7 @@ function ChooseAddress() {
             <div className='h-[100%] w-[90%]'>
                 <GoogleMap
                     mapContainerStyle={mapContainerStyle}
+                    onClick={handleClick}
                     zoom={15}
                     center={pickup ? { lat: pickup?.geometry?.location?.lat, lng: pickup?.geometry?.location?.lng } : center}
                     options={{
