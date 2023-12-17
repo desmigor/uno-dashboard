@@ -36,7 +36,7 @@ function TableCard({ type, name, data }) {
   });
 
   return (
-    <div className="w-[49.2%]  0 p-6 bg-white rounded-lg ">
+    <div className={`${type === "map" ? "w-full" : "w-[49.2%]"} 0 p-6 bg-white rounded-lg `}>
       <div className="flex flex-row justify-between items-center">
         <h1
           className={`text-zinc-800 text-base font-semibold font-rubik leading-tight`}
@@ -135,11 +135,11 @@ function TableCard({ type, name, data }) {
                             </div>
                           </td>
                           <td class="py-4">
-                            <button className="w-[93px] group hover:bg-red-800 h-7 px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex">
+                            <Link to={"/support/dashboard/pending"} className="w-[93px] group hover:bg-red-800 h-7 px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex">
                               <span className="text-center text-red-800 group-hover:text-white text-sm font-normal font-rubik leading-tight">
                                 View
                               </span>
-                            </button>
+                            </Link>
                           </td>
                         </tr>
                       ))
