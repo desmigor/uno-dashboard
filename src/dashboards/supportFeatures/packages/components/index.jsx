@@ -24,7 +24,7 @@ import moment from 'moment';
 import { fetchPackageDetails, fetchPackagesCanceledAction, fetchPackagesCanceledActionSearch, fetchPackagesCompletedAction, fetchPackagesCompletedActionSearch, fetchPackagesOngoingAction, fetchPackagesOngoingActionSearch } from '../../../../redux/actions/fetchPackagesAction';
 import { Menu, Transition } from '@headlessui/react'
 import CancelModal from './CancelModal';
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, InfoBox, InfoWindow, DirectionsRenderer } from '@react-google-maps/api';
 import SuccessToast from '../../../../components/ui/SuccessToast';
 
 const mapContainerStyle = {
@@ -47,12 +47,17 @@ function Packages() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [filterValue, setFilterValue] = useState({ name: "Time", value: "created_at" });
+  const [directionsResponse, setDirectionsResponse] = useState(null);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
   const { ongoings, canceled, completed, ongoingCounts, completedCounts, canceledCounts, selectedPackage } = useSelector((state) => state.fetchPackages);
   const navigate = useNavigate();
-
+  
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+    libraries,
+  });
   useEffect(() => {
     dispatch(fetchPackagesOngoingAction(1, 5));
     dispatch(fetchPackagesCompletedAction(1, 5));
@@ -72,6 +77,23 @@ function Packages() {
     setPaginations(generatePagination(table === 'ongoing' ? ongoingCounts : table === 'completed' ? completedCounts : canceledCounts, currentPage, count));
   }, [])
 
+  useEffect(() => {
+    calculateRoute();
+}, [selectedPackage]);
+
+async function calculateRoute() {
+  const directionsService = new window.google.maps.DirectionsService();
+  const originLatLng = new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude);
+  const destinationLatLng = new google.maps.LatLng(selectedPackage?.drop_latitude, selectedPackage?.drop_longitude);
+  const results = await directionsService.route({
+    origin: originLatLng,
+    destination: destinationLatLng,
+    provideRouteAlternatives: false,
+    travelMode: window.google.maps.TravelMode.DRIVING,
+  });
+  setDirectionsResponse(null);
+  setDirectionsResponse(results);
+}
 
   const handleChangePage = (countNumber) => {
     setCount(countNumber);
@@ -127,11 +149,6 @@ function Packages() {
   
     return pages;
   }
-
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
-    libraries,
-  });
 
   return (
     <div className='bg-[#F8F9FA] h-[93%] w-full px-10 py-6 overflow-y-auto pb-32'>
@@ -235,24 +252,72 @@ function Packages() {
             </tr>
             {selected === idx && <tr className='w-full min-h-[239px] border-b border-gray-100'>
               <td colSpan={9} className='px-[18px]'>
-                <div className='flex flex-row gap-4 w-full items-center'>
+                <div className='flex flex-col-reverse gap-4 w-full items-center'>
                   {/* <img className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]" src={Map1} /> */}
-                  <div className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]">
+                  <div className="w-full h-[490px] rounded-md mt-[-12px]">
                       {loadError && <div>Error loading maps</div>}
                       {!isLoaded ? <div>Loading maps</div> :
+                          // <GoogleMap
+                          //     mapContainerStyle={mapContainerStyle}
+                          //     zoom={10}
+                          //     center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                          //     options={{
+                          //         zoomControl: false,
+                          //         mapTypeControl: false,
+                          //         fullscreenControl: false,
+                          //         streetViewControl: false,
+                          //     }}
+                          // >
+                          //     <Marker position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}  />
+                          // </GoogleMap>
                           <GoogleMap
-                              mapContainerStyle={mapContainerStyle}
-                              zoom={10}
-                              center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
-                              options={{
-                                  zoomControl: false,
-                                  mapTypeControl: false,
-                                  fullscreenControl: false,
-                                  streetViewControl: false,
-                              }}
-                          >
-                              <Marker position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}  />
-                          </GoogleMap>
+                    mapContainerStyle={mapContainerStyle}
+                    zoom={15}
+                    center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                    options={{
+                        zoomControl: false,
+                        mapTypeControl: false,
+                        fullscreenControl: false,
+                        streetViewControl: false,
+                    }}
+                >
+                    {selectedPackage && <InfoBox
+
+                        position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                        options={{ closeBoxURL: "", enableEventPropagation: false, maxWidth: 100 }}
+                    >
+                        <div>
+                            <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                            <div className="w-4 h-4 relative">
+                                <div className="w-4 h-4 border border-red-800 rounded-full flex items-center justify-center" >
+                                    <div className="w-[9.60px] h-[9.60px] bg-red-800 rounded-full" />
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </InfoBox>}
+                    {selectedPackage && <InfoBox
+                        position={new google.maps.LatLng(selectedPackage?.drop_latitude, selectedPackage?.drop_longitude)}
+                        options={{ closeBoxURL: "", maxWidth: 100,  }}
+                    >
+                        <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                            <div className="w-4 h-4 relative">
+                                <div className="w-4 h-4 border border-green-600 rounded-full flex items-center justify-center" >
+                                    <div className="w-[9.60px] h-[9.60px] bg-green-600 rounded-full" />
+                                </div>
+                            </div>
+                        </div>
+                    </InfoBox>}
+                    {directionsResponse && (
+                        <DirectionsRenderer directions={directionsResponse} options={{
+                            suppressMarkers: true,
+                            polylineOptions: {
+                                strokeColor: '#1EC10F',
+                                strokeWeight: 10
+                            }
+                        }}  />
+                    )}
+                </GoogleMap>
                       }
                   </div>
                   <div className='flex flex-row w-full xl:w-[84%]'>
@@ -469,24 +534,59 @@ function Packages() {
             </tr>
             {selected === idx && <tr className='w-full h-[239px] border-b border-gray-100'>
               <td colSpan={9} className='px-[18px]'>
-                <div className='flex flex-row gap-4 w-full items-center'>
-                  {/* <img className="w-[16%] h-[190px] rounded-md mt-[-12px]" src={Map1} /> */}
-                  <div className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]">
+              <div className='flex flex-col-reverse gap-4 w-full items-center'>
+                  {/* <img className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]" src={Map1} /> */}
+                  <div className="w-full h-[490px] rounded-md mt-[-12px]">
                       {loadError && <div>Error loading maps</div>}
                       {!isLoaded ? <div>Loading maps</div> :
                           <GoogleMap
-                              mapContainerStyle={mapContainerStyle}
-                              zoom={10}
-                              center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
-                              options={{
-                                  zoomControl: false,
-                                  mapTypeControl: false,
-                                  fullscreenControl: false,
-                                  streetViewControl: false,
-                              }}
+                          mapContainerStyle={mapContainerStyle}
+                          zoom={15}
+                          center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                          options={{
+                              zoomControl: false,
+                              mapTypeControl: false,
+                              fullscreenControl: false,
+                              streetViewControl: false,
+                          }}
+                      >
+                          {selectedPackage && <InfoBox
+      
+                              position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                              options={{ closeBoxURL: "", enableEventPropagation: false, maxWidth: 100 }}
                           >
-                              <Marker position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}  />
-                          </GoogleMap>
+                              <div>
+                                  <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                                  <div className="w-4 h-4 relative">
+                                      <div className="w-4 h-4 border border-red-800 rounded-full flex items-center justify-center" >
+                                          <div className="w-[9.60px] h-[9.60px] bg-red-800 rounded-full" />
+                                      </div>
+                                  </div>
+                              </div>
+                              </div>
+                          </InfoBox>}
+                          {selectedPackage && <InfoBox
+                              position={new google.maps.LatLng(selectedPackage?.drop_latitude, selectedPackage?.drop_longitude)}
+                              options={{ closeBoxURL: "", maxWidth: 100,  }}
+                          >
+                              <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                                  <div className="w-4 h-4 relative">
+                                      <div className="w-4 h-4 border border-green-600 rounded-full flex items-center justify-center" >
+                                          <div className="w-[9.60px] h-[9.60px] bg-green-600 rounded-full" />
+                                      </div>
+                                  </div>
+                              </div>
+                          </InfoBox>}
+                          {directionsResponse && (
+                              <DirectionsRenderer directions={directionsResponse} options={{
+                                  suppressMarkers: true,
+                                  polylineOptions: {
+                                      strokeColor: '#1EC10F',
+                                      strokeWeight: 10
+                                  }
+                              }}  />
+                          )}
+                      </GoogleMap>
                       }
                   </div>
                   <div className='flex flex-row w-[84%]'>
@@ -685,24 +785,59 @@ function Packages() {
             </tr>
             {selected === idx && <tr className='w-full h-[239px] border-b border-gray-100'>
               <td colSpan={9} className='px-[18px]'>
-                <div className='flex flex-row gap-4 w-full items-center'>
-                  {/* <img className="w-[16%] h-[190px] rounded-md mt-[-12px]" src={Map1} /> */}
-                  <div className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]">
+              <div className='flex flex-col-reverse gap-4 w-full items-center'>
+                  {/* <img className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]" src={Map1} /> */}
+                  <div className="w-full h-[490px] rounded-md mt-[-12px]">
                       {loadError && <div>Error loading maps</div>}
                       {!isLoaded ? <div>Loading maps</div> :
                           <GoogleMap
-                              mapContainerStyle={mapContainerStyle}
-                              zoom={10}
-                              center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
-                              options={{
-                                  zoomControl: false,
-                                  mapTypeControl: false,
-                                  fullscreenControl: false,
-                                  streetViewControl: false,
-                              }}
+                          mapContainerStyle={mapContainerStyle}
+                          zoom={15}
+                          center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                          options={{
+                              zoomControl: false,
+                              mapTypeControl: false,
+                              fullscreenControl: false,
+                              streetViewControl: false,
+                          }}
+                      >
+                          {selectedPackage && <InfoBox
+      
+                              position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                              options={{ closeBoxURL: "", enableEventPropagation: false, maxWidth: 100 }}
                           >
-                              <Marker position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}  />
-                          </GoogleMap>
+                              <div>
+                                  <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                                  <div className="w-4 h-4 relative">
+                                      <div className="w-4 h-4 border border-red-800 rounded-full flex items-center justify-center" >
+                                          <div className="w-[9.60px] h-[9.60px] bg-red-800 rounded-full" />
+                                      </div>
+                                  </div>
+                              </div>
+                              </div>
+                          </InfoBox>}
+                          {selectedPackage && <InfoBox
+                              position={new google.maps.LatLng(selectedPackage?.drop_latitude, selectedPackage?.drop_longitude)}
+                              options={{ closeBoxURL: "", maxWidth: 100,  }}
+                          >
+                              <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                                  <div className="w-4 h-4 relative">
+                                      <div className="w-4 h-4 border border-green-600 rounded-full flex items-center justify-center" >
+                                          <div className="w-[9.60px] h-[9.60px] bg-green-600 rounded-full" />
+                                      </div>
+                                  </div>
+                              </div>
+                          </InfoBox>}
+                          {directionsResponse && (
+                              <DirectionsRenderer directions={directionsResponse} options={{
+                                  suppressMarkers: true,
+                                  polylineOptions: {
+                                      strokeColor: '#1EC10F',
+                                      strokeWeight: 10
+                                  }
+                              }}  />
+                          )}
+                      </GoogleMap>
                       }
                   </div>
                   <div className='flex flex-row w-[84%]'>
