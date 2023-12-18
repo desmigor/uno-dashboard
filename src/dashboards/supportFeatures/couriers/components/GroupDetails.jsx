@@ -245,7 +245,11 @@ const GroupDetails = () => {
                   </div>
                   <div className="flex flex-row gap-1">
                   <div className="text-zinc-800 text-xs font-normal font-rubik">
-                      {groupDetails?.completed_deliveries?.total_count?.toLocaleString()}%{" "}
+
+                      { groupDetails?.total_orders?.total_count === 0 ? 0 : 
+                      (groupDetails?.completed_deliveries?.total_count/
+                          groupDetails?.total_orders?.total_count * 100).toFixed(2)
+                      }%{" "}
                   </div>
                   <div className="text-slate-500 text-xs font-normal font-rubik">
                       • {groupDetails?.completed_deliveries?.total_count?.toLocaleString()}
@@ -267,7 +271,11 @@ const GroupDetails = () => {
                   </div>
                   <div className="flex flex-row gap-1">
                   <div className="text-zinc-800 text-xs font-normal font-rubik">
-                      {groupDetails?.canceled_deliveries?.total_count}%{" "}
+                      {
+                        groupDetails?.total_orders?.total_count === 0 ? 0 :
+                      (groupDetails?.canceled_deliveries?.total_count/
+                          groupDetails?.total_orders?.total_count * 100).toFixed(2)
+                      }%{" "}
                   </div>
                   <div className="text-slate-500 text-xs font-normal font-rubik">
                       • {groupDetails?.canceled_deliveries?.total_count?.toLocaleString()}
