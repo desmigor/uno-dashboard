@@ -26,6 +26,7 @@ import { Menu, Transition } from '@headlessui/react'
 import CancelModal from './CancelModal';
 import { GoogleMap, useLoadScript, InfoBox, InfoWindow, DirectionsRenderer } from '@react-google-maps/api';
 import SuccessToast from '../../../../components/ui/SuccessToast';
+import GenerateReportPackages from './GenerateReport';
 
 const mapContainerStyle = {
   width: '100%',
@@ -46,6 +47,7 @@ function Packages() {
   const [paginations, setPaginations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
   const [filterValue, setFilterValue] = useState({ name: "Time", value: "created_at" });
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
@@ -165,13 +167,17 @@ async function calculateRoute() {
       <div className='w-[100%] min-h-[400px] mt-6 relative bg-white rounded-[10px] pb-20 py-[22px] px-[16px]'>
         <div className='flex flex-row justify-between items-center'>
           <div className="text-zinc-800 text-lg font-semibold font-rubik">{table === 'ongoing' ? 'Ongoing Packages' : table === 'completed' ? 'Completed packages' : 'Canceled Packages'}</div> 
-          <div className='flex flex-row gap-[10px] items-center w-[528px]'>
+          <div className='flex flex-row gap-[10px] items-center'>
             <div className="text-gray-400 text-sm font-normal font-rubik leading-tight">Sort by</div>
             <Dropdown setDropdownValue={setFilterValue} />
             <div className='relative'>
               <input type='text' onChange={(e) => dispatch(table === 'ongoing' ? fetchPackagesOngoingActionSearch(e.target.value, filterValue.value) : table === 'completed' ? fetchPackagesCompletedActionSearch(e.target.value, filterValue.value) : fetchPackagesCanceledActionSearch(e.target.value, filterValue.value))} placeholder='Search package ...' className='placeholder:text-gray-300 text-sm font-normal font-rubik leading-tight w-[328px] h-10 pr-4 pl-10 py-[13px] rounded-xl border border-gray-100 justify-start items-center inline-flex' />
               <img src={Search} className='w-4 h-4 absolute top-[12px] left-[16px]' />
             </div>
+            { table !== 'ongoing' && <button onClick={() => setIsOpen2(true)} className="w-[186px] h-10 py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex">
+              <div className="text-center text-red-800 text-base font-normal font-['Rubik'] leading-tight">Generate Report</div>
+              <img src={Export} alt='SVGEXPORT' className='w-5 h-5' />
+            </button>}
           </div>
         </div>
         {ongoings?.length > 0 && table === 'ongoing' && <div className='relative w-full overflow-x-auto border border-gray-100 sm:rounded-lg mt-6'>
@@ -1088,6 +1094,7 @@ async function calculateRoute() {
         </div>
       </div>
       <CancelModal isOpen={isOpen} setIsOpen={setIsOpen} id={selectedPackage?.id} />
+      <GenerateReportPackages isOpen={isOpen2} setIsOpen={setIsOpen2}  />
     </div>
   )
 }

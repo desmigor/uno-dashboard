@@ -20,7 +20,7 @@ export const fetchCustomersAction =
 
 export const fetchCustomersActiveAction = (page=1, count=5) => async (dispatch, getState) => {
   try {
-    const results = await callAPI(`/api/customer/active/?page=1&count=5`, 'GET');
+    const results = await callAPI(`/api/customer/active/?page=${page}&count=${count}`, 'GET');
     dispatch(fetchCustomersActive(results));
   } catch (error) {
     
@@ -29,7 +29,7 @@ export const fetchCustomersActiveAction = (page=1, count=5) => async (dispatch, 
 
 export const fetchCustomersSuspendedAction = (page=1, count=5) => async (dispatch, getState) => {
   try {
-    const results = await callAPI(`/api/customer/suspended/?page=1&count=5`, 'GET');
+    const results = await callAPI(`/api/customer/suspended/?page=${page}&count=${count}`, 'GET');
     dispatch(fetchCustomersSuspended(results));
   } catch (error) {
     
