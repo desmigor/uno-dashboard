@@ -158,7 +158,7 @@ function Sidebar() {
     const sidebarLinks = userInfo?.type?.id === 3 ? adminSidelinks : sidebarLinksSupport
 
   return (
-    <div className={`xl:w-[228px] w-[80px] h-screen ${userInfo?.type?.id === 3 ? 'bg-[#23292E]' : 'bg-white' } relative flex flex-col items-center overflow-hidden`}>
+    <div className={`xl:w-[228px] xl:min-w-[210px] w-[80px] h-screen ${userInfo?.type?.id === 3 ? 'bg-[#23292E]' : 'bg-white' } relative flex flex-col items-center overflow-hidden `}>
         <img src={UnoIcon} alt='UNOSVG' className='w-10 h-10 mt-5 mx-auto' />
         <div className='mt-[30px] w-full flex flex-col items-center gap-[8px] justify-center'>
             {

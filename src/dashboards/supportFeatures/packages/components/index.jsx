@@ -239,8 +239,30 @@ async function calculateRoute() {
                   <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight text-left">{item.currency_value} {item.total_cost}</div> 
                 </td>
                 <td class="px-6 py-4 h-[75px]">
-                  <div className={`min-w-[106px] h-[19px] px-3 py-1.5 ${item.package_status === 4 || item.package_status === 5 ? 'bg-blue-50' : item.package_status === 3 ? 'bg-gray-100' : 'bg-yellow-50'} rounded justify-start items-center gap-2.5 inline-flex`}>
-                      <span className={`${item.package_status === 4 || item.package_status === 5 ? 'text-sky-600' : item.package_status === 3 ? 'text-slate-500' : 'text-amber-500'} text-xs font-normal font-rubik leading-none`}>{item.package_status_value}</span> 
+                  <div className={`min-w-[106px] px-3 py-1.5 ${
+                                item.package_status === 2 || item.package_status === 1 
+                                  ? "bg-gray-50":
+                                  item.package_status === 3
+                                  ? "bg-green-100"
+                                  : "bg-gray-100"
+                              } rounded justify-start items-center gap-2.5 inline-flex`}>
+                      <span className={`${
+                                  item.package_status === 1
+                                    ? "text-amber-600"
+                                    : item.package_status === 2
+                                    ? "text-yellow-500"
+                                    : item.package_status === 3
+                                    ? "text-green-600"
+                                    : item.package_status === 4
+                                    ? "text-yellow-800"
+                                    : item.package_status === 5
+                                    ? "text-green-400"
+                                    : item.package_status === 6
+                                    ? "text-blue-500"
+                                    : item.package_status === 7
+                                    ? "text-red-500"
+                                    : "text-red-500"
+                                } text-xs font-normal font-rubik leading-none`}>{item.package_status_value}</span> 
                   </div>
                 </td>
                 <td class="px-6 py-4">

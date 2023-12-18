@@ -17,7 +17,7 @@ function Dashboard() {
   const { userInfo } = useSelector((state) => state.auth);
   const { resolutionPackages } = useSelector((state) => state.fetchPending);
   const { totals } = useSelector((state) => state.fetchTotals);
-  const { packages } = useSelector((state) => state.fetchPackages);
+  const { ongoings } = useSelector((state) => state.fetchPackages);
   const { couriers } = useSelector((state) => state.fetchCouriers);
 
 
@@ -81,7 +81,7 @@ function Dashboard() {
           type={"pending"}
           name={"Pending resolution"}
         />
-        <TableCard data={packages} type={"ongoing"} name={"Ongoing Packages"} />
+        <TableCard data={ongoings} type={"ongoing"} name={"Ongoing Packages"} />
       </div>
       <div className="w-full mt-[20px] mx-auto flex flex-row gap-5">
         <TableCard type={"map"} name={"Availability Map"} />
