@@ -4,7 +4,7 @@ import reassignIcon from "../../../../assets/images/dashboard/icon/arrow-swap-ho
 import closeIcon from "../../../../assets/images/dashboard/icon/close-square.svg";
 import Modal from "../../../../components/ui/Modal";
 import ReassignModal from "./ui/PackageReassignModal";
-import restoreIcon from "../../../../assets/images/dashboard/icon/receive-square.svg";
+import restoreIcon from "../../../../assets/images/dashboard/icon/receive-square3.svg";
 import restoreIconBig from "../../../../assets/images/dashboard/icon/receive-square(2).svg";
 
 import ReturnIconModal from "../../../../assets/images/dashboard/icon/refresh-circle.svg";
@@ -197,7 +197,7 @@ export default function OrderResolution({ item }) {
               <div
                 class={
                   SelectedAction == "restore"
-                    ? "h-14 px-2 py-3.5 rounded-[10px] bg-stone-100 border border-red-800 justify-center items-center gap-1.5 flex"
+                    ? "h-14 px-2 py-3.5 rounded-[10px] bg-slate-100 border border-blue-900 justify-center items-center gap-1.5 flex"
                     : "h-14 px-2 py-3.5 bg-white rounded-[10px] border border-gray-100  justify-center items-center gap-1.5 flex"
                 }
               >
@@ -210,7 +210,7 @@ export default function OrderResolution({ item }) {
                   <span
                     className={
                       SelectedAction == "restore"
-                        ? " text-red-800"
+                        ? " text-blue-800"
                         : "text-zinc-800 "
                     }
                   >

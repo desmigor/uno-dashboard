@@ -22,6 +22,8 @@ import {
 import { Menu, Transition } from "@headlessui/react";
 import ArrowDown from "../../../../assets/images/dashboard/icon/arrow-down.svg";
 import SearchIcon from "../../../../assets/images/dashboard/icon/search-normal2.svg";
+import { useParams } from 'react-router-dom';
+
 
 const mapContainerStyle = {
   width: "100%",
@@ -34,7 +36,11 @@ const center = {
 
 const libraries = ["places"];
 
-function Pending() {
+function Pending({props}) {
+  const { id } = useParams();
+
+  console.log("id:\n", id);
+
   const { resolutionPackages } = useSelector((state) => state.fetchPending);
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [selectedItem, setSelectedItem] = useState();
@@ -53,7 +59,9 @@ function Pending() {
   }, [selectedItem]);
 
   useEffect(() => {
-    if (resolutionPackages.length > 0 && window.innerWidth >= 1280) {
+    if (resolutionPackages.length > 0  && id != undefined) {
+      setSelectedItem(resolutionPackages.find((item) => item.id == id));
+    } else if (resolutionPackages.length > 0 && window.innerWidth >= 1280) {
       setSelectedItem(resolutionPackages[0]);
     }
   }, [resolutionPackages]);

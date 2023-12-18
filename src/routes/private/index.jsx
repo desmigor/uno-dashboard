@@ -12,7 +12,7 @@ function Private() {
     <Routes>
       <Route path='/' element={<Layout />} >
         <Route index element={<Dashboard />} />
-        <Route path='/pending' element={<Pending />} />
+        <Route path='/pending/:id?' element={<Pending />} />
         <Route path='/package' element={<Packages />} />
         <Route path='/courier' element={<Couries />} />
         <Route path='/settings' element={<Settings />} />
