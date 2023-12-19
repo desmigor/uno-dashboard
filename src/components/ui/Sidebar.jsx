@@ -33,6 +33,7 @@ function Sidebar() {
     const [selectedSubCourier, setSelectedSubCourier] = useState('All Couriers');
     const [expanded, setExpanded] = useState(false);
     const [path, setPath] = useState(false);
+    const [isPackage, setIsPackage] = useState(false);
     
     const location = useLocation();
 
@@ -43,6 +44,7 @@ function Sidebar() {
 
     useEffect(() => {
         setPath(window.location.pathname.split("/")[window.location.pathname.split("/").length - 1]);
+        setIsPackage(window.location.pathname.split("/")[window.location.pathname.split("/").length - 2] === 'package' ? true : false);
     }, []);
 
     useEffect(() => {
@@ -60,6 +62,8 @@ function Sidebar() {
             setSelcted('Customers');
         }else if(path.length === 0){
             setSelcted('Dashboard');
+        }else if(isPackage === true){
+            setSelcted('Packages');
         }else{
             setSelcted('Couriers');
         }

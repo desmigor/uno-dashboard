@@ -9,6 +9,7 @@ import RubikNormal from '../../assets/images/dashboard/fonts/Rubik-Regular.ttf';
 import RubikSemiBold from '../../assets/images/dashboard/fonts/Rubik-SemiBold.ttf';
 import RubikMedium from '../../assets/images/dashboard/fonts/Rubik-Medium.ttf';
 import RubikBold from '../../assets/images/dashboard/fonts/Rubik-Bold.ttf';
+import star from "../../assets/images/dashboard/icon/star.png";
 import moment from 'moment';
 
 Font.register({ 
@@ -21,10 +22,10 @@ Font.register({
     ]
 });
 
-const ReportPackagePDF = ({ packages, item }) => {
+const ReportPackagePDF = React.memo(({ item, status }) => {
   return (
     <Document>
-        <Page size="A4" style={{ fontFamily: 'Rubik' }}>
+        <Page size="A4" style={{ fontFamily: 'Rubik', paddingBottom: 135 }}>
             <View style={styles.header} fixed>
                 <Image src={Logo} />
                 <View>
@@ -32,8 +33,8 @@ const ReportPackagePDF = ({ packages, item }) => {
                     <Text style={styles.phone}>www.unodelivery.com</Text> 
                 </View>
             </View>
-            <View style={{ width: '85%', alignSelf: 'center' }}>
-                <View style={{width: '100%', height: 91, marginTop: 20, gap: 12, }}>
+            <View style={{ width: '85%',  alignSelf: 'center' }}>
+                <View style={{width: '100%', height: 91, marginTop: 0, gap: 12, }}>
                     <Text style={styles.text}>{moment().format("MMMM DD, YYYY")}</Text>
                     <View>
                         <Text style={[styles.text, {  width: 102 }]}>475 Brannan St., Suite 430 Accra, CA 94107</Text> 
@@ -44,7 +45,7 @@ const ReportPackagePDF = ({ packages, item }) => {
                         <Text style={styles.text}><Text style={{ fontWeight: 'semibold' }}>Report Dates:</Text> {moment(item?.report_start_date).format("MMMM DD, YYYY")} - {moment(item?.report_end_date).format("MMMM DD, YYYY")}</Text> 
                     </View>
                 </View>
-                <Text style={{width: '100%', textAlign: 'center', color: 'rgb(152, 29, 29)', fontSize: 12, fontWeight: 'bold', wordWrap: 'break-word', marginTop: 20,}}>Canceled Packages Report</Text>
+                <Text style={{width: '100%', textAlign: 'center', color: 'rgb(152, 29, 29)', fontSize: 12, fontWeight: 'bold', wordWrap: 'break-word', marginTop: 20,}}>{status} Packages Report</Text>
                 <View style={{ width: '100%', borderBottom: 1, borderColor: '#EBEFF2', marginTop: 8, }} />
                 <View style={{width: '100%', height: 32 , marginTop: 16, backgroundColor: 'rgb(248, 249, 250)', flexDirection: 'row', gap: 10,}}>
                     <View style={{ width: 25, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
@@ -62,7 +63,7 @@ const ReportPackagePDF = ({ packages, item }) => {
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
                         <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Courier</Text>
                     </View>
-                    <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
+                    <View style={{ width: 120, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
                         <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Size</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
@@ -73,30 +74,32 @@ const ReportPackagePDF = ({ packages, item }) => {
                     </View>
                 </View> 
                 {
-                    [].map((itm, idx) => <View key={idx} style={{width: '100%', height: 32, borderBottom: 1, borderColor: '#EBEFF2', backgroundColor: 'rgb(255, 255, 255)', flexDirection: 'row', gap: 10,}}>
+                    item?.packages?.map((itm, idx) => <View key={idx} style={{width: '100%', height: 32, borderBottom: 1, borderColor: '#EBEFF2', backgroundColor: 'rgb(255, 255, 255)', flexDirection: 'row', gap: 10,}}>
                     <View style={{ width: 25, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>#</Text>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>{idx + 1}</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                    <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Time</Text>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>{moment(itm.created_at).format("DD-MM-YYYY")}</Text>
+                        <Text style={{color: 'rgb(156, 163, 175)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>{moment(itm.created_at).format("HH:MM")}</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10,}}>
-                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Tracking #</Text>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>{itm.id}</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Customer</Text>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>{itm.customer_name ? itm.customer_name : 'Not Mentioned' }</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Courier</Text>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>{itm.courier_name ? itm.courier_name : 'Not Mentioned'}</Text>
+                    </View>
+                    <View style={{ width: 120, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>{itm.size_name ? itm.size_name : "Not Mentioned"}</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Size</Text>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: 'bold', wordWrap: 'break-word'}}>{status === "Cancelled"? itm?.original_amount.toFixed(2) : itm?.total_revenue.toFixed(2)} GHS</Text>
                     </View>
-                    <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Amount</Text>
-                    </View>
-                    <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Canceled By</Text>
+                    <View style={{ width: 100, height: 32, justifyContent: 'start', alignItems: 'center', paddingLeft: 10, flexDirection: 'row', gap: 5 }}>
+                        {(status === "Completed" && itm?.customer_rating) && <Image src={star} style={{ width: 8, height: 8 }} /> }
+                        <Text style={{color: 'rgb(255, 161, 24)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>{status === "Cancelled" ? itm?.canceled_role : itm?.customer_rating ? itm?.customer_rating : 'No rating' }</Text>
                     </View>
                 </View> )
                 }
@@ -125,8 +128,8 @@ const ReportPackagePDF = ({ packages, item }) => {
                     <View style={{ width: 25, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
                         <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}></Text>
                     </View>
-                    <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Total</Text>
+                    <View style={{ width: 300, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: 'bold', wordWrap: 'break-word'}}>Total</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10,}}>
                         <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}></Text>
@@ -141,7 +144,10 @@ const ReportPackagePDF = ({ packages, item }) => {
                         <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}></Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(152, 29, 29)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>24 USD</Text>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}></Text>
+                    </View>
+                    <View style={{ width: 300, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
+                        <Text style={{color: 'rgb(152, 29, 29)', fontSize: 8, fontWeight: 'bold', wordWrap: 'break-word'}}>${item?.total?.all_total_revenue?.toFixed(2)} GHS</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
                         <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}></Text>
@@ -175,7 +181,7 @@ const ReportPackagePDF = ({ packages, item }) => {
         </Page>
     </Document>
   )
-}
+});
 
 export default ReportPackagePDF
 
@@ -191,6 +197,7 @@ const styles = StyleSheet.create({
         height: 24,
         alignSelf: 'center',
         marginTop: 20,
+        marginBottom: 20,
     },
     phone: {textAlign: 'right', color: '#102327', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'},
     text: {textAlign: 'left', color: '#102327', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'},

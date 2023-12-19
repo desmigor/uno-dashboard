@@ -13,6 +13,12 @@ function CreatePackages() {
     const dispatch = useDispatch()
     const { id } = useParams();
     
+    {pickupLocation && useEffect(() => {
+        handleInputChange(parseInt(index), 'pickupAddress', pickupLocation?.formatted_address);
+        handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
+        handleInputChange(parseInt(index), 'pickup', typeof id === 'undefined' ? pickupLocation : { lat: pickupLocation?.geometry?.location?.lat, lng: pickupLocation?.geometry?.location?.lng, formatted_address: pickupLocation?.formatted_address });
+        handleInputChange(parseInt(index), 'drop', typeof id === 'undefined' ? dropLocation : { lat: dropLocation?.geometry?.location?.lat, lng: dropLocation?.geometry?.location?.lng, formatted_address: dropLocation?.formatted_address });
+    }, [])}
     useEffect(() => {
         if(parseInt(index) > 0 ){
             for (let index = 0; index < parseInt(index) ; index++) {
@@ -25,6 +31,30 @@ function CreatePackages() {
         }
         if(typeof id === 'undefined'){
             console.log('');
+        }else if(pickupLocation !== null && typeof id === 'undefined'){
+            handleInputChange(parseInt(index), 'pickupAddress', pickupLocation?.formatted_address);
+            handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
+            handleInputChange(parseInt(index), 'pickup', typeof id === 'undefined' ? pickupLocation : { lat: pickupLocation?.geometry?.location?.lat, lng: pickupLocation?.geometry?.location?.lng, formatted_address: pickupLocation?.formatted_address });
+            handleInputChange(parseInt(index), 'drop', typeof id === 'undefined' ? dropLocation : { lat: dropLocation?.geometry?.location?.lat, lng: dropLocation?.geometry?.location?.lng, formatted_address: dropLocation?.formatted_address });
+
+        }else if(pickupLocation !== null && typeof id !== 'undefined'){
+            dispatch(fetchPackageDetails(id)).then((res) => {
+                handleInputChange(parseInt(index), 'pickupAddress', pickupLocation?.formatted_address);
+                handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
+                handleInputChange(parseInt(index), 'pickup', typeof id === 'undefined' ? pickupLocation : { lat: pickupLocation?.geometry?.location?.lat, lng: pickupLocation?.geometry?.location?.lng, formatted_address: pickupLocation?.formatted_address });
+                handleInputChange(parseInt(index), 'drop', typeof id === 'undefined' ? dropLocation : { lat: dropLocation?.geometry?.location?.lat, lng: dropLocation?.geometry?.location?.lng, formatted_address: dropLocation?.formatted_address });
+                handleInputChange(0, 'full_name_pickup', res.pickup_contact_person);
+                handleInputChange(0, 'full_name_drop', res.drop_contact_person);
+                handleInputChange(0, 'phone_number_pickup', res.pickup_contact_phone);
+                handleInputChange(0, 'phone_number_drop', res.drop_contact_phone);
+                handleInputChange(0, 'comment_pickup', 'None');
+                handleInputChange(0, 'comment_drop', 'None');
+                handleInputChange(0, 'choosenMethod', res.payment_type === "Cash Upon Pickup" ? 1 : res.payment_type === "Cash Upon Delivery" ? 2 : 3);
+                handleInputChange(0, 'size', res.package_size);
+                handleInputChange(0, 'total', res.total_cost);
+                handleInputChange(0, 'chosenAddons', res.package_addons);
+                handleInputChange(0, 'total', res.total_cost);
+            });  
         }else{
             dispatch(fetchPackageDetails(id)).then((res) => {
                 handleInputChange(0, 'pickupAddress', res.pickup_open_address);
@@ -45,15 +75,6 @@ function CreatePackages() {
             })
         }
         }, []);
-
-        useEffect(() => {
-            if(index && pickupLocation && dropLocation){
-                handleInputChange(parseInt(index), 'pickupAddress', pickupLocation?.formatted_address);
-                handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
-                handleInputChange(parseInt(index), 'pickup', typeof id === 'undefined' ? pickupLocation : { lat: pickupLocation?.geometry?.location?.lat, lng: pickupLocation?.geometry?.location?.lng, formatted_address: pickupLocation?.formatted_address });
-                handleInputChange(parseInt(index), 'drop', typeof id === 'undefined' ? dropLocation : { lat: dropLocation?.geometry?.location?.lat, lng: dropLocation?.geometry?.location?.lng, formatted_address: dropLocation?.formatted_address });
-            }
-        }, [inputs, index]);
 
     const next = (nbr, data) => {
         setCurrent(nbr);

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { cancelPackage } from '../../../../redux/actions/fetchPackagesAction';
 import Spinner from '../../../../components/ui/spinner';
-import { fetchGroupDetailsAction, generateReport, updateGroupAction } from '../../../../redux/actions/fetchCouriersAction';
+import { fetchGroupDetailsAction, generateReport, generateReportPackage, updateGroupAction } from '../../../../redux/actions/fetchCouriersAction';
 import moment from 'moment';
 import ReportPDF from '../../../../components/ui/ReportPDF';
 import { PDFDownloadLink } from '@react-pdf/renderer';
@@ -16,8 +16,8 @@ import { Datepicker } from 'flowbite-react';
 import ReportPackagePDF from '../../../../components/ui/ReportPackagePDF';
 
 
-const GenerateReportPackages = ({ isOpen, setIsOpen }) => {
-    const [loading, setLoading] = useState(false);
+const GenerateReportPackages = ({ isOpen, setIsOpen, page, status, count }) => {
+    const [loading1, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [period, setPeriod] = useState('Daily');
@@ -37,7 +37,14 @@ const GenerateReportPackages = ({ isOpen, setIsOpen }) => {
             start_date: value.startDate,
             end_date: value.endDate
         }
-        console.log(payload, 'klkll')
+        setLoading(true);
+        dispatch(generateReportPackage(payload, page, status, count)).then((res) => {
+            setData(res.data);
+            console.log(res.data);
+            setLoading(false);
+        }).catch(() => {
+          setLoading(false);
+        })
     }
 
     const handleValueChange = (newValue) => {
@@ -426,12 +433,20 @@ const GenerateReportPackages = ({ isOpen, setIsOpen }) => {
                     <div onClick={() => setIsOpen(false)} className="w-[168px] cursor-pointer h-[50px] px-[60px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex">
                         <div className="text-center text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">Cancel</div>
                     </div>
-                    <PDFDownloadLink document={<ReportPackagePDF item={data} />}>
-                        <button className={`w-[168px] cursor-pointer h-[50px] px-[60px] py-[15px] ${data ? 'bg-red-800' : 'bg-gray-300'} rounded-[10px] justify-center items-center gap-2.5 flex`}>
+                    <PDFDownloadLink document={<ReportPackagePDF item={data} status={status === 'completed' ? 'Completed' : 'Cancelled'} />}>
+                    {({ blob, url, loading, error }) => 
+                        <button onClick={() => {
+                          setValue({
+                            endDate: moment().format("YYYY-MM-DD"),
+                            startDate: moment().format("YYYY-MM-DD"),
+                        });
+                        setIsOpen(false);
+                        }} disabled={data ? false : true} className={`w-[168px] cursor-pointer h-[50px] px-[60px] py-[15px] ${data ? 'bg-red-800' : 'bg-gray-300'} rounded-[10px] justify-center items-center gap-2.5 flex`}>
                             {
-                                loading ? <Spinner className={'fill-white'} /> : <div className={`text-center ${data ? 'text-white' : 'text-gray-700'} text-base font-normal font-['Rubik'] leading-tight`}>Confirm</div>
+                                loading1 ? <Spinner className={'fill-white'} /> : <div className={`text-center ${data ? 'text-white' : 'text-gray-700'} text-base font-normal font-['Rubik'] leading-tight`}>{loading ? 'Generating Report' :'Confirm'}</div>
                             }
                         </button>
+                    }
                     </PDFDownloadLink>
                 </div> 
               </div>

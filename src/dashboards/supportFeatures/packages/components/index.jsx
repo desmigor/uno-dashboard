@@ -64,6 +64,7 @@ function Packages() {
     dispatch(fetchPackagesOngoingAction(1, 5));
     dispatch(fetchPackagesCompletedAction(1, 5));
     dispatch(fetchPackagesCanceledAction(1, 5));
+    console.log(canceled, 'KKK')
   }, [])
   
   useEffect(() => {
@@ -1094,7 +1095,7 @@ async function calculateRoute() {
         </div>
       </div>
       <CancelModal isOpen={isOpen} setIsOpen={setIsOpen} id={selectedPackage?.id} />
-      <GenerateReportPackages isOpen={isOpen2} setIsOpen={setIsOpen2}  />
+      <GenerateReportPackages isOpen={isOpen2} setIsOpen={setIsOpen2} page={currentPage} status={table} count={table === "completed" ? completedCounts : canceledCounts} />
     </div>
   )
 }

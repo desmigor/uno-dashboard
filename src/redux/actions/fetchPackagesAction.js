@@ -48,8 +48,10 @@ export const fetchPackagesCanceledAction = (page, count) => async (dispatch, get
       "GET",
       true
     );
+    console.log(result);
     dispatch(fetchCanceledPackages(result));
   } catch (error) {
+    console.log(error);
   }
 };
 
