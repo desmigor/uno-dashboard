@@ -886,7 +886,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                       Package Size
                     </div>
                     <div className="text-zinc-800 text-base font-normal font-['Rubik'] leading-tight">
-                      {item?.size.name}
+                      {item?.size?.name}
                     </div>
                   </div>
                 </div>
