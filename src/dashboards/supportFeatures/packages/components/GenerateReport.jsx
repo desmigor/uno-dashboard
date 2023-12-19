@@ -40,7 +40,6 @@ const GenerateReportPackages = ({ isOpen, setIsOpen, page, status, count }) => {
         setLoading(true);
         dispatch(generateReportPackage(payload, page, status, count)).then((res) => {
             setData(res.data);
-            console.log(res.data);
             setLoading(false);
         }).catch(() => {
           setLoading(false);
@@ -48,7 +47,6 @@ const GenerateReportPackages = ({ isOpen, setIsOpen, page, status, count }) => {
     }
 
     const handleValueChange = (newValue) => {
-        console.log("newValue:", newValue); 
         setValue(newValue); 
         handleAction(newValue);
     }
@@ -327,7 +325,6 @@ const GenerateReportPackages = ({ isOpen, setIsOpen, page, status, count }) => {
                         height={70}
                         value={moment(value.endDate).format("DD-MM-YYYY")}
                         onSelectedDateChanged={(val) => {
-                            console.log(val);
                             setValue({
                                 ...value,
                                 endDate: moment(val).format("YYYY-MM-DD"),

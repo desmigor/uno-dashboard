@@ -48,7 +48,6 @@ export const fetchPackagesCanceledAction = (page, count) => async (dispatch, get
       "GET",
       true
     );
-    console.log(result);
     dispatch(fetchCanceledPackages(result));
   } catch (error) {
     console.log(error);
@@ -82,7 +81,6 @@ export const cancelPackage = (id) => async (dispatch, getState) => {
       payload
     );
     
-    console.log(result, 'KKKKK');
     dispatch(fetchSuccess());
     dispatch(fetchPackagesCanceledAction(1, 5));
     dispatch(fetchPackagesCompletedAction(1, 5));

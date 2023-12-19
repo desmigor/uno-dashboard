@@ -28,7 +28,6 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
 
   const [loading, setLoading] = useState(false);
 
-  console.log(editData);
 
   const handleSave = async () => {
     setLoading(true);
@@ -45,7 +44,6 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
         true,
         data
       );
-      console.log(result);
       dispatch(fetchPackageAddOnsAction());
       setLoading(false);
       onClose();
@@ -70,7 +68,6 @@ export default function AddPackageAddOn({ show, onClose, onSaved, editData }) {
         true,
         data
       );
-      console.log(result);
       dispatch(fetchPackageAddOnsAction());
       setLoading(false);
 

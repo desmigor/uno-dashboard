@@ -21,7 +21,6 @@ export default function ProfileSection() {
   const { countries } = useSelector((state) => state.fetchProfile);
   const [selectedCoutryId, setSelectedCountryId] = useState();
 
-  console.log(countries);
 
   const dispatch = useDispatch();
 
@@ -91,7 +90,6 @@ export default function ProfileSection() {
     Object.keys(profile).length > 0 ? profile.address[0]?.postal_code : ""
   );
 
-  console.log(profile);
   const handleEdit = async (address = false) => {
     setLoading(true);
     const data = address
@@ -107,7 +105,6 @@ export default function ProfileSection() {
           country: selectedCoutryId,
           phone_number: phoneNumber,
         };
-    console.log(data);
     try {
       const result = await callAPI(
         address ? "/api/address/profile-address/" : "/api/auth/web/profile/",
@@ -115,7 +112,6 @@ export default function ProfileSection() {
         true,
         data
       );
-      console.log(result);
       dispatch(fetchProfileAction());
       setLoading(false);
     } catch (err) {
@@ -125,7 +121,6 @@ export default function ProfileSection() {
     address ? setEditAddress(false) : setEditInformations(false);
   };
 
-  console.log(userInfo);
 
   return (
     <div className="w-[100%] h-[100%] p-5 bg-white rounded-lg flex-col justify-start items-start gap-6 inline-flex overflow-auto">

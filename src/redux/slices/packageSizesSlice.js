@@ -18,7 +18,6 @@ const fetchPackageSizesSlice = createSlice({
             state.success = false;
         },
         fetchPackageSizesSuccess: (state, { payload }) => {
-            console.log({payload})
             state.loading = false;
             state.error = null;
             state.success = true;

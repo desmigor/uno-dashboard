@@ -29,7 +29,6 @@ function TableCard({ type, name, data }) {
   const [selectedMarker, setSelectedMarker] = useState(null)
   const navigate = useNavigate();
 
-  console.log(selectedMarker);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
     libraries,

@@ -29,7 +29,6 @@ export default function CouriersConfigurations() {
   const handleDeleteVehicleType = async (id) => {
     try {
       const response = await callAPI(`/api/admin/vehicle-type/${id}`, "DELETE", true);
-      console.log(response);
       dispatch(fetchVehicleTypesAction());
     } catch (error) {
       console.log(error);

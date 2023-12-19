@@ -40,7 +40,6 @@ function EditProfileModal({
       const data = {
         image_base64: null,
       };
-      console.log(data);
       // upload image to server
       const res = await callAPI(
         "/api/auth/user/profile/profile-photo/",
@@ -48,7 +47,6 @@ function EditProfileModal({
         true,
         data
       );
-      console.log(res);
       dispatch(fetchProfileAction());
     } catch (err) {
       console.log(err);
@@ -87,7 +85,6 @@ function EditProfileModal({
         const data = {
           image_base64: base64,
         };
-        console.log(data);
         // upload image to server
         const res = await callAPI(
           "/api/auth/user/profile/profile-photo/",
@@ -95,7 +92,6 @@ function EditProfileModal({
           true,
           data
         );
-        console.log(res);
         dispatch(fetchProfileAction());
       } catch (err) {
         console.log(err);

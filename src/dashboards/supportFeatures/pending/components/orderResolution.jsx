@@ -28,7 +28,6 @@ export default function OrderResolution({ item }) {
   };
 
   const handleModalConfirm = (isConfirmed) => async () => {
-    console.log(here)
       handleShowToast();
       setshowReturnModal(false);
       setshowCancelModal(false);
