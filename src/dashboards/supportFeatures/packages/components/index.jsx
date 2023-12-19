@@ -457,6 +457,7 @@ async function calculateRoute() {
                       </Link>
                       <button onClick={() => {
                         setIsOpen(true)
+                        setSelected(null)
                       }} className='w-40 h-[42px] py-[15px] rounded-[10px] border border-red-700 justify-center items-center gap-2.5 flex'>
                         <div className="text-center text-red-700 text-sm font-normal font-rubik leading-tight">Cancel Package</div> 
                         <img src={Close} className='w-5 h-5' />
