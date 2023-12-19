@@ -30,7 +30,6 @@ function CreatePackages() {
             }
         }
         if(typeof id === 'undefined'){
-            console.log('');
         }else if(pickupLocation !== null && typeof id === 'undefined'){
             handleInputChange(parseInt(index), 'pickupAddress', pickupLocation?.formatted_address);
             handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
@@ -83,7 +82,6 @@ function CreatePackages() {
 
     const handleInputChange = (index, field, value) => {
         const newInputs = [...inputs];
-        console.log(newInputs, 'PPPPPp');
         newInputs[index][field] = value;
         setInputs(newInputs);
     }

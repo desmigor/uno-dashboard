@@ -51,7 +51,6 @@ export default function AddVehicleType({ show, onClose, onConfirm, editData }) {
         name: vehicleTypeName,
         box_fit: boxFit,
       };
-      console.log(data);
       const response = await callAPI(
         id ? `/api/admin/vehicle-type/${id}` :
         "/api/admin/vehicle-type/", 
@@ -59,7 +58,6 @@ export default function AddVehicleType({ show, onClose, onConfirm, editData }) {
         "POST", 
         true, 
         data);
-      console.log(response);
       dispatch(fetchVehicleTypesAction());
       setLoading(false);
     } catch (error) {

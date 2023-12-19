@@ -12,7 +12,6 @@ export default function CourierTabContent({
   prop6,
   rating,
 }) {
-  console.log(prop1);
   return (
     <div class="w-[100%]  h-[162px] pl-[22px] pr-[47px] pt-[22px] pb-6 bg-white rounded-xl shadow border border-gray-100 justify-start items-center gap-8 inline-flex">
       <div class="w-[109px] h-[116px] relative flex-col justify-start items-start flex">

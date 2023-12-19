@@ -50,7 +50,6 @@ export default function SecuritySection() {
         true,
         data
       );
-      console.log(response);
       setToastText("Password changed successfully");
       setToastSuccess(true);
       setShowToast(true);

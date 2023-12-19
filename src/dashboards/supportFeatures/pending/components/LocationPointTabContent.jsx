@@ -23,7 +23,6 @@ export default function LocationPointContent({
     libraries,
   });
 
-  console.log(prop1, 'JJ');
   return (
     <div class="w-[100%]  h-[162px] relative flex flex-row gap-2 items-center bg-white rounded-xl shadow border border-gray-100">
       <div className="w-[160px] h-[130px] rounded-md m-4">

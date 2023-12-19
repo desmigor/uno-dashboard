@@ -39,7 +39,6 @@ const libraries = ["places"];
 function Pending({props}) {
   const { id } = useParams();
 
-  console.log("id:\n", id);
 
   const { resolutionPackages } = useSelector((state) => state.fetchPending);
   const [directionsResponse, setDirectionsResponse] = useState(null);

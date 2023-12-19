@@ -50,7 +50,6 @@ function Modal({
   const handleConfirm = async () => {
     try {
       setLoading(true);
-      console.log(resolution_status);
       const result = await callAPI("/api/resolution/packages/", "PUT", true, {
         issue_id: issue_id,
         status: resolution_status,
@@ -71,7 +70,6 @@ function Modal({
     onClose();
   };
 
-  console.log("restore : " + restore);
 
   return (
     <Dialog open={true} onClose={onClose}>
