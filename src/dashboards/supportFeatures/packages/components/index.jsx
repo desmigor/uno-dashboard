@@ -64,11 +64,9 @@ function Packages() {
     dispatch(fetchPackagesOngoingAction(1, 5));
     dispatch(fetchPackagesCompletedAction(1, 5));
     dispatch(fetchPackagesCanceledAction(1, 5));
-    console.log(canceled, 'KKK')
   }, [])
   
   useEffect(() => {
-    console.log(generatePagination(table === 'ongoing' ? ongoingCounts : table === 'completed' ? completedCounts : canceledCounts, currentPage, count), 'KLL::')
     setPaginations(generatePagination(table === 'ongoing' ? ongoingCounts : table === 'completed' ? completedCounts : canceledCounts, currentPage, count));
   }, [table, currentPage, count])
 

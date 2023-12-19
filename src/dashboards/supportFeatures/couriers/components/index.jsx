@@ -44,7 +44,6 @@ function Couriers() {
   }, [])
 
   const couriers = table === 'available' ? availableCouriers : table === 'at-work' ? atworkCouriers : table === 'paused' ? pausedCouriers : table === 'offline' ? offlineCouriers : [];
-  console.log(couriers);
 
   const handleChangePage = (countNumber) => {
     setCount(countNumber);

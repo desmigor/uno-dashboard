@@ -16,11 +16,7 @@ export const fetchPendingAction =
         "GET",
         true
       );
-      console.log("/api/resolution/packages/?all=true&status=1&search=" +
-      search +
-      "&ordering=" +
-      sort);
-      console.log(result);
+
       dispatch(fetchPending());
       dispatch(fetchPendingSuccess(result));
     } catch (error) {}

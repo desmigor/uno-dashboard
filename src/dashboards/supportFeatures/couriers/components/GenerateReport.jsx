@@ -36,15 +36,12 @@ const GenerateReport = ({ isOpen, setIsOpen, id }) => {
             start_date: value.startDate,
             end_date: value.endDate
         }
-        console.log(payload, 'klkll')
         dispatch(generateReport(payload, id)).then((res) => {
             setData(res.data);
-            console.log(res.data);
         });
     }
 
     const handleValueChange = (newValue) => {
-        console.log("newValue:", newValue); 
         setValue(newValue); 
         handleAction(newValue);
     }
@@ -323,7 +320,6 @@ const GenerateReport = ({ isOpen, setIsOpen, id }) => {
                         height={70}
                         value={moment(value.endDate).format("DD-MM-YYYY")}
                         onSelectedDateChanged={(val) => {
-                            console.log(val);
                             setValue({
                                 ...value,
                                 endDate: moment(val).format("YYYY-MM-DD"),

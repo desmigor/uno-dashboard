@@ -28,17 +28,14 @@ export default function PackageConfigurations() {
     // fetch package sizes using fetch method
   }, []);
 
-  console.log({packageSizes});
 
   const handleDeletePackageAddOn = async (id) => {
     try {
-      console.log(id);      
        const result = await callAPI(
         `/api/package-settings/package-addon/${id}`,
         "DELETE",
         true
       );
-        console.log(result, 'ppppp');
       dispatch(fetchPackageAddOnsAction());
     } catch (err) {
       console.log(err);
@@ -47,14 +44,12 @@ export default function PackageConfigurations() {
 
   const handleDeletePackageSize = async (id) => {
     try {
-      console.log(id);
 
       const result = await callAPI(
         `/api/package-settings/package-size/${id}`,
         "DELETE",
         true
       );
-      console.log(result);
       dispatch(fetchPackageSizesAction());
     } catch (err) {
       console.log(err);

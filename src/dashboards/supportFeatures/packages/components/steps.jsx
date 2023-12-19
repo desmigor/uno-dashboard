@@ -300,7 +300,6 @@ export const Step2 = ({ next, inputs, setInputs }) => {
     }, [packageSizes])
 
 
-    console.log(chosenAddons);
 
     const data = {
         insulated,
@@ -724,7 +723,6 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             true,
             data
         );
-        console.log(result);
         // add package to queue
         const queueResult = await callAPI(
             "/api/delivery/package-add-queue/",
@@ -734,7 +732,6 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
               result.data.map((item) => ({ package_id: item.id })),
             
         );
-        console.log(queueResult);
 
         navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
         setStep(0);

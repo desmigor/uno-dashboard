@@ -36,7 +36,6 @@ function ReassignModal({ show, onClose, cancel, onConfirm, id }) {
   }, []);
 
   const handlePackageReassign = async (courier_id) => {
-    console.log(courier_id);
     const data = {
       issue_id: id,
       status: 6,
@@ -57,7 +56,6 @@ function ReassignModal({ show, onClose, cancel, onConfirm, id }) {
     }
   };
 
-  console.log("Id", id);
 
   return (
     <Dialog open={show ? true : false} onClose={onClose}>

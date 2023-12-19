@@ -96,7 +96,6 @@ export default function AddPackageSizeModal({
         },
       ],
     };
-    console.log(data);
 
     try {
       const result = await callAPI(
@@ -105,7 +104,6 @@ export default function AddPackageSizeModal({
         true,
         data
       );
-      console.log(result);
       dispatch(fetchPackageSizesAction());
       setLoading(false);
       onClose();
@@ -154,7 +152,6 @@ export default function AddPackageSizeModal({
         },
       ],
     };
-    console.log(data);
     try {
       const result = await callAPI(
         `/api/package-settings/package-size/${id}`,
@@ -162,7 +159,6 @@ export default function AddPackageSizeModal({
         true,
         data
       );
-      console.log(result);
       dispatch(fetchPackageSizesAction());
       setLoading(false);
       onClose();
