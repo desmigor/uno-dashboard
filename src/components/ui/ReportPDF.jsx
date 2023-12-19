@@ -24,7 +24,7 @@ Font.register({
 const ReportPDF = ({ item }) => {
   return (
     <Document>
-        <Page size="A4" style={{ fontFamily: 'Rubik' }}>
+        <Page size="A4" style={{ fontFamily: 'Rubik', paddingBottom: 135 }}>
             <View style={styles.header} fixed>
                 <Image src={Logo} />
                 <View>
@@ -33,7 +33,7 @@ const ReportPDF = ({ item }) => {
                 </View>
             </View>
             <View style={{ width: '85%', alignSelf: 'center' }}>
-                <View style={{width: '100%', height: 91, marginTop: 20, gap: 12, }}>
+                <View style={{width: '100%', height: 91, marginTop: 0, gap: 12, }}>
                     <Text style={styles.text}>{moment().format("MMMM DD, YYYY")}</Text>
                     <View>
                         <Text style={[styles.text, {  width: 102 }]}>475 Brannan St., Suite 430 Accra, CA 94107</Text> 
@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
         height: 24,
         alignSelf: 'center',
         marginTop: 20,
+        marginBottom: 20
     },
     phone: {textAlign: 'right', color: '#102327', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'},
     text: {textAlign: 'left', color: '#102327', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'},
