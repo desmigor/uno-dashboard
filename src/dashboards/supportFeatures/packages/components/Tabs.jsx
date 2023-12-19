@@ -62,7 +62,7 @@ function Tabs({ setTable, ongoingCount, completedCount, canceledCount, table, pa
             {({ selected }) => (
                 <div
                 onClick={() => {
-                    setTable('canceled')
+                    setTable('cancelled')
                     paginate()
                 }}
                 class={

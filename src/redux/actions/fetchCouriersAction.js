@@ -223,6 +223,25 @@ export const generateReport = (payload, id) => async (dispatch, getState) => {
   }
 }
 
+export const generateReportPackage = (payload ,page=1, status="completed", count) => async (dispatch, getState) => {
+  try {
+    const results = await callAPI(`/api/packages/${status}/report/?page=${page}&count=${count}`, 'POST', true, payload);
+    return results;
+  } catch (error) {
+    console.log(error.request);
+    toast.error(error.response.data.message, {
+      position: "top-right",
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+    return error;
+  }
+}
+
 export const fetchAvailableCouriersSearch = (count=5, page = 1, search) => async (dispatch, getState) => {
   try {
     const results = await callAPI(`/api/courier/couriers/available/?page=${page}&count=${count}&search=${search}`, 'GET');
