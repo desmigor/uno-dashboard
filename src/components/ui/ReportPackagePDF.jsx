@@ -147,7 +147,7 @@ const ReportPackagePDF = React.memo(({ item, status }) => {
                         <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}></Text>
                     </View>
                     <View style={{ width: 300, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(152, 29, 29)', fontSize: 8, fontWeight: 'bold', wordWrap: 'break-word'}}>${item?.total?.all_total_revenue?.toFixed(2)} GHS</Text>
+                        <Text style={{color: 'rgb(152, 29, 29)', fontSize: 8, fontWeight: 'bold', wordWrap: 'break-word'}}>${status === "Cancelled" ? item?.total?.all_total_original_amount.toFixed(2) : item?.total?.all_total_revenue?.toFixed(2)} GHS</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
                         <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}></Text>
