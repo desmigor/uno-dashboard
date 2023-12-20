@@ -83,6 +83,10 @@ function Packages() {
 }, [selectedPackage]);
 
 async function calculateRoute() {
+  if(selectedPackage === null){
+    return false;
+  }
+
   const directionsService = new window.google.maps.DirectionsService();
   const originLatLng = new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude);
   const destinationLatLng = new google.maps.LatLng(selectedPackage?.drop_latitude, selectedPackage?.drop_longitude);
@@ -271,7 +275,7 @@ async function calculateRoute() {
                   </div>
                 </td>
                 <td class="px-6 py-4">
-                  <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight">{item.time_left.time ? item.time_left.time : '-'}</div> 
+                  <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight">{item?.time_left?.time ? item?.time_left?.time : '-'}</div> 
                 </td>
                 <td class="px-6 py-4">
                   <img src={selected === idx ? ArrowSquare2 : ArrowSquare} className='w-5 h-5' />
@@ -735,7 +739,7 @@ async function calculateRoute() {
             <div className="text-center text-gray-300 text-base font-normal font-['Rubik'] leading-tight">Currently, there are no completed packages. <br/>Please check back again later!</div>  
           </div> 
         }
-        {canceled?.length > 0 && table === 'canceled' && <div className='relative overflow-x-auto border border-gray-100 sm:rounded-lg mt-6'>
+        {canceled?.length > 0 && table === 'cancelled' && <div className='relative overflow-x-auto border border-gray-100 sm:rounded-lg mt-6'>
         <table class="w-full table-auto">
         <thead class="w-full h-8 relative bg-gray-50 rounded-tl-md rounded-tr-md border border-gray-100">
             <tr>
@@ -931,8 +935,8 @@ async function calculateRoute() {
                               <button disabled={item.courier ? false : true} onClick={() => {
                                 navigate(userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.courier?.id}` : `/support/dashboard/courier/${item.courier?.id}`)
                               }} className='flex flex-row gap-[6px]'>
-                                <span className={`${selectedPackage?.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{selectedPackage?.courier ? selectedPackage?.courier.full_name : 'Not mentioned'}</span> 
-                                {selectedPackage.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
+                                <span className={`${selectedPackage?.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{selectedPackage?.courier ? selectedPackage?.courier?.full_name : 'Not mentioned'}</span> 
+                                {selectedPackage?.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
                               </button>
                             </div> 
                           </td>

@@ -11,9 +11,9 @@ const initialState = {
     ongoingCounts: 0,
     completedCounts: 0,
     canceledCounts: 0,
-    selectedPackage: {},
-    pickupLocationItem: {},
-    dropLocationItem: {},
+    selectedPackage: null,
+    pickupLocationItem: null,
+    dropLocationItem: null,
 }
 
 const fetchPackagesSlice = createSlice({
