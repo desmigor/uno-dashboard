@@ -244,8 +244,8 @@ async function calculateRoute() {
                 <td class="px-6 py-4">
                   <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
                 </td>
-                <td class="px-6 py-4">
-                  <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight text-left">{item.currency_value} {item.total_cost}</div> 
+                <td class="px-2 py-4">
+                  <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight text-left">{item.total_prices.toFixed(3)} {item.currency_value}</div> 
                 </td>
                 <td class="px-6 py-4 h-[75px]">
                   <div className={`min-w-[106px] px-3 py-1.5 ${
@@ -543,8 +543,8 @@ async function calculateRoute() {
                 <td class="px-6 py-4">
                 <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
                 </td>
-                <td class="px-6 py-4">
-                  <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight">{item.currency_value} {item.total_cost}</div> 
+                <td class="px-2 py-4">
+                  <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight">{item.total_prices.toFixed(3)} {item.currency_value}</div> 
                 </td>
                 <td class="px-6 py-4 h-[75px]">
                   <div className={`min-w-[106px] h-[19px] px-3 py-1.5 bg-green-100 rounded justify-center items-center gap-2.5 inline-flex mx-auto `}>
@@ -800,8 +800,8 @@ async function calculateRoute() {
                 <td class="px-6 py-4">
                 <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
                 </td>
-                <td class="px-6 py-4">
-                  <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight">{item.currency_value} {item.total_cost}</div> 
+                <td class="px-2 py-4">
+                  <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight">{item.total_prices} {item.currency_value}</div> 
                 </td>
                 <td class="px-6 py-4 h-[75px]">
                   <div className={`min-w-[106px] h-[19px] px-3 py-1.5 bg-rose-100 rounded justify-center items-center gap-2.5 inline-flex mx-auto `}>
