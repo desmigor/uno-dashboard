@@ -415,7 +415,7 @@ async function calculateRoute() {
                                 navigate(userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.courier?.id}` : `/support/dashboard/courier/${item.courier?.id}`)
                               }} className='flex flex-row gap-[6px]'>
                                 <span className={`${selectedPackage?.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{selectedPackage?.courier ? selectedPackage?.courier.full_name : 'Not mentioned'}</span> 
-                                {selectedPackage.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
+                                {selectedPackage?.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
                               </button>
                             </div> 
                           </td>
@@ -685,7 +685,7 @@ async function calculateRoute() {
                                   navigate(userInfo?.type?.id === 3 ? `/admin/dashboard/courier/${item.courier?.id}` : `/support/dashboard/courier/${item.courier?.id}`)
                                 }} className='flex flex-row gap-[6px]'>
                                 <span className={`${selectedPackage?.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{selectedPackage?.courier ? selectedPackage?.courier.full_name : 'Not mentioned'}</span> 
-                                {selectedPackage.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
+                                {selectedPackage?.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
                               </button>
                             </div> 
                           </td>
