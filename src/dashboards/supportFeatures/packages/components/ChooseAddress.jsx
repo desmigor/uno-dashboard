@@ -223,28 +223,28 @@ function ChooseAddress() {
                 >
                     {pickup && <InfoBox
                         position={{ lat: pickup?.geometry?.location?.lat, lng: pickup?.geometry?.location?.lng }}
-                        options={{ closeBoxURL: "", enableEventPropagation: true }}
+                        options={{ closeBoxURL: "", enableEventPropagation: false }}
                     >
                         <div>
                             <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
-                            <div className="w-4 h-4 relative">
-                                <div className="w-4 h-4 border border-red-800 rounded-full flex items-center justify-center" >
-                                    <div className="w-[9.60px] h-[9.60px] bg-red-800 rounded-full" />
+                                <div className="w-4 h-4 relative">
+                                    <div className="w-4 h-4 border border-red-800 rounded-full flex items-center justify-center" >
+                                        <div className="w-[9.60px] h-[9.60px] bg-red-800 rounded-full" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        {directionsResponse && <div className="w-[49px] h-[49px] relative">
-                            <div className="w-[49px] h-[49px] left-0 top-0 absolute bg-red-800 rounded-full" />
-                            <div className="w-[21px] h-8 left-[14px] top-[9px] absolute">
-                                <div className="left-0 top-0 absolute text-white text-base font-semibold font-['Rubik'] leading-snug">{duration.split(" ")[0]}</div>
-                                <div className="left-0 top-[16px] absolute text-white text-xs font-normal font-['Rubik'] leading-none">{duration.split(" ")[1]}</div>
-                            </div>
-                        </div>}
+                            {directionsResponse && <div className="w-[49px] h-[49px] relative">
+                                <div className="w-[49px] h-[49px] left-0 top-0 absolute bg-red-800 rounded-full" />
+                                <div className="w-[21px] h-8 left-[14px] top-[9px] absolute">
+                                    <div className="left-0 top-0 absolute text-white text-base font-semibold font-['Rubik'] leading-snug">{duration.split(" ")[0]}</div>
+                                    <div className="left-0 top-[16px] absolute text-white text-xs font-normal font-['Rubik'] leading-none">{duration.split(" ")[1]}</div>
+                                </div>
+                            </div>}
                         </div>
                     </InfoBox>}
                     {delivery && <InfoBox
                         position={{ lat: delivery?.geometry?.location?.lat, lng: delivery?.geometry?.location?.lng }}
-                        options={{ closeBoxURL: "", enableEventPropagation: true }}
+                        options={{ closeBoxURL: "", enableEventPropagation: false }}
                     >
                         <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
                             <div className="w-4 h-4 relative">

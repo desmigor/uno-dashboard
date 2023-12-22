@@ -2,34 +2,27 @@ import React, { useEffect, useState } from 'react'
 import ArrowLeft from '../../../../assets/images/dashboard/icon/arrow-left-black.svg'
 import { Step1, Step2, Step3 } from './steps'
 import { useDispatch, useSelector } from 'react-redux';
-import { addAddresses, addPackageDetails, addSummary } from '../../../../redux/slices/packageInputs';
+import { addAddresses, addPackageDetails, addSummary, handleInputs } from '../../../../redux/slices/packageInputs';
 import { useParams } from 'react-router-dom';
 import { fetchPackageDetails } from '../../../../redux/actions/fetchPackagesAction';
 
 function CreatePackages() {
     const [current, setCurrent] = useState(0);
     const [inputs, setInputs] = useState([{ pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 }]);
-    const { step, index, pickupLocation, dropLocation } = useSelector(state => state.packages);
+    const { step, index, pickupLocation, dropLocation, inputss } = useSelector(state => state.packages);
     const dispatch = useDispatch()
     const { id } = useParams();
     
-    {pickupLocation && useEffect(() => {
-        handleInputChange(parseInt(index), 'pickupAddress', pickupLocation?.formatted_address);
-        handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
-        handleInputChange(parseInt(index), 'pickup', typeof id === 'undefined' ? pickupLocation : { lat: pickupLocation?.geometry?.location?.lat, lng: pickupLocation?.geometry?.location?.lng, formatted_address: pickupLocation?.formatted_address });
-        handleInputChange(parseInt(index), 'drop', typeof id === 'undefined' ? dropLocation : { lat: dropLocation?.geometry?.location?.lat, lng: dropLocation?.geometry?.location?.lng, formatted_address: dropLocation?.formatted_address });
-    }, [])}
     useEffect(() => {
-        if(parseInt(index) > 0 ){
-            for (let index = 0; index < parseInt(index) ; index++) {
-                const newInput = [
-                    ...inputs,
-                    { pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 },
-                ]
-                setInputs(newInput);
-            }
-        }
-        if(typeof id === 'undefined'){
+        setInputs(inputss);
+    }, []);
+
+    useEffect(() => {
+        dispatch(handleInputs(inputs));
+    }, [inputs]);
+    useEffect(() => {
+        if(pickupLocation === null && typeof id === 'undefined'){
+            console.log('');
         }else if(pickupLocation !== null && typeof id === 'undefined'){
             handleInputChange(parseInt(index), 'pickupAddress', pickupLocation?.formatted_address);
             handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
@@ -42,17 +35,17 @@ function CreatePackages() {
                 handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
                 handleInputChange(parseInt(index), 'pickup', typeof id === 'undefined' ? pickupLocation : { lat: pickupLocation?.geometry?.location?.lat, lng: pickupLocation?.geometry?.location?.lng, formatted_address: pickupLocation?.formatted_address });
                 handleInputChange(parseInt(index), 'drop', typeof id === 'undefined' ? dropLocation : { lat: dropLocation?.geometry?.location?.lat, lng: dropLocation?.geometry?.location?.lng, formatted_address: dropLocation?.formatted_address });
-                handleInputChange(0, 'full_name_pickup', res.pickup_contact_person);
-                handleInputChange(0, 'full_name_drop', res.drop_contact_person);
-                handleInputChange(0, 'phone_number_pickup', res.pickup_contact_phone);
-                handleInputChange(0, 'phone_number_drop', res.drop_contact_phone);
-                handleInputChange(0, 'comment_pickup', 'None');
-                handleInputChange(0, 'comment_drop', 'None');
-                handleInputChange(0, 'choosenMethod', res.payment_type === "Cash Upon Pickup" ? 1 : res.payment_type === "Cash Upon Delivery" ? 2 : 3);
-                handleInputChange(0, 'size', res.package_size);
-                handleInputChange(0, 'total', res.total_cost);
-                handleInputChange(0, 'chosenAddons', res.package_addons);
-                handleInputChange(0, 'total', res.total_cost);
+                handleInputChange(parseInt(index), 'full_name_pickup', res.pickup_contact_person);
+                handleInputChange(parseInt(index), 'full_name_drop', res.drop_contact_person);
+                handleInputChange(parseInt(index), 'phone_number_pickup', res.pickup_contact_phone);
+                handleInputChange(parseInt(index), 'phone_number_drop', res.drop_contact_phone);
+                handleInputChange(parseInt(index), 'comment_pickup', 'None');
+                handleInputChange(parseInt(index), 'comment_drop', 'None');
+                handleInputChange(parseInt(index), 'choosenMethod', res.payment_type === "Cash Upon Pickup" ? 1 : res.payment_type === "Cash Upon Delivery" ? 2 : 3);
+                handleInputChange(parseInt(index), 'size', res.package_size);
+                handleInputChange(parseInt(index), 'total', res.total_cost);
+                handleInputChange(parseInt(index), 'chosenAddons', res.package_addons);
+                handleInputChange(parseInt(index), 'total', res.total_cost);
             });  
         }else{
             dispatch(fetchPackageDetails(id)).then((res) => {
@@ -81,10 +74,14 @@ function CreatePackages() {
     }
 
     const handleInputChange = (index, field, value) => {
-        const newInputs = [...inputs];
-        newInputs[index][field] = value;
-        setInputs(newInputs);
-    }
+        setInputs(prevInputs => {
+          const newInputs = [...prevInputs]; // Create a shallow copy of the inputs array
+          const updatedInput = { ...newInputs[index] }; // Create a shallow copy of the object to be updated
+          updatedInput[field] = value; // Update the specific field in the copied object
+          newInputs[index] = updatedInput; // Replace the object in the copied array
+          return newInputs; // Return the updated array
+        });
+    };
     
     const steps = [
         <Step1 next={next} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} id={id} />,

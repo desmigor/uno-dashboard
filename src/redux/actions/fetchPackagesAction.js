@@ -57,7 +57,7 @@ export const fetchPackagesCanceledAction = (page, count) => async (dispatch, get
 export const fetchPackageDetails = (id) => async (dispatch, getState) => {
   try {
     const result = await callAPI(
-      `/api/packages/${id}/details/`,
+      `/api/packages/${id}/`,
       'GET',
       true
     );
