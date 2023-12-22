@@ -59,8 +59,8 @@ function CreatePackages() {
                 handleInputChange(0, 'phone_number_drop', res.drop_contact_phone);
                 handleInputChange(0, 'comment_pickup', 'None');
                 handleInputChange(0, 'comment_drop', 'None');
-                handleInputChange(0, 'choosenMethod', res.payment_type === "Cash Upon Pickup" ? 1 : res.payment_type === "Cash Upon Delivery" ? 2 : 3);
-                handleInputChange(0, 'size', res.package_size);
+                handleInputChange(0, 'choosenMethod', res.payment_type_value === "Cash Upon Pickup" ? 1 : res.payment_type === "Cash Upon Delivery" ? 2 : 3);
+                handleInputChange(0, 'size', {id: res.package_size, name: res.package_size_name});
                 handleInputChange(0, 'total', res.total_cost);
                 handleInputChange(0, 'chosenAddons', res.package_addons);
                 handleInputChange(0, 'total', res.total_cost);
