@@ -149,7 +149,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
         if(inputs.length < 10){
             const newInput = [
                 ...inputs,
-                { pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 },
+                { pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 1, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 },
             ]
             setInputs(newInput);
         }else{
@@ -277,7 +277,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
 
 
 export const Step2 = ({ next, inputs, setInputs }) => {
-    const [choosenMethod, setChoosenMethod] = useState(0);
+    const [choosenMethod, setChoosenMethod] = useState(1);
     const [size, setSize] = useState(0);
     const [chosenAddons, setChosenAddons] = useState([]);
     const [insulated, setInsulated] = useState(false);
@@ -337,8 +337,10 @@ export const Step2 = ({ next, inputs, setInputs }) => {
       
       // Function to handle chosen addons selection
       const handleChosenAddonsChange = (index, newAddons) => {
-        handleInputChange(index, 'chosenAddons', newAddons);
+        handleInputChange(index, 'chosenAddons', newAddons);  
       };
+
+      console.log(inputs);
 
     return (
         <div className="w-full min-h-[884px] p-6 bg-white rounded-[10px] mt-6 flex-col justify-start overflow-y-auto items-start gap-8 inline-flex mb-24"> 
@@ -584,7 +586,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 delivery_mode: null,
                 relative_size: null,
                 relative_weight: null,
-                payment_type: 1,
+                payment_type: item.choosenMethod,
                 height: 10,
                 length: 10,
                 width: 10,
@@ -676,7 +678,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 delivery_mode: null,
                 relative_size: null,
                 relative_weight: null,
-                payment_type: 1,
+                payment_type: item.choosenMethod,
                 height: 10,
                 length: 10,
                 width: 10,
@@ -733,6 +735,9 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             
         );
 
+        // clear redux store
+        setInputs([]);
+
         navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
         setStep(0);
        } catch (error) {
@@ -750,6 +755,8 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 true,
                 data[0]
             );
+            // clear redux store
+            setInputs([]);
             navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
             setStep(0);
        } catch (error) {
