@@ -16,7 +16,7 @@ import packageOngoing from "../../../../assets/images/dashboard/icon/package-ong
 import Edit from '../../../../assets/images/dashboard/icon/edit-2.svg';
 import startingPoint from "../../../../assets/images/dashboard/icon/starting_point.svg";
 import Search from '../../../../assets/images/dashboard/icon/search-normal2.svg';
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, useLoadScript, InfoBox, Marker, DirectionsRenderer } from '@react-google-maps/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCouriersPackagesAction, fetchDetailsCouriers, updateCourierAction } from '../../../../redux/actions/fetchCouriersAction';
 import { Link, useParams, useNavigate } from 'react-router-dom';
@@ -46,6 +46,7 @@ const CouriersView = () => {
     const { selectedPackage } = useSelector((state) => state.fetchPackages);
     const { userInfo } = useSelector((state) => state.auth);
     const [count, setCount] = useState(5);
+    const [directionsResponse, setDirectionsResponse] = useState(null);
     const [paginations, setPaginations] = useState([]);
     const [selected, setSelected] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -56,6 +57,10 @@ const CouriersView = () => {
     useEffect(() => {
         setPaginations(generatePagination(courierPackagesCount, currentPage, count));
       }, [currentPage, count])
+    
+    useEffect(() => {
+      calculateRoute();
+    }, [selectedPackage]);
 
     useEffect(() => {
         getDetails(id);
@@ -119,6 +124,24 @@ const CouriersView = () => {
         }
       
         return pages;
+      }
+
+      async function calculateRoute() {
+        if(selectedPackage === null){
+          return false;
+        }
+      
+        const directionsService = new window.google.maps.DirectionsService();
+        const originLatLng = new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude);
+        const destinationLatLng = new google.maps.LatLng(selectedPackage?.drop_latitude, selectedPackage?.drop_longitude);
+        const results = await directionsService.route({
+          origin: originLatLng,
+          destination: destinationLatLng,
+          provideRouteAlternatives: false,
+          travelMode: window.google.maps.TravelMode.DRIVING,
+        });
+        setDirectionsResponse(null);
+        setDirectionsResponse(results);
       }
 
     const { isLoaded, loadError } = useLoadScript({
@@ -340,8 +363,57 @@ const CouriersView = () => {
             </tr>
             {selected === idx && <tr className='w-full min-h-[239px] border-b border-gray-100'>
               <td colSpan={9} className='px-[18px]'>
-                <div className='flex flex-row gap-4 w-full items-center'>
-                  <img className="xl:w-[16%] w-[10%] hidden xl:block h-[10%] xl:h-[190px] rounded-md mt-[-12px]" src={Map1} />
+                <div className='flex flex-col-reverse gap-4 w-full items-center'>
+                <div className="w-full h-[490px] rounded-md mt-[-12px]">
+                <GoogleMap
+                    mapContainerStyle={mapContainerStyle}
+                    zoom={15}
+                    center={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                    options={{
+                        zoomControl: false,
+                        mapTypeControl: false,
+                        fullscreenControl: false,
+                        streetViewControl: false,
+                    }}
+                >
+                    {selectedPackage && <InfoBox
+
+                        position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
+                        options={{ closeBoxURL: "", enableEventPropagation: false, maxWidth: 100 }}
+                    >
+                        <div>
+                            <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                            <div className="w-4 h-4 relative">
+                                <div className="w-4 h-4 border border-red-800 rounded-full flex items-center justify-center" >
+                                    <div className="w-[9.60px] h-[9.60px] bg-red-800 rounded-full" />
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </InfoBox>}
+                    {selectedPackage && <InfoBox
+                        position={new google.maps.LatLng(selectedPackage?.drop_latitude, selectedPackage?.drop_longitude)}
+                        options={{ closeBoxURL: "", maxWidth: 100,  }}
+                    >
+                        <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                            <div className="w-4 h-4 relative">
+                                <div className="w-4 h-4 border border-green-600 rounded-full flex items-center justify-center" >
+                                    <div className="w-[9.60px] h-[9.60px] bg-green-600 rounded-full" />
+                                </div>
+                            </div>
+                        </div>
+                    </InfoBox>}
+                    {directionsResponse && (
+                        <DirectionsRenderer directions={directionsResponse} options={{
+                            suppressMarkers: true,
+                            polylineOptions: {
+                                strokeColor: '#1EC10F',
+                                strokeWeight: 10
+                            }
+                        }}  />
+                    )}
+                </GoogleMap>
+                </div>
                   <div className='flex flex-row w-full xl:w-[84%]'>
                   <div class="w-4 h-[10px] relative mt-16">
                     <div class="w-4 h-4 left-0 top-0 absolute justify-start items-center gap-2 inline-flex">
@@ -404,7 +476,7 @@ const CouriersView = () => {
                               <div className="text-gray-400 text-xs font-normal font-rubik leading-none">Name</div>
                               <div className='flex flex-row gap-[6px]'>
                                 <span className={`${selectedPackage?.courier ? 'text-red-800 underline' : 'text-gray-400'} text-sm font-normal font-rubik leading-none`}>{selectedPackage?.courier ? selectedPackage?.courier.full_name : 'Not mentioned'}</span> 
-                                {selectedPackage.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
+                                {selectedPackage?.courier ? <img src={Export} alt='SVGEXPORT' className='w-3 h-3' /> : null}
                               </div>
                             </div> 
                           </td>
