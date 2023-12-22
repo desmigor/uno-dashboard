@@ -10,6 +10,7 @@ const initialState = {
     pickupLocation: null,
     dropLocation: null,
     index: null,
+    inputss: [{ pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 }],
 }
 
 const packageInputsSlice = createSlice({
@@ -37,9 +38,12 @@ const packageInputsSlice = createSlice({
             state.pickupLocation = payload.pickup;
             state.dropLocation = payload.drop;
             state.index = payload.index;
-        }
+        },
+        handleInputs: (state, { payload }) => {
+            state.inputss = payload;
+        },
     }
 })
 
-export const { addAddresses, addPackageDetails, addSummary, storeLocation } = packageInputsSlice.actions;
+export const { addAddresses, addPackageDetails, addSummary, storeLocation, handleInputs } = packageInputsSlice.actions;
 export default packageInputsSlice.reducer; 
