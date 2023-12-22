@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { storeLocation } from '../../../../redux/slices/packageInputs';
 import { useNavigate, useParams } from 'react-router-dom'; 
+import RedPinIcon from '../../../../assets/images/dashboard/icon/red-pin.svg';
+import GreenPinIcon from '../../../../assets/images/dashboard/icon/green-pin.svg';
 
 const libraries = ['places'];
 
@@ -210,6 +212,7 @@ function ChooseAddress() {
             </div>
             <div className='h-[100%] w-[90%]'>
                 <GoogleMap
+                      key={mapKey}
                     mapContainerStyle={mapContainerStyle}
                     onClick={handleClick}
                     zoom={15}
@@ -225,14 +228,8 @@ function ChooseAddress() {
                         position={{ lat: pickup?.geometry?.location?.lat, lng: pickup?.geometry?.location?.lng }}
                         options={{ closeBoxURL: "", enableEventPropagation: false }}
                     >
-                        <div>
-                            <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
-                                <div className="w-4 h-4 relative">
-                                    <div className="w-4 h-4 border border-red-800 rounded-full flex items-center justify-center" >
-                                        <div className="w-[9.60px] h-[9.60px] bg-red-800 rounded-full" />
-                                    </div>
-                                </div>
-                            </div>
+                        <div>   
+                        <img src={RedPinIcon} alt="Pin Icon" className="w-[52px] h-[52px]" />
                             {directionsResponse && <div className="w-[49px] h-[49px] relative">
                                 <div className="w-[49px] h-[49px] left-0 top-0 absolute bg-red-800 rounded-full" />
                                 <div className="w-[21px] h-8 left-[14px] top-[9px] absolute">
@@ -246,12 +243,8 @@ function ChooseAddress() {
                         position={{ lat: delivery?.geometry?.location?.lat, lng: delivery?.geometry?.location?.lng }}
                         options={{ closeBoxURL: "", enableEventPropagation: false }}
                     >
-                        <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
-                            <div className="w-4 h-4 relative">
-                                <div className="w-4 h-4 border border-green-600 rounded-full flex items-center justify-center" >
-                                    <div className="w-[9.60px] h-[9.60px] bg-green-600 rounded-full" />
-                                </div>
-                            </div>
+                        <div className=" bg-black bg-opacity-20 rounded-full flex items-center justify-center">
+                            <img src={GreenPinIcon} alt="Pin Icon" className="w-[52px] h-[52px]" /> 
                         </div>
                     </InfoBox>}
                     {directionsResponse && (

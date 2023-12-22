@@ -458,7 +458,7 @@ async function calculateRoute() {
                       </tbody>
                     </table>
                     <div className='px-4 mt-[12px] flex flex-row gap-4 pb-[22px]'>
-                      <Link to={userInfo?.type?.id === 3 ? `/admin/dashboard/package/update/${item.id}` : `/admin/dashboard/package/update/${item.id}`} className='w-40 h-[42px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex'>
+                      <Link to={userInfo?.type?.id === 3 ? `/admin/dashboard/package/update/${item.id}` : `/support/dashboard/package/update/${item.id}`} className='w-40 h-[42px] py-[15px] rounded-[10px] border border-zinc-200 justify-center items-center gap-2.5 flex'>
                         <div className="text-center text-zinc-800 text-sm font-normal font-rubik leading-tight">Edit Package</div> 
                         <img src={Edit} className='w-[17px] h-4' />
                       </Link>
