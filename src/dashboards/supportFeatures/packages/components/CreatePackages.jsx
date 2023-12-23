@@ -28,6 +28,7 @@ function CreatePackages() {
             handleInputChange(parseInt(index), 'dropAddress', dropLocation?.formatted_address);
             handleInputChange(parseInt(index), 'pickup', typeof id === 'undefined' ? pickupLocation : { lat: pickupLocation?.geometry?.location?.lat, lng: pickupLocation?.geometry?.location?.lng, formatted_address: pickupLocation?.formatted_address });
             handleInputChange(parseInt(index), 'drop', typeof id === 'undefined' ? dropLocation : { lat: dropLocation?.geometry?.location?.lat, lng: dropLocation?.geometry?.location?.lng, formatted_address: dropLocation?.formatted_address });
+            handleInputChange(parseInt(index), 'choosenMethod', 1);
 
         }else if(pickupLocation !== null && typeof id !== 'undefined'){
             dispatch(fetchPackageDetails(id)).then((res) => {
