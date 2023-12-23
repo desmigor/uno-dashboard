@@ -318,7 +318,7 @@ async function calculateRoute() {
                     {selectedPackage && <InfoBox
 
                         position={new google.maps.LatLng(selectedPackage?.pickup_latitude, selectedPackage?.pickup_longitude)}
-                        options={{ closeBoxURL: "", enableEventPropagation: false, maxWidth: 100 }}
+                        options={{ closeBoxURL: "", enableEventPropagation: true, maxWidth: 100 }}
                     >
                         <div>
                             <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
@@ -332,7 +332,7 @@ async function calculateRoute() {
                     </InfoBox>}
                     {selectedPackage && <InfoBox
                         position={new google.maps.LatLng(selectedPackage?.drop_latitude, selectedPackage?.drop_longitude)}
-                        options={{ closeBoxURL: "", maxWidth: 100,  }}
+                        options={{ closeBoxURL: "",enableEventPropagation: true, maxWidth: 100,  }}
                     >
                         <div className="w-[35px] h-[35px] bg-black bg-opacity-20 rounded-full flex items-center justify-center">
                             <div className="w-4 h-4 relative">
