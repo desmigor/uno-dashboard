@@ -212,7 +212,6 @@ function ChooseAddress() {
             </div>
             <div className='h-[100%] w-[90%]'>
                 <GoogleMap
-                      key={mapKey}
                     mapContainerStyle={mapContainerStyle}
                     onClick={handleClick}
                     zoom={15}
