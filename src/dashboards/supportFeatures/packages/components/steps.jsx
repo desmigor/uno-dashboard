@@ -25,7 +25,7 @@ import { addPackagesPickupAddressAction } from '../../../../redux/actions/fetchP
 import { fetchPackageAddOnsAction, fetchPackageSizesAction } from '../../../../redux/actions/fetchPackageSizesAction'
 import callAPI from '../../../../utils/api'
 import SuccessToast from '../../../../components/ui/SuccessToast'
-import { set } from 'date-fns'
+import {clearPackagesStore} from '../../../../redux/actions/fetchPackagesAction'
 
 export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
     const { userInfo } = useSelector((state) => state.auth);
@@ -735,15 +735,16 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             
         );
 
-        // clear redux store
+        // clear redux store for packages
+        dispatch(clearPackagesStore());
         setInputs([]);
 
         navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
         setStep(0);
        } catch (error) {
-            setToastText(error?.response?.data?.message);
-            setToastSuccess(false);
-            setShowToast(true);
+          setToastText(typeof(error?.response?.data?.message) == Array ? error?.response?.data?.message[0] : error?.response?.data?.message);
+          setToastSuccess(false);
+          setShowToast(true);
        }
     }
 
@@ -756,11 +757,13 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 data[0]
             );
             // clear redux store
+            dispatch(clearPackagesStore());
             setInputs([]);
             navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
             setStep(0);
        } catch (error) {
-            setToastText(error?.response?.data?.message);
+        console.log(error)   
+            setToastText(typeof(error?.response?.data?.message) == Array ? error?.response?.data?.message[0] : error?.response?.data?.message);
             setToastSuccess(false);
             setShowToast(true);
        }

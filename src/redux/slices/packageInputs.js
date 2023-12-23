@@ -42,8 +42,20 @@ const packageInputsSlice = createSlice({
         handleInputs: (state, { payload }) => {
             state.inputss = payload;
         },
+        clearPackagesStoreSlice: (state) => {
+            state.addressDetails = null;
+            state.packageDetailsPayment =  null;
+            state.summary = null;
+            state.step = 0;
+            state.pickupAddresses = null;
+            state.deliveryAddresses = null;
+            state.pickupLocation = null;
+            state.dropLocation = null;
+            state.index = null;
+            state.inputss = [{ pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 }];
+        }
     }
 })
 
-export const { addAddresses, addPackageDetails, addSummary, storeLocation, handleInputs } = packageInputsSlice.actions;
+export const { addAddresses, addPackageDetails, addSummary, storeLocation, handleInputs,clearPackagesStoreSlice } = packageInputsSlice.actions;
 export default packageInputsSlice.reducer; 

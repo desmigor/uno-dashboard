@@ -1,5 +1,6 @@
 import callAPI from "../../utils/api";
 import { fetchAddPackageAddresses, fetchCanceledPackages, fetchCompletedPackages, fetchOngoingPackages, fetchPackageDetail, fetchPackages, fetchPackagesSuccess, fetchSuccess } from "../slices/packagesSlice";
+import {clearPackagesStoreSlice} from "../slices/packageInputs";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -180,4 +181,9 @@ export const fetchPackagesCanceledActionSearch= (search, order) => async (dispat
   }
 };
 
-
+export const clearPackagesStore = () => async (dispatch, getState) => {
+  try {
+    dispatch(clearPackagesStoreSlice())
+  } catch (error) {
+  }
+}
