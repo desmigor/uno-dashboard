@@ -26,6 +26,7 @@ import { fetchPackageAddOnsAction, fetchPackageSizesAction } from '../../../../r
 import callAPI from '../../../../utils/api'
 import SuccessToast from '../../../../components/ui/SuccessToast'
 import {clearPackagesStore} from '../../../../redux/actions/fetchPackagesAction'
+import Spinner from '../../../../components/ui/spinner'
 
 export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
     const { userInfo } = useSelector((state) => state.auth);
@@ -428,6 +429,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
     const [showToast, setShowToast] = useState(false);
     const [taxRate, setTaxRate] = useState(0);
     const [discountRatio , setDiscountRatio] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -535,6 +537,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         // )
     }
     const handleSendRequest = async () => {
+        setLoading(true);
         const taxesPromise = getTaxes();
         const taxRate = await taxesPromise;
 
@@ -623,10 +626,16 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         });
 
         setData(payload);
-
+        // setLoading(false); after three seconds
+        setInterval(() => {
+            setLoading(false);
+        }
+        , 3000);
     }    
 
+
     const handleSendRequestEdit = async () => {
+        setLoading(true);
         const taxesPromise = getTaxes();
         const taxRate = await taxesPromise;
 
@@ -715,10 +724,16 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         });
 
         setData(payload);
+        
+        setInterval(() => {
+          setLoading(false);
+      }
+      , 3000);
     }    
     
     const handleSave = async () => {
         try {
+          setLoading(true);
         const result = await callAPI(
             "/api/delivery/package-delivery/",
             "POST",
@@ -738,11 +753,13 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         // clear redux store for packages
         dispatch(clearPackagesStore());
         setInputs([]);
+        setLoading(false);
 
         navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
         setStep(0);
        } catch (error) {
-          setToastText(typeof(error?.response?.data?.message) == Array ? error?.response?.data?.message[0] : error?.response?.data?.message);
+        setLoading(false);
+          setToastText(Array.isArray(error?.response?.data?.message) ? "You have an issue in your request check all inputs" : error?.response?.data?.message );
           setToastSuccess(false);
           setShowToast(true);
        }
@@ -750,6 +767,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
 
     const handleSaveEdit = async () => {
         try {
+          setLoading(true);
             const result = await callAPI(
                 `/api/packages/${id}/`,
                 "PUT",
@@ -759,11 +777,13 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             // clear redux store
             dispatch(clearPackagesStore());
             setInputs([]);
+            setLoading(false);
             navigate(userInfo?.type?.id === 3 ? '/admin/dashboard/package/' : '/support/dashboard/package/')
             setStep(0);
        } catch (error) {
+        setLoading(false);
         console.log(error)   
-            setToastText(typeof(error?.response?.data?.message) == Array ? error?.response?.data?.message[0] : error?.response?.data?.message);
+            setToastText(typeof(error?.response?.data?.message) == Array ? error?.response?.data?.message[0] : error?.response?.data?.message+ " Please try again");
             setToastSuccess(false);
             setShowToast(true);
        }
@@ -1143,6 +1163,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
               </div>
             </div>
             <button
+            disabled={loading && data ==undefined}  
               className="xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex"
               onClick={() => {
                 if (typeof id === "undefined") {
@@ -1152,11 +1173,15 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 }
               }}
             >
+              {
+                !loading && data!=undefined ?
               <div className="text-center text-white text-base font-semibold font-['Rubik'] leading-snug">
                 {typeof id === "undefined"
                   ? "Request Delivery"
                   : "Edit Package"}
               </div>
+              : <Spinner className={"fill-white"} />
+            }
             </button>
           </div>
           <div
