@@ -26,6 +26,7 @@ import { fetchPackageDetails } from '../../../../redux/actions/fetchPackagesActi
 import moment from 'moment';
 import { Menu, Transition } from '@headlessui/react';
 import DeactivateCourierModal from './DeativateCourier';
+import LocationPin from '../../../../assets/images/dashboard/icon/location-pin.svg';
 
 
 const mapContainerStyle = {
@@ -164,7 +165,9 @@ const CouriersView = () => {
                     <GoogleMap
                         mapContainerStyle={mapContainerStyle}
                         zoom={10}
-                        center={center}
+                        center={
+                        new google.maps.LatLng(courierDetals?.last_location?.latitude, courierDetals?.last_location?.longitude)
+                        }
                         options={{
                             zoomControl: false,
                             mapTypeControl: false,
@@ -172,7 +175,13 @@ const CouriersView = () => {
                             streetViewControl: false,
                         }}
                     >
-                        <Marker position={new google.maps.LatLng(center.latitude, center.longitude)}  />
+                    <Marker
+                      key={courierDetals?.id}
+                      icon={LocationPin}
+                      position={
+                        new google.maps.LatLng(courierDetals?.last_location?.latitude, courierDetals?.last_location?.longitude)
+                      }
+                  />
                     </GoogleMap>
                 }
             </div>
