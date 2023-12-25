@@ -166,7 +166,7 @@ const CouriersView = () => {
                         mapContainerStyle={mapContainerStyle}
                         zoom={10}
                         center={
-                        new google.maps.LatLng(courierDetals?.last_location?.latitude, courierDetals?.last_location?.longitude)
+                          courierDetals?.last_location?.latitude || courierDetals?.last_location?.longitude ? new google.maps.LatLng(courierDetals?.last_location?.latitude, courierDetals?.last_location?.longitude) : new google.maps.LatLng(center)
                         }
                         options={{
                             zoomControl: false,
@@ -179,7 +179,7 @@ const CouriersView = () => {
                       key={courierDetals?.id}
                       icon={LocationPin}
                       position={
-                        new google.maps.LatLng(courierDetals?.last_location?.latitude, courierDetals?.last_location?.longitude)
+                        courierDetals?.last_location?.latitude || courierDetals?.last_location?.longitude ? new google.maps.LatLng(courierDetals?.last_location?.latitude, courierDetals?.last_location?.longitude) : new google.maps.LatLng(center)
                       }
                   />
                     </GoogleMap>
