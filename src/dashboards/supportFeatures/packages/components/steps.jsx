@@ -595,7 +595,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 width: 10,
                 weight: 10,
                 distance_as_km: item?.distance,
-                total_cost:  calculatedTotalCost,
+                total_cost:  calculatedCost,
                 frangible: true,
                 package_details: "",
                 pickup_contact_person: item?.full_name_pickup,
