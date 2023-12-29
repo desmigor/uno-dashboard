@@ -582,8 +582,8 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             }
 
             const calculatedCost = item.total - (item.total * (parseFloat(discountRatio)/ 100))
-            const calculatedTaxes = calculatedCost * taxRate;
-            const calculatedTotalCost = calculatedCost + calculatedTaxes;
+            // const calculatedTaxes = calculatedCost * taxRate;
+            // const calculatedTotalCost = calculatedCost + calculatedTaxes;
 
             const input = {
                 delivery_mode: null,
@@ -595,7 +595,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 width: 10,
                 weight: 10,
                 distance_as_km: item?.distance,
-                total_cost:  calculatedTotalCost,
+                total_cost:  calculatedCost,
                 frangible: true,
                 package_details: "",
                 pickup_contact_person: item?.full_name_pickup,
@@ -679,8 +679,8 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 return response.data.id;
             }
             const calculatedCost = item.total - (item.total * (parseFloat(discountRatio)/ 100))
-            const calculatedTaxes = calculatedCost * taxRate;
-            const calculatedTotalCost = calculatedCost + calculatedTaxes;
+            // const calculatedTaxes = calculatedCost * taxRate;
+            // const calculatedTotalCost = calculatedCost + calculatedTaxes;
 
             const input = {
                 package_id: id,
@@ -693,7 +693,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 width: 10,
                 weight: 10,
                 distance_as_km: item?.distance,
-                total_cost: calculatedTotalCost,
+                total_cost: calculatedCost,
                 frangible: true,
                 package_details: "",
                 pickup_contact_person: item?.full_name_pickup,
