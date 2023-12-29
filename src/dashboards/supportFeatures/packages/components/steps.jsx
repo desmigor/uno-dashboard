@@ -582,8 +582,8 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             }
 
             const calculatedCost = item.total - (item.total * (parseFloat(discountRatio)/ 100))
-            const calculatedTaxes = calculatedCost * taxRate;
-            const calculatedTotalCost = calculatedCost + calculatedTaxes;
+            // const calculatedTaxes = calculatedCost * taxRate;
+            // const calculatedTotalCost = calculatedCost + calculatedTaxes;
 
             const input = {
                 delivery_mode: null,
