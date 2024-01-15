@@ -49,7 +49,7 @@ function Packages() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
-  const [filterValue, setFilterValue] = useState({ name: "Time", value: "created_at" });
+  const [filterValue, setFilterValue] = useState({ name: "Time", value: "-created_at" });
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const dispatch = useDispatch();
