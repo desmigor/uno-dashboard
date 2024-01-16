@@ -226,8 +226,13 @@ const CouriersView = () => {
                     <div className="flex-col justify-start items-start gap-[17px] inline-flex">
                         <div className="flex-col justify-start items-start gap-1.5 flex">
                             <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">Status</div>
-                            <div className="h-[19px] px-3 py-1.5 bg-green-100 rounded justify-start items-center gap-2.5 inline-flex">
-                                <div className="text-green-700 text-xs font-normal font-['Rubik'] leading-none">{courierDetals?.is_active ? 'Online' : courierDetals?.is_paused ? 'Paused' : 'Offline'}</div>
+                            <div className={`h-[19px] px-3 py-1.5rounded justify-start items-center gap-2.5 inline-flex 
+                            ${courierDetals?.is_offline ? 'bg-red-100' : courierDetals?.is_paused ? 'bg-yellow-50' : 'bg-green-100'}
+                            `}>
+                                <div className={` text-xs font-normal font-['Rubik'] leading-none
+                                ${courierDetals?.is_offline ? 'text-red-800' : courierDetals?.is_paused ? 'text-amber-500' : 'text-green-700'}
+                                `
+                              }>{courierDetals?.is_offline ? 'Offline' : courierDetals?.is_paused ? 'Paused' : 'Online'}</div>
                             </div>
                         </div>
                         <div className="flex-col justify-start items-start gap-2 flex">

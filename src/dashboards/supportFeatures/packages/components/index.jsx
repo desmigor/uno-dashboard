@@ -49,7 +49,7 @@ function Packages() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
-  const [filterValue, setFilterValue] = useState({ name: "Time", value: "created_at" });
+  const [filterValue, setFilterValue] = useState({ name: "Time", value: "-created_at" });
   const [directionsResponse, setDirectionsResponse] = useState(null);
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const dispatch = useDispatch();
@@ -231,7 +231,7 @@ async function calculateRoute() {
                   </div>
                 </th>
                 <td class="px-6 py-4 ">
-                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight text-left">{item.id}</div> 
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight text-left">{item.sr_number}</div> 
                 </td>
                 <td class="px-6 py-4">
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight text-left">{item?.customer}</div>
@@ -248,7 +248,7 @@ async function calculateRoute() {
                   <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
                 </td>
                 <td class="px-2 py-4">
-                  <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight text-left">{item.total_prices.toFixed(3)} {item.currency_value}</div> 
+                  <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight text-left">{item.total_prices.toFixed(2)} {item.currency_value}</div> 
                 </td>
                 <td class="px-6 py-4 h-[75px]">
                   <div className={`min-w-[106px] px-3 py-1.5 ${
@@ -388,7 +388,7 @@ async function calculateRoute() {
                       <tbody className='mt-[17px] '>
                         <tr>
                           <td class="px-2 py-2 text-left">
-                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
+                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex ml-3">
                               <div className="text-gray-400 text-xs font-normal font-rubik leading-none">(Pickup point)</div>
                               <div className="text-zinc-800 text-xs font-semibold font-rubik leading-none">{selectedPackage?.pickup_open_address}</div>
                             </div> 
@@ -425,7 +425,7 @@ async function calculateRoute() {
                         </tr>
                         <tr className='mt-[24px]'>
                           <td class="px-2 py-2 text-left">
-                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
+                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex ml-3">
                               <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">(Delivery point)</div>
                               <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.pickup_open_address}</div>
                             </div>
@@ -530,7 +530,7 @@ async function calculateRoute() {
                   </div>
                 </th>
                 <td class="px-6 py-4 ">
-                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.id}</div> 
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.sr_number}</div> 
                 </td>
                 <td class="px-6 py-4">
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.customer}</div>
@@ -547,7 +547,7 @@ async function calculateRoute() {
                 <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
                 </td>
                 <td class="px-2 py-4">
-                  <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight">{item.total_prices.toFixed(3)} {item.currency_value}</div> 
+                  <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight">{item.total_prices.toFixed(2)} {item.currency_value}</div> 
                 </td>
                 <td class="px-6 py-4 h-[75px]">
                   <div className={`min-w-[106px] h-[19px] px-3 py-1.5 bg-green-100 rounded justify-center items-center gap-2.5 inline-flex mx-auto `}>
@@ -658,7 +658,7 @@ async function calculateRoute() {
                       <tbody className='mt-[17px] '>
                         <tr>
                           <td class="px-2 py-2 text-left">
-                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
+                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex ml-3">
                               <div className="text-gray-400 text-xs font-normal font-rubik leading-none">(Pickup point)</div>
                               <div className="text-zinc-800 text-xs font-semibold font-rubik leading-none">{selectedPackage?.pickup_open_address}</div>
                             </div> 
@@ -695,7 +695,7 @@ async function calculateRoute() {
                         </tr>
                         <tr className='mt-[24px]'>
                           <td class="px-2 py-2 text-left">
-                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
+                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex ml-3">
                               <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">(Delivery point)</div>
                               <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.pickup_open_address}</div>
                             </div>
@@ -786,11 +786,11 @@ async function calculateRoute() {
                     <div className="text-gray-400 text-xs font-normal font-rubik leading-none">{moment(item.created_at).format("HH:MM")}</div>
                   </div>
                 </th>
-                <td class="px-6 py-4 ">
-                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.id}</div> 
+                <td class="px-6 py-4 "> 
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.sr_number}</div> 
                 </td>
                 <td class="px-6 py-4">
-                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.customer}</div>
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.customer}</div>W
                 </td>
                 <td class="px-6 py-4">
                 <button disabled={item.courier ? false : true} onClick={() => {
@@ -909,7 +909,7 @@ async function calculateRoute() {
                       <tbody className='mt-[17px] '>
                         <tr>
                           <td class="px-2 py-2 text-left">
-                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
+                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex ml-3">
                               <div className="text-gray-400 text-xs font-normal font-rubik leading-none">(Pickup point)</div>
                               <div className="text-zinc-800 text-xs font-semibold font-rubik leading-none">{selectedPackage?.pickup_open_address}</div>
                             </div> 
@@ -946,7 +946,7 @@ async function calculateRoute() {
                         </tr>
                         <tr className='mt-[24px]'>
                           <td class="px-2 py-2 text-left">
-                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
+                            <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex ml-3">
                               <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">(Delivery point)</div>
                               <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.pickup_open_address}</div>
                             </div>

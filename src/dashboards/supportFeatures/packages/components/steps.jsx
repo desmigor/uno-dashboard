@@ -27,6 +27,7 @@ import callAPI from '../../../../utils/api'
 import SuccessToast from '../../../../components/ui/SuccessToast'
 import {clearPackagesStore} from '../../../../redux/actions/fetchPackagesAction'
 import Spinner from '../../../../components/ui/spinner'
+import { useLoadScript } from '@react-google-maps/api';
 
 export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
     const { userInfo } = useSelector((state) => state.auth);
@@ -430,6 +431,12 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
     const [taxRate, setTaxRate] = useState(0);
     const [discountRatio , setDiscountRatio] = useState(0);
     const [loading, setLoading] = useState(false);
+    const libraries = ['places'];
+
+    const { isLoaded, loadError } = useLoadScript({
+      googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+      libraries,
+    });
 
     const dispatch = useDispatch();
 
@@ -505,21 +512,28 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
         });
       };
 
-    const handleCalculations = (lat1, lon1, lat2, lon2, index) => {
-        const R = 6371; // Radius of the earth in km
-        const deg2rad = (deg) => {
-            return deg * (Math.PI/180)
-        }
-        const dLat = deg2rad(lat2-lat1);  // deg2rad below
-        const dLon = deg2rad(lon2-lon1); 
-        const a = 
-          Math.sin(dLat/2) * Math.sin(dLat/2) +
-          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-          Math.sin(dLon/2) * Math.sin(dLon/2)
-          ; 
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-        const d = R * c; // Distance in km
+    const handleCalculations = async (lat1, lon1, lat2, lon2, index) => {
         const totalAddonsCost = addressDetails[index]?.chosenAddons?.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0);
+        
+        var directionService = new window.google.maps.DistanceMatrixService();
+        var result = await directionService.getDistanceMatrix(
+            {
+              origins: [new google.maps.LatLng(lat1, lon1)],
+              destinations: [new google.maps.LatLng(lat2, lon2)],
+              travelMode: google.maps.TravelMode.DRIVING,
+              unitSystem: google.maps.UnitSystem.METRIC,
+              avoidHighways: false,
+              avoidTolls: false,
+            }, 
+            (response, status) => {
+                console.log(response)
+                console.log(status)
+            }
+            );
+            const d = result.rows[0].elements[0].distance.value / 1000;
+            console.log(d)
+
+        // const result = await axios.post(url,)
         var totalCost = calculateTotalCost(d, addressDetails[index]?.size?.price, addressDetails[index]?.size?.price_per_km);
 
         handleInputChange(index, 'distance', d);
@@ -1164,7 +1178,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             </div>
             <button
             disabled={loading && data ==undefined}  
-              className="xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex"
+              className=" w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex"
               onClick={() => {
                 if (typeof id === "undefined") {
                   handleSave();

@@ -12,12 +12,15 @@ import CouriersIcon from "../../../../assets/images/dashboard/icon/profile-2user
 import Edit from "../../../../assets/images/dashboard/icon/edit-black.svg";
 import Delete from "../../../../assets/images/dashboard/icon/trash.svg";
 import callAPI from "../../../../utils/api";
+import Modal from "../../../../components/ui/Modal";
+import CancelIconModal from "../../../../assets/images/dashboard/icon/close-circle.svg";
 
 export default function CouriersConfigurations() {
   const [paginations, setPaginations] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedEditItem, setselectedEditItem] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
 
   const dispatch = useDispatch();
   const { vehicleTypes } = useSelector((state) => state.vehicleTypes);
@@ -46,6 +49,19 @@ export default function CouriersConfigurations() {
         }
         onConfirm={() => setShowCreateModal(false)}
         editData={selectedEditItem}
+      />
+      <Modal
+        show={deleteModal}
+        onClose={() => setDeleteModal(false)}
+        onConfirm={() => {
+          handleDeleteVehicleType(selectedEditItem.id);
+          setDeleteModal(false);
+        }}
+        image={CancelIconModal}
+        title="Delete Vehicle Type"
+        content="on confirm, this vehicle type will be deleted. this action can’t be revoked."
+        cancel={true}
+        settings_cancel={true}
       />
       <div className="flex flex-row justify-between items-center">
         <div class="text-zinc-800 text-lg font-semibold font-rubik">
@@ -192,7 +208,12 @@ export default function CouriersConfigurations() {
 
                           <Menu.Item>
                             <button
-                              onClick={() => handleDeleteVehicleType(item.id)}
+                              onClick={() => 
+                                {
+                                  setselectedEditItem(item);
+                                  setDeleteModal(true);
+                                }
+                              }
                               className="w-full h-6 justify-start items-center gap-2.5 inline-flex"
                             >
                               <div
