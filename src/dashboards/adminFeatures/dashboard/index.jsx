@@ -108,7 +108,7 @@ function AdminDashboard() {
           icon={Millage}
           number={totals.total_mileage?.total_count.toFixed()}
           percentage={totals.total_mileage?.total_rate.toFixed(3)}
-          text={"Total Milleage"}
+          text={"Total Mileage"}
           iconBgColor={"bg-[#cce8f6]"}
         />
         <Dashcard

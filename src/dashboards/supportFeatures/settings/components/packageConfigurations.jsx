@@ -10,9 +10,10 @@ import {
 } from "../../../../redux/actions/fetchPackageSizesAction";
 import { Menu, Transition } from "@headlessui/react";
 import Edit from "../../../../assets/images/dashboard/icon/edit-black.svg";
-import Close from "../../../../assets/images/dashboard/icon/add-yellow.svg";
 import Delete from "../../../../assets/images/dashboard/icon/trash.svg";
 import callAPI from "../../../../utils/api";
+import Modal from "../../../../components/ui/Modal";
+import CancelIconModal from "../../../../assets/images/dashboard/icon/close-circle.svg";
 
 export default function PackageConfigurations() {
   const { packageSizes } = useSelector((state) => state.fetchPackageSizes);
@@ -21,6 +22,8 @@ export default function PackageConfigurations() {
   const [addSizeModal, setAddSizeModal] = useState(false);
   const [addOnModal, setAddOnModal] = useState(false);
   const [selectedEditItem, setselectedEditItem] = useState(null);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteAddOnModal, setDeleteAddOnModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchPackageSizesAction());
@@ -76,7 +79,41 @@ export default function PackageConfigurations() {
         }}
         editData={selectedEditItem}
       />
-
+      <Modal
+        show={deleteModal}
+        onClose={() => setDeleteModal(false)}
+        title={"Delete Package Size"}
+        content={"After confirmation, this package size will be deleted. This action can’t be revoked."}
+        cancel={true}
+        settings_cancel={true}
+        image={CancelIconModal}
+        onConfirm={
+          selectedEditItem
+            ? () => {
+                handleDeletePackageSize(selectedEditItem.id);
+                setDeleteModal(false);
+              }
+            : null
+        }
+      />
+      <Modal
+        show={deleteAddOnModal}
+        onClose={() => setDeleteAddOnModal(false)}
+        title={"Delete Package Add-on"}
+        content={"After confirmation, this package add-on will be deleted. This action can’t be revoked."}
+        cancel={true}
+        settings_cancel={true}
+        image={CancelIconModal}
+        onConfirm={
+          selectedEditItem
+            ? () => {
+              console.log(selectedEditItem)
+                handleDeletePackageAddOn(selectedEditItem.id);
+                setDeleteAddOnModal(false);
+              }
+            : null
+        }
+      />
       <div
         className={`w-[100%] h-[100%] relative bg-white rounded-lg p-6 mb-8`}
       >
@@ -141,7 +178,12 @@ export default function PackageConfigurations() {
 
                           <Menu.Item>
                             <button
-                              onClick={() => handleDeletePackageSize(item.id)}
+                              onClick={() => 
+                                {
+                                  setselectedEditItem(item);
+                                  setDeleteModal(true);
+                                }
+                              }
                               className="w-full h-6 justify-start items-center gap-2.5 inline-flex"
                             >
                               <div
@@ -277,7 +319,12 @@ export default function PackageConfigurations() {
                           <Menu.Item>
                             <button
                               className="w-full h-6 justify-start items-center gap-2.5 inline-flex"
-                              onClick={() => handleDeletePackageAddOn(item.id)}
+                              onClick={() => 
+                                {
+                                  setselectedEditItem(item);
+                                  setDeleteAddOnModal(true);
+                                }
+                              }
                             >
                               <div
                                 className={`w-6 h-6  bg-rose-100 rounded-[52.96px] flex-col justify-center items-center gap-[5.30px] inline-flex`}

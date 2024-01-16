@@ -20,6 +20,7 @@ function Modal({
   issue_id,
   resolution_status,
   resolution_text,
+  settings_cancel = false,
 }) {
   if (!show) {
     return null;
@@ -103,7 +104,7 @@ function Modal({
               </div>
             </div>
           </div>
-          {cancel ? (
+          {cancel && !settings_cancel ? (
             <div className="flex-col justify-center items-center gap-3 inline-flex px-4 py-2">
               <div className="text-center text-red-800 text-sm font-semibold font-rubik leading-tight">
                 Cancellation Penalty
@@ -155,7 +156,13 @@ function Modal({
               </div>
               <div
                 className="w-[168px] h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[10px] justify-center items-center gap-2.5 flex cursor-pointer"
-                onClick={handleConfirm}
+                onClick={
+                  settings_cancel
+                    ? () => {
+                        onConfirm();
+                      }
+                    : handleConfirm
+                }
               >
                 {loading ? (
                   <Spinner className={"fill-white"} />

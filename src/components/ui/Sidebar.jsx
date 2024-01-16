@@ -64,8 +64,6 @@ function Sidebar() {
             setSelcted('Dashboard');
         }else if(isPackage === true){
             setSelcted('Packages');
-        }else{
-            setSelcted('Couriers');
         }
     }, [path]);
 
