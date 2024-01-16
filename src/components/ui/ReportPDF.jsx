@@ -113,7 +113,7 @@ const ReportPDF = ({ item }) => {
                         <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>{itm?.total_distance_as_km}KM</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>${itm?.total_revenue?.toFixed(2)} USD</Text>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>${itm?.total_revenue?.toFixed(2)} GHS</Text>
                     </View>
                 </View> )
                 }
@@ -134,7 +134,7 @@ const ReportPDF = ({ item }) => {
                         <Text style={{color: 'rgb(152, 29, 29)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>{item?.total?.all_total_distance_as_km}KM</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(152, 29, 29)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>${item?.total?.all_total_revenue?.toFixed(2)} USD</Text>
+                        <Text style={{color: 'rgb(152, 29, 29)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>${item?.total?.all_total_revenue?.toFixed(2)} GHS</Text>
                     </View>
                 </View> 
             </View>
