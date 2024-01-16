@@ -1178,7 +1178,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
             </div>
             <button
             disabled={loading && data ==undefined}  
-              className="xl:w-[348px] w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex"
+              className=" w-full h-[50px] px-[60px] py-[15px] bg-red-800 rounded-[18px] justify-center items-center gap-2.5 inline-flex"
               onClick={() => {
                 if (typeof id === "undefined") {
                   handleSave();

@@ -29,16 +29,16 @@ const ReportPackagePDF = React.memo(({ item, status }) => {
             <View style={styles.header} fixed>
                 <Image src={Logo} />
                 <View>
-                    <Text style={styles.phone}>Tel: (640) 312-7500</Text> 
-                    <Text style={styles.phone}>www.unodelivery.com</Text> 
+                    <Text style={styles.phone}>Tel: +233 50 356 9681</Text> 
+                    <Text style={styles.phone}>www.unogh.com</Text> 
                 </View>
             </View>
             <View style={{ width: '85%',  alignSelf: 'center' }}>
                 <View style={{width: '100%', height: 91, marginTop: 0, gap: 12, }}>
                     <Text style={styles.text}>{moment().format("MMMM DD, YYYY")}</Text>
                     <View>
-                        <Text style={[styles.text, {  width: 102 }]}>475 Brannan St., Suite 430 Accra, CA 94107</Text> 
-                        <Text style={styles.text}>Ghana</Text>
+                        <Text style={[styles.text, {  width: 102 }]}>SSNIT Emporium, 3rd Floor Airport City, Accra -Ghana</Text> 
+                        <Text style={styles.text}>GL-126-4342</Text>
                     </View>
                     <View>
                         <Text style={styles.text}><Text style={{ fontWeight: 'semibold' }}>Report Period:</Text> {item?.report_period === "monthly" ? "Monthly" : item?.report_period === "daily" ? "Daily" : "Custom Date" }</Text> 
@@ -162,19 +162,19 @@ const ReportPackagePDF = React.memo(({ item, status }) => {
                 <View style={{width: '100%', height: 30, paddingLeft: 16, paddingRight: 16, paddingTop: 8, paddingBottom: 8, marginTop: 8, backgroundColor: 'rgb(152, 29, 29)' , justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row'}}>
                     <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center', }}>
                         <Image src={global} style={{ width: 14, height: 14 }} />
-                        <Text style={{ color: 'white', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>www.unodelivery.com</Text> 
+                        <Text style={{ color: 'white', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>www.unogh.com</Text> 
                     </View>
                     <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center', }}>
                         <Image src={email} style={{ width: 14, height: 14 }} />
-                        <Text style={{ color: 'white', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>support@unodevelivery.com</Text> 
+                        <Text style={{ color: 'white', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>support@unogh.com</Text> 
                     </View>
                     <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center', }}>
                         <Image src={call} style={{ width: 13, height: 13 }} />
-                        <Text style={{ color: 'white', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>(640) 312-7500</Text> 
+                        <Text style={{ color: 'white', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>+233 50 356 9681</Text> 
                     </View>
                     <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center', }}>
                         <Image src={Instagam} style={{ width: 11, height: 11 }} />
-                        <Text style={{ color: 'white', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>@unodelivery</Text> 
+                        <Text style={{ color: 'white', fontSize: 8, fontWeight: '400', wordWrap: 'break-word'}}>@unoghana</Text> 
                     </View>
                 </View>
             </View>
