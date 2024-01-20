@@ -70,7 +70,7 @@ const ReportPackagePDF = React.memo(({ item, status }) => {
                         <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Amount</Text>
                     </View>
                     <View style={{ width: 100, height: 32, justifyContent: 'center', paddingLeft: 10, }}>
-                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>Canceled By</Text>
+                        <Text style={{color: 'rgb(35, 41, 46)', fontSize: 8, fontWeight: '500', wordWrap: 'break-word'}}>{status == "Cancelled"? "Canceled By" : "Rating"}</Text>
                     </View>
                 </View> 
                 {
