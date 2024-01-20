@@ -223,7 +223,7 @@ function Pending({props}) {
               resolutionPackages?.map((item) => (
                 <PendingPackage
                   selected={selectedItem === item ? true : false}
-                  tracking_id={item.id}
+                  tracking_id={item.package?.sr_number}
                   pickup_point={item.package.pickup_open_address}
                   delivery_point={item.package.drop_open_address}
                   time={item.package.delivery_date}
@@ -254,7 +254,7 @@ function Pending({props}) {
                 {" "}
               </span>
               <span className="text-zinc-800 text-base font-semibold font-rubik leading-tight">
-                #TK-0023{" "}
+                #{selectedItem?.package?.sr_number}
               </span>
             </div>
             <div className="w-[100%] h-[307px] relative flex justify-center rounded-xl">

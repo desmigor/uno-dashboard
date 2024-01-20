@@ -396,7 +396,7 @@ async function calculateRoute() {
                           <td class="px-4 py-2 text-left">
                             <div className="min-w-24 h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
                               <div className="text-gray-400 text-xs font-normal font-rubik leading-none">Payment Method</div>
-                              <div className="text-zinc-800 text-xs font-semibold font-rubik leading-none">{selectedPackage?.payment_type}</div>
+                              <div className="text-zinc-800 text-xs font-semibold font-rubik leading-none">{selectedPackage?.payment_type_value}</div>
                             </div> 
                           </td>
                           <td class="px-4 py-2 text-left">
@@ -427,7 +427,7 @@ async function calculateRoute() {
                           <td class="px-2 py-2 text-left">
                             <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex ml-3">
                               <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">(Delivery point)</div>
-                              <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.pickup_open_address}</div>
+                              <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.drop_open_address}</div>
                             </div>
                           </td>
                           <td class="px-4 py-2 text-left">
@@ -666,7 +666,7 @@ async function calculateRoute() {
                           <td class="px-4 py-2 text-left">
                             <div className="min-w-24 h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
                               <div className="text-gray-400 text-xs font-normal font-rubik leading-none">Payment Method</div>
-                              <div className="text-zinc-800 text-xs font-semibold font-rubik leading-none">{selectedPackage?.payment_type}</div>
+                              <div className="text-zinc-800 text-xs font-semibold font-rubik leading-none">{selectedPackage?.payment_type_value}</div>
                             </div> 
                           </td>
                           <td class="px-4 py-2 text-left">
@@ -697,7 +697,7 @@ async function calculateRoute() {
                           <td class="px-2 py-2 text-left">
                             <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex ml-3">
                               <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">(Delivery point)</div>
-                              <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.pickup_open_address}</div>
+                              <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.drop_open_address}</div>
                             </div>
                           </td>
                           <td class="px-4 py-2 text-left">
@@ -917,7 +917,7 @@ async function calculateRoute() {
                           <td class="px-4 py-2 text-left">
                             <div className="min-w-24 h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
                               <div className="text-gray-400 text-xs font-normal font-rubik leading-none">Payment Method</div>
-                              <div className="text-zinc-800 text-xs font-semibold font-rubik leading-none">{selectedPackage?.payment_type}</div>
+                              <div className="text-zinc-800 text-xs font-semibold font-rubik leading-none">{selectedPackage?.payment_type_value}</div>
                             </div> 
                           </td>
                           <td class="px-4 py-2 text-left">
@@ -948,7 +948,7 @@ async function calculateRoute() {
                           <td class="px-2 py-2 text-left">
                             <div className="min-w-[335px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex ml-3">
                               <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">(Delivery point)</div>
-                              <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.pickup_open_address}</div>
+                              <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.drop_open_address}</div>
                             </div>
                           </td>
                           <td class="px-4 py-2 text-left">

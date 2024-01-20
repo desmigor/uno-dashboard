@@ -27,22 +27,23 @@ function Modal({
   }
   const [loading, setLoading] = useState(false);
   const [selectedPenalty, setSelectedPenalty] = useState(0);
+  
 
   const dispatch = useDispatch();
 
   const penalties = [
     {
-      id: 1,
+      id: 0.3,
       name: "30% Fee",
       value: 30,
     },
     {
-      id: 2,
+      id: 0.5,
       name: "50% Fee",
       value: 50,
     },
     {
-      id: 3,
+      id: 1,
       name: "100% Fee",
       value: 100,
     },
@@ -55,6 +56,7 @@ function Modal({
         issue_id: issue_id,
         status: resolution_status,
         resolution: resolution_text,
+        ...(selectedPenalty !=0 ? { penalty_rate: selectedPenalty } : null)
       });
       dispatch(fetchPendingAction());
       setLoading(false);
