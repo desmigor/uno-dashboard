@@ -17,7 +17,7 @@ function ReassignModal({ show, onClose, cancel, onConfirm, id }) {
   }
 
   const handleClose = () => {
-    onConfirm(false);
+    // onConfirm(false);
     onClose();
   };
 
