@@ -569,7 +569,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                     longitude : item?.pickup?.geometry?.location?.lng,
                     contact_person : item?.full_name_pickup,
                     contact_phone : item?.phone_number_pickup,
-                    contact_country : 1,
+                    contact_country : 3,
                     address_type : 1,
                     temporary : true
                 }
@@ -582,17 +582,25 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                     longitude : item?.drop?.geometry?.location?.lng,
                     contact_person : item?.full_name_drop,
                     contact_phone : item?.phone_number_drop,
-                    contact_country : 1,
+                    contact_country : 3,
                     address_type : 1,
                     temporary : true
                 }
-                const response = await callAPI(
-                    "/api/address/user-address/",
-                    "POST",
-                    true,
-                    pickup_address ? pick_up_data : delivery_data
-                );
-                return response.data.id;
+                try{
+                  const response = await callAPI(
+                      "/api/address/user-address/",
+                      "POST",
+                      true,
+                      pickup_address ? pick_up_data : delivery_data
+                  );
+                  return response.data.id;
+                }catch(error){
+                  console.log("test 123");
+                  setToastText(error.response.data.message);
+                  setToastSuccess(false);
+                  setShowToast(true);
+                }
+
             }
 
             const calculatedCost = item.total - (item.total * (parseFloat(discountRatio)/ 100))
@@ -614,13 +622,13 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 package_details: "",
                 pickup_contact_person: item?.full_name_pickup,
                 pickup_contact_phone: item?.phone_number_pickup,
-                pickup_contact_country: 1,
+                pickup_contact_country: 3,
                 pickup_latitude: item?.pickup?.geometry?.location?.lat,
                 pickup_longitude: item?.pickup?.geometry?.location?.lng,
                 pickup_open_address: item?.pickup?.formatted_address,
                 drop_contact_person: item?.full_name_drop,
                 drop_contact_phone: item?.phone_number_drop,
-                drop_contact_country: 1,
+                drop_contact_country: 3,
                 drop_latitude: item?.drop?.geometry?.location?.lat,
                 drop_longitude: item?.drop?.geometry?.location?.lng,
                 drop_open_address: item?.drop?.formatted_address,
@@ -667,7 +675,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                     longitude : item?.pickup?.lng,
                     contact_person : item?.full_name_pickup,
                     contact_phone : item?.phone_number_pickup,
-                    contact_country : 1,
+                    contact_country : 3,
                     address_type : 1,
                     temporary : true
                 }
@@ -680,17 +688,25 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                     longitude : item?.drop?.lng,
                     contact_person : item?.full_name_drop,
                     contact_phone : item?.phone_number_drop,
-                    contact_country : 1,
+                    contact_country : 3,
                     address_type : 1,
                     temporary : true
                 }
-                const response = await callAPI(
-                    "/api/address/user-address/",
-                    "POST",
-                    true,
-                    pickup_address ? pick_up_data : delivery_data
-                );
-                return response.data.id;
+                try{
+                  const response = await callAPI(
+                      "/api/address/user-address/",
+                      "POST",
+                      true,
+                      pickup_address ? pick_up_data : delivery_data
+                  );
+                  return response.data.id;
+                }
+                catch(error){
+                  console.log(error);
+                  setToastText(error.response.data.message);
+                  setToastSuccess(false);
+                  setShowToast(true);
+                }
             }
             const calculatedCost = item.total - (item.total * (parseFloat(discountRatio)/ 100))
             // const calculatedTaxes = calculatedCost * taxRate;
@@ -712,13 +728,13 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 package_details: "",
                 pickup_contact_person: item?.full_name_pickup,
                 pickup_contact_phone: item?.phone_number_pickup,
-                pickup_contact_country: 1,
+                pickup_contact_country: 3,
                 pickup_latitude: typeof id === 'undefined' ? item?.pickup?.geometry?.location?.lat : item?.pickup?.lat,
                 pickup_longitude: typeof id === 'undefined' ? item?.pickup?.geometry?.location?.lng : item?.pickup?.lng,
                 pickup_open_address: item?.pickup?.formatted_address,
                 drop_contact_person: item?.full_name_drop,
                 drop_contact_phone: item?.phone_number_drop,
-                drop_contact_country: 1,
+                drop_contact_country: 3,
                 drop_latitude: typeof id === 'undefined' ? item?.drop?.geometry?.location?.lat : item?.drop?.lat,
                 drop_longitude: typeof id === 'undefined' ? item?.drop?.geometry?.location?.lng : item?.drop?.lng,
                 drop_open_address: item?.drop?.formatted_address,
