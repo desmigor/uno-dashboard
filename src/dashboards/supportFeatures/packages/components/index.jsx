@@ -245,7 +245,7 @@ async function calculateRoute() {
                   </button>
                 </td>
                 <td class="px-6 py-4">
-                  <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
+                  <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.package_size_name }</div> 
                 </td>
                 <td class="px-2 py-4">
                   <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight text-left">{item.total_prices.toFixed(2)} {item.currency_value}</div> 
@@ -544,7 +544,7 @@ async function calculateRoute() {
                 </button>
                 </td>
                 <td class="px-6 py-4">
-                <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
+                <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.package_size_name}</div> 
                 </td>
                 <td class="px-2 py-4">
                   <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight">{item.total_prices.toFixed(2)} {item.currency_value}</div> 
@@ -801,7 +801,7 @@ async function calculateRoute() {
                   </button>
                 </td>
                 <td class="px-6 py-4">
-                <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
+                <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.package_size_name}</div> 
                 </td>
                 <td class="px-2 py-4">
                   <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight">{item.total_prices} {item.currency_value}</div> 

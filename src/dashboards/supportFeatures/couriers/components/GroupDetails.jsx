@@ -292,7 +292,7 @@ const GroupDetails = () => {
                       <div className="justify-start items-center gap-1.5 inline-flex">
                           <div className="text-zinc-800 text-sm font-normal font-['Rubik'] leading-tight">{item.full_name}</div>
                       </div>
-                      <div className="text-slate-500 text-xs font-normal font-['Rubik'] leading-none">${item.total_revenue}</div>
+                      <div className="text-slate-500 text-xs font-normal font-['Rubik'] leading-none">{item.total_revenue.toFixed(2)} {item.currency_value}</div>
                   </div>
                 </div>)
               }
@@ -308,28 +308,28 @@ const GroupDetails = () => {
         <Dashcard
           icon={Money}
           number={groupDetails?.total_revenue?.total_count?.toFixed()}
-          percentage={groupDetails?.total_revenue?.total_count?.toFixed()}
+          percentage={groupDetails?.total_revenue?.total_rate?.toFixed(2)}
           text={"Total Revenue"}
           iconBgColor={"bg-[#F4E7E7]"}
         />
         <Dashcard
           icon={Millage}
           number={groupDetails.total_mileage?.total_count?.toFixed()}
-          percentage={groupDetails.total_mileage?.total_count?.toFixed(3)}
+          percentage={groupDetails.total_mileage?.total_rate?.toFixed(2)}
           text={"Total Milleage"}
           iconBgColor={"bg-[#cce8f6]"}
         />
         <Dashcard
           icon={Profile2}
-          number={groupDetails.courier_count?.toFixed()}
-          percentage={groupDetails.courier_count?.toFixed(3)}
+          number={groupDetails.total_couriers?.total_count?.toFixed()}
+          percentage={groupDetails.total_couriers?.total_rate?.toFixed(2)}
           text={"Total Couriers"}
           iconBgColor={"bg-rose-100"}
         />
         <Dashcard
           icon={Box}
           number={groupDetails.total_orders?.total_count?.toFixed()}
-          percentage={groupDetails.total_orders?.total_rate?.toFixed(3)}
+          percentage={groupDetails.total_orders?.total_rate?.toFixed(2)}
           text={"Total Orders"}
           iconBgColor={"bg-yellow-400 bg-opacity-20"}
         />
