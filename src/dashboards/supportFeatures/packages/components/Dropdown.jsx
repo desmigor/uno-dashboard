@@ -3,7 +3,7 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
 const people = [
-    { name: 'Time', value: 'created_at' },
+    { name: 'Time', value: '-created_at' },
     { name: 'Name', value: 'customer' },
     { name: 'Amount', value: 'total_cost' },
 ]

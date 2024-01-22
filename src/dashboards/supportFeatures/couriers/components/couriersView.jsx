@@ -339,8 +339,12 @@ const CouriersView = () => {
               }} class={` ${selected === idx && 'bg-gray-50'} h-[70px] relative border-b border-gray-100 cursor-pointer text-left`}>
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <div className="w-[77px] h-[38px] flex-col justify-start items-start gap-0.5 inline-flex">
-                    <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{moment(new Date()).format("DD-MM-YYYY")}</div>
-                    <div className="text-gray-400 text-xs font-normal font-rubik leading-none">{moment(new Date()).format("HH:MM")}</div>
+                    <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{
+                      item.updated_at ? moment(item.updated_at).format("DD/MM/YYYY") : moment(item.created_at).format("DD/MM/YYYY")
+                    }</div>
+                    <div className="text-gray-400 text-xs font-normal font-rubik leading-none">{
+                      item.updated_at ? moment(item.updated_at).format("hh:mm A") : moment(item.created_at).format("hh:mm A")
+                    }</div>
                   </div>
                 </th>
                 <td class="px-6 py-4 ">

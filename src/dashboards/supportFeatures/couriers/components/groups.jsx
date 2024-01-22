@@ -141,7 +141,7 @@ const Groups = () => {
               </div>
               <div className="w-full h-5 justify-between items-start inline-flex">
                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Total Revenue</div>
-                <div className="text-right text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">${item.total_revenue?.total_count?.toFixed(2) || 0}</div>
+                <div className="text-right text-zinc-800 text-sm font-semibold font-['Rubik'] leading-tight">{item.total_revenue?.total_count?.toFixed(2) || 0} {item.total_revenue?.currency}</div>
               </div>
               <div className="w-full h-5 justify-between items-start inline-flex">
                 <div className="text-gray-400 text-sm font-normal font-['Rubik'] leading-tight">Status</div>

@@ -159,8 +159,8 @@ function ChartCard({
                     onClick={() => {
                       dispatch(
                         delivery
-                          ? fetchDeliveryAnalyticsAction({ filter: "weekly" })
-                          : fetchRevenueAnalyticsAction({ filter: "weekly" })
+                          ? fetchDeliveryAnalyticsAction("weekly")
+                          : fetchRevenueAnalyticsAction("weekly")
                       );
                     }}
                   >
@@ -185,10 +185,8 @@ function ChartCard({
                     onClick={() => {
                       dispatch(
                         delivery
-                          ? fetchDeliveryAnalyticsAction({
-                              filter: "monthly",
-                            })
-                          : fetchRevenueAnalyticsAction({ filter: "monthly" })
+                          ? fetchDeliveryAnalyticsAction("monthly")
+                          : fetchRevenueAnalyticsAction("monthly")
                       );
                     }}
                   >

@@ -27,7 +27,6 @@ function Modal({
   }
   const [loading, setLoading] = useState(false);
   const [selectedPenalty, setSelectedPenalty] = useState(0);
-  
 
   const dispatch = useDispatch();
 
