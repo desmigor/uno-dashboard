@@ -29,7 +29,7 @@ import { useSelector } from 'react-redux';
 
 function Sidebar() {
     const { userInfo } = useSelector((state) => state.auth);
-    const [selected, setSelcted] = useState('Dashboard');
+    const [selected, setSelcted] = useState('');
     const [selectedSubCourier, setSelectedSubCourier] = useState('All Couriers');
     const [expanded, setExpanded] = useState(false);
     const [path, setPath] = useState(false);
@@ -43,9 +43,15 @@ function Sidebar() {
     }, [location]);
 
     useEffect(() => {
+        if(window.location.pathname.split("/")[window.location.pathname.split("/").length - 2] === 'pending'){
+            setSelcted('Pending');
+        }else if(window.location.pathname.split("/")[window.location.pathname.split("/").length - 2] === 'package'){
+            setSelcted('Packages');
+        }
         setPath(window.location.pathname.split("/")[window.location.pathname.split("/").length - 1]);
         setIsPackage(window.location.pathname.split("/")[window.location.pathname.split("/").length - 2] === 'package' ? true : false);
-    }, []);
+        // if path ends like pending/:number
+    }, [location]);
 
     useEffect(() => {
         if(path === 'dashboard'){

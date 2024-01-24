@@ -128,7 +128,7 @@ function TableCard({ type, name, data }) {
                           </th>
                           <td class="px-6 py-4">
                             <span className="text-zinc-800 text-sm font-normal font-rubik leading-tight">
-                              {item.id}
+                              {item.package.sr_number}
                             </span>
                           </td>
                           <td class="px-6 py-4">
@@ -266,7 +266,7 @@ function TableCard({ type, name, data }) {
                           </td>
                           <td class="py-4">
                             <Link
-                              to={`/support/dashboard/package/`}
+                              to={`/support/dashboard/package`}
                               className="w-[93px] group hover:bg-red-800 h-7 px-[60px] py-[15px] rounded-lg border border-red-800 justify-center items-center gap-2.5 inline-flex"
                             >
                               <span className="text-center text-red-800 group-hover:text-white text-sm font-normal font-rubik leading-tight">
