@@ -340,10 +340,10 @@ const CouriersView = () => {
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   <div className="w-[77px] h-[38px] flex-col justify-start items-start gap-0.5 inline-flex">
                     <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{
-                      item.updated_at ? moment(item.updated_at).format("DD/MM/YYYY") : moment(item.created_at).format("DD/MM/YYYY")
+                      item.updated_at ? moment(item.created_at).format("DD/MM/YYYY") : moment(item.created_at).format("DD/MM/YYYY")
                     }</div>
                     <div className="text-gray-400 text-xs font-normal font-rubik leading-none">{
-                      item.updated_at ? moment(item.updated_at).format("hh:mm A") : moment(item.created_at).format("hh:mm A")
+                      item.updated_at ? moment(item.created_at).format("hh:mm A") : moment(item.created_at).format("hh:mm A")
                     }</div>
                   </div>
                 </th>
@@ -360,7 +360,7 @@ const CouriersView = () => {
                   </div>
                 </td>
                 <td class="px-6 py-4">
-                  <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.relative_size === 1 ? "Small" : item.relative_size === 2 ? "Medium" : "Large" }</div> 
+                  <div className="text-zinc-800 text-sm font-normal font-rubic leading-tight text-left">{item.package_size_name}</div> 
                 </td>
                 <td class="px-6 py-4">
                   <div className="text-zinc-800 text-sm font-semibold font-rubic leading-tight text-left">{item.currency_value} {item.total_cost}</div> 
@@ -503,7 +503,7 @@ const CouriersView = () => {
                           <td class="px-4 py-2 text-left">
                             <div className="min-w-[135px] h-[37px] flex-col justify-start items-start gap-[5px] inline-flex">
                               <div className="text-gray-400 text-xs font-normal font-['Rubik'] leading-none">(Delivery point)</div>
-                              <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.pickup_open_address}</div>
+                              <div className="text-zinc-800 text-xs font-semibold font-['Rubik'] leading-none">{selectedPackage?.drop_open_address}</div>
                             </div>
                           </td>
                           <td class="px-4 py-2 text-left">

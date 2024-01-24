@@ -790,7 +790,7 @@ async function calculateRoute() {
                   <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.sr_number}</div> 
                 </td>
                 <td class="px-6 py-4">
-                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.customer}</div>W
+                  <div className="text-zinc-800 text-sm font-normal font-rubik leading-tight">{item.customer}</div>
                 </td>
                 <td class="px-6 py-4">
                 <button disabled={item.courier ? false : true} onClick={() => {
