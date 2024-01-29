@@ -595,7 +595,6 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                   );
                   return response.data.id;
                 }catch(error){
-                  console.log("test 123");
                   setToastText(error.response.data.message);
                   setToastSuccess(false);
                   setShowToast(true);
@@ -630,7 +629,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
                 drop_contact_phone: item?.phone_number_drop,
                 drop_contact_country: 3,
                 drop_latitude: item?.drop?.geometry?.location?.lat,
-                drop_longitude: item?.drop?.geometry?.location?.lng,
+                drop_longitude: item?.drop?.geometry?.location?.lng, 
                 drop_open_address: item?.drop?.formatted_address,
                 pickup_location_id: await saveAddress(true),
                 drop_location_id: await saveAddress(false),
