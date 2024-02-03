@@ -305,11 +305,11 @@ function AdminDashboard() {
                   </div>
                   <div className="flex flex-row gap-1">
                     <div className="text-zinc-800 text-xs font-normal font-rubik">
-                      {item.percent.toFixed()}
+                      {item.percent.toFixed(2)}
                       {"%"}
                     </div>
                     <div className="text-slate-500 text-xs font-normal font-rubik">
-                      {item.revenue.toFixed()}
+                      {item.revenue.toFixed(2)}
                     </div>
                   </div>
                 </div>
@@ -489,11 +489,11 @@ function AdminDashboard() {
                   </div>
                   <div className="flex flex-row gap-1">
                     <div className="text-zinc-800 text-xs font-normal font-rubik">
-                      {item.percent.toFixed()}
+                      {item.percent.toFixed(2)}
                       {"%"}
                     </div>
                     <div className="text-slate-500 text-xs font-normal font-rubik">
-                      {item.mileage.toFixed()}
+                      {item.mileage.toFixed(2)}
                     </div>
                   </div>
                 </div>
