@@ -85,7 +85,7 @@ function AdminDashboard() {
   }, [dispatch, couriers]);
 
   const generateConsistentColor = (index) => {
-    const predefinedColors = ["#FF5733", "#33B5E5", "#F18F01", "#D0D4D9"];
+    const predefinedColors = ["#1b4f72","#FF5733", "#3cb371", "#33B5E5", "#F18F01", "#D0D4D9", "#FFC107", "#0000ff", "#ee82ee", "#404040", "#a0a0a0" ];
     const colorIndex = index % predefinedColors.length;
     return predefinedColors[colorIndex];
   };
