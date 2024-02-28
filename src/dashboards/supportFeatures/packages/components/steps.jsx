@@ -29,7 +29,7 @@ import {clearPackagesStore} from '../../../../redux/actions/fetchPackagesAction'
 import Spinner from '../../../../components/ui/spinner'
 import { useLoadScript } from '@react-google-maps/api';
 
-export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
+export const Step1 = ({ next, isEdit, inputs, setInputs, handleInputChange, id }) => {
     const { userInfo } = useSelector((state) => state.auth);
     const { addressDetails, packageDetailsPayment } = useSelector(state => state.packages);
     const [data, setData] = useState({
@@ -66,7 +66,9 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
     }, [inputs])
 
     useEffect(() => {
-      
+      if(typeof id === 'undefined' && isEdit){
+        handleSaveAddress();
+      }
     }, [addressDetails])
 
     const checkValidations = async (dataArray) => {
@@ -104,7 +106,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
         axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
             params: {
                 address: addressToSearch,
-                key: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+                key: 'AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs',
             },
         })
         .then(response => {
@@ -120,7 +122,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
         axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
             params: {
                 address: addressToSearch,
-                key: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+                key: 'AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs',
             },
         })
         .then(response => {
@@ -417,7 +419,7 @@ export const Step2 = ({ next, inputs, setInputs }) => {
     )
 }
 
-export const Step3 = ({setStep, inputs, setInputs, id}) => {
+export const Step3 = ({setStep, setIsEdit,inputs, setInputs, id}) => {
     const [discountExpanded, setDiscountExpanded] = useState(false);
     const { addressDetails, packageDetailsPayment } = useSelector(state => state.packages);
     const [calculations, setCalculations] = useState({});
@@ -434,7 +436,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
     const libraries = ['places'];
 
     const { isLoaded, loadError } = useLoadScript({
-      googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+      googleMapsApiKey: 'AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs',
       libraries,
     });
 
@@ -874,6 +876,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
               <button
                 onClick={() => {
                   setStep(0);
+                  setIsEdit(true);
                 }}
                 className="flex flex-row gap-1.5"
               >
