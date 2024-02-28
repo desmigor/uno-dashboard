@@ -39,7 +39,7 @@ function ChooseAddress() {
     const { userInfo } = useSelector(state => state.auth);
 
     const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+        googleMapsApiKey: 'AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs',
         libraries,
     });
 
@@ -52,7 +52,7 @@ function ChooseAddress() {
         axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
             params: {
                 address: addressToSearch,
-                key: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+                key: 'AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs',
             },
         })
         .then(response => {
@@ -87,7 +87,7 @@ function ChooseAddress() {
         axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
             params: {
                 address: addressToSearch,
-                key: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+                key: 'AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs',
             },
         })
         .then(response => {
@@ -114,7 +114,7 @@ function ChooseAddress() {
 
         try {
             const response = await fetch(
-                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY`
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs`
               );
               const data = await response.json();
         

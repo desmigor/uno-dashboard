@@ -68,7 +68,7 @@ function Pending({props}) {
   // define selectedIndex state
 
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY",
+    googleMapsApiKey: "AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs",
     libraries,
   });
 
