@@ -8,7 +8,6 @@ import { fetchPackageDetails } from '../../../../redux/actions/fetchPackagesActi
 
 function CreatePackages() {
     const [current, setCurrent] = useState(0);
-    const [isEdit, setIsEdit] = useState(false);
     const [inputs, setInputs] = useState([{ pickupAddress: '', dropAddress: '', pickup: {}, drop: {}, pickupSearch: [], deliverySearch: [], full_name_pickup: '', full_name_drop: '', phone_number_pickup: '', phone_number_drop: '', comment_pickup: '', comment_drop: '', choosenMethod: 0, size: 0, chosenAddons: [], distance: 0, price: 0, discount: 0, total: 0 }]);
     const { step, index, pickupLocation, dropLocation, inputss } = useSelector(state => state.packages);
     const dispatch = useDispatch()
@@ -87,9 +86,9 @@ function CreatePackages() {
     };
     
     const steps = [
-        <Step1 next={next} isEdit={isEdit} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} id={id} />,
-        <Step2 next={next} isEdit={isEdit} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} />,
-        <Step3 setStep={setCurrent} setIsEdit={setIsEdit} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} id={id} />
+        <Step1 next={next} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} id={id} />,
+        <Step2 next={next} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} />,
+        <Step3 setStep={setCurrent} inputs={inputs} setInputs={setInputs} handleInputChange={handleInputChange} id={id} />
     ]
   return (
     <div className='bg-neutral-50 h-screen w-full py-6 px-10 overflow-auto'>
