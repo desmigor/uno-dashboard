@@ -104,7 +104,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
         axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
             params: {
                 address: addressToSearch,
-                key: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+                key: 'AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs',
             },
         })
         .then(response => {
@@ -120,7 +120,7 @@ export const Step1 = ({ next, inputs, setInputs, handleInputChange, id }) => {
         axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
             params: {
                 address: addressToSearch,
-                key: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+                key: 'AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs',
             },
         })
         .then(response => {
@@ -417,7 +417,7 @@ export const Step2 = ({ next, inputs, setInputs }) => {
     )
 }
 
-export const Step3 = ({setStep, inputs, setInputs, id}) => {
+export const Step3 = ({setStep,inputs, setInputs, id}) => {
     const [discountExpanded, setDiscountExpanded] = useState(false);
     const { addressDetails, packageDetailsPayment } = useSelector(state => state.packages);
     const [calculations, setCalculations] = useState({});
@@ -434,7 +434,7 @@ export const Step3 = ({setStep, inputs, setInputs, id}) => {
     const libraries = ['places'];
 
     const { isLoaded, loadError } = useLoadScript({
-      googleMapsApiKey: 'AIzaSyA1Yd7Zcmj7Vl89ddqfPQnu1dkZhbuS9zY',
+      googleMapsApiKey: 'AIzaSyBQDxtB9YM_5Z72vMaQyqIwyNfNG908JUs',
       libraries,
     });
 
